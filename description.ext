@@ -1,0 +1,44 @@
+// ============================================================================================
+// Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
+
+// CONSOLE
+enableDebugConsole[] = {"76561197970695190"}; // 2600K
+allowFunctionsLog = 1;
+
+// RESPAWN
+respawnDelay = 30;
+respawn = 3;
+respawnTemplates[] = {"Counter"};
+respawnOnStart = -1;
+
+// GC
+corpseManagerMode = 1; // All
+corpseRemovalMaxTime = 600; // 10m
+wreckManagerMode = 1; // All
+wreckRemovalMaxTime = 900; // 15m
+minPlayerDistance = 50; // 50m
+
+// CBA
+cba_settings_hasSettingsFile = 1;
+
+class CfgFunctions {
+    #include "f\common\functions.hpp"
+};
+
+class Params {
+    #include "mission\parameters.hpp"
+};
+
+class CfgDebriefing {
+	#include "mission\endings.hpp"
+};
+
+class CfgRemoteExec {   
+    #include "f\common\remoteExec.hpp"
+};
+
+class CfgNotifications {
+    #include "f\common\notifications.hpp"
+};
+
+#include "mission\description.hpp"
