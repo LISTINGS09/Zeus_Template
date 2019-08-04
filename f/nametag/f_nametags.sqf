@@ -9,7 +9,7 @@ if (!isDedicated && (isNull player)) then {
 };
 
 // Only run in MP and for valid players!
-//if (!isMultiplayer || !hasInterface || playerSide == sideLogic || isClass(configFile >> "CfgPatches" >> "ace_main")) exitWith {};
+if (!isMultiplayer || !hasInterface || playerSide == sideLogic || isClass(configFile >> "CfgPatches" >> "ace_main")) exitWith {};
 
 f_fnc_drawNameTag = compileFinal preprocessFileLineNumbers "f\nametag\fn_drawNametag.sqf";
 

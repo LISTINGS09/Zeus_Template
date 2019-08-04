@@ -8,8 +8,8 @@ params ["_unit"];
 
 // SET KEY VARIABLES
 // Using variables passed to the script instance, we will create some local variables:
-_mkrName = Format ["mkr_%1",_unit];
-_mkrborderName = Format ["mkrB_%1",_unit];
+_mkrName = Format ["zft_%1",_unit];
+_mkrborderName = Format ["zft_%1B",_unit];
 
 // CREATE MARKERS
 

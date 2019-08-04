@@ -153,8 +153,8 @@ _RAT = "rhs_weap_panzerfaust60";
 
 // Medium AT
 _MAT = "rhs_weap_rpg7";
-_MATmag1 = "rhs_rpg7_PG7VR_mag";
-_MATmag2 = "rhs_rpg7_OG7V_mag";
+_MATmag1 = "rhs_rpg7_PG7V_mag";
+_MATmag2 = "rhs_rpg7_PG7VL_mag";
 
 // Surface Air
 _SAM = "rhs_weap_fim92";
@@ -555,7 +555,7 @@ switch (_typeofUnit) do
 		_unit addMagazines [_SNrifleMag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,1];
 		[_unit, _binos2] call f_fnc_addWeapon;

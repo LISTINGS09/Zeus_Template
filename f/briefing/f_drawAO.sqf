@@ -10,9 +10,13 @@ private _baseMarkerDir = markerDir _baseMarker;
 if (_baseMarkerDir > 360) then {_baseMarkerDir = (_baseMarkerDir mod 360)};
 if (_baseMarkerDir < 0) then {_baseMarkerDir = (_baseMarkerDir mod 360) + 360};
 
+// Set grid to nearest whole value
 _baseMarkerPos = [(round ((getMarkerPos _baseMarker select 0) / 100)) * 100, (round ((getMarkerPos _baseMarker select 1) / 100)) * 100, 0];
 _baseMarker setMarkerPosLocal _baseMarkerPos;
 (getMarkerSize _baseMarker) params ["_baseSizeX","_baseSizeY"];
+
+// Marker has missing value - Exit
+if (_baseSizeX min _baseSizeY == 0) exitWith {};
 
 private _screenSizeX = 0;
 private _screenSizeY = 0;

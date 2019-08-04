@@ -292,7 +292,7 @@ switch (_typeofUnit) do
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		_unit addMagazines [_glflare,4];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
@@ -338,7 +338,7 @@ switch (_typeofUnit) do
 	{
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		_unit addMagazines [_glflare,4];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
@@ -588,7 +588,7 @@ switch (_typeofUnit) do
 		_unit addMagazines [_SNrifleMag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,1];
 		_unit addMagazines [_chem,4];

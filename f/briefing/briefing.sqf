@@ -21,7 +21,6 @@ f_fnc_fillAdministration = compileFinal preprocessFileLineNumbers "f\briefing\fn
 // The following code detects what side the player's slot belongs to, and stores
 // it in the private variable _unitSide
 
-_unitSide = side player;
 _incAdmin = false;
 _uidList = ["76561197970695190"]; // 2600K
 
@@ -51,27 +50,7 @@ if (serverCommandAvailable "#kick" || !isMultiplayer || _incAdmin) then {
 
 player createDiaryRecord ["Diary", ["",""]];
 
-// BRIEFING: PLAYER SIDE
-// The following block of code executes only if the player is in a side it
-// automatically includes a file which contains the appropriate briefing data.
-
-switch (_unitSide) do {	
-	case west : {
-		#include "..\..\mission\briefing\f_briefing_west.sqf";
-	};
-	case east : {
-		#include "..\..\mission\briefing\f_briefing_east.sqf";
-	};
-	case resistance : {
-		#include "..\..\mission\briefing\f_briefing_geur.sqf";
-	};
-	case civilian : {
-		#include "..\..\mission\briefing\f_briefing_civ.sqf";
-	};
-	case sideLogic : {
-		#include "..\..\mission\briefing\f_briefing_zeus.sqf";
-	};
-	["briefing.sqf",format["Side %1 is not defined",_unitSide],"ERROR"] call f_fnc_logIssue;
-};
+// Briefing from mission file
+#include "..\..\mission\briefing.sqf";
 
 player createDiaryRecord ["Diary", ["",""]];

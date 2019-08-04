@@ -118,9 +118,9 @@ _chemyellow =  "ACE_Chemlight_HiYellow";
 _chemblue = "ACE_Chemlight_HiWhite";
 
 // Backpacks
-_bagsmall = "B_AssaultPack_dgtl";			// carries 120, weighs 20
-_bagmedium = "B_TacticalPack_oli";			// carries 240, weighs 30
-_baglarge =  "B_Carryall_oli"; 				// carries 320, weighs 40
+_bagsmall = "B_AssaultPack_mcamo";			// carries 120, weighs 20
+_bagmedium = "B_Kitbag_mcamo";			// carries 240, weighs 30
+_baglarge =  "B_Carryall_mcamo"; 				// carries 320, weighs 40
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "I_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "O_HMG_01_weapon_F";				// used by Heavy MG gunner
@@ -195,13 +195,13 @@ _specOp = [];
 
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
-_baseUniform = ["tb_alfr_CombatUniform_AFPAT"];
-_baseHelmet = "tb_alfr_mich_AFPAT";
-_baseGlasses = ["G_Bandanna_oli","G_Bandanna_blk",""];
+_baseUniform = ["tb_alfr_CombatUniform_AFPATA"];
+_baseHelmet = "tb_alfr_mich_AFPATA";
+_baseGlasses = ["G_Bandanna_oli","G_Bandanna_khk",""];
 
 // Vests
-_lightRig = "tb_alfr_platecarrier_01";
-_mediumRig = "tb_alfr_platecarrier_02"; 	// default for all infantry classes
+_lightRig = "tb_alfr_platecarrier_01_AFPATA";
+_mediumRig = "tb_alfr_platecarrier_02_AFPATA"; 	// default for all infantry classes
 _heavyRig = "V_PlateCarrierIAGL_dgtl";
 
 // Diver
@@ -217,21 +217,21 @@ _pilotRig = ["V_TacVest_khk"];
 _pilotGlasses = ["rhs_googles_clear"];
 
 // Crewman
-_crewUniform = ["tb_alfr_SOFCombatUniform_tshirt_AFPAT"];
+_crewUniform = ["tb_alfr_SOFCombatUniform_tshirt_AFPATA"];
 _crewHelmet = ["H_Cap_headphones"];
-_crewRig = ["V_TacVest_oli"];
+_crewRig = ["V_TacVest_khk"];
 _crewGlasses = ["rhs_googles_clear"];
 
 // Ghillie
-_ghillieUniform = ["tb_alfr_SOFCombatUniform_tshirt_AFPAT"]; //DLC alternatives: ["U_B_FullGhillie_lsh","U_B_FullGhillie_ard","U_B_FullGhillie_sard"];
+_ghillieUniform = ["tb_alfr_SOFCombatUniform_tshirt_AFPATA"]; //DLC alternatives: ["U_B_FullGhillie_lsh","U_B_FullGhillie_ard","U_B_FullGhillie_sard"];
 _ghillieHelmet = ["tb_alfr_booniehat_AFPATA"];
 _ghillieRig = ["V_TacVest_blk"];
 _ghillieGlasses = [];
 
 // Spec Op
-_sfuniform = ["tb_alfr_SOFCombatUniform_shortsleeve_AFPAT"];
+_sfuniform = ["tb_alfr_SOFCombatUniform_shortsleeve_AFPATA"];
 _sfhelmet = ["H_HelmetSpecB","H_HelmetSpecB_paint1","H_HelmetSpecB_paint2","H_HelmetSpecB_blk"];
-_sfRig = ["V_TacVest_oli"];
+_sfRig = ["V_TacVest_khk"];
 _sfGlasses = [];
 
 // ====================================================================================
@@ -296,21 +296,20 @@ switch (_typeofUnit) do
 	// LOADOUT: COMMANDER
 	case "co":
 	{
-		_unit addHeadGear "tb_alfr_booniehat_AFPAT";
+		_unit addHeadGear "tb_alfr_booniehat_AFPATA";
 		["g"] call _backpack;
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_smokegrenadealt,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
 		_unit linkItem "ItemGPS";
-		_attachments = _attach_co;		_unit addMagazines [_chem,2];
-	};
+		_attachments = _attach_co;	};
 
 	// LOADOUT: DEPUTY COMMANDER AND SQUAD LEADER
 	case "dc":
@@ -319,14 +318,13 @@ switch (_typeofUnit) do
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_smokegrenadealt,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
-		_attachments = _attach_dc;		_unit addMagazines [_chem,2];
-	};
+		_attachments = _attach_dc;	};
 
 	// LOADOUT: MEDIC
 	case "m":
@@ -347,7 +345,7 @@ switch (_typeofUnit) do
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,2];
@@ -596,7 +594,7 @@ switch (_typeofUnit) do
 		_unit addMagazines [_SNrifleMag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,1];
 		_unit addMagazines [_chem,1];

@@ -153,8 +153,8 @@ _RAT = ["rhs_weap_rpg26","rhs_weap_rshg2"];
 
 // Medium AT
 _MAT = "rhs_weap_rpg7";
-_MATmag1 = "rhs_rpg7_PG7VR_mag";
-_MATmag2 = "rhs_rpg7_OG7V_mag";
+_MATmag1 = "rhs_rpg7_PG7V_mag";
+_MATmag2 = "rhs_rpg7_PG7VL_mag";
 
 // Surface Air
 _SAM = "rhs_weap_igla";
@@ -162,8 +162,8 @@ _SAMmag = "rhs_mag_9k38_rocket";
 
 // Heavy AT
 _HAT = "rhs_weap_rpg7_pgo";
-_HATmag1 = "rhs_rpg7_PG7VR_mag";
-_HATmag2 = "rhs_rpg7_OG7V_mag";
+_HATmag1 = "rhs_rpg7_PG7V_mag";
+_HATmag2 = "rhs_rpg7_PG7VL_mag";
 
 // Sniper
 _SNrifle = "rhs_weap_m76";
@@ -303,7 +303,7 @@ switch (_typeofUnit) do
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		_unit addMagazines [_glflare,4];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
@@ -349,7 +349,7 @@ switch (_typeofUnit) do
 	{
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		_unit addMagazines [_glflare,4];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
@@ -598,7 +598,7 @@ switch (_typeofUnit) do
 		_unit addMagazines [_SNrifleMag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
+		_unit addMagazines [_glsmoke,2];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,1];
 		_unit addMagazines [_chem,1];

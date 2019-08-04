@@ -338,6 +338,17 @@ _missionEndings = "<font size='18' color='#FF7F00'>ENDINGS</font><br/><br/>These
 
 player createDiaryRecord ["ZeuAdmin", ["Endings",_missionEndings]];
 
+// Tasking
+
+// Get list of tasks, ids and descriptions
+// player call BIS_fnc_tasksUnit;
+// BIS_fnc_taskDescription
+// BIS_fnc_taskDestination
+// Output tasks and allow manual completion of the tasks
+// BIS_fnc_taskSetState
+
+//player call BIS_fnc_tasksUnit;
+
 // MISSION-MAKER NOTES
 // This section displays notes made by the mission-maker for the ADMIN
 

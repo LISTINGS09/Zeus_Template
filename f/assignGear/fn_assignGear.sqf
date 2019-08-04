@@ -93,6 +93,7 @@ if (_isMan && _typeofUnit == "") then { // Try and work out the units type.
 		["_helipilot_"	,	"pp"	],
 		["_helicrew_"	,	"pc"	],
 		["_pilot_"		,	"pp"	],
+		["_cbrn_"		,	"cbrn"	],
 		["t_1_"			,	"m"		],
 		["t_2_"			,	"rat"	],
 		["t_3_"			,	"ar"	],
