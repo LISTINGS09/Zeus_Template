@@ -1,7 +1,7 @@
 // MISSION VARAIBLES
 player addRating 100000;
-[player, "NoVoice"] remoteExec ["setSpeaker", -2, format["NoVoice_%1",netId player]]; // No player voice
-showSubtitles false; // No target text call out
+[player, "NoVoice"] remoteExec ["setSpeaker", -2, format["NoVoice_%1", netId player]]; // No player voice
+showSubtitles false; // No radio calls
 "Group" setDynamicSimulationDistance 800;
 enableEngineArtillery false; 	// Disable Artillery Computer
 //onMapSingleClick "_shift";	// Disable Map Clicking

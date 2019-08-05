@@ -5,7 +5,7 @@ params [["_SRGroups",[]], ["_LRGroups",[]], ["_SRindex",-1], ["_LRindex",0]];
 
 private ["_rfRadio","_srFreq","_lrFreq"];
 
-private _radioText = "<br/><font size='18' color='#FF7F00'>RADIO OPERATION</font>";
+private _radioText = "<br/><font size='18' color='#80FF00'>RADIO OPERATION</font>";
 private _srRadio = "short range";
 private _lrRadio = "long range";
 
@@ -70,7 +70,7 @@ if (!("leaders" in _fRadiosLongRange) && count _fRadiosLongRange > 0) then {
 	_radioText = _radioText + format["<br/><br/>Only selected soldiers carry a long-range %1 backpack radio.",_lrRadio]; 
 };
 
-_radioText = _radioText + format["<br/><br/><br/><font size='18' color='#FF7F00'>SHORT RANGE (%1 / %2)</font>",_srRadio,_rfRadio];
+_radioText = _radioText + format["<br/><br/><br/><font size='18' color='#80FF00'>SHORT RANGE (%1 / %2)</font>",_srRadio,_rfRadio];
 
 // SHORT RANGE
 private _lastSR = 0;
@@ -90,7 +90,7 @@ private _lastSR = 0;
 } forEach _SRGroups;
 
 if (count _fRadiosLongRange > 0) then {
-	_radioText = _radioText + format["<br/><br/><font size='18' color='#FF7F00'>LONG RANGE (%1)</font>",_lrRadio];
+	_radioText = _radioText + format["<br/><br/><font size='18' color='#80FF00'>LONG RANGE (%1)</font>",_lrRadio];
 	
 	// LONG RANGE
 	private _lastLR = 0;

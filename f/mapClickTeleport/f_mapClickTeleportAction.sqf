@@ -48,21 +48,21 @@ _string = if (f_var_mapClickTeleport_Height == 0) then {"Fast Travel"} else {"HA
 
 // Add briefing for SLs
 private _tel = player createDiaryRecord ["Diary", [_string, format["
-	<br/><font size='18' color='#FF7F00'>%2</font>
-	<br/>You may use the <font color='#72E500'>%1</font color> option to initiate the %2%3%4%5%6",
+	<br/><font size='18' color='#80FF00'>%2</font>
+	<br/>You may use the <font color='#00FFFF'>%1</font color> option to initiate the %2%3%4%5%6",
 	if (isClass(configFile >> "CfgPatches" >> "ace_main")) then { "ACE Team Management" } else { "Action Menu" },
 	_string,
-	if (f_var_mapClickTeleport_Uses > 1) then { format[", this option may be used <font color='#72d4bb'>%1</font color> times.", f_var_mapClickTeleport_Uses] } else { ", once used this action will be removed." },
-	if (_timeLimit > 0) then { format["<br/><br/>This option will EXPIRE after <font color='#72d4bb'>%1</font color> seconds.", _timeLimit] } else { "" },
+	if (f_var_mapClickTeleport_Uses > 1) then { format[", this option may be used <font color='#FF0080'>%1</font color> times.", f_var_mapClickTeleport_Uses] } else { ", once used this action will be removed." },
+	if (_timeLimit > 0) then { format["<br/><br/>This option will EXPIRE after <font color='#FF0080'>%1</font color> seconds.", _timeLimit] } else { "" },
 	if (f_var_mapClickTeleport_GroupTeleport) then { "<br/><br/>Using this command will also move your entire team, so ensure they are ready!" } else { "<br/><br/>Using this command will move only your unit, it will not affect other players." },
-	if (f_var_mapClickTeleport_Height > 0) then { format["<br/><br/>You will be dropping from a height of around <font color='#72d4bb'>%1m</font color>.", f_var_mapClickTeleport_Height] } else { "<br/><br/>If you are inside a vehicle, that vehicle will also be transported." }
+	if (f_var_mapClickTeleport_Height > 0) then { format["<br/><br/>You will be dropping from a height of around <font color='#FF0080'>%1m</font color>.", f_var_mapClickTeleport_Height] } else { "<br/><br/>If you are inside a vehicle, that vehicle will also be transported." }
 ]]];
 
 if (f_var_mapClickTeleport_GroupTeleport) then {
 	_string = _string + " (Whole Squad)";
 };
 
-f_var_mapClickTeleport_textAction = format["<t color='#FF2266'>%1</t>",_string];
+f_var_mapClickTeleport_textAction = format["<t color='#80FF00'>%1</t>",_string];
 
 // ADD TELEPORT ACTION TO PLAYER ACTION MENU
 // Whilst the player is alive we add the teleport action to the player's action menu.

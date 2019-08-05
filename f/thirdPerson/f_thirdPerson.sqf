@@ -1,6 +1,4 @@
-// ----------------------------------------------------------------------------
-// 				NO 3RD PERSON - {God-Father} @ 1PARA Community
-// ----------------------------------------------------------------------------
+// No Third Person
 // 0 = Disable, 1 = In Vehicles Only, 2 = Not Allowed (TvT)
 if (!hasInterface || (difficultyOption "ThirdPersonView" == 0) || !isMultiplayer) exitWith {};
 
@@ -11,11 +9,11 @@ if (missionNamespace getVariable["f_param_thirdPerson",0] == 0) exitWith {};
 
 // 3rd in Vehicles Only
 if (f_param_thirdPerson == 1) exitWith { 
-	addMissionEventHandler ["eachFrame", { if (cameraView == "External" && lifeState player != "INCAPACITATED") then { if ((vehicle player) == player) then {  player switchCamera "Internal"; }; }; }]; 
+	(FindDisplay 46) displayAddEventHandler ["keydown",{if (inputAction "personView" > 0 && vehicle player == player && lifeState player != "INCAPACITATED") then { true }}];
 };
 
 // 3rd Disabled Everywhere
 if (f_param_thirdPerson == 2) exitWith { 
-	(FindDisplay 46) displayAddEventHandler ["keydown",{(_this select 1) in (actionKeys "TacticalView")}];
-	addMissionEventHandler ["eachFrame", { if (cameraView == "External") then { if ((vehicle player) == cameraOn) then { (vehicle player) switchCamera "Internal"; }; }; }]; 
+	(FindDisplay 46) displayAddEventHandler ["keydown",{inputAction "tacticalView" > 0}];
+	(FindDisplay 46) displayAddEventHandler ["keydown",{inputAction "personView" > 0}];
 };

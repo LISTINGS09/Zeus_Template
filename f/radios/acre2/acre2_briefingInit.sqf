@@ -1,6 +1,6 @@
 params ["_groupFreqIndex", "_groupLRFreqIndex","_presetSRArray","_presetLRArray","_preset"];
 
-private _radioText = "<br/><font size='18' color='#FF7F00'>RADIO OPERATION</font><br/>";
+private _radioText = "<br/><font size='18' color='#80FF00'>RADIO OPERATION</font><br/>";
 // Populate any missing radio defaults missed from radios.sqf
 private _fRadiosShortRange = (missionNamespace getVariable ["f_radios_settings_riflemanRadio",["all"]]) + (missionNamespace getVariable ["f_radios_settings_personalRadio",["leaders"]]);
 private _srRadio = getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_standardSRRadio >> "displayName");
@@ -64,7 +64,7 @@ if ("leaders" in _fRadiosExtraRadio) then {
 };
 
 _radioText = _radioText + "<br/><br/>Radios will be tuned to the highlighted channels upon mission start.<br/>";
-_radioText = _radioText + format["<br/><font size='18' color='#FF7F00'>Short Range Channels (%1)</font><br/><br/>", _srRadio];
+_radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Short Range Channels (%1)</font><br/><br/>", _srRadio];
 
 {
 	try {
@@ -81,7 +81,7 @@ _radioText = _radioText + format["<br/><font size='18' color='#FF7F00'>Short Ran
 	} catch {};
 } forEach _presetSRArray;
 
-_radioText = _radioText + format["<br/><font size='18' color='#FF7F00'>Long Range Channels (%1 / %2)</font><br/><br/>", _lrRadio, _exRadio];
+_radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Long Range Channels (%1 / %2)</font><br/><br/>", _lrRadio, _exRadio];
 
 {
 	try {

@@ -82,9 +82,9 @@ if hasInterface then {
 		// Disable the Command Channel
 		2 enableChannel [false,false];
 		
-		private _radioText = "<br/><font size='18' color='#FF7F00'>RADIO CHANNELS (OPTIONAL)</font>";
+		private _radioText = "<br/><font size='18' color='#80FF00'>RADIO CHANNELS (OPTIONAL)</font>";
 		_radioText = _radioText + format["<br/>You are a member of Group <font color='#72E500'>%1</font>.<br/><br/>The vanilla 'Command' channel has been replaced with a 'Company' channel that all group leaders automatically join.<br/><br/>Custom channels are available to allow Lead Elements to communicate directly with certain platoons and keep the Company Channel free for emergencies only.<br/>", groupId (group player)];
-		_radioText = _radioText + "<br/><br/><font size='18' color='#FF7F00'>CHANNEL LIST</font>";
+		_radioText = _radioText + "<br/><br/><font size='18' color='#80FF00'>CHANNEL LIST</font>";
 		
 		private _joinText = "";
 		private _joinAllText = "";

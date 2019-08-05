@@ -4,6 +4,10 @@ if (isNull _oldUnit) exitWith {};
 // Disable Spectator
 [false] call f_fnc_spectateInit;
 
+// Disable player voice and radio
+[player, "NoVoice"] remoteExec ["setSpeaker", -2, format["NoVoice_%1", netId player]];
+showSubtitles false;
+
 // Assign the unit their gear. or gear from death
 if (_oldUnit getVariable ["f_var_assignGear",""] != "") then {
 	[(_oldUnit getVariable ["f_var_assignGear",""]),_newUnit] call f_fnc_assignGear;

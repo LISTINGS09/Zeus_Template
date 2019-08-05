@@ -54,3 +54,17 @@ player createDiaryRecord ["Diary", ["",""]];
 #include "..\..\mission\briefing.sqf";
 
 player createDiaryRecord ["Diary", ["",""]];
+
+// Automatically select Mission - Credits: Larrow
+waitUntil {!isNull (uiNamespace getVariable ["RscDiary", displayNull])};
+
+_fnc_selectIndex = {
+	params[ "_ctrl", "_name" ];
+
+	for "_i" from 0 to ( lnbSize _ctrl select 0 ) -1 do {
+		if ( _ctrl lnbText [ _i, 0 ] == _name ) exitWith { _ctrl lnbSetCurSelRow _i };
+	};
+};
+
+[uiNamespace getVariable "RscDiary" displayCtrl 1001, "Briefing" ] call _fnc_selectIndex;
+[uiNamespace getVariable "RscDiary" displayCtrl 1002, "Mission" ] call _fnc_selectIndex;

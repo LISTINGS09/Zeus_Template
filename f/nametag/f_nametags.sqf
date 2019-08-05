@@ -64,7 +64,7 @@ F_KEYDOWN_NAMETAG = {
 // A section is added to the player's briefing to inform them about name tags being available.
 
 [] spawn {
-	_bstr = format ["<font size='18' color='#FF7F00'>NAME TAGS</font><br/>Toggle name tags for friendly units below.<br/><br/>
+	_bstr = format ["<font size='18' color='#80FF00'>NAME TAGS</font><br/>Toggle name tags for friendly units below.<br/><br/>
 Name tags are displayed when aiming at individual units up to %4m away, and constantly for all units within %3m.
         ", F_KEYNAME_NAMETAGS, F_KEY_NAMETAGS, F_DISTALL_NAMETAGS, F_DISTCURSOR_NAMETAGS];
 
@@ -90,23 +90,18 @@ Name tags are displayed when aiming at individual units up to %4m away, and cons
 				>TOGGLE VEHICLE TYPE</execute>] Toggle vehicle type under driver.";
         };
 			
-	_bstr = _bstr + "<br/><br/><font size='18' color='#FF7F00'>FONT TYPES</font><br/>Click on any of the following fonts to set the font type.<br/>
+	_bstr = _bstr + "<br/><br/><font size='18' color='#80FF00'>FONT TYPES</font><br/>Click on any of the following fonts to set the font type.<br/>
 	[<font face='EtelkaMonospaceProBold'><execute expression=""F_FONT_NAMETAGS = 'EtelkaMonospaceProBold';"">Etelka Bold</execute></font>]<br/>
 	[<font face='PuristaBold'><execute expression=""F_FONT_NAMETAGS = 'PuristaBold';"">Purista Bold</execute></font>] (Default)<br/>
 	[<font face='PuristaMedium'><execute expression=""F_FONT_NAMETAGS = 'PuristaMedium';"">Purista</execute></font>]<br/>
 	[<font face='RobotoCondensedBold'><execute expression=""F_FONT_NAMETAGS = 'RobotoCondensedBold';"">Roboto Bold</execute></font>]<br/>
 	[<font face='RobotoCondensed'><execute expression=""F_FONT_NAMETAGS = 'RobotoCondensed';"">Roboto</execute></font>]<br/>";
 	
-	_bstr = _bstr + "<br/><br/><font size='18' color='#FF7F00'>FONT SIZE</font><br/>Click on any of the below options to set the font size.<br/>
+	_bstr = _bstr + "<br/><font size='18' color='#80FF00'>FONT SIZE</font><br/>Click on any of the below options to set the font size.<br/>
 	[<execute expression=""if (f_size_Nametags > 1) then { f_size_Nametags = 1 } else { f_size_Nametags = f_size_Nametags + 0.01 };  hintSilent format['Tag Size: %1', f_size_Nametags];"">Increase Font</execute>]<br/>
 	[<execute expression=""if (f_size_Nametags < 0.01) then { f_size_Nametags = 0.015 } else { f_size_Nametags = f_size_Nametags - 0.01 }; hintSilent format['Tag Size: %1', f_size_Nametags];"">Decrease Font</execute>]<br/>
 	[<execute expression=""f_size_Nametags = 0.035;  hintSilent format['Tag Size: %1', f_size_Nametags];"">Reset to Default</execute>]<br/>
 	";
-	
-	_bstr = _bstr + "<br/><br/><font size='18' color='#FF7F00'>COLORS</font><br/>
-    <font color='#FFFFFF'>Friendly</font><br/>
-    <font color='#7FFFD4'>Fireteam</font><br/>
-    <font color='#FF143C'>Vehicle Crew</font>";
 
 	player createDiaryRecord ["Diary", ["NameTags (Options)",_bstr]];
 };
@@ -209,5 +204,5 @@ addMissionEventHandler ["Draw3D", {
 				};
 			};
 		} forEach _ents;
-	}; // Outmost if scope
-}]; // End of the Eventhandler Scope
+	};
+}];

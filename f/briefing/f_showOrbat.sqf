@@ -11,7 +11,7 @@ waitUntil{!isNil "f_var_setGroupsIDs";};
 
 ["f_showOrbatNotes.sqf","Started","DEBUG"] call f_fnc_logIssue;
 
-private _orbatText = "<br/><font size='18' color='#FF7F00'>ORDER OF BATTLE</font><br/>The ORBAT below is <b>ONLY</b> accurate at mission start.<br/><br/>";
+private _orbatText = "<br/><font size='18' color='#80FF00'>ORDER OF BATTLE</font><br/>The ORBAT below is <b>ONLY</b> accurate at mission start.<br/><br/>";
 private _groups = [];
 private _hiddenGroups = missionNamespace getVariable["f_var_hiddenGroups",[]]; // Add hidden groups if param is set.
 
@@ -41,21 +41,21 @@ private _hiddenGroups = missionNamespace getVariable["f_var_hiddenGroups",[]]; /
 } forEach _groups;
 
 // Show all members of the group and their weapons.
-_orbatText = _orbatText + format["<br /><font size='18' color='#FF7F00'>%1 GROUP</font><br />",toUpper(groupId group player)];
+_orbatText = _orbatText + format["<br /><font size='18' color='#80FF00'>%1 GROUP</font><br />",toUpper(groupId group player)];
 	
-_orbatText = _orbatText + format["Assume <font color='#66B2FF'><execute expression=""
+_orbatText = _orbatText + format["Assume <execute expression=""
 		if (leader group player != player and time > 0 and alive player) then {
 			[group player, player] remoteExec ['selectLeader',group player];
 			'%1 has taken lead of %2' remoteExec ['systemChat',group player];
 		};
-	"">leadership of %2</execute></font> to update the location of any group marker.<br/><br/>",name player, groupId (group player)];
+	"">leadership of %2</execute> to update the location of any group marker.<br/><br/>",name player, groupId (group player)];
 
 // Team Colour Switch
 _orbatText = _orbatText + "Switch or reset your fire-team colour, by clicking on any colour below:<br/>";
 
 {
 	_x params ["_hex","_txt","_cmd"];
-	_orbatText = _orbatText + format["<font color='#%1'><execute expression=""if (assignedTeam player != '%2') then { [player,'%2'] remoteExec ['assignTeam', group player] };"">%3</execute></font> ", _hex, _cmd, _txt];
+	_orbatText = _orbatText + format["[<font color='#%1'><execute expression=""if (assignedTeam player != '%2') then { [player,'%2'] remoteExec ['assignTeam', group player] };"">%3</execute></font>]  ", _hex, _cmd, _txt];
 } forEach [
 	["FFFFFF","White","MAIN"],
 	["FF0000","Red","RED"],
@@ -151,7 +151,7 @@ _vehArray = [];
 } forEach _groups;
 
 if (count _vehArray > 0) then {
-	_orbatText = _orbatText + "<br/><br/><font size='18' color='#FF7F00'>VEHICLE CREWS + PASSENGERS</font><br/>";
+	_orbatText = _orbatText + "<br/><br/><font size='18' color='#80FF00'>VEHICLE CREWS + PASSENGERS</font><br/>";
 
 	{
 		 // Filter all characters which might break the diary entry (such as the & in Orca Black & White)
@@ -214,7 +214,7 @@ _vehArray = [];
 } forEach (vehicles select { count (crew _x) == 0 && locked _x <= 1 && fuel _x > 0 && _x isKindOf "AllVehicles" && typeOf _x != "ACE_friesAnchorBar" });
 
 if (count _vehArray > 0) then {
-	_orbatText = _orbatText + "<br/><br/><font size='18' color='#FF7F00'>OTHER VEHICLES</font><br/>All empty vehicles available near units:<br/><br/>";
+	_orbatText = _orbatText + "<br/><br/><font size='18' color='#80FF00'>OTHER VEHICLES</font><br/>All empty vehicles available near units:<br/><br/>";
 	
 	_vehSorted = [];
 	

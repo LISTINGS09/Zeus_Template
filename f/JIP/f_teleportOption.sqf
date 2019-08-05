@@ -51,7 +51,7 @@ if _spawnFlag then {
 				};
 			};
 				
-			f_obj_BaseFlag addAction ["<t color='#FF7F00'>Spawn on Team</t>",f_fnc_teleportPlayer];
+			f_obj_BaseFlag addAction ["<t color='#80FF00'>Spawn on Team</t>",f_fnc_teleportPlayer];
 		} else {
 			if (format["respawn_%1", side group player] == _flagMarker) then {
 				["f_teleportOption.sqf",format["No respawn marker found for %1.",side (group player)]] call f_fnc_logIssue;
@@ -85,7 +85,7 @@ if _spawnAction then {
 
 	// If client has ACE, use ACE Interact Menu
 	if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
-		hintSilent parseText (_preText + "To use this feature open your <t color='#FF7F00'>ACE Self-Interaction</t> menu <t color='#777777'>(Windows Key + Left Ctrl)</t> then go to <t color='#FF7F00'>Team Management</t><br/> and select <t color='#FF7F00'>Spawn on Team</t><br/><br/><br/>" + _postText);
+		hintSilent parseText (_preText + "To use this feature open your <t color='#80FF00'>ACE Self-Interaction</t> menu <t color='#777777'>(Windows Key + Left Ctrl)</t> then go to <t color='#80FF00'>Team Management</t><br/> and select <t color='#80FF00'>Spawn on Team</t><br/><br/><br/>" + _postText);
 		systemChat "Spawn On Team is ENABLED - Use: ACE Self-Interact > Team Management";
 		ace_jip_action = ['JIP','Spawn on Team','\a3\Ui_f\data\Map\Diary\Icons\unitgroupplayable_ca.paa',f_fnc_teleportPlayer,{true}] call ace_interact_menu_fnc_createAction;
 		[player, 1, ["ACE_SelfActions","ACE_TeamManagement"], ace_jip_action] call ace_interact_menu_fnc_addActionToObject;
@@ -93,9 +93,9 @@ if _spawnAction then {
 		[player, 1, ["ACE_SelfActions","ACE_TeamManagement","JIP"]] call ace_interact_menu_fnc_removeActionFromObject;
 	} else {
 		// Vanilla Action Menu
-		hintSilent parseText (_preText + "Use <t color='#FF7F00'>Action Menu</t> <t color='#777777'>(Mouse Wheel)</t> to spawn near your teams current location.<br/><br/><br/>" + _postText);
+		hintSilent parseText (_preText + "Use <t color='#80FF00'>Action Menu</t> <t color='#777777'>(Mouse Wheel)</t> to spawn near your teams current location.<br/><br/><br/>" + _postText);
 		systemChat "Spawn On Team is ENABLED - Check Action Menu";
-		_teleAction = player addAction ["<t color='#FF7F00'>Spawn on Team</t>",f_fnc_teleportPlayer];
+		_teleAction = player addAction ["<t color='#80FF00'>Spawn on Team</t>",f_fnc_teleportPlayer];
 		sleep _timer;
 		player removeAction _teleAction;
 	};

@@ -19,6 +19,8 @@ if isDedicated exitWith {};
 // Create PP effects
 FAR_eff_ppVig = ppEffectCreate ["ColorCorrections", 1633];
 FAR_eff_ppBlur = ppEffectCreate ["DynamicBlur", 525];
+FAR_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80"];
+FAR_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress"];
 
 // Player Initialization
 [] spawn {

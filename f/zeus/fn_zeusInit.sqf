@@ -38,9 +38,12 @@ f_fnc_zeusCreate = {
 // Create in-game curators
 ["f_ZeusCurator"] call f_fnc_zeusCreate;
 
+// Use local admin for SP
+if (!isMultiplayer) exitWith { ["f_ZeusCuratorAuthor","#AdminLogged"] call f_fnc_zeusCreate };
+
 // Set up author for Zeus
-if (!isNil "f_var_AuthorUID") then {
-	['f_ZeusCuratorAuthor',str f_var_AuthorUID] call f_fnc_zeusCreate;	
+if ((missionNamespace getVariable ["f_var_AuthorUID",""]) != "") then {
+	["f_ZeusCuratorAuthor",str f_var_AuthorUID] call f_fnc_zeusCreate;	
 } else {
-	['f_ZeusCuratorAuthor',"76561197970695190"] call f_fnc_zeusCreate;	
+	["f_ZeusCuratorAuthor","76561197970695190"] call f_fnc_zeusCreate;	
 };

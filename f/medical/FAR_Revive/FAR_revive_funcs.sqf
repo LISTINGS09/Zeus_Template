@@ -139,7 +139,8 @@ FAR_fnc_SetUnconscious = {
 	};
 	
 	if (random 3 > 1.7) then {
-		playSound3D [format["A3\sounds_f\characters\human-sfx\P0%1\Hit_Max_%2.wss", selectRandom [4,5,6,7,8,9], selectRandom [1,2,3,4,5]], _unit, false, getPosASL _unit, 1.5, 1, 50];
+		_rand = (floor random 18) + 1;
+		playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	};
 	
 	//_unit switchMove "";
@@ -348,7 +349,11 @@ FAR_fnc_CheckRevive = {
 	if (!(_caller getVariable ["FAR_var_isDragging", false]) && 
 		_cursorTarget in (playableUnits + switchableUnits) && 
 		!([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy) && 
-		((_caller getUnitTrait "Medic" && FAR_var_ReviveMode == 0) || ('FirstAidKit' in (items _caller) && FAR_var_ReviveMode == 1) || ('Medikit' in (items _caller) && FAR_var_ReviveMode == 2) || ('Medikit' in (items _cursorTarget) && FAR_var_ReviveMode == 2)) &&
+		(
+			(_caller getUnitTrait "Medic" && FAR_var_ReviveMode == 0) ||
+			((count (FAR_FAK arrayIntersect (items _caller))) > 0 && FAR_var_ReviveMode == 1) ||
+			((count (FAR_Medkit arrayIntersect (items _caller + items _cursorTarget))) > 0 && FAR_var_ReviveMode == 2)
+		) &&
 		{lifeState _cursorTarget == 'INCAPACITATED'})
 	exitWith { 
 		_caller setUserActionText [FAR_act_Revive , format["<t color='#FF0000'>Revive<img image='%2'/>(%1)</t>", name _cursorTarget, (getText (configFile >> "CfgVehicles" >> (typeOf _cursorTarget) >> "icon") call bis_fnc_textureVehicleIcon)], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_reviveMedic_ca.paa'/>"];

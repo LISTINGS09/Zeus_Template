@@ -16,11 +16,11 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=167;
+		nextID=171;
 	};
 	class Camera
 	{
-		pos[]={4962.0249,27.829996,7151.5947};
+		pos[]={4961.3521,26.563114,7150.0039};
 		dir[]={0.31898591,-0.29522333,-0.90069342};
 		up[]={0.098567314,0.95540333,-0.2783227};
 		aside[]={-0.94269931,-6.5634958e-007,-0.33385724};
@@ -437,7 +437,26 @@ class CustomAttributes
 				};
 			};
 		};
-		nAttributes=2;
+		class Attribute2
+		{
+			property="SharedObjectives";
+			expression="if (isMultiplayer) then {[_value] spawn bis_fnc_sharedObjectives;};";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"SCALAR"
+						};
+					};
+					value=1;
+				};
+			};
+		};
+		nAttributes=3;
 	};
 	class Category1
 	{
@@ -492,7 +511,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=531;
+		items=529;
 		class Item0
 		{
 			dataType="Marker";
@@ -35091,20 +35110,6 @@ class Mission
 			};
 			id=3202;
 			type="B_MRAP_01_F";
-		};
-		class Item529
-		{
-			dataType="Layer";
-			name="CBRN Dome [BLU]";
-			id=4196;
-			atlOffset=-5;
-		};
-		class Item530
-		{
-			dataType="Layer";
-			name="CBRN Dome [OPF]";
-			id=4290;
-			atlOffset=-5;
 		};
 	};
 	class Connections
