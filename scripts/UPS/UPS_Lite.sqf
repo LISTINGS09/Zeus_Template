@@ -98,6 +98,7 @@ if ((_grp getVariable ["ZAI_ID", -1]) > 0) exitWith { ["ERROR", format["UPS Alre
 _grpIDx = str ZAI_ID;
 _grp setGroupId [format["ZAI_%1_%2", side _grp, _grpIDx]];
 _grp setVariable ["ZAI_ID", ZAI_ID];
+_grp setVariable ["ZAI_AREA", _areaName];
 
 missionNamespace setVariable [format ["ZAI_%1_%2", side _grp, _grpIDx], _grp];
 
@@ -386,7 +387,13 @@ while {TRUE} do {
 					["DEBUG", format["[%1] Revealing %2 to %3 (%4 to %5)", _grpIDx, _foundEnemy, group _x, _x knowsAbout _foundEnemy, _kb]] call _ZAI_fnc_LogMsg;
 					(group _x) reveal [_foundEnemy, _kb];
 				};
-			} forEach (_alliedUnitList select { alive _x && local _x && ((_x distance _foundEnemy < _shareDist) || "STATIC" in (_x getVariable ["ZAI_Type",[]])) && leader _x == _x});
+			} forEach (_alliedUnitList select { 
+				alive _x &&
+				local _x &&
+				((_x distance _foundEnemy < _shareDist) || "STATIC" in (_x getVariable ["ZAI_Type",[]])) &&
+				leader _x == _x && 
+				(_grp getVariable ["ZAI_AREA", _areaName]) == _areaName
+			});
 		};
 		
 		// Recently reacted, enemy going too fast or too far
