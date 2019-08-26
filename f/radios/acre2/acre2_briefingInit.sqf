@@ -24,7 +24,7 @@ private _languages = [];
 } forEach f_var_acreLanguages;
 
 if (count _languages > 1) then {
-	_radioText = _radioText + format["<br/>Languages Spoken: <font color='#72E500'>%1</font>.<br/>", (_languages joinString ", ")];
+	_radioText = _radioText + format["<br/>Languages Spoken: <font color='#00FFFF'>%1</font>.<br/>", (_languages joinString ", ")];
 };
 
 if (f_radios_settings_disableAllRadios) exitWith {
@@ -74,7 +74,7 @@ _radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Short Ran
 		if (_frequency >= 1000) then {_frequency = round (_frequency * 100) / 100};
 
 		if (_groupFreqIndex == _forEachIndex) then {
-			_radioText = _radioText + format["<font color='%3'>%1</font><font color='#777777'>: Frequency %2 MHz</font> <font color='#72E500'>(B%3 C%4)</font><br/>",(_x select 0),_frequency,floor(_chanNum/17)+1,_chanNum mod 17 + (if (_chanNum >= 17) then {1} else {0})];
+			_radioText = _radioText + format["<font color='%3'>%1</font><font color='#777777'>: Frequency %2 MHz</font> <font color='#00FFFF'>(B%3 C%4)</font><br/>",(_x select 0),_frequency,floor(_chanNum/17)+1,_chanNum mod 17 + (if (_chanNum >= 17) then {1} else {0})];
 		} else {
 			_radioText = _radioText + format["<font color='#888888'>%1</font><font color='#555555'>: Frequency %2 MHz</font> <font color='#666666'>(B%3 C%4)</font><br/>",(_x select 0),_frequency,floor(_chanNum/17)+1,_chanNum mod 17 + (if (_chanNum >= 17) then {1} else {0})];
 		};
@@ -89,14 +89,13 @@ _radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Long Rang
 		private _frequency = [f_radios_settings_acre2_standardLRRadio, _preset, _chanNum, "frequencyTX"] call acre_api_fnc_getPresetChannelField;
 
 		if (_groupLRFreqIndex == _forEachIndex) then {
-			_radioText = _radioText + format["<font color='%3'>%1</font>: <font color='#777777'>Frequency %2 MHz</font> <font color='#FF4747'>(Channel %3)</font><br/>",(_x select 0),_frequency,_chanNum];
+			_radioText = _radioText + format["<font color='%3'>%1</font>: <font color='#777777'>Frequency %2 MHz</font> <font color='#FF0080'>(Channel %3)</font><br/>",(_x select 0),_frequency,_chanNum];
 		} else {
 			_radioText = _radioText + format["<font color='#888888'>%1</font><font color='#555555'>: Frequency %2 MHz</font> <font color='#666666'>(Channel %3)</font><br/>",(_x select 0),_frequency,_chanNum];
 		};
 	} catch {};
 } forEach _presetLRArray;
 
-_radioText = _radioText + format["<br/><br/><br/>Should ACRE Radio fail to initialise (SRI: %1, LRI: %2), click below - Emergencies only!", _groupFreqIndex, _groupLRFreqIndex];
-_radioText = _radioText + "<br/><font color='#0080FF'><execute expression='[] call f_acre2_reinitRadio;'>Reinitialize Radio</execute></font>";
+_radioText = _radioText + format["<br/><br/><br/>Problem? Re-run the <execute expression='[] call f_acre2_reinitRadio;'>Radio Setup</execute> script to attempt to re-add any radios.", _groupFreqIndex, _groupLRFreqIndex];
 
 player createDiaryRecord ["Diary", ["Signal",_radioText]];

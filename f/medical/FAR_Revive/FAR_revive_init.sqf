@@ -1,4 +1,4 @@
-// Farooq's Revive 2.1 (2600K Edit)
+// Farooq's Revive 2.2 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.
@@ -11,10 +11,13 @@ if (isNil "FAR_var_ReviveMode") 	then { FAR_var_ReviveMode = 	2 };		// 0 = Only 
 if (isNil "FAR_var_DeathMessages")	then { FAR_var_DeathMessages = 	TRUE };		// Enable Team Kill notifications
 if (isNil "FAR_var_SpawnInMedical")	then { FAR_var_SpawnInMedical = TRUE };		// Units respawn in the nearest medical vehicle (if available and respawn enabled).
 if (isNil "FAR_var_AICanHeal")		then { FAR_var_AICanHeal = FALSE };			// Nearest AI in team will automatically revive players.
+if (isNil "FAR_var_SkipSide")		then { FAR_var_SkipSide = [sideLogic] };	// Don't allow these sides to use the medical script.
 
 call compile preprocessFileLineNumbers "f\medical\FAR_revive\FAR_revive_funcs.sqf";
 
-if isDedicated exitWith {};
+
+if !hasInterface exitWith {};
+if (side player in FAR_var_SkipSide) exitWith {};
 
 // Create PP effects
 FAR_eff_ppVig = ppEffectCreate ["ColorCorrections", 1633];
@@ -26,7 +29,7 @@ FAR_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_
 [] spawn {
     waitUntil { !isNull player };
 	
-	player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; // Persistent after respawn
+	FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; // Persistent after respawn
 	[player] spawn FAR_fnc_unitInit;
 	
 	// If vehicle list isn't populated, fill it
@@ -36,11 +39,9 @@ FAR_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_
 // [Debugging] Add revive to playable AI units
 if (isMultiplayer) exitWith {};
 
-addMissionEventHandler ["TeamSwitch", { params ["_previousUnit", "_newUnit"]; _previousUnit enableAI "TeamSwitch"; [_previousUnit, _newUnit] spawn FAR_fnc_PlayerActions; }];
+FAR_EHID_TeamSwitch = addMissionEventHandler ["TeamSwitch", { params ["_previousUnit", "_newUnit"]; _previousUnit enableAI "TeamSwitch"; [_previousUnit, _newUnit] spawn FAR_fnc_PlayerActions; }];
 
 {
-	if (!isPlayer _x && _x getVariable["FAR_var_isDragged", TRUE]) then { 
-		_x addEventHandler ["HandleDamage", FAR_fnc_HandleDamage];
-		[_x] spawn FAR_fnc_unitInit
-	};
-} forEach switchableUnits;
+	_x addEventHandler ["HandleDamage", FAR_fnc_HandleDamage];
+	[_x] spawn FAR_fnc_unitInit;
+} forEach (switchableUnits - [player]);

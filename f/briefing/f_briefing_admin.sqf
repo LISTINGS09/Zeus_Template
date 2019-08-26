@@ -204,15 +204,11 @@ player createDiaryRecord ["ZeuAdmin", ["Safe Start",_missionSafe]];
 _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
 <execute expression=""(findDisplay 12) createDisplay 'RscDisplayDebugPublic';hintSilent 'Displaying Debug Window';"">Show Debug Window</execute><br/>
 <br/>
+<execute expression=""systemChat 'Click on Map to teleport'; player onMapSingleClick {player setPos _pos; openMap false; onMapSingleClick ''; true;};"">Map Click Teleport</execute><br/>
+<br/>
 <execute expression=""[] call fnc_AdminTasking;"">Show Task Control</execute><br/>
 <br/>
 <execute expression=""[player, { if (count (missionNamespace getVariable ['f_var_missionLog',[]]) > 0) then { [_this,['Diary', ['** ISSUES (Server) **', format['%1<br/>', f_var_missionLog joinString '<br/>']]]] remoteExec ['createDiaryRecord',_this]; } else { 'Server Issue log has no entries!' remoteExec ['systemChat',_this]; } }] remoteExec ['bis_fnc_spawn', 0];"">Server Issues List</execute><br/>
-<br/>
-<execute expression=""systemChat 'Click on Map to teleport'; player onMapSingleClick {player setPos _pos; openMap false; onMapSingleClick ''; true;};"">Map Click Teleport</execute><br/>
-<br/>
-<execute expression=""f_param_debugMode = 0; publicVariable 'f_param_debugMode';hintSilent 'Logging: Off';"">Logging Off</execute> | 
-<execute expression=""f_param_debugMode = 1; publicVariable 'f_param_debugMode';hintSilent 'Logging: On';"">Logging On</execute><br/>
-Toggles the internal F3 Debug feature, which logs actions within the framework into the report log.<br/>
 <br/>
 <execute expression=""diag_log text '*** Active SQF Scripts Start ***';{diag_log _x} forEach diag_activeSQFScripts;diag_log text '*** Active SQF Scripts End ***';hintSilent 'Logging Scripts to local RPT';"">SQF Debug</execute><br/>
 Uses diag_activeSQFScripts to list all running SQF Scripts to your LOCAL report.<br/>
@@ -226,6 +222,97 @@ This performs a basic check for any mission related logic issues and problems. I
 ";
 
 player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
+
+// ====================================================================================
+
+// TRIGGER SECTION
+_missionTrigger = "<font size='18' color='#80FF00'>TRIGGER OPTIONS</font><br/><br/>This details all triggers in the mission and will allow them to be force-completed, deleted or resulting code executed on the server. Special syntax such as 'thisTrigger' when used in activation code, WILL NOT be functional if executing the code manually - The trigger should be force Activated instead.<br/>";
+
+_encodeText = {
+	private _specialChars = [38, 60, 62, 34, 39]; //  & < > " '
+	private _convertTo = [[38,97,109,112,59], [38,108,116,59], [38,103,116,59], [38,113,117,111,116,59], [38,97,112,111,115,59]]; //  &amp; &lt; &gt; &quot; &apos;
+	private _chars = [];
+	private "_i";
+
+	{
+		_i = _specialChars find _x;
+		if (_i isEqualTo -1) then { _chars pushBack _x } else { _chars append (_convertTo select _i) };
+	} forEach toArray param [0,"",[""]];
+
+	toString _chars
+};
+
+{	// Trigger Check
+	//diag_log text format["[F3] INFO (fn_moduleCheck.sqf): Checking Trigger %1 - %2",_x,typeOf _x];
+	_missionTrigger = _missionTrigger + format["<br/><font size='16' color='#FF0080'>%1</font> - 
+	<font color='#80FF00'><execute expression=""if !(triggerActivated %1) then { { if (!isNil '%1') then { %1 setTriggerStatements ['true',(triggerStatements %1)#1, (triggerStatements %1)#2] };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 already Activated'; } else { hintSilent 'Trigger %1 is already enabled' };"">Activate</execute></font> 
+	| <font color='#CF142B'><execute expression=""if (simulationEnabled %1) then {{ if (!isNil '%1') then { %1 enableSimulationGlobal false };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Disabled'} else { hintSilent 'Trigger %1 is already Disabled' };"">Disable</execute></font> 
+	| <font color='#808800'><execute expression=""if !(simulationEnabled %1) then { if (!isNil '%1') then { %1 enableSimulationGlobal true };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Enabled' } else { hintSilent 'Trigger %1 is already Enabled' };"">Enable</execute></font>:<br/>", vehicleVarName _x];
+	if (triggerType _x != "NONE") then { _missionTrigger = _missionTrigger + format["Type: <font color='#888888'>%1</font>", triggerType _x] };
+	if !(triggerActivation _x isEqualTo ["NONE","PRESENT",false]) then { _missionTrigger = _missionTrigger + format["Activation: <font color='#888888'>%1</font><br/>", triggerActivation _x] };
+	if ((triggerStatements _x)#0 != "true") then { _missionTrigger = _missionTrigger + format["Condition: <font color='#8888BB'>%1</font><br/>", [(triggerStatements _x)#0] call _encodeText] };
+	if ((triggerStatements _x)#1 != "") then { _missionTrigger = _missionTrigger + format["On Activation - 
+	<execute expression=""{ call compile ((triggerStatements %2)#1); } remoteExec ['BIS_fnc_spawn',2]; hintSilent '%2 Code Executed (Server)';"">Exec Server</execute> 
+	| <execute expression=""{ call compile ((triggerStatements %2)#1); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
+	<font color='#88BB88'>%1</font><br/>", [(triggerStatements _x)#1] call _encodeText, _x] };
+	if ((triggerStatements _x)#2 != "") then { _missionTrigger = _missionTrigger + format["On Deactivation - 
+	<execute expression=""{ call compile ((triggerStatements %2)#2); } remoteExec ['BIS_fnc_spawn',2]; hintSilent '%2 Code Executed (Server)';"">Exec Server</execute> 
+	| <execute expression=""{ call compile ((triggerStatements %2)#2); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
+	<font color='#BB8888'>%1</font><br/>", [(triggerStatements _x)#2] call _encodeText, _x] };
+	
+} forEach allMissionObjects "EmptyDetector";
+
+player createDiaryRecord ["ZeuAdmin", ["Triggers",_missionTrigger]];
+
+// ====================================================================================
+
+// FRAMEWORK SECTION
+_missionFramework = "<font size='18' color='#80FF00'>FRAMEWORK CONTROL</font><br/><br/>
+Lists the core features of the framework and allows for forced-start, re-runs or termination core components.<br/>
+<br/>
+Enhanced Logging: <font color='#80FF00'><execute expression=""f_param_debugMode = 1; publicVariable 'f_param_debugMode';hintSilent 'Logging: On';"">On</execute></font> | 
+<font color='#CF142B'><execute expression=""f_param_debugMode = 0; publicVariable 'f_param_debugMode';hintSilent 'Logging: Off';"">Off</execute></font><br/>
+Toggles the internal F3 Debug feature, which logs actions within the framework into the report log.<br/><br/>";
+
+// Framework Scripts
+_missionFramework = _missionFramework + "<font size='16' color='#FF0080'>VARIABLES</font><br/>Allows the termination and re-running of core variables.<br/><br/>";
+
+{
+	_x params ["_title", "_variable", "_message"];
+	_missionFramework = _missionFramework + format["%1: <font color='#80FF00'>On <execute expression="" %2 = true; publicVariable '%2'; hintSilent '%3: On (Global)';"">(Global)</execute> <execute expression=""%2 = true; hintSilent '%3: On (Local)';"">(Local)</execute></font> | <font color='#CF142B'>Off <execute expression=""%2 = false; publicVariable '%2'; hintSilent '%3: Off (Global)';"">(Global)</execute> <execute expression=""%2 = false; hintSilent '%3: Off (Local)';"">(Local)</execute></font><br/>", _title, _variable, _message];
+} forEach [
+	["Markers - Team Tracking","f_var_ShowFTMarkers","Team Tracking"],
+	["Markers - Display Injured","f_var_ShowInjured","Display Injured"]
+];
+
+// Framework Scripts
+_missionFramework = _missionFramework + "<br/><font size='16' color='#FF0080'>SCRIPTS</font><br/>Allows the termination and re-running of core scripts.<br/><br/>";
+
+{
+	_x params ["_title", "_variable", "_location"];
+	_missionFramework = _missionFramework + format["
+	%1: <font color='#80FF00'><execute expression=""{%2 = execVM '%3';} remoteExec ['BIS_fnc_spawn', 0];"">Run</execute></font> | <font color='#CF142B'><execute expression=""[%2] remoteExec ['terminate',0]"">Terminate</execute></font><br/>",_title, _variable, _location];
+} forEach [
+	["Briefing - Core Texts","f_sqf_brief", "f\briefing\briefing.sqf"],
+	["Briefing - ORBAT","f_sqf_orbat", "f\briefing\f_showOrbat.sqf"],
+	["Briefing - Gear Selection","f_sqf_gearSel", "f\briefing\f_showLoadoutSelect.sqf"],
+	["Group - Team Colors","f_sqf_ftmk", "f\setTeamColours\f_setTeamColours.sqf"],
+	["Group - Group Markers","f_sqf_grpm", "f\groupMarkers\f_setLocGroupMkr.sqf"],
+	["Group - Team Markers","f_sqf_ftmrk", "f\FTMemberMarkers\f_initFTMarkers.sqf"],
+	["Map - AO Border","f_sqf_draw","f\briefing\f_drawAO.sqf"],
+	["Misc - Intro","f_sqf_intro","f\common\f_clientIntro.sqf"],
+	["Misc - Third Person","f_sqf_third", "f\thirdPerson\f_thirdPerson.sqf"],
+	["Misc - VAS Crate","f_sqf_vas", "f\misc\f_vas.sqf"],
+	["Misc - JIP Teleport Flag/Action","f_sqf_jip", "f\JIP\f_teleportOption.sqf"],
+	["Misc - Earplugs","f_sqf_earp", "f\earplug\f_earplugs.sqf"],
+	["Misc - Nametags","f_sqf_names", "f\nametag\f_nametags.sqf"],
+	["Misc - Safe Start","f_sqf_safe", "f\safeStart\f_safeStart.sqf"],
+	["Misc - Unit Caching","f_sqf_cache", "f\cache\f_cInit.sqf"]
+];
+
+_missionFramework = _missionFramework + "<br/>Medical - FAROOQ: <font color='#80FF00'><execute expression=""{missionNamespace setVariable ['f_var_medical_level', 1, true]; _nul = [] execVM 'f\medical\FAR_revive\FAR_revive_init.sqf'; hintSilent 'FAR Medical: Enabled';} remoteExec ['BIS_fnc_spawn', 0];"">Enable</execute></font> | <font color='#CF142B'><execute expression=""{[player] call FAR_fnc_unitRemove} remoteExec ['BIS_fnc_spawn',0]; hintSilent 'FAR Medical: Disabled';"">Disable</execute></font><br/>";
+
+player createDiaryRecord ["ZeuAdmin", ["Framework",_missionFramework]];
 
 // ====================================================================================
 
@@ -373,7 +460,7 @@ fnc_AdminTasking = {
 		//private _children = _x call BIS_fnc_taskChildren;
 		
 		_taskText = _taskText + format [
-			"%6%5<img image='\A3\ui_f\data\igui\cfg\simpleTasks\types\%2_ca.paa' height='16'/> <font color='#80FF00'>%3</font>   [<font color='#80FF00'><execute expression=""['%1','SUCCEEDED'] remoteExec ['BIS_fnc_taskSetState',0];"">Complete</execute></font>]   [<font color='#CF142B'><execute expression=""['%1','FAILED'] remoteExec ['BIS_fnc_taskSetState',0];"">Fail</execute></font>]   [<font color='#CCCCCC'><execute expression=""['%1','CANCELED'] remoteExec ['BIS_fnc_taskSetState',0];"">Cancel</execute></font>]<br/>%5%4<br/>",
+			"%6%5<img image='\A3\ui_f\data\igui\cfg\simpleTasks\types\%2_ca.paa' height='16'/> <font color='#80FF00'>%3</font> [<font color='#0080ff'><execute expression=""['%1','ASSIGNED'] remoteExec ['BIS_fnc_taskSetState',0];"">Assign</execute></font>] [<font color='#80FF00'><execute expression=""['%1','SUCCEEDED'] remoteExec ['BIS_fnc_taskSetState',0];"">Complete</execute></font>] [<font color='#CF142B'><execute expression=""['%1','FAILED'] remoteExec ['BIS_fnc_taskSetState',0];"">Fail</execute></font>] [<font color='#CCCCCC'><execute expression=""['%1','CANCELED'] remoteExec ['BIS_fnc_taskSetState',0];"">Cancel</execute></font>]<br/>%5%4<br/>",
 			_x,
 			_x call BIS_fnc_taskType,
 			(_x call BIS_fnc_taskDescription)#1#0,

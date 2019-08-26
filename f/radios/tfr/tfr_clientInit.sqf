@@ -3,7 +3,6 @@
 
 ["tfr_clientInit.sqf",format["Running for %1",player],"INFO"] call f_fnc_logIssue;
 
-private _grpBLU = []; private _grpOPF = []; private _grpIND = []; private _grpCIV = [];
 #include "..\..\..\mission\groups.sqf";
 
 private _sideSRGroups = [];
@@ -23,7 +22,7 @@ private _sideLRGroups = [];
 		// Does a new LR channel need added?
 		if _newChannel then { _sideLRGroups pushBack [_customCh, [_grpName]]; };
 	};
-} forEach (switch (playerSide) do { case west: {_grpBLU}; case east: {_grpOPF}; case independent: {_grpIND}; case civilian: {_grpCIV}});
+} forEach (missionNamespace getVariable [format["f_var_groups%1", side group player], []]);
 
 if (count _sideLRGroups == 0) then { 
 	// Convert default LR strings to correct array format.

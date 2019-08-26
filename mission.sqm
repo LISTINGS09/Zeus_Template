@@ -8,7 +8,7 @@ class EditorData
 	toggles=37;
 	class ItemIDProvider
 	{
-		nextID=4319;
+		nextID=4322;
 	};
 	class MarkerIDProvider
 	{
@@ -20,10 +20,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={4961.3521,26.563114,7150.0039};
-		dir[]={0.31898591,-0.29522333,-0.90069342};
-		up[]={0.098567314,0.95540333,-0.2783227};
-		aside[]={-0.94269931,-6.5634958e-007,-0.33385724};
+		pos[]={5026.7021,36.753666,7172.7017};
+		dir[]={-0.86856073,-0.49567342,-0.010839923};
+		up[]={-0.49565759,0.86848122,-0.0061838026};
+		aside[]={-0.012471937,1.2707214e-006,1.0000207};
 	};
 };
 binarizationWanted=0;
@@ -1213,6 +1213,50 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
+						position[]={4998,5.0014391,7173.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						rank="SERGEANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_CO_M";
+						description="Medic";
+						isPlayable=1;
+					};
+					id=1533;
+					type="O_medic_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.03;
+								};
+							};
+						};
+						nAttributes=1;
+					};
+				};
+				class Item1
+				{
+					dataType="Object";
+					class PositionInfo
+					{
 						position[]={5000,5.0014391,7175.0498};
 					};
 					side="East";
@@ -1226,8 +1270,8 @@ class Mission
 						description="Command - Commander@Command";
 						isPlayable=1;
 					};
-					id=1532;
-					type="O_Soldier_TL_F";
+					id=4319;
+					type="O_officer_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1269,50 +1313,6 @@ class Mission
 							};
 						};
 						nAttributes=2;
-					};
-				};
-				class Item1
-				{
-					dataType="Object";
-					class PositionInfo
-					{
-						position[]={4998,5.0014391,7173.0498};
-					};
-					side="East";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						rank="SERGEANT";
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_CO_M";
-						description="Medic";
-						isPlayable=1;
-					};
-					id=1533;
-					type="O_medic_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									class type
-									{
-										type[]=
-										{
-											"SCALAR"
-										};
-									};
-									value=1.03;
-								};
-							};
-						};
-						nAttributes=1;
 					};
 				};
 			};
@@ -3978,6 +3978,50 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
+						position[]={2998,5.0014391,7161.0498};
+					};
+					side="West";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						rank="SERGEANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitNATO_CO_M";
+						description="Medic";
+						isPlayable=1;
+					};
+					id=1646;
+					type="B_medic_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1;
+								};
+							};
+						};
+						nAttributes=1;
+					};
+				};
+				class Item1
+				{
+					dataType="Object";
+					class PositionInfo
+					{
 						position[]={3000,5.0014391,7163.0498};
 					};
 					side="West";
@@ -3991,8 +4035,8 @@ class Mission
 						description="Command - Commander@Command";
 						isPlayable=1;
 					};
-					id=1645;
-					type="B_Soldier_TL_F";
+					id=4320;
+					type="B_officer_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4034,50 +4078,6 @@ class Mission
 							};
 						};
 						nAttributes=2;
-					};
-				};
-				class Item1
-				{
-					dataType="Object";
-					class PositionInfo
-					{
-						position[]={2998,5.0014391,7161.0498};
-					};
-					side="West";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						rank="SERGEANT";
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitNATO_CO_M";
-						description="Medic";
-						isPlayable=1;
-					};
-					id=1646;
-					type="B_medic_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									class type
-									{
-										type[]=
-										{
-											"SCALAR"
-										};
-									};
-									value=1;
-								};
-							};
-						};
-						nAttributes=1;
 					};
 				};
 			};
@@ -8031,11 +8031,53 @@ class Mission
 						rank="LIEUTENANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_IFV1_VC";
-						description="IFV1 - Commander";
+						description="IFV1 - Commander@IFV";
 						isPlayable=1;
 					};
 					id=2580;
 					type="O_crew_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item1
 				{
@@ -8128,11 +8170,53 @@ class Mission
 						rank="LIEUTENANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_IFV2_VC";
-						description="IFV2 - Commander";
+						description="IFV2 - Commander@IFV";
 						isPlayable=1;
 					};
 					id=2577;
 					type="O_crew_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male02PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.94999999;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item1
 				{
@@ -8225,11 +8309,53 @@ class Mission
 						rank="LIEUTENANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_IFV3_VC";
-						description="IFV3 - Commander";
+						description="IFV3 - Commander@IFV";
 						isPlayable=1;
 					};
 					id=2574;
 					type="O_crew_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male02PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.95999998;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item1
 				{
@@ -8322,11 +8448,53 @@ class Mission
 						rank="LIEUTENANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_IFV4_VC";
-						description="IFV4 - Commander";
+						description="IFV4 - Commander@IFV";
 						isPlayable=1;
 					};
 					id=2571;
 					type="O_crew_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male02PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.03;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 				class Item1
 				{

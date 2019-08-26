@@ -1,16 +1,42 @@
 FAR_fnc_unitInit = {
-	params ["_unit"];
+	params [["_unit", player]];
 	
-	_unit addEventHandler ["Killed", FAR_fnc_HandleDeath]; // Used in instant death
+	FAR_EHID_HandleDeath = _unit addEventHandler ["Killed", FAR_fnc_HandleDeath]; // Used in instant death
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
 	_unit setVariable ["FAR_var_isDragging", false, true];
 	
 	if !(isPlayer _unit) exitWith {};
 	
-	_unit addEventHandler ["Respawn", { params ["_unit", "_corpse"]; [_unit] spawn FAR_fnc_unitInit; if (captive _unit) then { _unit setCaptive false }; if (FAR_var_SpawnInMedical) then { [_unit] spawn FAR_fnc_TeleportNearestVehicle }; }];
+	FAR_EHID_Respawn = _unit addEventHandler ["Respawn", { params ["_unit", "_corpse"]; [_unit] spawn FAR_fnc_unitInit; if (captive _unit) then { _unit setCaptive false }; if (FAR_var_SpawnInMedical) then { [_unit] spawn FAR_fnc_TeleportNearestVehicle }; }];
 	
 	[_unit] spawn FAR_fnc_PlayerActions;
+};
+
+FAR_fnc_unitRemove = {
+	params [["_unit", player]];
+	
+	// Remove Actions
+	{
+		if ((missionNamespace getVariable [_x,""]) isEqualType 0) then { _unit removeAction (missionNamespace getVariable _x) } 
+	} forEach ["FAR_act_Revive", "FAR_act_Bag", "FAR_act_Stabilise", "FAR_act_Dragging", "FAR_act_Carry", "FAR_act_Release", "FAR_act_UnitLoad", "FAR_act_UnitUnload"];
+	
+	// Remove Effects
+	{ _x ppEffectEnable false } forEach [FAR_eff_ppVig, FAR_eff_ppBlur];
+	
+	if !(isNil "FAR_EHID_HandleDamage") then { _unit removeEventHandler ["Killed", FAR_EHID_HandleDamage] };
+	if !(isNil "FAR_EHID_HandleDeath") then { _unit removeEventHandler ["Killed", FAR_EHID_HandleDeath] };
+	if !(isNil "FAR_EHID_Respawn") then { _unit removeEventHandler ["Respawn", FAR_EHID_Respawn] };
+	
+	if isMultiplayer exitWith {};
+	
+	removeMissionEventHandler ["TeamSwitch", FAR_EHID_TeamSwitch];
+
+	{
+		_x removeAllEventHandlers "Killed";
+		_x removeAllEventHandlers "Respawn";
+		_x removeAllEventHandlers "HandleDamage";
+	} forEach (switchableUnits - [_unit]);
 };
 
 FAR_fnc_PlayerActions = {
@@ -797,6 +823,7 @@ FAR_fnc_UnitMove = {
 	_animList = ["acinpercmstpsnonwnondnon", "acinpknlmstpsraswrfldnon", "acinpknlmstpsnonwpstdnon", "acinpknlmstpsnonwnondnon", "acinpknlmwlksraswrfldb", "acinpknlmwlksnonwnondb"];
 	
 	if (_type == "drag") then {
+		[_caller, ""] remoteExec ["switchMove"];
 		[_caller, "grabDrag"] remoteExec ["playActionNow", _caller];
 		
 		_cursorTarget attachTo [_caller, [0, 1.1, 0.092]];

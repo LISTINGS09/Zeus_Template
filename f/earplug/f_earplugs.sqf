@@ -24,16 +24,12 @@ F_KEYDOWN_EARPLUG = {
 			missionNameSpace setVariable ["ACE_Hearing_disableVolumeUpdate", false];
 			1 fadeSound 1;
 			titleText ["You've removed your earplugs.", "PLAIN DOWN", 2];
-			//if (!isNil "ace_common_fnc_setHearingCapability") then { ["zeu_earplug", 0.2, false] call ace_common_fnc_setHearingCapability; };
 		} else { 
 			// Enable the earplugs
 			F_EARPLUGS = true;
 			missionNameSpace setVariable ["ACE_Hearing_disableVolumeUpdate", true];
 			1 fadeSound 0.20; 
 			titleText ["You've inserted your earplugs.", "PLAIN DOWN", 2];
-			// player setVariable ["tf_globalVolume", 1];
-			//if (!isNil "ace_common_fnc_setHearingCapability") then { ["zeu_earplug", 0.2, true] call ace_common_fnc_setHearingCapability };
-			//if (!isNil "acre_api_fnc_setGlobalVolume") then { [1^0.33] call acre_api_fnc_setGlobalVolume; };
 		};
 		//_handeld = true;  // Remove to stop this interfering with other commands.
 	};

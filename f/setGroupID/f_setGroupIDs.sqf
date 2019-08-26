@@ -5,7 +5,6 @@
 if !isServer exitWith {};
 
 // INCLUDE GROUP LIST
-private _grpBLU = []; private _grpOPF = []; private _grpIND = []; private _grpCIV = [];
 private _grpList = []; 
 #include "..\..\mission\groups.sqf";
 
@@ -21,10 +20,13 @@ _f_fnc_setGroupID = {
 
 // SET GROUP IDS
 // Execute setGroupID Function for all factions
-{([west] + _x) call _f_fnc_setGroupID} forEach _grpBLU;
-{([east] + _x) call _f_fnc_setGroupID} forEach _grpOPF;
-{([independent] + _x) call _f_fnc_setGroupID} forEach _grpIND;
-{([civilian] + _x) call _f_fnc_setGroupID} forEach _grpCIV;
+{
+	_x params ["_grpSide"];
+		
+	if (playableSlotsNumber _grpSide > 0) then {
+		{ ([_grpSide] + _x) call _f_fnc_setGroupID } forEach (missionNamespace getVariable [format["f_var_groups%1", _grpSide], []])
+	};
+} forEach [west, east, independent, civilian];
 
 // Save the complete list for future reference.
 missionNamespace setVariable ["f_var_allGroups", _grpList, true];
@@ -43,7 +45,6 @@ publicVariable "f_var_setGroupsIDs";
 				if (groupId _group != _grpName) then {
 					_group setGroupIdGlobal [_grpName];
 					[[_grpVar,_grpName,_mkrType,_mkrText,_mkrColor], "f\groupMarkers\fn_localGroupMarker.sqf"] remoteExec ["execVM", _side, _grpVar];
-//					diag_log text format["[F3] INFO (fn_setGroupIDs.sqf): Group %1 (%2) was not synchronised (JIP), correcting.",_group,_grpName];
 				};
 			};
 		} forEach f_var_allGroups;

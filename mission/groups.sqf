@@ -17,7 +17,7 @@ _white =	[1,   1,   1,   1	];
 
 // Group Variable Name, ORBAT Name, Icon Type, Icon Text, Icon Color, Make Channel (default true)
 
-_grpBLU = [
+f_var_groupsWEST = [
 	["GrpBLU_CO","CO","b_hq","CO",_yellow],
 	["GrpBLU_DC","JTAC","b_hq","J",_yellow],
 	["GrpBLU_ASL","Alpha","b_inf","A",_red],
@@ -50,7 +50,7 @@ _grpBLU = [
 	// Always make sure there's no comma after the last entry!
 ];
 
-_grpOPF = [
+f_var_groupsEAST = [
 	["GrpOPF_CO","CO","b_hq","CO",_yellow],
 	["GrpOPF_DC","JTAC","b_hq","J",_yellow],
 	["GrpOPF_ASL","Alpha","b_inf","A",_red],
@@ -83,7 +83,7 @@ _grpOPF = [
 	// Always make sure there's no comma after the last entry!
 ];
 
-_grpIND = [
+f_var_groupsGUER = [
 	["GrpIND_CO","CO","b_hq","CO",_yellow],
 	["GrpIND_DC","JTAC","b_hq","J",_yellow],
 	["GrpIND_ASL","Alpha","b_inf","A",_red],

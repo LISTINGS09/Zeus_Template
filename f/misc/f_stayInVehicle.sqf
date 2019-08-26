@@ -29,16 +29,7 @@ _ignoresides = [];
 _vehicles = [];
 
 {
-	if (canFire _x && !(side _x in _ignoreSides) && !(_x isKindOf "StaticWeapon")) then {
-		_vehicles pushBack _x;
-		// Disable ACE CookOff sometimes.
-		if (random 1 > 0.7) then {
-			_x setVariable ["ace_cookoff_enable", false];
-		};
-	} else {
-		// Disable ACE CookOff for Player / Unarmed Vehicles.
-		_x setVariable ["ace_cookoff_enable", false];
-	};
+	if (canFire _x && !(side _x in _ignoreSides) && !(_x isKindOf "StaticWeapon")) then { _vehicles pushBack _x };
 } forEach vehicles;
 
 if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log text format["[F3] DEBUG (fn_stayInVehicle.sqf): Found: %1 vehicles",count _vehicles];};

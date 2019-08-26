@@ -1,20 +1,25 @@
 // Create custom radio channels for base platoons.
 // * Mission must be coop if using channels defined in radios.sqf
 // * Group leads can auto-join channels when the channel name is added at the end of the group line in groups.sqf
-if !isMultiplayer exitWith {};
+//if !isMultiplayer exitWith {};
 
-if isServer then {
-	private _sidePlayerGroups = []; 
-	private _grpBLU = []; private _grpOPF = []; private _grpIND = []; private _grpCIV = [];
-		
+// Set the radio mode:
+// 0 = vanilla
+// 1 = medics are radio operators - f_radios_companyChannel
+
+if isServer then {	
+	if (isNil "f_param_radioMode") then { missionNamespace setVariable ["f_param_radioMode", 0, true] };
+	
+	// Load groups list
 	#include "..\..\mission\groups.sqf";
 
 	{
-		// Store the channel side we're processing.
-		_x params ["_groupList","_chSide"]; 
 		private _tempArr = [];
+		_x params ["_chSide"]; 
 		
-		// Loop each group in the groups list.
+		_chGroups = missionNamespace getVariable [format["f_var_groups%1", _chSide], []];
+		
+		// Loop each group in the list.
 		{
 			_x params ["_grpID","_grpName","_icon","_sName","_color",["_customCh",""]];
 			// Was a channel defined?
@@ -35,10 +40,10 @@ if isServer then {
 					};
 				};
 			};
-		} forEach _groupList;
+		} forEach _chGroups;
 		
 		// If no custom channels were specified and the game-type is coop only, generate automatically.
-		if (count _tempArr == 0 && count _groupList > 0 && toUpper (getText ((getMissionConfig "Header") >> "gameType")) == "COOP") then {
+		if (count _tempArr == 0 && count _chGroups > 0 && toUpper (getText ((getMissionConfig "Header") >> "gameType")) == "COOP" && playableSlotsNumber _chSide > 0) then {
 			// Load the predefined radio groups.
 			#include "..\..\mission\radios.sqf";
 
@@ -63,12 +68,7 @@ if isServer then {
 		
 		// Store channel info into public variable.
 		missionNamespace setVariable [format["f_var_ch%1",_chSide], _tempArr, true];
-	} forEach [
-			[_grpBLU, west],
-			[_grpOPF, east],
-			[_grpIND, independent],
-			[_grpCIV, civilian]
-		];
+	} forEach [west, east, independent, civilian];
 	
 	// Set-up completed
 	missionNamespace setVariable ["f_var_customRadio", true, true];
@@ -78,12 +78,41 @@ if hasInterface then {
 	waitUntil{missionNamespace getVariable ["f_var_customRadio", false]}; // Wait until server has finished.
 	private _chList = missionNamespace getVariable [format["f_var_ch%1", side group player], []];
 	
+	f_var_radioBackpacks = ["B_RadioBag_01_digi_F", "B_RadioBag_01_eaf_F", "B_RadioBag_01_ghex_F", "B_RadioBag_01_hex_F", "B_RadioBag_01_mtp_F"];
+	
+	f_fnc_radioSwitchChannel = {
+		params ["_name", "_id", "_doAdd"];
+
+		if _doAdd then {
+			if !(setCurrentChannel (_id + 5)) then {
+				// Check for a valid operator if enabled
+				if (!((backpack player) in f_var_radioBackpacks) && rank player != "COLONEL" && vehicle player == player && { f_param_radioMode == 1 } ) exitWith {
+					systemChat format["[RADIO] Cannot join %1 - No valid backpack or vehicle radio.", _name];
+				};
+			
+				[_id, [player]] remoteExecCall ['radioChannelAdd', 2];
+				sleep 1;
+				if (setCurrentChannel (_id + 5)) then {
+					systemChat format["[RADIO] %1 joined %2", name player, _name]
+				} else {
+					systemChat format["[RADIO] Failed to join %1 (%2)", _name, (_id + 5)]
+				};
+			};
+		} else {
+			if (setCurrentChannel (_id + 5)) then {
+				setCurrentChannel 3;
+				[_id, [player]] remoteExecCall ['radioChannelRemove', 2];
+				systemChat format["[RADIO] %1 left %2", name player, _name];
+			};
+		};
+	};
+	
 	if (count _chList > 0) then {
 		// Disable the Command Channel
 		2 enableChannel [false,false];
 		
 		private _radioText = "<br/><font size='18' color='#80FF00'>RADIO CHANNELS (OPTIONAL)</font>";
-		_radioText = _radioText + format["<br/>You are a member of Group <font color='#72E500'>%1</font>.<br/><br/>The vanilla 'Command' channel has been replaced with a 'Company' channel that all group leaders automatically join.<br/><br/>Custom channels are available to allow Lead Elements to communicate directly with certain platoons and keep the Company Channel free for emergencies only.<br/>", groupId (group player)];
+		_radioText = _radioText + format["<br/>You are a member of Group <font color='#72E500'>%1</font>.<br/><br/>The vanilla 'Command' channel has been replaced with a 'Company' channel that all %2 automatically join.<br/><br/>Custom channels are available to allow Lead Elements to communicate directly with certain platoons and keep the Company Channel free for emergencies only.<br/>", groupId (group player), ["group leaders","radio operators"] select f_param_radioMode];
 		_radioText = _radioText + "<br/><br/><font size='18' color='#80FF00'>CHANNEL LIST</font>";
 		
 		private _joinText = "";
@@ -92,25 +121,18 @@ if hasInterface then {
 		{
 			_x params["_chName","_chID","_chColor","_chGrps"];
 
-			_radioText = _radioText + format["<br/><font color='%3'>%1</font> ----- <font color='#00b300'><execute expression=""
-				if !(setCurrentChannel (%2 + 5)) then {
-					[%2, [player]] remoteExec ['radioChannelAdd', 2];
-					[] spawn {
-						waitUntil{uiSleep 1; setCurrentChannel (%2 + 5)};
-						systemChat '[RADIO] %4 joined %1';
-					};
-				};"">Join %1</execute></font> ----- <font color='#b30000'><execute expression=""
-				if (setCurrentChannel (%2 + 5)) then {
-					setCurrentChannel 3;
-					[%2, [player]] remoteExec ['radioChannelRemove', 2];
-					systemChat '[RADIO] %4 left %1';
-				};"">Leave %1</execute></font>", _chName, _chID, _chColor, name player];
+			_radioText = _radioText + format["<br/><font color='%3'>%1</font> ----- <font color='#00b300'>
+			<execute expression=""['%1', %2, true] spawn f_fnc_radioSwitchChannel;"">Join %1</execute></font> ----- <font color='#b30000'>
+			<execute expression=""['%1', %2, false] spawn f_fnc_radioSwitchChannel;"">Leave %1</execute></font>", _chName, _chID, _chColor];
 
 			_joinAllText = _joinAllText + format["if !(setCurrentChannel (%1 + 5)) then { [%1, [player]] remoteExec ['radioChannelAdd', 2]; };", _chID];
 			_leaveAllText = _leaveAllText + format["if (setCurrentChannel (%1 + 5)) then { setCurrentChannel 3; [%1, [player]] remoteExec ['radioChannelRemove', 2]; };", _chID];
 			
+			// Store the company channel if it hasn't been defined
+			if (isNil "f_radios_companyChannel" && _chName == "Company Channel") then { f_radios_companyChannel = _chID };
+			
 			// SLs automatically get added channels.
-			if ((groupId group player in _chGrps && leader player isEqualTo player) || (_chName == "Company Channel" && leader player isEqualTo player)) then {
+			if (((groupId group player in _chGrps && leader player isEqualTo player) || (_chName == "Company Channel" && leader player isEqualTo player)) && {f_param_radioMode == 0}) then {
 				_joinText = _joinText + format["<br/><font color='#999999'>Automatically added to </font><font color='#72E500'>%1</font>", _chName];
 				[_chID, _chName] spawn {
 					uiSleep 5;
@@ -119,6 +141,38 @@ if hasInterface then {
 				};
 			};
 		} forEach _chList;
+		
+		if (f_param_radioMode == 1) then {
+			// Set default company channel if it hasn't already been set
+			if (isNil "f_radios_companyChannel") then {
+				f_radios_companyName = _chList#0#0;
+				f_radios_companyID = _chList#0#1;
+			};
+		
+			// Auto switch to Command Net when taking backpack
+			f_eh_takeRadio = player addEventHandler ["Take", 
+				{
+					params ["_unit","_container","_item"];
+					
+					if (f_param_radioMode != 1) exitWith {};
+					
+					// If a radio backpack is taken
+					if (_item in f_var_radioBackpacks) then {
+					
+						// Automatically move over old backpack items.
+						_foundBackpack = firstBackpack _container;
+						
+						if (!isNull _foundBackpack) then {
+							{ _unit addItemToBackpack _x; } forEach (backpackItems _foundBackpack);
+							clearAllItemsFromBackpack _foundBackpack;
+						};
+						
+						// Allow unit access to the channels.
+						[f_radios_companyName, f_radios_companyID, true] call f_fnc_radioSwitchChannel;
+					};
+				}
+			];
+		};
 		
 		// CO option to join/Leave all channels
 		if (rank player == "COLONEL") then {

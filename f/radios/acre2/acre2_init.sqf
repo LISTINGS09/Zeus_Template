@@ -9,7 +9,7 @@ if (!isDedicated && (isNull player)) then {
 	waitUntil {sleep 0.1; !isNull player};
 };
 
-// Include settings file.
+// Load settings file.
 #include "..\..\..\mission\radios.sqf";
 
 // Convert default LR strings to correct array format.
@@ -17,14 +17,15 @@ if (!isDedicated && (isNull player)) then {
 	if (_x isEqualType "") then { f_radios_settings_longRangeGroups set [_foreachIndex,[_x,[]]]; };
 } forEach f_radios_settings_longRangeGroups;
 
-private _grpBLU = []; private _grpOPF = []; private _grpIND = []; private _grpCIV = [];
-
-// Include Group List
+// Load Group List
 #include "..\..\..\mission\groups.sqf";
 
 // Check for SRs and LR Group Names
 {
-	_x params ["_side","_chArray"];
+	_x params ["_side"];
+	
+	_chArray = missionNamespace getVariable [format["f_var_groups%1", _side], []];
+	
 	if (count _chArray > 0) then {
 		private _tempSRgrps = [];
 		private _tempLRgrps = [];
@@ -54,7 +55,7 @@ private _grpBLU = []; private _grpOPF = []; private _grpIND = []; private _grpCI
 			missionNamespace setVariable [format["f_radios_settings_acre2_lr_groups_%1",_side], f_radios_settings_longRangeGroups];
 		};
 	};
-} forEach [[west,_grpBLU], [east,_grpOPF], [independent,_grpIND], [civilian,_grpCIV]];
+} forEach [west, east, independent, civilian];
 
 
 private _f_fnc_acrePresetChannels = {

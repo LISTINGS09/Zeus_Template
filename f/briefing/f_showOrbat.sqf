@@ -29,7 +29,7 @@ private _hiddenGroups = missionNamespace getVariable["f_var_hiddenGroups",[]]; /
 	private _color = "#397200";
 	
 	// Highlight the player's group with a different color (based on the player's side)	
-	if (_x == group player) then { _color = "#72E500"; };
+	if (_x == group player) then { _color = "#00FFFF"; };
 	
 	_orbatText = _orbatText + format ["<font color='%3'>%1</font> - %2",_groupName, name leader _x,_color] + "<br />";
 	

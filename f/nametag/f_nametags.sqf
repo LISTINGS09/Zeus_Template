@@ -9,7 +9,7 @@ if (!isDedicated && (isNull player)) then {
 };
 
 // Only run in MP and for valid players!
-if (!isMultiplayer || !hasInterface || playerSide == sideLogic || isClass(configFile >> "CfgPatches" >> "ace_main")) exitWith {};
+if (!isMultiplayer || !hasInterface || playerSide == sideLogic) exitWith {};
 
 f_fnc_drawNameTag = compileFinal preprocessFileLineNumbers "f\nametag\fn_drawNametag.sqf";
 
@@ -54,7 +54,7 @@ F_KEYDOWN_NAMETAG = {
 	if(_key == F_ACTIONKEY_NAMETAGS) then
 	{
 		F_DRAW_NAMETAGS = !F_DRAW_NAMETAGS;
-		systemChat format["[F3] %1 unit name tags", if (F_DRAW_NAMETAGS) then {"Enabled"} else {"Disabled"}];
+		titleText [format["%1 unit tags", if (F_DRAW_NAMETAGS) then {"Enabled"} else {"Disabled"}], "PLAIN DOWN", 2];
 		_handeld = true;
 	};
 	_handeld;
@@ -118,6 +118,8 @@ if (count (squadParams player) > 0) then {
 	if (toUpper ((squadParams player) # 0 # 0) == "ZEUS") then { F_DRAW_NAMETAGS = false };
 };
 
+if (isClass(configFile >> "CfgPatches" >> "ace_main")) then { F_DRAW_NAMETAGS = false };
+
 //(findDisplay 46) displayAddEventHandler   ["keyup", "_this call F_KEYUP_NAMETAG"];
 (findDisplay 46) displayAddEventHandler   ["keydown", "_this call F_KEYDOWN_NAMETAG"];
 
@@ -149,6 +151,9 @@ addMissionEventHandler ["Draw3D", {
 				// If the entity is Infantry
 				if((typeOf _x) isKindOf "Man") then {
 					_pos = getPosVisual _x;
+					
+					if (surfaceIsWater _pos) then { _pos set [2, (getPosASL _x)#2] }; 
+					
 					[_x,_pos] call f_fnc_drawNameTag;
 				} else {
 					// Else (if it's a vehicle)
@@ -159,12 +164,12 @@ addMissionEventHandler ["Draw3D", {
 					{
 						// Get the various crew slots
 						_suffix = switch (true) do {
-							case (driver _veh == _x && !((_veh isKindOf "helicopter") || (_veh isKindOf "plane"))):{" - D"};
-							case (driver _veh == _x && ((_veh isKindOf "helicopter") || (_veh isKindOf "plane"))):{" - P"};
+							case (driver _veh == _x && !((_veh isKindOf "helicopter") || (_veh isKindOf "plane"))):{" [D]"};
+							case (driver _veh == _x && ((_veh isKindOf "helicopter") || (_veh isKindOf "plane"))):{" [P]"};
 							case (commander _veh == _x);
-							case (effectiveCommander _veh == _x):{" - CO"};
-							case (gunner _veh == _x):{" - G"};
-							case (assignedVehicleRole _x select 0 == "Turret" && commander _veh != _x && gunner _veh != _x && driver _veh != _x):{" - C"};
+							case (effectiveCommander _veh == _x):{" [CO]"};
+							case (gunner _veh == _x):{" [G]"};
+							case (assignedVehicleRole _x select 0 == "Turret" && commander _veh != _x && gunner _veh != _x && driver _veh != _x):{" [C]"};
 							default {""};
 						};
 
