@@ -352,7 +352,7 @@ ZRF_fnc_CreateReinforcements = {
 			
 			// Convert crew if using another faction vehicle.
 			if (([getNumber (configFile >> "CfgVehicles" >> _unitClass >> "Side")] call BIS_fnc_sideType) != _side) then {
-				_reinfGrp = createGroup _side;
+				_reinfGrp = createGroup [_side, true];
 				(crew _veh) join _reinfGrp;
 			};
 			
