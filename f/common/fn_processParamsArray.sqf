@@ -105,9 +105,14 @@ if (isNil "f_var_setParams") then {
 				};
 			};
 		};
-				
+		
+		// Load and send all groups to clients
+		#include "..\..\mission\groups.sqf";
+		{ publicVariable format["f_var_groups%1", _x] } forEach [west, east, independent, civilian];
+		
+		// Let the client know params are set.
 		if (_paramsLoaded) then {
-			missionNamespace setVariable ["f_var_setParams",true,true]; // Lets the client know params are set.
+			missionNamespace setVariable ["f_var_setParams",true,true]; 
 			
 			if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { 
 				diag_log text format["[F3] DEBUG (fn_processParamsArray.sqf): f_var_setParams: %1",f_var_setParams];

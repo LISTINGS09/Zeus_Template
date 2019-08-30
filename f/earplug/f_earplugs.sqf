@@ -38,6 +38,7 @@ F_KEYDOWN_EARPLUG = {
 
 // ADD BRIEFING SECTION
 // A section is added to the player's briefing to inform them about name tags being available.
+//player removeDiaryRecord ["Diary", "Ear Plugs"];
 private _ear = player createDiaryRecord ["Diary", ["Ear Plugs", format["
 	<br/><font size='18' color='#80FF00'>EAR PLUGS</font><br/>%1 in the mission by pressing <font color='#00FFFF'>%2</font color>.<br/><br/>When enabled, these will isolate ambient combat and vehicle sounds while leaving voice communications clear.",
 	if (isClass(configFile >> "CfgPatches" >> "ace_main")) then { "In addition to ACE Earplugs, you may equip a set of Enhanced Ear Plugs" } else { "Toggle ear plugs" },

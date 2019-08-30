@@ -13,8 +13,6 @@ if ("ace_main" in activatedAddons) then {
 	waitUntil{(player getVariable ["f_var_assignGear_done", FALSE]) || time > _timeUntil};
 };
 
-if !(player getVariable ["f_var_assignGear_done", FALSE]) exitWith { player setVariable ["f_var_assignGear_done", TRUE] };
-
 _text = "<br/><font size='18' color='#80FF00'>LOADOUT SELECTION</font><br/><br/>
 You may change your gear from the standard load-out using the selections below. The default kit for your unit class is the first item in the list.<br/>
 <br/>
@@ -401,4 +399,5 @@ _text = _text + "<br/><br/><font size='18' color='#80FF00'>MISC ITEMS (#):</font
 } forEach (assignedItems player - ["Rangefinder","Binocular","Laserdesignator","ACE_Vector"]);
 
 // ADD DIARY SECTION
+//player removeDiaryRecord ["Diary", format["Loadout (%1)",name player]];
 _att = player createDiaryRecord ["Diary", [format["Loadout (%1)",name player], _text]];

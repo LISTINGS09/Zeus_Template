@@ -47,6 +47,7 @@ if (count _unitList > 0 && !(player in _unitList)) exitWith {};
 _string = if (f_var_mapClickTeleport_Height == 0) then {"Fast Travel"} else {"HALO Drop"};
 
 // Add briefing for SLs
+//player removeDiaryRecord ["Diary", _string];
 private _tel = player createDiaryRecord ["Diary", [_string, format["
 	<br/><font size='18' color='#80FF00'>%2</font>
 	<br/>You may use the <font color='#00FFFF'>%1</font color> option to initiate the %2%3%4%5%6",

@@ -12,9 +12,6 @@ f_fnc_localGroupMarker = compileFinal preprocessFileLineNumbers "f\groupMarkers\
 // If Commander-Only markers are selected, exit here
 if ((rank player) in ["PRIVATE", "CORPORAL", "SERGEANT"] && f_param_groupMarkers in [4,5]) exitWith {};
 
-// Load groups
-#include "..\..\mission\groups.sqf";
-
 // Process list
 {
 	_x spawn f_fnc_localGroupMarker;

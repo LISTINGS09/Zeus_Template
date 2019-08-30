@@ -29,6 +29,7 @@ if (count _languages > 1) then {
 
 if (f_radios_settings_disableAllRadios) exitWith {
 	_radioText = _radioText + "<br/>Radios are <font color='#FF0000'>NOT PROVIDED</font> to units as standard kit for this mission.";
+	//player removeDiaryRecord ["Diary", "Signal"];
 	player createDiaryRecord ["Diary", ["Signal",_radioText]];
 };
 
@@ -98,4 +99,5 @@ _radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Long Rang
 
 _radioText = _radioText + format["<br/><br/><br/>Problem? Re-run the <execute expression='[] call f_acre2_reinitRadio;'>Radio Setup</execute> script to attempt to re-add any radios.", _groupFreqIndex, _groupLRFreqIndex];
 
+//player removeDiaryRecord ["Diary", "Signal"];
 player createDiaryRecord ["Diary", ["Signal",_radioText]];

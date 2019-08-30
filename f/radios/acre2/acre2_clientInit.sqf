@@ -66,8 +66,6 @@ _spokenLanguages call acre_api_fnc_babelSetSpokenLanguages;
 private _presetSRArray = missionNamespace getVariable [format["f_radios_settings_acre2_sr_groups_%1", playerSide],[]];
 private _presetLRArray = missionNamespace getVariable [format["f_radios_settings_acre2_lr_groups_%1", playerSide],[]];
 
-waitUntil{!isNil "f_var_setGroupsIDs";};
-
 // ASSIGN DEFAULT CHANNELS TO RADIOS
 private _groupSRChannelIndex = -1;
 private _groupLRChannelIndex = 0;

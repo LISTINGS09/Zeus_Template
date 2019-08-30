@@ -230,9 +230,11 @@ FAR_fnc_SetUnconscious = {
 	// Announce Message.
 	[_unit, _killer, ["killed", "injured"] select FAR_var_InstantDeath] spawn FAR_fnc_DeathMessage;
 	
-	private _bPool = createSimpleObject [selectRandom ["BloodSpray_01_New_F","BloodSplatter_01_Medium_New_F"], getPosWorld _unit]; 
-	_bPool setDir random 360; 
-	_bPool setVectorUp surfaceNormal getPosWorld _unit;
+	if !([_unit] call FAR_fnc_isUnderwater) then {
+		private _bPool = createSimpleObject [selectRandom ["BloodSpray_01_New_F","BloodSplatter_01_Medium_New_F"], getPosWorld _unit]; 
+		_bPool setDir random 360; 
+		_bPool setVectorUp surfaceNormal getPosWorld _unit;
+	};
     
 	if (isPlayer _unit) then {
 		titleText ["", "BLACK IN", 1];
@@ -393,8 +395,9 @@ FAR_fnc_Revive = {
 	params ["_target", "_caller", "_actionId", "_arguments"];
 	
 	private _cursorTarget = cursorTarget; // Can't be passed in addAction arguments!
+	private _underwater = [_caller] call FAR_fnc_isUnderwater;
 	
-	if !([_caller] call FAR_fnc_isUnderwater) then {
+	if (!_underwater) then {
 		_caller playMove format["AinvP%1MstpSlayW%2Dnon_medicOther", ["knl","pne"] select (stance _caller == "PRONE"), [["rfl","pst"] select (currentWeapon _caller isEqualTo handgunWeapon _caller), "non"] select (currentWeapon _caller isEqualTo "")];
 	};
 	_cursorTarget setVariable ["FAR_var_isDragged", false, true]; 
@@ -402,15 +405,18 @@ FAR_fnc_Revive = {
 	sleep 4;
 			
 	if (lifeState _cursorTarget == "INCAPACITATED") then {
-		private _simpleObj = createSimpleObject [selectRandom [ "MedicalGarbage_01_1x1_v1_F", "MedicalGarbage_01_1x1_v2_F", "MedicalGarbage_01_1x1_v3_F" ], getPosWorld _caller];
-		_simpleObj setDir random 360;
-		_simpleObj setVectorUp surfaceNormal getPosWorld _caller;
+		if (!_underwater) then {
+			private _simpleObj = createSimpleObject [selectRandom [ "MedicalGarbage_01_1x1_v1_F", "MedicalGarbage_01_1x1_v2_F", "MedicalGarbage_01_1x1_v3_F" ], getPosWorld _caller];
+			_simpleObj setDir random 360;
+			_simpleObj setVectorUp surfaceNormal getPosWorld _caller;
+		};
 		
 		if !("Medikit" in (items _caller)) then { _caller removeItem "FirstAidKit" };
 		
 		[_cursorTarget, false] remoteExec ["setUnconscious", _cursorTarget];
 		sleep 1;
-		[[format["You were revived by %1",name _caller],"PLAIN DOWN", 2]] remoteExec ["TitleText", _cursorTarget];
+		[[format["<t color='#FF0080' size='1.5'>Revived </t><t size='1.5'> by %1</t>", name player], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
+		_cursorTarget forceWalk false;
 	};
 };
 
@@ -439,8 +445,9 @@ FAR_fnc_Stabilize = {
 	params ["_target", "_caller", "_actionId", "_arguments"];
 	
 	private _cursorTarget = cursorTarget; // Can't be passed in addAction arguments!
+	private _underwater = [_caller] call FAR_fnc_isUnderwater;
 	
-	if !([_caller] call FAR_fnc_isUnderwater) then {
+	if (!_underwater) then {
 		_caller playMove format["AinvP%1MstpSlayW%2Dnon_medicOther", ["knl","pne"] select (stance _caller == "PRONE"), [["rfl","pst"] select (currentWeapon _caller isEqualTo handgunWeapon _caller), "non"] select (currentWeapon _caller isEqualTo "")];
 	};
 	playSound3D [
@@ -454,14 +461,16 @@ FAR_fnc_Stabilize = {
 	];
 		
 	if (lifeState _cursorTarget == "INCAPACITATED" && !(_cursorTarget getVariable ["FAR_var_isStable",false])) then {
-		private _simpleObj = createSimpleObject ["MedicalGarbage_01_FirstAidKit_F", getPosWorld _caller];
-		_simpleObj setDir random 360;
-		_simpleObj setVectorUp surfaceNormal getPosWorld _caller;
+		if (!_underwater) then {
+			private _simpleObj = createSimpleObject ["MedicalGarbage_01_FirstAidKit_F", getPosWorld _caller];
+			_simpleObj setDir random 360;
+			_simpleObj setVectorUp surfaceNormal getPosWorld _caller;
+		};
 		
 		if !("Medikit" in (items _caller)) then {
 			if !("FirstAidKit" in (items _caller)) then {
 				_cursorTarget removeItem "FirstAidKit";
-				[[format["%1 used a FAK from your inventory to stabilise you",name _caller],"PLAIN DOWN", 2]] remoteExec ["TitleText", _cursorTarget];
+				[[format["<t color='#FF0080' size='1.5'>Stabilised</t><t size='1.5'> by %1 using a FAK from your inventory</t>", name _caller], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
 			} else {
 				_caller removeItem "FirstAidKit";
 			};
@@ -823,7 +832,7 @@ FAR_fnc_UnitMove = {
 	_animList = ["acinpercmstpsnonwnondnon", "acinpknlmstpsraswrfldnon", "acinpknlmstpsnonwpstdnon", "acinpknlmstpsnonwnondnon", "acinpknlmwlksraswrfldb", "acinpknlmwlksnonwnondb"];
 	
 	if (_type == "drag") then {
-		[_caller, ""] remoteExec ["switchMove"];
+		_caller forceWalk true;
 		[_caller, "grabDrag"] remoteExec ["playActionNow", _caller];
 		
 		_cursorTarget attachTo [_caller, [0, 1.1, 0.092]];

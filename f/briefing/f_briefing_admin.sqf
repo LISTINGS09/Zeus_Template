@@ -10,6 +10,7 @@ if (isNil "f_var_CustomNotes") then {
 	f_var_CustomNotes = "";
 };
 
+//player removeDiarySubject "ZeuAdmin";
 player createDiarySubject ["ZeuAdmin","** Admin **"];
 
 // ====================================================================================
@@ -260,7 +261,7 @@ _encodeText = {
 	| <execute expression=""{ call compile ((triggerStatements %2)#2); } remoteExec ['BIS_fnc_spawn',0]; hintSilent '%2 Code Executed (Global)';"">Exec Global</execute>:<br/>
 	<font color='#BB8888'>%1</font><br/>", [(triggerStatements _x)#2] call _encodeText, _x] };
 	
-} forEach allMissionObjects "EmptyDetector";
+} forEach (allMissionObjects "EmptyDetector" select { vehicleVarName _x != "" });
 
 player createDiaryRecord ["ZeuAdmin", ["Triggers",_missionTrigger]];
 

@@ -3,8 +3,6 @@
 
 ["tfr_clientInit.sqf",format["Running for %1",player],"INFO"] call f_fnc_logIssue;
 
-#include "..\..\..\mission\groups.sqf";
-
 private _sideSRGroups = [];
 private _sideLRGroups = [];
 
@@ -30,8 +28,6 @@ if (count _sideLRGroups == 0) then {
 		if (_x isEqualType "") then { _sideLRGroups pushBack [_x,[]]; };
 	} forEach f_radios_settings_longRangeGroups;
 };
-
-waitUntil{!isNil "f_var_setGroupsIDs";};
 
 private _playerSRindex = -1;
 private _playerLRindex = 0;

@@ -40,6 +40,7 @@ if (count _SRGroups == 0) exitWith {
 
 if (f_radios_settings_disableAllRadios) exitWith {
 	_radioText = _radioText + "<br/>Radios are <font color='#FF0000'>NOT PROVIDED</font> to units as standard kit for this mission.";
+	//player removeDiaryRecord ["Diary", "Signal"];
 	_rad = player createDiaryRecord ["Diary", ["Signal",_radioText]];
 };
 
@@ -117,5 +118,6 @@ if (isNil "f_tfar_localSRfreq") then {
 };
 
 if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { diag_log text "[F3] DEBUG (tfr_briefing.sqf): Loaded."; };
-_rad = player createDiaryRecord ["Diary", ["Signal",_radioText]];
 
+//player removeDiaryRecord ["Diary", "Signal"];
+_rad = player createDiaryRecord ["Diary", ["Signal",_radioText]];

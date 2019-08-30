@@ -103,6 +103,7 @@ Name tags are displayed when aiming at individual units up to %4m away, and cons
 	[<execute expression=""f_size_Nametags = 0.035;  hintSilent format['Tag Size: %1', f_size_Nametags];"">Reset to Default</execute>]<br/>
 	";
 
+	//player removeDiaryRecord ["Diary", "NameTags (Options)"];
 	player createDiaryRecord ["Diary", ["NameTags (Options)",_bstr]];
 };
 

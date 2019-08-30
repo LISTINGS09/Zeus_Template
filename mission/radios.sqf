@@ -1,10 +1,8 @@
 // F3 - TFR/ACRE Settings
 // Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
-// ====================================================================================
-// SHARED SETTINGS (ACRE and TFAR)
-// ====================================================================================
-// Whether any radios should be assigned at all, to any units
-// TRUE = Disable radios for all units
+
+// SHARED SETTINGS (ACRE / TFAR / VANILLA)
+// Should any radios should be assigned at all, to anyone?
 f_radios_settings_disableAllRadios = false;
 
 // Unit types you want to give a long-range
@@ -22,26 +20,26 @@ f_radios_settings_personalRadio = ["leaders"];
 // Set custom LR Nets if required (LR otherwise determined by 'groups.sqf').
 f_radios_settings_longRangeGroups = ["Company", "Platoon 1", "Platoon 2", "Air", "Support", "Logisitics"]; // "NEUTRAL" is shared in ACRE.
 
+// If a backpack is to be assigned, use this class.
+//f_radios_WESTBackpack = "tf_rt1523g_black";
+//f_radios_EASTBackpack = "tf_mr3000_bwmod";
+//f_radios_GUERBackpack = "tf_anprc155_coyote";
+
 // ====================================================================================
 // TFAR SPECFIC
 // ====================================================================================
 
 // TFAR - The password of TS channel in "serious" mode.
-tf_radio_channel_password = "123";
+TFAR_Teamspeak_Channel_Password = "123";
 
 // TFAR - The name of TS channel in "serious" mode. 
-tf_radio_channel_name = "Task Force Radio Only";
-
-// Override the default TFAR LR Radio Class names
-//TF_defaultWestBackpack = "tf_rt1523g_black";
-//TF_defaultEastBackpack = "tf_mr3000_bwmod";
-//TF_defaultGuerBackpack = "tf_anprc155_coyote";
+TFAR_Teamspeak_Channel_Name = "Task Force Radio Only";
 
 // Encryption code for side.
 // Sides can communicate with the each other if these values are not different!
-tf_west_radio_code = "1";
-tf_east_radio_code = "2";
-tf_guer_radio_code = "3";
+tf_west_radio_code = "_bluefor";
+tf_east_radio_code = "_opfor";
+tf_guer_radio_code = "_independent";
 
 // TFAR Frequencies
 // Sets the LR and SR Frequencies for each side.
@@ -52,16 +50,17 @@ TFAR_defaultFrequencies_lr_east = ["40","40.2","40.4","40.6","40.8","41","41.2",
 TFAR_defaultFrequencies_sr_independent = ["500","501","502","503","504","505","506","507"];
 TFAR_defaultFrequencies_lr_independent = ["50","50.2","50.4","50.6","50.8","51","51.2","51.4","51.6"];
 
-tf_freq_west =    [0 ,7, TFAR_defaultFrequencies_sr_west,0, tf_west_radio_code, -1, 0, getPlayerUID player, false];
-tf_freq_west_lr = [0 ,7, TFAR_defaultFrequencies_lr_west,0, tf_west_radio_code, -1, 0,false];
-tf_freq_east  =   [0 ,7, TFAR_defaultFrequencies_sr_east,0, tf_east_radio_code, -1, 0, getPlayerUID player, false];
-tf_freq_east_lr = [0 ,7, TFAR_defaultFrequencies_lr_east,0, tf_east_radio_code, -1, 0,false];
-tf_freq_guer  =   [0 ,7, TFAR_defaultFrequencies_sr_independent,0, tf_guer_radio_code, -1, 0, getPlayerUID player, false];
-tf_freq_guer_lr = [0 ,7, TFAR_defaultFrequencies_lr_independent,0, tf_guer_radio_code, -1, 0,false];
+TFAR_defaultFrequencies_sr_west = [0 ,7, TFAR_defaultFrequencies_sr_west,0, tf_west_radio_code, -1, 0, getPlayerUID player, false];
+TFAR_defaultFrequencies_lr_west = [0 ,7, TFAR_defaultFrequencies_lr_west,0, tf_west_radio_code, -1, 0, false];
+TFAR_defaultFrequencies_sr_east = [0 ,7, TFAR_defaultFrequencies_sr_east,0, tf_east_radio_code, -1, 0, getPlayerUID player, false];
+TFAR_defaultFrequencies_lr_east = [0 ,7, TFAR_defaultFrequencies_lr_east,0, tf_east_radio_code, -1, 0, false];
+TFAR_defaultFrequencies_sr_independent = [0 ,7, TFAR_defaultFrequencies_sr_independent,0, tf_guer_radio_code, -1, 0, getPlayerUID player, false];
+TFAR_defaultFrequencies_lr_independent = [0 ,7, TFAR_defaultFrequencies_lr_independent,0, tf_guer_radio_code, -1, 0, false];
 
 // ====================================================================================
 // ACRE SPECFIC
 // ====================================================================================
+
 // Any units that get a PRC117F radio e.g. "co", "pp"
 f_radios_settings_acre2_extraRadios = ["co","dc","pp","vc"];
 

@@ -262,4 +262,5 @@ if (count _vehArray > 0) then {
 };
 
 // Insert final result into subsection ORBAT of section Notes
+//player removeDiaryRecord ["Diary", "ORBAT"];
 _orb = player createDiaryRecord ["Diary", ["ORBAT", _orbatText]];

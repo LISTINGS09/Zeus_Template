@@ -3,7 +3,7 @@
 
 // DECLARE VARIABLES AND FUNCTIONS
 private ["_side"];
-params[["_typeofUnit","",[""]],"_unit","_faction",["_skipCheck",false,[false]]];
+params[["_typeofUnit","",[""]],["_unit", player],"_faction",["_skipCheck",false,[false]]];
 
 // This is kept in incase older version of gear scripts are running...
 if (isNil "f_param_backpacks") then {f_param_backpacks = 1};
@@ -31,7 +31,7 @@ if (_faction isEqualType west) then {
 } else {
 	// Try and find the side from the faction given
 	_faction = toLower _faction;
-	_side = if (isClass (configFile >> "CfgGroups" >> _faction)) then { _faction; } else {	
+	_side = if (isClass (configFile >> "CfgGroups" >> _faction)) then { _faction } else {	
 		switch (getNumber (configFile >> "CfgFactionClasses" >> _faction >> "side")) do {
 			case 0: {"east"};
 			case 1: {"west"};
@@ -94,6 +94,7 @@ if (_isMan && _typeofUnit == "") then { // Try and work out the units type.
 		["_helicrew_"	,	"pc"	],
 		["_pilot_"		,	"pp"	],
 		["_cbrn_"		,	"cbrn"	],
+		["_radio"		,	"ro"	],
 		["t_1_"			,	"m"		],
 		["t_2_"			,	"rat"	],
 		["t_3_"			,	"ar"	],
@@ -134,12 +135,10 @@ if (_isMan && _typeofUnit == "") then { // Try and work out the units type.
 
 // SET A PUBLIC VARIABLE
 // A public variable is set on the unit, indicating their type. This is mostly relevant for the F3 respawn component
-_unit setVariable ["f_var_assignGear",_typeofUnit,true];
+_unit setVariable ["f_var_assignGear",_typeofUnit, true];
 
-// This variable simply tracks the progress of the gear assignation process, for other
-// scripts to reference.
-
-_unit setVariable ["f_var_assignGear_done",false,true];
+// This variable simply tracks the progress of the gear assignation process, for other scripts to reference.
+_unit setVariable ["f_var_assignGear_done", false];
 
 // Defined Loadouts for the Factions - YOU CAN DEFINE EACH FACTIONS GEAR IN THIS!
 #include "..\..\mission\loadout\assignedLoadouts.sqf";
@@ -203,7 +202,7 @@ if (_isMan && !_skipCheck) then {
 
 // This variable simply tracks the progress of the gear assignation process, for other
 // scripts to reference.
-_unit setVariable ["f_var_assignGear_done",true,true];
+_unit setVariable ["f_var_assignGear_done", true];
 
 // ERROR CHECKING
 // If the faction of the unit cannot be defined, the script exits with an error.

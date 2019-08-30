@@ -50,10 +50,16 @@ if (serverCommandAvailable "#kick" || !isMultiplayer || _incAdmin) then {
 
 player createDiaryRecord ["Diary", ["",""]];
 
+//player removeDiaryRecord ["Diary", "Administration"];
+//player removeDiaryRecord ["Diary", "Mission"];
+
 // Briefing from mission file
 #include "..\..\mission\briefing.sqf";
 
 player createDiaryRecord ["Diary", ["",""]];
+
+// Default non-commanders to group, commanders to side.
+if (leader player == player) then { setCurrentChannel 1 } else { setCurrentChannel 3 };
 
 // Automatically select Mission - Credits: Larrow
 waitUntil {!isNull (uiNamespace getVariable ["RscDiary", displayNull])};
@@ -68,3 +74,12 @@ _fnc_selectIndex = {
 
 [uiNamespace getVariable "RscDiary" displayCtrl 1001, "Briefing" ] call _fnc_selectIndex;
 [uiNamespace getVariable "RscDiary" displayCtrl 1002, "Mission" ] call _fnc_selectIndex;
+
+// Handle any authors not using the F3 assignGear script
+[] spawn {
+	uiSleep 2;
+	if !(player getVariable ["f_var_assignGear_done", false]) then {
+		["briefing.sqf","Gear was forced to finish for player","DEBUG"] call f_fnc_logIssue;
+		player setVariable ["f_var_assignGear_done", true];
+	};
+};

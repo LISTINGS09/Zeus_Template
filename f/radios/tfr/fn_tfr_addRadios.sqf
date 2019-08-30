@@ -9,17 +9,17 @@ private _typeofUnit = player getVariable ["f_var_assignGear", "NIL"];
 // DEFINE THE RADIOS THAT WILL BE USED
 switch (playerSide) do { //longrange, shortrange, rifradio
     case (west): {
-      _radio1 = TF_defaultWestBackpack;
-      _radio2 = TF_defaultWestPersonalRadio;	// Configurable
-      _radio3 = TF_defaultWestRiflemanRadio;};	// Basic
+      _radio1 = TFAR_DefaultRadio_Backpack_West;
+      _radio2 = TFAR_DefaultRadio_Personal_West;	// Configurable
+      _radio3 = TFAR_DefaultRadio_Rifleman_West;};	// Basic
     case (east): {
-      _radio1 = TF_defaultEastBackpack;
-      _radio2 = TF_defaultEastPersonalRadio;	// Configurable
-      _radio3 = TF_defaultEastRiflemanRadio;};	// Basic
+      _radio1 = TFAR_DefaultRadio_Backpack_East;
+      _radio2 = TFAR_DefaultRadio_Personal_East;	// Configurable
+      _radio3 = TFAR_DefaultRadio_Rifleman_East;};	// Basic
     default {
-      _radio1 = TF_defaultGuerBackpack;
-      _radio2 = TF_defaultGuerPersonalRadio;	// Configurable
-      _radio3 = TF_defaultGuerRiflemanRadio;};	// Basic
+      _radio1 = TFAR_DefaultRadio_Backpack_Independent;
+      _radio2 = TFAR_DefaultRadio_Personal_Independent;	// Configurable
+      _radio3 = TFAR_DefaultRadio_Rifleman_Independent;};	// Basic
 };
 
 // ASSIGN RADIOS TO UNITS

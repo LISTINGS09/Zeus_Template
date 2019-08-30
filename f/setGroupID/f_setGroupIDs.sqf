@@ -6,7 +6,6 @@ if !isServer exitWith {};
 
 // INCLUDE GROUP LIST
 private _grpList = []; 
-#include "..\..\mission\groups.sqf";
 
 // Local function to name group ID or wait until it is created
 _f_fnc_setGroupID = { 

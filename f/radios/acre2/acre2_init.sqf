@@ -9,16 +9,10 @@ if (!isDedicated && (isNull player)) then {
 	waitUntil {sleep 0.1; !isNull player};
 };
 
-// Load settings file.
-#include "..\..\..\mission\radios.sqf";
-
 // Convert default LR strings to correct array format.
 {
 	if (_x isEqualType "") then { f_radios_settings_longRangeGroups set [_foreachIndex,[_x,[]]]; };
 } forEach f_radios_settings_longRangeGroups;
-
-// Load Group List
-#include "..\..\..\mission\groups.sqf";
 
 // Check for SRs and LR Group Names
 {
