@@ -2,11 +2,11 @@
 // Simple, fair mortar script. Only engages known targets.
 // Usage - Put in INIT of artillery unit:
 // _nul = [this] execVM "scripts\mortar.sqf";
-if !isServer exitWith {};
+params [["_mortar", objNull]];
 
-sleep 5;
+if !(local _mortar) exitWith {};
 
-params ["_mortar"];
+sleep 1;
 
 _minDelay = 300; // Minimum delay between missions (maximum is 2x value).
 _closeDispersion = 100; // Target dispersion when < 300m from mortar.
@@ -22,12 +22,12 @@ while {alive _mortar && canFire _mortar} do {
 		_target = selectRandom _targetArr;
 		_dispersion = if (_mortar distance2D _target < 200) then {_closeDispersion} else {_maxDispersion};
 		for "_i" from 0 to (4 + random 4) do {
-			_firePos = [_target, random _dispersion, random 360] call BIS_fnc_relPos;
-			_mortar commandArtilleryFire [_firePos, (getArtilleryAmmo [_mortar] select 0), 1];
+			_firePos = _target getPos [random _dispersion, random 360];
+			(effectiveCommander _mortar) commandArtilleryFire [_firePos, ((getArtilleryAmmo [vehicle _mortar])#0), 1];
 			sleep 5;
 		};
 		
-		// Mission complete, so wait a while.
+		// Mission complete, so wait a while.	
 		_sleepTime = _minDelay + random _minDelay;
 	};
 	
