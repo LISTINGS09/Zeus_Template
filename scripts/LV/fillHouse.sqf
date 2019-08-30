@@ -1,13 +1,12 @@
 /*
-ARMA3 - FILL HOUSE SCRIPT v1.7 - by 26K, SPUn & lostvar
+ARMA3 - FILL HOUSE SCRIPT v1.8 - by 26K, SPUn & lostvar
 
 Fills house or buildings in defined range with soldiers
 
 Calling the script:
 default: _nul = [this] execVM "scripts\LV\fillHouse.sqf";
-custom:  _nul = [target, side, patrol, spawn rate, radius, skills] execVM "scripts\LV\fillHouse.sqf";
-
-example:  _nul = [thisTrigger, "NATO", FALSE, 1, 50, 1] execVM "scripts\LV\fillHouse.sqf";
+custom:  _nul = [this, "NATO", FALSE, 1, [1, round random 8], 15] execVM "scripts\LV\fillHouse.sqf";
+example: _nul = [thisTrigger, "NATO"] execVM "scripts\LV\fillHouse.sqf";
 
 Parameters:
 		
@@ -24,29 +23,127 @@ Parameters:
 				or	array	=	all AI skills individually in array, values 0-1.0, order:
 		[aimingAccuracy, aimingShake, aimingSpeed, spotDistance, spotTime, courage, commanding, general, reloadSpeed] 
 		ex: 	[0.75,0.5,0.6,0.85,0.9,1,1,0.75,1] 
-	
-EXAMPLE:
-_nul = [this, "NATO", FALSE, 1, [1, round random 8], 15] execVM "scripts\LV\fillHouse.sqf";
+
+// Code to list all the factions and sides
+_factionsFound = []; 
+{ 
+	_factionsFound pushBackUnique [ 
+		getText (configFile >> "CfgFactionClasses" >> (getText (_x >> "faction")) >> "displayName"), 
+		getText (configFile >> "CfgEditorSubcategories" >> (getText (_x >> "editorSubcategory")) >> "displayName"), 
+		getText (_x >> "faction"), 
+		getText (_x >> "editorSubcategory") 
+	]; 
+} forEach ("(configName _x iskindOf 'CAManBase') && getNumber(_x >> 'scope') == 2" configClasses (configFile >> "CfgVehicles"));
+_factionsFound sort TRUE; 
+copyToClipboard _factionsfound;
 */
+
 if !isServer exitWith{};
-private["_bPoss", "_rat", "_gSide", "_menArray", "_helper"];
+
+private["_bPoss", "_rat", "_side", "_tempList", "_soldierList", "_helper"];
 params [ "_center",
-	["_sideOption", "NATO"],
+	["_faction", "NATO"],
 	["_patrol", FALSE],
 	["_pDist", 100],
-	["_ratio", [2,2]],
-	["_radius", 1],
+	["_ratio", [2,3]],
+	["_radius", 25],
 	["_skills", [0.4,0.5,1,0.8,0.7,1,1,1,1]]
 ];
 
-#include "groupsList.sqf";
+// Backwards compatibility and for those too lazy to find class names
+_fSel = switch (_faction) do {
+	// WEST
+	case "CDF": 	{ ["rhsgref_faction_cdf_ground_b","rhsgref_EdSubcat_infantry"] };
+	case "CTRG": 	{ ["BLU_CTRG_F","EdSubcat_Personnel_Pacific"] };
+	case "FIAW": 	{ ["BLU_G_F","EdSubcat_Personnel"] };
+	case "POLICE": 	{ ["BLU_GEN_F","EdSubcat_Personnel"] };
+	case "HIDF": 	{ ["rhsgref_faction_hidf","rhsgref_EdSubcat_infantry"] };
+	case "NATO":	{ ["BLU_F","EdSubcat_Personnel"] };
+	case "NATOP": 	{ ["BLU_T_F","EdSubcat_Personnel"] };
+	case "NATOPSF": { ["BLU_T_F","EdSubcat_Personnel_SpecialForces"] };
+	case "NATOW":	{ ["BLU_W_F","EdSubcat_Personnel"] };
+	case "USAD": 	{ ["rhs_faction_usarmy_d","rhs_EdSubcat_infantry_ocp"] };
+	case "USAW": 	{ ["rhs_faction_usarmy_wd","rhs_EdSubcat_infantry_ucp"] };
+	case "USMCD": 	{ ["rhs_faction_usmc_d","rhs_EdSubcat_infantry"] };
+	case "USAW": 	{ ["rhs_faction_usmc_wd","rhs_EdSubcat_infantry"] };
+	case "GER": 	{ ["gm_fc_ge","gm_esc_men_80_autumn"] };
+	case "GERW": 	{ ["gm_fc_ge","gm_esc_men_80_winter"] };
 
-switch (typeName _center) do {
-	case "STRING": 	{_center = getMarkerPos _center};
-	case "OBJECT":	{_center = getPos _center};
+	// GUER
+	case "AAF": 	{ ["IND_F","EdSubcat_Personnel"] };
+	case "CDFO": 	{ ["rhsgref_faction_cdf_ground","rhsgref_EdSubcat_infantry"] };
+	case "CHDKZ": 	{ ["rhsgref_faction_chdkz_g","rhsgref_EdSubcat_infantry"] };
+	case "FIA": 	{ ["IND_G_F","EdSubcat_Personnel"] };
+	case "LDF": 	{ ["IND_E_F","EdSubcat_Personnel"] };
+	case "LOOT": 	{ ["IND_L_F","EdSubcat_Personnel"] };
+	case "NAPA": 	{ ["rhsgref_faction_nationalist","rhsgref_EdSubcat_infantry_militia"] };
+	case "NAPAP": 	{ ["rhsgref_faction_nationalist","rhsgref_EdSubcat_infantry_paramil"] };
+	case "SAF": 	{ ["rhssaf_faction_army","rhssaf_EdSubcat_army_infantry_oakleaf"] };
+	case "BAN": 	{ ["IND_C_F","EdSubcat_Personnel_Bandits"] };
+	case "SYND": 	{ ["IND_C_F","EdSubcat_Personnel_Paramilitary"] };
+
+	// EAST
+	case "ChDKZ": 	{ ["rhsgref_faction_chdkz","rhsgref_EdSubcat_infantry"] };
+	case "CSAT": 	{ ["OPF_F","EdSubcat_Personnel"] };
+	case "CSATU": 	{ ["OPF_F","EdSubcat_Personnel_Camo_Urban"] };
+	case "CSATSF": 	{ ["OPF_F","EdSubcat_Personnel_Viper"] };
+	case "CSATP": 	{ ["OPF_T_F","EdSubcat_Personnel"] };
+	case "CSATPSF":	{ ["OPF_T_F","EdSubcat_Personnel_Viper"] };
+	case "FIA": 	{ ["OPF_G_F","EdSubcat_Personnel"] };
+	case "RUEMR": 	{ ["rhs_faction_msv","rhs_EdSubcat_infantry_emr"] };
+	case "RU": 		{ ["rhs_EdSubcat_infantry_flora"] };
+	case "RUD": 	{ ["rhs_faction_vdv","rhs_EdSubcat_infantry_emr_des"] };
+	case "RUMF": 	{ ["rhs_faction_vdv","rhs_EdSubcat_infantry_mflora"] };
+	case "SAFE": 	{ ["rhssaf_faction_army_opfor","rhssaf_EdSubcat_army_infantry_digital"] };
+	case "SPZ":		{ ["OPF_R_F","EdSubcat_Personnel"] };
+	case "TAKI": 	{ ["Taki_Opfor","EdSubcat_Personnel"] };
+	case "TLA": 	{ ["rhsgref_faction_tla","rhsgref_EdSubcat_infantry"] };
+	case "EGER": 	{ ["gm_fc_gc","gm_esc_men_80"] };
+	case "EGERW": 	{ ["gm_fc_gc","gm_esc_men_80_winter"] };	
+	default 		{ "INVALID" };
 };
 
-if (_center in allMapMarkers) then { _center = getMarkerPos _center };
+if !(_fSel isEqualType []) exitWith {
+	systemChat format ["[FillHouse] ERROR - Invalid Faction: %1", _faction];
+	diag_log text format ["[FillHouse] ERROR - Invalid Faction: %1", _faction];
+};
+
+_fSel params ["_factionID","_factionCat"];
+
+// Get side of the faciton
+_side = [east, west, independent] select (getNumber (configFile >> "CfgFactionClasses" >> _factionID >> "side"));
+
+// Get all units with a weapon and non-parachute backpack.
+private _tempList = "getText (_x >> 'faction') == _factionID && getText (_x >> 'editorSubcategory') == _factionCat && (configName _x) isKindoF 'CAManBase' && getNumber(_x >> 'scope') == 2" configClasses (configFile >> "CfgVehicles");
+
+// Filter out and invalid unit types matching strings.
+_fnc_notInString = {
+	params ["_type"];
+	
+	private _notInString = TRUE;
+	{
+		if (toLower _type find _x >= 0) exitWith { _notInString = FALSE };
+	} forEach [ "_story", "_vr", "competitor", "ghillie", "miller", "survivor", "crew", "diver", "pilot", "rangemaster", "uav", "unarmed", "officer" ];
+	
+	_notInString
+};
+
+// Attempt to clear up the units list - Include units with at least one weapon and a non-parachute backpack.
+private _soldierList = _tempList select { ((configName _x) call _fnc_notInString) && (count getArray(_x >> "weapons") > 2) && (toLower getText (_x >> "backpack") find "para" < 0) };
+
+// If no units remain, use the original list.
+if (count _soldierList == 0) then { _soldierList = _tempList };
+
+// No units exist at all!
+if (count _soldierList == 0) exitWith {
+	systemChat format ["[FillHouse] ERROR - No units found for Faction: %1", _factionID];
+	diag_log text format ["[FillHouse] ERROR - No units found for Faction: %1", _factionID];
+};
+
+_center = switch (typeName _center) do {
+	case "STRING": 	{ getMarkerPos _center};
+	case "OBJECT":	{ getPos _center};
+};
 
 _bPoss = [];
 
@@ -58,24 +155,27 @@ if(_radius > 1) then {
 	_bPoss = (nearestBuilding _center) buildingPos -1;
 };
 
-if(count _bPoss == 0) exitWith {};
+if(count _bPoss == 0) exitWith {
+	systemChat format ["[FillHouse] ERROR - No valid positions at %1", getPos _bPoss];
+	diag_log text format ["[FillHouse] ERROR - No valid positions at %1", getPos _bPoss];
+};
 
 if (typeName _ratio == "ARRAY") then{
-	_rat = (_ratio select 0) + (random (_ratio select 1));
+	_rat = (_ratio#0) + (random (_ratio#1));
 }else{
 	_rat = ceil((_ratio / 100) * (count _bPoss));
 };
 
-_newGroup = createGroup [_gSide,TRUE];
+_newGroup = createGroup [_side,TRUE];
 
 // Disable VCOMAI
 _newGroup setVariable ["VCM_DISABLE", TRUE];
 
 for "_i" from 1 to _rat do {
-	if (count _bPoss == 0) exitWith {};
+	if (count _bPoss == 0 || _i > 60) exitWith {};
 	_tempPos = selectRandom _bPoss;
 	_bPoss = _bPoss - [_tempPos];
-    _unitType = selectRandom _menArray;
+    _unitType = selectRandom (_soldierList apply { configName _x });
 	
 	//if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { diag_log text format["[LV] DEBUG (fillHouse.sqf): Creating man %1 (%5) at %4. Positions: %2. Ratio: %3",_i,count _bPoss,_rat,_tempPos, _unitType]; };
 	if !(_unitType isKindOF "CAMANBASE") exitWith { diag_log text format ["[FillHouse] ERROR - Invalid Unit: %1", _unitType] };
@@ -107,27 +207,18 @@ for "_i" from 1 to _rat do {
 		// Check 3m
 		if (count (lineIntersectsWith [_unitEyePos, [_unitEyePos, 3, _dir] call BIS_fnc_relPos] select {_x isKindOf 'Building'}) > 0) then { 
 			_p4 pushBack _dir;
-			_helper = "Sign_Arrow_Direction_F";
 		} else { 
 			// Check 10m
 			if (count (lineIntersectsWith [_unitEyePos, [_unitEyePos, 10, _dir] call BIS_fnc_relPos] select {_x isKindOf 'Building'}) > 0) then { 
 				_p3 pushBack _dir;
-				_helper = "Sign_Arrow_Direction_Yellow_F";
 			} else { 
 				if (abs ((_unitEyePos getDir _unitBld) - _dir) >= 120) then {
 					_p1 pushBack _dir;
-					_helper = "Sign_Arrow_Direction_Green_F";
 				} else {
 					_p2 pushBack _dir;
-					_helper = "Sign_Arrow_Direction_Cyan_F";
 				};
 			};
 		};
-		
-		/*
-		_obj = createSimpleObject [_helper, [_unitEyePos, 1, _dir] call BIS_fnc_relPos]; 
-		_obj setDir _dir;
-		*/
 	};  
 		
 	// Pick a random angle from the best grouping.
@@ -138,6 +229,9 @@ for "_i" from 1 to _rat do {
 	} forEach [_p1, _p2, _p3, _p4];
 	
 	_unit doWatch (_unit getPos [200,_finalDir]);
+	
+	// Stop unit from wandering off
+	if (random 1 > 0.3) then { _unit disableAI "PATH" };
 	
 	// Semi-exposed area, set to kneel.
 	if (count (_p1 + _p2) >= 5 && random 1 > 0.2) then { _unit setUnitPos "MIDDLE" };
@@ -166,5 +260,7 @@ for "_i" from 1 to _rat do {
 		_x addCuratorEditableObjects [[_unit],TRUE];
 	} forEach allCurators;
 };
+
+_newGroup spawn { sleep 5; _this enableDynamicSimulation TRUE; };
 
 if (_patrol) then { [_newGroup, getPos leader _newGroup, _pDist] spawn BIS_fnc_taskPatrol };
