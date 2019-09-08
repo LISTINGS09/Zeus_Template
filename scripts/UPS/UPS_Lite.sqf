@@ -25,12 +25,12 @@ if !isServer exitWith {};
 _cycle = 10; 		// Script Cycle Time (seconds)
 _safeDist = 200; 	// How far to move when under attack in meters
 _closeEnough = 50; 	// WP Completion Radius
-_shareDist = 600; 	// AI Comms Range in meters
+_shareDist = 400; 	// AI Comms Range in meters
 _alertTime = 300; 	// AI Alert after spotting enemy
 _artyTime = 300;	// Arty delay between firing
 _artyRural = 200;	// Arty dispersion in rural areas
 _artyUrban = 100;	// Arty dispersion in urban areas
-_unitSkill = [['aimingAccuracy',0.25],['aimingShake',0.15],['aimingSpeed',0.35],['commanding',1],['courage',1],['endurance',1],['general',1],['reloadSpeed',1],['spotDistance',0.85],['spotTime',0.85]]; // Average AI
+_unitSkill = [['aimingAccuracy',0.25],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',0.85],['spotTime',0.85]]; // Average AI
 
 if (isNil "ZAI_Debug") then { ZAI_Debug = false }; // Disable debug mode if not set
 
@@ -121,6 +121,7 @@ if (!isNull _grpVehicle) then { _grp selectLeader driver _grpVehicle; [leader _g
 
 _grpType = ([(["","Man"] select _isMan), (["","Air"] select _isAir), (["","Ship"] select _isBoat), (["","Vehicle"] select _isCar), (["","Armoured"] select _isTank), (["","Static"] select _isStatic), (["","Artillery"] select _isArty) ] - [""]);
 _grp setVariable ["ZAI_Type", _grpType apply { toUpper _x }];
+_grp setVariable ["ZAI_Vehicle", _grpVehicle];
 ["DEBUG", format["[%1] was detected as %2", groupID _grp, _grpType  joinString ", "]] call _ZAI_fnc_LogMsg;
 
 if _isAir then { _closeEnough = 1000 }; // Tolerance high for choppers & planes
@@ -160,6 +161,7 @@ if (!_holdMove && !("NOSLOW" in _params)) then {
 	_grp setBehaviour "SAFE"; 
 	_grp setSpeedMode "LIMITED";
 	_grp setCombatMode "YELLOW";
+	{ _x setUnitPos "AUTO" } forEach units _grp;
 };
 
 // Set random pos if required.

@@ -269,6 +269,63 @@ _Heavy = ["rhsgref_ins_g_bmd1","rhsgref_ins_g_bmp1","rhsgref_ins_g_zsu234"];
 _Air = ["Taki_mi8_armed_F"];
 _CAS = ["Taki_mi8_armed_F"];
 
+
+***************************
+*** GLOBAL MOBILISATION ***
+***************************
+
+// East Germany - Winter
+_side = EAST;
+_Soldier = ["gm_gc_army_antitank_mpiak74n_rpg7_80_win","gm_gc_army_machinegunner_pk_80_win","gm_gc_army_rifleman_mpiak74n_80_win","gm_gc_army_squadleader_mpiak74n_80_win"];
+_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_str"];
+_Team = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_str",configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_mggroup_str"];
+_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry" >> "gm_gc_army_infantry_squad_win"];
+_Truck = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_motorizedinfantry" >> "gm_gc_army_motorizedinfantly_squad_ural4320_cargo"];
+_Light = ["gm_gc_army_brdm2_olw"];
+_Medium = ["gm_gc_army_bmp1sp2_olw","gm_gc_army_btr60pa_olw"];
+_Heavy = ["2gm_gc_army_t55a_olw","gm_gc_army_zsu234v1_olw"];
+_Air = [];
+_CAS = [];
+
+// East Germany - Summer
+_side = EAST;
+_Soldier = ["gm_gc_army_rifleman_mpiak74n_80_str","gm_gc_army_squadleader_mpiak74n_80_str","gm_gc_army_machinegunner_pk_80_str","gm_gc_army_antitank_mpiak74n_rpg7_80_str","gm_gc_army_squadleader_mpiak74n_80_str"];
+_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_borderguards" >> "gm_gc_bgs_infantry_post_str"];
+_Team = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_str",configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_infantry" >> "gm_ge_army_infantry_mggroup_str"];
+_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_infantry" >> "gm_gc_army_infantry_squad_str"];
+_Truck = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_motorizedinfantry" >> "gm_gc_army_motorizedinfantly_squad_ural4320_cargo"];
+_Light = ["gm_gc_army_brdm2"];
+_Medium = ["gm_gc_army_bmp1sp2","gm_gc_army_btr60pa"];
+_Heavy = ["2gm_gc_army_t55a","gm_gc_army_zsu234v1"];
+_Air = [];
+_CAS = [];
+
+// West Germany - Summer
+_side = WEST;
+_Soldier = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"];
+_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_80_ols"];
+_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_80_ols",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_mggroup_80_ols"];
+_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_squad_80_ols"];
+_Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_motorizedinfantry" >> "gm_ge_army_motorizedInfantry_squad_u1300l"];
+_Light = ["gm_ge_army_iltis_milan"];
+_Medium = ["gm_ge_army_fuchsa0_engineer","gm_ge_army_m113a1g_apc"];
+_Heavy = ["gm_ge_army_Leopard1a1a1","gm_ge_army_gepard1a1"];
+_Air = [];
+_CAS = [];
+
+// West Germany - Winter
+_side = WEST;
+_Soldier = ["gm_ge_army_machinegunner_mg3_parka_80_win","gm_ge_army_rifleman_g3a3_parka_80_win","gm_ge_army_squadleader_g3a3_p2a1_parka_80_win","gm_ge_army_grenadier_g3a3_parka_80_win"];
+_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_parka_80_win"];
+_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_parka_80_win",configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_mggroup_parka_80_win"];
+_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry" >> "gm_ge_army_infantry_squad_parka_80_win"];
+_Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_motorizedinfantry" >> "gm_ge_army_motorizedInfantry_squad_u1300l"];
+_Light = ["gm_ge_army_iltis_milan_win"];
+_Medium = ["gm_ge_army_fuchsa0_engineer_win","gm_ge_army_m113a1g_apc_win"];
+_Heavy = ["gm_ge_army_Leopard1a1a1_win","gm_ge_army_gepard1a1_win"];
+_Air = [];
+_CAS = [];
+
 */
 
 // Functions.
@@ -431,32 +488,44 @@ ZRF_fnc_CreateReinforcements = {
 			};
 		};
 	} else {
-		// Unit is a transport.
-		_reinfGrp setBehaviour "CARELESS";
-		_soldierArr = [selectRandom _manArray];
-		
-		for [{_i = 1}, {_i < (([_unitClass, true] call BIS_fnc_crewCount) - ([_unitClass, false] call BIS_fnc_crewCount))}, {_i = _i + 1}] do {
-			_soldierArr pushBack (selectRandom _manArray);
+		// No cargo seats so assume its CAS
+		if (count fullCrew [_grpVeh,"cargo",true] > 0) then {
+			_reinfGrp setBehaviour "CARELESS";
+			_soldierArr = [selectRandom _manArray];
+			
+			for [{_i = 1}, {_i < (([_unitClass, true] call BIS_fnc_crewCount) - ([_unitClass, false] call BIS_fnc_crewCount))}, {_i = _i + 1}] do {
+				_soldierArr pushBack (selectRandom _manArray);
+			};
+
+			_paraUnit = [[0,0,0], _side, _soldierArr] call BIS_fnc_spawnGroup;
+			{
+				_x assignAsCargo _grpVeh;
+				[_x] orderGetIn TRUE;
+				_x moveInCargo _grpVeh;
+				_x allowFleeing 0;
+			} forEach units _paraUnit;
+			
+			_landPos = [_targetPos, 300, random 360] call BIS_fnc_relPos;		
+			_unloadWP = _reinfGrp addWaypoint [_landPos, 100];
+			_unloadWP setWaypointStatements ["TRUE", "(vehicle this) land 'GET OUT'; {unassignVehicle _x; [_x] orderGetIn FALSE} forEach ((crew vehicle this) select {group _x != group this})"];
+			_newWP = _reinfGrp addWaypoint [waypointPosition _unloadWP, 0];
+			_newWP setWaypointStatements ["{group _x != group this && alive _x} count crew vehicle this == 0", ""];
 		};
 
-		_paraUnit = [[0,0,0], _side, _soldierArr] call BIS_fnc_spawnGroup;
-		{
-			_x assignAsCargo _grpVeh;
-			[_x] orderGetIn TRUE;
-			_x moveInCargo _grpVeh;
-			_x allowFleeing 0;
-		} forEach units _paraUnit;
-		
-		_landPos = [_targetPos, 300, random 360] call BIS_fnc_relPos;		
-		_unloadWP = _reinfGrp addWaypoint [_landPos, 100];
-		_unloadWP setWaypointStatements ["TRUE", "(vehicle this) land 'GET OUT'; {unassignVehicle _x; [_x] orderGetIn FALSE} forEach ((crew vehicle this) select {group _x != group this})"];
-		_newWP = _reinfGrp addWaypoint [waypointPosition _unloadWP, 0];
-		_newWP setWaypointStatements ["{group _x != group this && alive _x} count crew vehicle this == 0", ""];
-		
 		_weapCount = 0;
-		{
-			_weapCount = _weapCount + count ((vehicle leader _reinfGrp weaponsTurret _x) select { !(["CMFlareLauncher",_x] call BIS_fnc_inString) });			
-		} forEach ([[-1]] + (allTurrets (vehicle leader _reinfGrp))); 
+		{ _weapCount = _weapCount + count _x } forEach (([[-1]] + (allTurrets _grpVeh)) apply { (_grpVeh weaponsTurret _x) - [
+			"rhsusf_weap_CMDispenser_ANALE39",
+			"rhsusf_weap_CMDispenser_ANALE40",
+			"rhsusf_weap_CMDispenser_ANALE52",
+			"rhsusf_weap_CMDispenser_M130",
+			"rhs_weap_CMDispenser_ASO2",
+			"rhs_weap_CMDispenser_BVP3026",
+			"rhs_weap_CMDispenser_UV26",
+			"rhs_weap_MASTERSAFE",
+			"rhsusf_weap_LWIRCM",
+			"Laserdesignator_pilotCamera",
+			"rhs_weap_fcs_ah64"]
+		});
 		
 		// If has turrets hang around AO, otherwise despawn.
 		if (_weapCount > 1) then {

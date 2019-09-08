@@ -1,5 +1,5 @@
 /*
-ARMA3 - FILL HOUSE SCRIPT v1.8 - by 26K, SPUn & lostvar
+ARMA3 - FILL HOUSE SCRIPT v1.9 - by 26K, SPUn & lostvar
 
 Fills house or buildings in defined range with soldiers
 
@@ -156,8 +156,8 @@ if(_radius > 1) then {
 };
 
 if(count _bPoss == 0) exitWith {
-	systemChat format ["[FillHouse] ERROR - No valid positions at %1", getPos _bPoss];
-	diag_log text format ["[FillHouse] ERROR - No valid positions at %1", getPos _bPoss];
+	systemChat format ["[FillHouse] ERROR - No valid positions at %1", _center];
+	diag_log text format ["[FillHouse] ERROR - No valid positions at %1", _center];
 };
 
 if (typeName _ratio == "ARRAY") then{
