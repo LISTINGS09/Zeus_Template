@@ -130,6 +130,22 @@ switch (_TypNumber) do
     _Unit_Pool_T = ["I_G_Offroad_01_armed_F"];
     _Unit_Pool_A = ["B_Heli_Light_01_armed_F"];
   }; 
+// BLUFOR NATO Woodland (BLU_E_F)
+  case 13:
+  {
+    _Unit_Pool_S = ["B_W_Soldier_TL_F","B_W_Soldier_LAT2_F","B_W_Soldier_AT_F","B_W_Soldier_AA_F","B_W_soldier_M_F","B_W_Soldier_GL_F","B_W_Engineer_F","B_W_Soldier_AR_F","B_W_Medic_F"];
+    _Unit_Pool_V = ["B_T_LSV_01_armed_F","B_T_LSV_01_AT_F","B_T_Truck_01_covered_F","B_T_MRAP_01_hmg_F","B_T_MRAP_01_gmg_F"];
+    _Unit_Pool_T = ["B_T_APC_Wheeled_01_cannon_F","B_T_APC_Tracked_01_rcws_F","B_T_APC_Tracked_01_AA_F"];
+    _Unit_Pool_A = ["B_T_VTOL_01_armed_F","B_Heli_Light_01_armed_F","B_Heli_Attack_01_F","B_Heli_Transport_03_F","B_Heli_Transport_01_F"];
+  };
+// INDFOR LDF (IND_E_F)
+  case 14:
+  {
+    _Unit_Pool_S = ["I_E_Soldier_TL_F","I_E_Soldier_LAT2_F","I_E_Soldier_AR_F","I_E_Soldier_F","I_E_soldier_M_F","I_E_Soldier_GL_F","I_E_Engineer_F","I_E_Soldier_AT_F","I_E_Soldier_AA_F"];
+    _Unit_Pool_V = ["I_E_UGV_01_rcws_F","I_E_Truck_02_F"];
+    _Unit_Pool_T = ["I_E_APC_tracked_03_cannon_F"];
+    _Unit_Pool_A = ["I_E_Heli_light_03_dynamicLoadout_F"];
+  };
   
   
   
