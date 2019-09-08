@@ -97,7 +97,7 @@ F_EH_GroupEnter = addMissionEventHandler ["GroupIconOverEnter", {
 	_text = _text + format["Score: <t color='#46FF46'>%1</t><br/>Casualties: <t color='#FF0000'>%2</t><br/>Ratio: <t color='#FFFF46'>%3</t><br/><br/>",
 		_pts,
 		_cas,
-		if (_cas > 0) then { (_pts / _cas) toFixed 1 } else { _cas }
+		if (_cas > 0) then { (_pts / _cas) toFixed 1 } else { _pts }
 	];
 	
 	hintSilent parseText _text;

@@ -18,7 +18,7 @@ f_radios_settings_personalRadio = ["leaders"];
 //f_radios_settings_riflemanRadio = [];
 
 // Set custom LR Nets if required (LR otherwise determined by 'groups.sqf').
-f_radios_settings_longRangeGroups = ["Company", "Platoon 1", "Platoon 2", "Air", "Support", "Logisitics"]; // "NEUTRAL" is shared in ACRE.
+f_radios_settings_longRangeGroups = ["Company", "Platoon 1", "Platoon 2", "Air", "Support"]; // "NEUTRAL" is shared in ACRE.
 
 // If a backpack is to be assigned, use this class.
 //f_radios_WESTBackpack = "tf_rt1523g_black";

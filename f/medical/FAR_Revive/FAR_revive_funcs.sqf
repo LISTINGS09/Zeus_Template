@@ -56,25 +56,25 @@ FAR_fnc_PlayerActions = {
 	if (alive _unit && _unit isKindOf "CAManBase") then {	
 		// Revive
 		if (!isNil "FAR_act_Revive") then { _unit removeAction FAR_act_Revive };
-		FAR_act_Revive = _unit addAction ["Revive", FAR_fnc_Revive,[], 11, true, true, "", "call FAR_fnc_CheckRevive && {(cursorTarget distance _target) <= 2.8}",2.8];
+		FAR_act_Revive = _unit addAction ["Revive", FAR_fnc_Revive,[], 11, true, true, "", "call FAR_fnc_CheckRevive && {(cursorTarget distance _target) <= 3}"];
 				
 		// Bagging
 		if (!isNil "FAR_act_Bag") then { _unit removeAction FAR_act_Bag };		
-		FAR_act_Bag = _unit addAction ["Bag Body", FAR_fnc_Bag, [], 8, false, true, "", "(call FAR_fnc_CheckBag) && {(cursorObject distance _target) <= 2.8}",2.8];
+		FAR_act_Bag = _unit addAction ["Bag Body", FAR_fnc_Bag, [], 8, false, true, "", "(call FAR_fnc_CheckBag) && {(cursorObject distance _target) <= 2.5}"];
 		
 		// If everyone can revive so skip extended actions.
 		if (FAR_var_ReviveMode != 1) then {
 			// Stabilising
 			if (!isNil "FAR_act_Stabilise") then { _unit removeAction FAR_act_Stabilise };
-			FAR_act_Stabilise = _unit addAction ["Stabilize", FAR_fnc_Stabilize, [], 10, true, true, "", "(call FAR_fnc_CheckStabilize) && {(cursorTarget distance _target) <= 2.5}",2.5];
+			FAR_act_Stabilise = _unit addAction ["Stabilize", FAR_fnc_Stabilize, [], 10, true, true, "", "(call FAR_fnc_CheckStabilize) && {(cursorTarget distance _target) <= 3}"];
 			
 			// Dragging
 			if (!isNil "FAR_act_Dragging") then { _unit removeAction FAR_act_Dragging };
-			FAR_act_Dragging = _unit addAction ["Drag", FAR_fnc_UnitMove, ["drag"], 9, false, true, "", "(call FAR_fnc_CheckDragging) && {(cursorTarget distance _target) <= 2.5}",2.5];
+			FAR_act_Dragging = _unit addAction ["Drag", FAR_fnc_UnitMove, ["drag"], 9, false, true, "", "(call FAR_fnc_CheckDragging) && {(cursorTarget distance _target) <= 2.5}"];
 		
 			// Carrying
 			if (!isNil "FAR_act_Carry") then { _unit removeAction FAR_act_Carry };
-			FAR_act_Carry = _unit addAction ["Carry", FAR_fnc_UnitMove, ["carry"], 8, false, true, "", "(call FAR_fnc_CheckUnitCarry) && {(cursorTarget distance _target) <= 2.5}",2.5];
+			FAR_act_Carry = _unit addAction ["Carry", FAR_fnc_UnitMove, ["carry"], 8, false, true, "", "(call FAR_fnc_CheckUnitCarry) && {(cursorTarget distance _target) <= 2.5}"];
 			
 			// Loading
 			if (!isNil "FAR_act_UnitLoad") then { _unit removeAction FAR_act_UnitLoad };
@@ -289,11 +289,12 @@ FAR_fnc_SetUnconscious = {
 		
 		// Check unit is in correct animation.
 		if ((animationState _unit) select [0,3] != "unc" && 
+			(animationState _unit) != "amovppnemstpsnonwnondnon_amovppnemstpsraswrfldnon" &&
 			!(_unit getVariable ["FAR_var_isDragged", false]) &&
 			isNull (attachedTo _unit)
 		) then {
-			systemChat format["[DEBUG] animationState incorrect - Report this issue!", animationState _unit];
-			diag_log text format["[DEBUG] animationState was incorrect: %1", animationState _unit];
+			systemChat format["[ERROR] animationState incorrect!", animationState _unit];
+			diag_log text format["[ERROR] animationState was incorrect: %1", animationState _unit];
 			[_unit, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
 		};
 		
@@ -415,7 +416,7 @@ FAR_fnc_Revive = {
 		
 		[_cursorTarget, false] remoteExec ["setUnconscious", _cursorTarget];
 		sleep 1;
-		[[format["<t color='#FF0080' size='1.5'>Revived </t><t size='1.5'> by %1</t>", name player], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
+		[[format["<t color='#FF0080' size='1.5'>Revived</t><t size='1.5'> by %1</t>", name player], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
 		_cursorTarget forceWalk false;
 	};
 };

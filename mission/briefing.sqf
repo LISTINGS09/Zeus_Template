@@ -11,7 +11,7 @@ _adm = player createDiaryRecord ["Diary", ["Administration",[] call f_fnc_fillAd
 
 // Edit the if statement for different faction briefs.
 
-if (side player != CIVILIAN) then {
+if (side group player != CIVILIAN) then {
 	// The code below creates the execution sub-section of notes.
 	_exe = player createDiaryRecord ["Diary", ["Mission",format["
 	<br/><font size='18' color='#80FF00'>OBJECTIVES</font>

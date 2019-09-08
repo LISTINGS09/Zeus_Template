@@ -17,7 +17,8 @@ call compile preprocessFileLineNumbers "f\medical\FAR_revive\FAR_revive_funcs.sq
 
 
 if !hasInterface exitWith {};
-if (side player in FAR_var_SkipSide) exitWith {};
+if (FAR_var_SkipSide isEqualType sideLogic) then { FAR_var_SkipSide = [FAR_var_SkipSide] };
+if (side group player in FAR_var_SkipSide) exitWith {};
 
 // Create PP effects
 FAR_eff_ppVig = ppEffectCreate ["ColorCorrections", 1633];

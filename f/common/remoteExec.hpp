@@ -5,8 +5,9 @@ class Commands {
 	class execVM { allowedTargets=0; };					// f_setGroupIDs.sqf
 	class reveal { allowedTargets=0; }; 				// fn_tfr_aiHearing.sqf
 	class setFace { allowedTargets=0; jip=1; }; 		// f_assignGear_clothes.sqf
-	class radioChannelAdd { allowedTargets=0; }; 		// custom_init.sqf
-	class radioChannelRemove { allowedTargets=0; }; 	// custom_init.sqf
+	class radioChannelAdd { allowedTargets=0; }; 		// restricted_radios.sqf
+	class radioChannelRemove { allowedTargets=0; }; 	// restricted_radios.sqf
+	class setCurrentChannel { allowedTargets=0; }; 		// restricted_radios.sqf
 	class setDir { allowedTargets=0; }; 				// FAR Revive.sqf
 	class TitleText { allowedTargets=0; }; 				// FAR Revive.sqf
 	class switchMove { allowedTargets=0; }; 			// FAR Revive.sqf
@@ -33,4 +34,6 @@ class Functions {
 	class f_fnc_safety { allowedTargets=0; jip=1; };			// f_safeStartLoop.sqf
 	class f_fnc_assignGear { allowedTargets=0; };				// f_assignGear_AI.sqf
 	class f_fnc_mapClickTeleportGroup { allowedTargets=0; };	// fn_mapClickTeleportUnit.sqf
+	class f_fnc_radioSwitchChannel { allowedTargets=0; };		// restricted_radios.sqf
+	
 };

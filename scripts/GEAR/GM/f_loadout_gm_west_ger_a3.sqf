@@ -72,8 +72,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = "srifle_DMR_06_hunter_F";
 _glriflemag = "10Rnd_Mk14_762x51_Mag";
-_glriflemag_tr = "gm_20Rnd_762x51mm_B_T_DM21A1_g3_blk";
-_glmag = "";
+_glriflemag_tr = "10Rnd_Mk14_762x51_Mag";
+_glmag = "10Rnd_Mk14_762x51_Mag";
 
 // Smoke for FTLs, Squad Leaders, etc
 _glsmoke = "gm_1Rnd_265mm_smoke_single_yel_gc";

@@ -20,10 +20,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={2991.709,26.252916,7148.9365};
-		dir[]={0.41011095,-0.55995059,-0.71996915};
-		up[]={0.27715635,0.82851392,-0.48656237};
-		aside[]={-0.86895674,5.0943345e-007,-0.49497592};
+		pos[]={1555.3013,23.034063,725.19623};
+		dir[]={0.61798584,-0.37115064,0.69309533};
+		up[]={0.24701126,0.92856097,0.27703378};
+		aside[]={0.74640548,3.5823905e-007,-0.66551828};
 	};
 };
 binarizationWanted=0;
@@ -16422,7 +16422,7 @@ class Mission
 			class Attributes
 			{
 				name="TR_CMD_EVAC";
-				condition="{[thisTrigger, _x] call BIS_fnc_inTrigger} count [UnitBLU_CO, UnitOPF_CO, UnitGEU_CO] > 0";
+				condition="[UnitBLU_CO, UnitOPF_CO, UnitGEU_CO] findIf {_x inArea thisTrigger} > 0";
 				onActivation="""End1"" call BIS_fnc_endMissionServer;";
 				sizeA=25;
 				sizeB=25;
@@ -17599,7 +17599,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="this addAction [format[""<t color='#FF0000'>Take %1</t>"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")],{(_this select 1) playAction ""PutDown""; sleep 1; deleteVehicle (_this select 0);},"""",1,true,true,"""",""(_target distance _this) < 3""];";
+				init="this addAction [format[""<t color='#FF0000'>Take %1</t>"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")],{_caller playAction ""PutDown""; sleep 1; deleteVehicle _target;},"""",1,true,true,"""",""(_target distance _this) < 3""];";
 				name="INTEL_3";
 			};
 			id=3050;
@@ -17616,7 +17616,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="this addAction [format[""<t color='#FF0000'>Take %1</t>"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")],{(_this select 1) playAction ""PutDown""; sleep 1; deleteVehicle (_this select 0);},"""",1,true,true,"""",""(_target distance _this) < 3""];";
+				init="this addAction [format[""<t color='#FF0000'>Take %1</t>"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")],{_caller playAction ""PutDown""; sleep 1; deleteVehicle _target;},"""",1,true,true,"""",""(_target distance _this) < 3""];";
 				name="INTEL_2";
 			};
 			id=3051;
@@ -17633,7 +17633,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="this addAction [format[""<t color='#FF0000'>Take %1</t>"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")],{(_this select 1) playAction ""PutDown""; sleep 1; deleteVehicle (_this select 0);},"""",1,true,true,"""",""(_target distance _this) < 3""];";
+				init="this addAction [format[""<t color='#FF0000'>Take %1</t>"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")],{_caller playAction ""PutDown""; sleep 1; deleteVehicle _target;},"""",1,true,true,"""",""(_target distance _this) < 3""];";
 				name="INTEL_1";
 			};
 			id=3052;
@@ -19926,7 +19926,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="if isServer then {this setUnconscious true;}; [this, " \n """Revive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa"",   " \n """lifeState _target == 'INCAPACITATED' && _this distance _target < 3"",   " \n """lifeState _target == 'INCAPACITATED' && _caller distance _target < 3"",   " \n "{_caller playAction ""medic"";},   " \n "{},   " \n "{" \n " [_target,false] remoteExec [""setUnconscious"",_target]; sleep 2;" \n " [_target] join group _caller;" \n "}, " \n "{_caller switchMove """";},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd; ";
+						init="if isServer then {this setUnconscious true;}; [this, " \n """Revive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa"",   " \n """lifeState _target == 'INCAPACITATED' && _this distance _target < 3"",   " \n """lifeState _target == 'INCAPACITATED' && _caller distance _target < 3"",   " \n "{_caller playAction ""medic"";},   " \n "{},   " \n "{" \n " [_target,false] remoteExec [""setUnconscious"", _target]; sleep 2;" \n " [_target] joinSilent _caller;" \n "}, " \n "{_caller switchMove """";},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd; ";
 						name="INJCIV";
 					};
 					id=3341;
@@ -20014,7 +20014,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="this switchmove ""Acts_ExecutionVictim_Loop""; " \n "this disableAI ""ALL""; if isServer then {this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """_target getVariable ['var_IsTied',true] && _this distance _target < 3"",   " \n """_target getVariable ['var_IsTied',true] && _caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " (_this select 0) setVariable [""var_IsTied"",false,true]; " \n " [_this select 0] join group (_this select 1); sleep 2; [_this select 0,""ALL""] remoteExec [""enableAI"",(_this select 0)]; " \n " [(_this select 0), ""Acts_ExecutionVictim_Unbow""] remoteExec [""playMoveNow"",(_this select 0)]; [(_this select 0),false] remoteExec [""setCaptive"",(_this select 0)];" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
+						init="this switchmove ""Acts_ExecutionVictim_Loop""; " \n " if isServer then {this disableAI ""ALL""; this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """captive _target && _this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _target setVariable [""var_IsTied"",false,true]; " \n " [_target] joinSilent _caller;" \n " waitUntil { local _target };" \n " _target enableAI ""ALL"";" \n " [_target, ""Acts_ExecutionVictim_Unbow""] remoteExec [""switchMove""];" \n " _target setCaptive false;" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
 						name="HOSTAGE_2";
 					};
 					id=3354;
@@ -20086,7 +20086,7 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						init="this switchmove ""Acts_AidlPsitMstpSsurWnonDnon_loop""; " \n "this disableAI ""ALL""; if isServer then {this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """_target getVariable ['var_IsTied',true] && _this distance _target < 3"",   " \n """_target getVariable ['var_IsTied',true] && _caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{   " \n " (_this select 0) setVariable [""var_IsTied"",false,true]; " \n " [_this select 0] join group (_this select 1); sleep 2; [_this select 0,""ALL""] remoteExec [""enableAI"",(_this select 0)]; " \n " [(_this select 0), ""Acts_AidlPsitMstpSsurWnonDnon_out""] remoteExec [""playMoveNow"",(_this select 0)]; [(_this select 0),false] remoteExec [""setCaptive"",(_this select 0)];" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
+						init="this switchmove ""Acts_AidlPsitMstpSsurWnonDnon_loop""; " \n "if isServer then {this disableAI ""ALL""; this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """captive _target && _this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{   " \n " _target setVariable [""var_IsTied"",false,true]; " \n " [_target] joinSilent _caller;" \n " waitUntil { local _target };" \n " _target enableAI ""ALL"";" \n " [_target, ""Acts_AidlPsitMstpSsurWnonDnon_out""] remoteExec [""switchMove""];" \n " _target setCaptive false;}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
 						name="HOSTAGE_1";
 					};
 					id=3458;
@@ -20158,7 +20158,7 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						init="this switchmove ""AmovPercMstpSnonWnonDnon_Ease""; " \n "this disableAI ""ALL""; if isServer then {this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """_target getVariable ['var_IsTied',true] && _this distance _target < 3"",   " \n """_target getVariable ['var_IsTied',true] && _caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{  " \n " (_this select 0) setVariable [""var_IsTied"",false,true]; " \n " [_this select 0] join group (_this select 1); sleep 2; [_this select 0,""ALL""] remoteExec [""enableAI"",(_this select 0)]; " \n " [(_this select 0), """"] remoteExec [""playMoveNow"",(_this select 0)];  [(_this select 0),false] remoteExec [""setCaptive"",(_this select 0)];" \n "" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
+						init="this switchmove ""AmovPercMstpSnonWnonDnon_Ease""; " \n "if isServer then {this disableAI ""ALL""; this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """captive _target && _this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{  " \n " _target setVariable [""var_IsTied"",false,true]; " \n " [_target] joinSilent _caller;" \n " waitUntil { local _target };" \n " _target enableAI ""ALL"";" \n " [_target, """"] remoteExec [""switchMove""];" \n " _target setCaptive false;" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
 						name="HOSTAGE_3";
 					};
 					id=3459;
@@ -21928,7 +21928,7 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						init="this switchmove ""Acts_JetsShooterIdle""; " \n "this disableAI ""ALL""; if isServer then {this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """_target getVariable ['var_IsTied',true] && _this distance _target < 3"",   " \n """_target getVariable ['var_IsTied',true] && _caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " (_this select 0) setVariable [""var_IsTied"",false,true]; " \n " [_this select 0] join group (_this select 1); sleep 2; [_this select 0,""ALL""] remoteExec [""enableAI"",(_this select 0)]; " \n " [(_this select 0), """"] remoteExec [""playMoveNow"",(_this select 0)];  [(_this select 0),false] remoteExec [""setCaptive"",(_this select 0)];" \n " " \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
+						init="this switchmove ""Acts_JetsShooterIdle""; " \n "if isServer then {this disableAI ""ALL""; this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """captive _target && _this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _target setVariable [""var_IsTied"",false,true]; " \n " [_target] joinSilent _caller;" \n " waitUntil { local _target };" \n " _target enableAI ""ALL"";" \n " [_target, """"] remoteExec [""switchMove""];" \n " _target setCaptive false;" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
 						name="HOSTAGE_5";
 					};
 					id=3461;
@@ -22000,7 +22000,7 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						init="this switchmove ""Acts_JetsMarshallingStop_loop""; " \n "this disableAI ""ALL""; if isServer then {this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """_target getVariable ['var_IsTied',true] && _this distance _target < 3"",   " \n """_target getVariable ['var_IsTied',true] && _caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{   " \n " (_this select 0) setVariable [""var_IsTied"",false,true]; " \n " [_this select 0] join group (_this select 1); sleep 2; [_this select 0,""ALL""] remoteExec [""enableAI"",(_this select 0)]; " \n " [(_this select 0), """"] remoteExec [""playMoveNow"",(_this select 0)]; [(_this select 0),false] remoteExec [""setCaptive"",(_this select 0)];" \n " " \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
+						init="this switchmove ""Acts_JetsMarshallingStop_loop""; " \n "if isServer then {this disableAI ""ALL"";  this setCaptive true; this addEventHandler [""killed"", { " \n "    private _killer = if (isNull (_this select 2)) then {(_this select 0) getVariable [""ace_medical_lastDamageSource"", (_this select 1)]} else {(_this select 2)}; " \n " if (isPlayer _killer) then { format[""%1 (%2) killed Civilian (%3)"",name _killer,groupId group _killer,name (_this select 0)] remoteExec [""systemChat"",0];}; " \n "}];}; [this, " \n """Release Captive"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",   " \n """captive _target && _this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{   " \n " _target setVariable [""var_IsTied"",false,true]; " \n " [_target] joinSilent _caller;" \n " waitUntil { local _target };" \n " _target enableAI ""ALL"";" \n " [_target, """"] remoteExec [""switchMove""];" \n " _target setCaptive false;" \n "}, " \n "{},    " \n "[],    " \n "5,    " \n "10] call bis_fnc_holdActionAdd;";
 						name="HOSTAGE_4";
 					};
 					id=3460;
@@ -24540,7 +24540,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this, " \n """Download Data"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa"", " \n """isNil 'var_dataDownload' && _this distance _target < 3"", " \n """isNil 'var_dataDownload' && _caller distance _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa'/><br/><br/><t size='1.5'>Download Data</t><br/><br/><t size='1.5' color='#FFFF00'>Transferring</t><br/><t color='#FFFF00'></t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name (_this select 1)] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa'/><br/><br/><t size='1.5'>Download Data</t><br/><br/><t size='1.5' color='#00FF00'>Downloaded</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]; missionNamespace setVariable [""var_dataDownload"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa'/><br/><br/><t size='1.5'>Download Data</t><br/><br/><t size='1.5' color='#FF0000'>Cancelled</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]},  " \n "[],  " \n "15,  " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this, " \n """Download Data"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa"", " \n """isNil 'var_dataDownload' && _this distance _target < 3"", " \n """isNil 'var_dataDownload' && _caller distance _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa'/><br/><br/><t size='1.5'>Download Data</t><br/><br/><t size='1.5' color='#FFFF00'>Transferring</t><br/><t color='#FFFF00'></t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name _caller] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa'/><br/><br/><t size='1.5'>Download Data</t><br/><br/><t size='1.5' color='#00FF00'>Downloaded</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]; missionNamespace setVariable [""var_dataDownload"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\download_ca.paa'/><br/><br/><t size='1.5'>Download Data</t><br/><br/><t size='1.5' color='#FF0000'>Cancelled</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]},  " \n "[],  " \n "15,  " \n "10] call bis_fnc_holdActionAdd;";
 			};
 			id=3509;
 			type="Land_Laptop_unfolded_F";
@@ -24556,7 +24556,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this, " \n """Upload Program"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa"", " \n """isNil 'var_dataUpload' && _this distance _target < 3"", " \n """isNil 'var_dataUpload' && _caller distance _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><br/><t size='1.5'>Upload Data</t><br/><br/><t size='1.5' color='#FFFF00'>Transferring</t><br/><t color='#FFFF00'></t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name (_this select 1)] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><br/><t size='1.5'>Upload Data</t><br/><br/><t size='1.5' color='#00FF00'>Uploaded</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]; missionNamespace setVariable [""var_dataUpload"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><br/><t size='1.5'>Upload Data</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]},  " \n "[],  " \n "60,  " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this, " \n """Upload Program"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa"", " \n """isNil 'var_dataUpload' && _this distance _target < 3"", " \n """isNil 'var_dataUpload' && _caller distance _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><br/><t size='1.5'>Upload Data</t><br/><br/><t size='1.5' color='#FFFF00'>Transferring</t><br/><t color='#FFFF00'></t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name (_this select 1)] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><br/><t size='1.5'>Upload Data</t><br/><br/><t size='1.5' color='#00FF00'>Uploaded</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]; missionNamespace setVariable [""var_dataUpload"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><br/><t size='1.5'>Upload Data</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]},  " \n "[],  " \n "60,  " \n "10] call bis_fnc_holdActionAdd;";
 			};
 			id=3510;
 			type="Land_Laptop_unfolded_F";
@@ -24572,7 +24572,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this," \n """Disable Pump"",  " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\use_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",  " \n """isNil 'var_pumpIsDisabled_1' && _this distance _target < 3"",  " \n """isNil 'var_pumpIsDisabled_1' && _caller distance _target < 3"",  " \n "{(_this select 1) playMove ""Acts_carFixingWheel"";},  " \n "{},  " \n "{(_this select 0) say ""repair""; sleep 1; {private _ppEffect = ""#particlesource"" createVehicle position PUMP_1; _ppEffect setParticleClass ""AmmoSmokeParticles2""; _ppEffect attachTo [PUMP_1, [0, 0, 0]];} remoteExec [""BIS_fnc_spawn"", 2]; missionNamespace setVariable [""var_pumpIsDisabled_1"",true,true];}," \n "{(_this select 1) switchMove """";},   " \n "[],   " \n "14,   " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this," \n """Disable Pump"",  " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\use_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",  " \n """isNil 'var_pumpIsDisabled_1' && _this distance _target < 3"",  " \n """isNil 'var_pumpIsDisabled_1' && _caller distance _target < 3"",  " \n "{_caller playMove ""Acts_carFixingWheel"";},  " \n "{},  " \n "{_target say ""repair""; sleep 1; {private _ppEffect = ""#particlesource"" createVehicle position PUMP_1; _ppEffect setParticleClass ""AmmoSmokeParticles2""; _ppEffect attachTo [PUMP_1, [0, 0, 0]];} remoteExec [""BIS_fnc_spawn"", 2]; missionNamespace setVariable [""var_pumpIsDisabled_1"",true,true];}," \n "{_caller switchMove """";},   " \n "[],   " \n "14,   " \n "10] call bis_fnc_holdActionAdd;";
 				name="PUMP_1";
 			};
 			id=3511;
@@ -24589,7 +24589,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this," \n """Disable Pump"",  " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\use_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",  " \n """isNil 'var_pumpIsDisabled_2' && _this distance _target < 3"",  " \n """isNil 'var_pumpIsDisabled_2' && _caller distance _target < 3"",  " \n "{(_this select 1) playMove ""Acts_carFixingWheel"";},  " \n "{},  " \n "{(_this select 0) say ""repair""; sleep 1; {private _ppEffect = ""#particlesource"" createVehicle position PUMP_2; _ppEffect setParticleClass ""AmmoSmokeParticles2""; _ppEffect attachTo [PUMP_2, [0, 0, 0]];} remoteExec [""BIS_fnc_spawn"", 2]; missionNamespace setVariable [""var_pumpIsDisabled_2"",true,true];}," \n "{(_this select 1) switchMove """";},   " \n "[],   " \n "14,   " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this," \n """Disable Pump"",  " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\use_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"",  " \n """isNil 'var_pumpIsDisabled_2' && _this distance _target < 3"",  " \n """isNil 'var_pumpIsDisabled_2' && _caller distance _target < 3"",  " \n "{_caller playMove ""Acts_carFixingWheel"";},  " \n "{},  " \n "{_target say ""repair""; sleep 1; {private _ppEffect = ""#particlesource"" createVehicle position PUMP_2; _ppEffect setParticleClass ""AmmoSmokeParticles2""; _ppEffect attachTo [PUMP_2, [0, 0, 0]];} remoteExec [""BIS_fnc_spawn"", 2]; missionNamespace setVariable [""var_pumpIsDisabled_2"",true,true];}," \n "{_caller switchMove """";},   " \n "[],   " \n "14,   " \n "10] call bis_fnc_holdActionAdd;";
 				name="PUMP_2";
 			};
 			id=3512;
@@ -24606,7 +24606,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this,  " \n """Download Data"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_hack_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa"",  " \n """isNil 'var_dataDownloaded' && _this distance _target < 5"",  " \n """isNil 'var_dataDownloaded' && _caller distance _target < 5"",  " \n "{},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa'/><br/><br/><t size='1.5'>UAV Data</t><br/><br/><t size='1.5' color='#FFFF00'>Downloading</t><br/><t color='#FFFF00'></t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name (_this select 1)] remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa'/><br/><br/><t size='1.5'>UAV Data</t><br/><br/><t size='1.5' color='#00FF00'>Downloaded</t><br/><t color='#00FF00'></t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]; missionNamespace setVariable [""var_dataDownloaded"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},   " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa'/><br/><br/><t size='1.5'>UAV Data</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'></t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]},   " \n "[],   " \n "15,   " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this,  " \n """Download Data"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_hack_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa"",  " \n """isNil 'var_dataDownloaded' && _this distance _target < 5"",  " \n """isNil 'var_dataDownloaded' && _caller distance _target < 5"",  " \n "{},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa'/><br/><br/><t size='1.5'>UAV Data</t><br/><br/><t size='1.5' color='#FFFF00'>Downloading</t><br/><t color='#FFFF00'></t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name _caller] remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa'/><br/><br/><t size='1.5'>UAV Data</t><br/><br/><t size='1.5' color='#00FF00'>Downloaded</t><br/><t color='#00FF00'></t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]; missionNamespace setVariable [""var_dataDownloaded"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},   " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa'/><br/><br/><t size='1.5'>UAV Data</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'></t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]},   " \n "[],   " \n "15,   " \n "10] call bis_fnc_holdActionAdd;";
 				name="UAV_DATA";
 				reportRemoteTargets=1;
 				reportOwnPosition=1;
@@ -24631,7 +24631,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="[[[[],[]],[[],[]],[[],[]],[[],[]]],true]";
+							value="[[[[],[]],[[],[]],[[],[]],[[],[]]],false]";
 						};
 					};
 				};
@@ -26472,7 +26472,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this, " \n """Search Files"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_search_ca.paa"", " \n """(_target getVariable ['var_canSearch',true]) && _this distance _target < 3"", " \n """(_target getVariable ['var_canSearch',true]) && _caller distance _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#FFFF00'>Searching</t><br/><t color='#FFFF00'>(%2)</t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name (_this select 1)] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#00FF00'>Collected</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]; (_this select 0) setVariable [""var_canSearch"",false,true]; missionNamespace setVariable [""var_gotDocument"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]},  " \n "[],  " \n "15,  " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this, " \n """Search Files"", " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_search_ca.paa"", " \n """(_target getVariable ['var_canSearch',true]) && _this distance _target < 3"", " \n """(_target getVariable ['var_canSearch',true]) && _caller distance _target < 3"", " \n "{}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#FFFF00'>Searching</t><br/><t color='#FFFF00'>(%2)</t><br/><br/><t size='1.25' color='#CCCCCC'>%1&#37; Complete</t><br/><br/>"",round ((_this select 4) * 4.16),name _caller] remoteExec [""hintSilent""]}, " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#00FF00'>Collected</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]; _target setVariable [""var_canSearch"",false,true]; missionNamespace setVariable [""var_gotDocument"",true,true]; sleep 5; """" remoteExec [""hintSilent""]},  " \n "{parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#FF0000'>Aborted</t><br/><t color='#FF0000'>(%1)</t><br/><br/><br/><br/>"",name _caller] remoteExec [""hintSilent""]},  " \n "[],  " \n "15,  " \n "10] call bis_fnc_holdActionAdd;";
 				name="HAS_FILES";
 			};
 			id=3570;
@@ -30114,7 +30114,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""STAND"",""ASIS""] call BIS_fnc_ambientAnimCombat;";
+						init="if (local this) then { [this,""STAND"",""ASIS""] call BIS_fnc_ambientAnimCombat };";
 					};
 					id=3707;
 					type="B_Soldier_F";
@@ -30185,7 +30185,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_LOW"",""ASIS""] call BIS_fnc_ambientAnimCombat;" \n "";
+						init="if (local this) then { [this,""SIT_LOW"",""ASIS""] call BIS_fnc_ambientAnimCombat };";
 					};
 					id=3709;
 					type="B_Soldier_F";
@@ -30256,7 +30256,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""WATCH2"",""ASIS""] call BIS_fnc_ambientAnimCombat;" \n "";
+						init="if (local this) then { [this,""WATCH2"",""ASIS""] call BIS_fnc_ambientAnimCombat };";
 					};
 					id=3711;
 					type="B_Soldier_F";
@@ -30327,7 +30327,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""WATCH1"",""ASIS""] call BIS_fnc_ambientAnimCombat;" \n "";
+						init="if (local this) then { [this,""WATCH1"",""ASIS""] call BIS_fnc_ambientAnimCombat };" \n "";
 					};
 					id=3713;
 					type="B_Soldier_F";
@@ -30398,7 +30398,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""WATCH"",""ASIS""] call BIS_fnc_ambientAnimCombat;" \n "";
+						init="if (local this) then { [this,""WATCH"",""ASIS""] call BIS_fnc_ambientAnimCombat };" \n "";
 					};
 					id=3715;
 					type="B_Soldier_F";
@@ -30469,7 +30469,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""LEAN"",""ASIS""] call BIS_fnc_ambientAnimCombat;" \n "";
+						init="if (local this) then { [this,""LEAN"",""ASIS""] call BIS_fnc_ambientAnimCombat };";
 					};
 					id=3717;
 					type="B_Soldier_F";
@@ -30540,7 +30540,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""KNEEL"",""ASIS""] call BIS_fnc_ambientAnimCombat;";
+						init="if (local this) then { [this,""KNEEL"",""ASIS""] call BIS_fnc_ambientAnimCombat };";
 					};
 					id=3719;
 					type="B_Soldier_F";
@@ -31416,7 +31416,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="[this, " \n "format[""Take %1"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")], " \n "null, " \n "null, " \n """_this distance _target < 3"", " \n """_caller distance _target < 3"", " \n "{}, " \n "{}, " \n "{(_this select 1) playAction ""PutDown""; sleep 1; deleteVehicle (_this select 0); missionNamespace setVariable [""var_intelCount"",(missionNamespace getVariable [""var_intelCount"",0]) + 1,true]; parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#00FF00'>Collected</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name (_this select 1)] remoteExec [""hintSilent""]; sleep 5; """" remoteExec [""hintSilent""];}, " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+				init="[this, " \n "format[""Take %1"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")], " \n "null, " \n "null, " \n """_this distance _target < 3"", " \n """_caller distance _target < 3"", " \n "{}, " \n "{}, " \n "{_caller playAction ""PutDown""; sleep 1; deleteVehicle _target; missionNamespace setVariable [""var_intelCount"",(missionNamespace getVariable [""var_intelCount"",0]) + 1,true]; parseText format[""<br/><img size='2' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\documents_ca.paa'/><br/><t size='1.5'>Find Documents</t><br/><br/><t size='1.5' color='#00FF00'>Collected</t><br/><t color='#00FF00'>(%1)</t><br/><br/><br/><br/>"",name _target] remoteExec [""hintSilent""]; sleep 5; """" remoteExec [""hintSilent""];}, " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
 				name="INTEL_HOLD";
 			};
 			id=3764;
@@ -31768,7 +31768,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="[[[[],[]],[[],[]],[[],[]],[[],[]]],true]";
+							value="[[[[],[]],[[],[]],[[],[]],[[],[]]],false]";
 						};
 					};
 				};
@@ -32735,7 +32735,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""STAND1""] call BIS_fnc_ambientAnim;";
+						init="if (local this) then { [this,""STAND1""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -32839,7 +32839,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""STAND2""] call BIS_fnc_ambientAnim;";
+						init="if (local this) then { [this,""STAND2""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -32943,7 +32943,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""STAND_U1""] call BIS_fnc_ambientAnim;";
+						init="if (local this) then { [this,""STAND_U1""] call BIS_fnc_ambientAnim };";
 					};
 					id=3928;
 					type="C_Man_UtilityWorker_01_F";
@@ -32996,7 +32996,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""STAND_U2""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""STAND_U2""] call BIS_fnc_ambientAnim };";
 					};
 					id=3930;
 					type="C_Man_UtilityWorker_01_F";
@@ -33049,7 +33049,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""STAND_U3""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""STAND_U3""] call BIS_fnc_ambientAnim };";
 					};
 					id=3932;
 					type="C_Man_UtilityWorker_01_F";
@@ -33102,7 +33102,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""WATCH""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""WATCH""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -33205,7 +33205,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""WATCH2""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""WATCH2""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -33309,7 +33309,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""LISTEN_BRIEFING""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""LISTEN_BRIEFING""] call BIS_fnc_ambientAnim };";
 					};
 					id=3938;
 					type="C_Man_UtilityWorker_01_F";
@@ -33362,7 +33362,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""LEAN_ON_TABLE""] call BIS_fnc_ambientAnim;";
+						init="if (local this) then { [this,""LEAN_ON_TABLE""] call BIS_fnc_ambientAnim };";
 					};
 					id=3940;
 					type="C_Man_UtilityWorker_01_F";
@@ -33468,7 +33468,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""LEAN""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""LEAN""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -33572,7 +33572,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_AT_TABLE""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_AT_TABLE""] call BIS_fnc_ambientAnim };";
 					};
 					id=3946;
 					type="C_Man_UtilityWorker_01_F";
@@ -33625,7 +33625,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT1""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT1""] call BIS_fnc_ambientAnim };";
 					};
 					id=3948;
 					type="C_Man_UtilityWorker_01_F";
@@ -33678,7 +33678,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT""] call BIS_fnc_ambientAnim };";
 					};
 					id=3950;
 					type="C_Man_UtilityWorker_01_F";
@@ -33731,7 +33731,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT3""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT3""] call BIS_fnc_ambientAnim };";
 					};
 					id=3952;
 					type="C_Man_UtilityWorker_01_F";
@@ -33784,7 +33784,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_U1""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_U1""] call BIS_fnc_ambientAnim };";
 					};
 					id=3954;
 					type="C_Man_UtilityWorker_01_F";
@@ -33837,7 +33837,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_U2""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_U2""] call BIS_fnc_ambientAnim };";
 					};
 					id=3956;
 					type="C_Man_UtilityWorker_01_F";
@@ -33890,7 +33890,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_U3""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_U3""] call BIS_fnc_ambientAnim };";
 					};
 					id=3958;
 					type="C_Man_UtilityWorker_01_F";
@@ -33943,7 +33943,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_HIGH1""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_HIGH1""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -34047,7 +34047,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_HIGH""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_HIGH""] call BIS_fnc_ambientAnim };";
 					};
 					id=3962;
 					type="C_Man_UtilityWorker_01_F";
@@ -34100,7 +34100,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_LOW""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_LOW""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -34203,7 +34203,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_LOW_U""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_LOW_U""] call BIS_fnc_ambientAnim };";
 					};
 					id=3966;
 					type="C_Man_UtilityWorker_01_F";
@@ -34256,7 +34256,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_SAD1""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_SAD1""] call BIS_fnc_ambientAnim };";
 					};
 					id=3968;
 					type="C_Man_UtilityWorker_01_F";
@@ -34309,7 +34309,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""SIT_SAD2""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""SIT_SAD2""] call BIS_fnc_ambientAnim };";
 					};
 					id=3970;
 					type="C_Man_UtilityWorker_01_F";
@@ -34362,7 +34362,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""KNEEL""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""KNEEL""] call BIS_fnc_ambientAnim };";
 						class Inventory
 						{
 							class primaryWeapon
@@ -34466,7 +34466,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""REPAIR_VEH_PRONE""] call BIS_fnc_ambientAnim; " \n "";
+						init="if (local this) then { [this,""REPAIR_VEH_PRONE""] call BIS_fnc_ambientAnim };";
 					};
 					id=3974;
 					type="C_Man_UtilityWorker_01_F";
@@ -34519,7 +34519,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""REPAIR_VEH_KNEEL""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""REPAIR_VEH_KNEEL""] call BIS_fnc_ambientAnim };";
 					};
 					id=3976;
 					type="C_Man_UtilityWorker_01_F";
@@ -34572,7 +34572,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""REPAIR_VEH_STAND""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""REPAIR_VEH_STAND""] call BIS_fnc_ambientAnim };";
 					};
 					id=3978;
 					type="C_Man_UtilityWorker_01_F";
@@ -34625,7 +34625,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""PRONE_INJURED_U1""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""PRONE_INJURED_U1""] call BIS_fnc_ambientAnim };";
 					};
 					id=3980;
 					type="C_Man_UtilityWorker_01_F";
@@ -34678,7 +34678,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""PRONE_INJURED_U2""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""PRONE_INJURED_U2""] call BIS_fnc_ambientAnim };";
 					};
 					id=3982;
 					type="C_Man_UtilityWorker_01_F";
@@ -34731,7 +34731,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""PRONE_INJURED""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""PRONE_INJURED""] call BIS_fnc_ambientAnim };";
 					};
 					id=3984;
 					type="C_Man_UtilityWorker_01_F";
@@ -34784,7 +34784,7 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						init="[this,""KNEEL_TREAT""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""KNEEL_TREAT""] call BIS_fnc_ambientAnim };";
 					};
 					id=3986;
 					type="C_IDAP_Man_Paramedic_01_F";
@@ -34837,7 +34837,7 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						init="[this,""KNEEL_TREAT2""] call BIS_fnc_ambientAnim;   " \n "";
+						init="if (local this) then { [this,""KNEEL_TREAT2""] call BIS_fnc_ambientAnim };";
 					};
 					id=3988;
 					type="C_IDAP_Man_Paramedic_01_F";
@@ -34890,7 +34890,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""BRIEFING""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""BRIEFING""] call BIS_fnc_ambientAnim };";
 					};
 					id=3990;
 					type="C_Man_UtilityWorker_01_F";
@@ -34943,7 +34943,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""BRIEFING_POINT_LEFT""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""BRIEFING_POINT_LEFT""] call BIS_fnc_ambientAnim };";
 					};
 					id=3992;
 					type="C_Man_UtilityWorker_01_F";
@@ -34996,7 +34996,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""BRIEFING_POINT_RIGHT""] call BIS_fnc_ambientAnim;" \n "";
+						init="if (local this) then { [this,""BRIEFING_POINT_RIGHT""] call BIS_fnc_ambientAnim };";
 					};
 					id=3994;
 					type="C_Man_UtilityWorker_01_F";
@@ -35049,7 +35049,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""BRIEFING_POINT_TABLE""] call BIS_fnc_ambientAnim;";
+						init="if (local this) then { [this,""BRIEFING_POINT_TABLE""] call BIS_fnc_ambientAnim };";
 					};
 					id=3996;
 					type="C_Man_UtilityWorker_01_F";
@@ -35102,7 +35102,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="[this,""GUARD""] call BIS_fnc_ambientAnim;";
+						init="if (local this) then { [this,""GUARD""] call BIS_fnc_ambientAnim };";
 					};
 					id=3998;
 					type="C_Man_UtilityWorker_01_F";

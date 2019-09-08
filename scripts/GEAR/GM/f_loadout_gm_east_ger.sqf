@@ -113,7 +113,7 @@ _chem =  "SmokeShellBlue";
 _chemalt = "SmokeShellOrange";
 
 // Backpacks
-_bagsmall = "gm_ge_backpack_satchel_80_blk";
+_bagsmall = "gm_gc_army_backpack_80_assaultpack_str";
 _bagmedium = "gm_gc_army_backpack_80_assaultpack_str";
 _baglarge =  "gm_gc_army_backpack_80_assaultpack_lmg_str";
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers

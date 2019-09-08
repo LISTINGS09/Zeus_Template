@@ -108,6 +108,13 @@ if (isNil "f_var_setParams") then {
 		
 		// Load and send all groups to clients
 		#include "..\..\mission\groups.sqf";
+		
+		// Older FW Support
+		if (!isNil "_grpBLU") then { f_var_groupsWEST = _grpBLU };
+		if (!isNil "_grpOPF") then { f_var_groupsEAST = _grpOPF };
+		if (!isNil "_grpIND") then { f_var_groupsGUER = _grpIND };
+		if (!isNil "_grpCIV") then { f_var_groupsCIVILIAN = _grpCIV };
+		
 		{ publicVariable format["f_var_groups%1", _x] } forEach [west, east, independent, civilian];
 		
 		// Let the client know params are set.

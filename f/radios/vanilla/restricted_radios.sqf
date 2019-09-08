@@ -16,24 +16,19 @@ f_fnc_enableRadioEH = {
 		params ["_unit","_container","_item"];
 		
 		// If a radio backpack is taken and not already an operator
-		if (_item == f_radios_backpack) then {									
-			// Auto join company channel
-			[f_radios_mainChID, true, getText (configFile >> "CfgVehicles" >> _item >> "displayName")] spawn f_fnc_radioSwitchChannel;
+		if (_item == f_radios_backpack) then {
+			private _str = format["(%1)", getText (configFile >> "CfgVehicles" >> _item >> "displayName")];
+			// Auto channels
+			if (f_radios_activeChID isEqualTo []) then {
+				[f_radios_mainChID, true, _str] spawn f_fnc_radioSwitchChannel;
+			} else {
+				{
+					[_x, true, _str] spawn f_fnc_radioSwitchChannel;
+				} forEach f_radios_activeChID;
+			};
 		};
 	}];
 	
-	// Add action to take radio for downed units
-	if !(isNil "f_eh_openRadio") then { _unit removeEventHandler ["Take", f_eh_openRadio] };
-	f_eh_openRadio = _unit addEventHandler ["InventoryOpened", {
-		params ["_unit","_container","_item"];
-		
-		// If a radio backpack is taken and not already an operator
-		if (_item == f_radios_backpack) then {									
-			// Auto join company channel
-			[f_radios_mainChID, true, getText (configFile >> "CfgVehicles" >> _item >> "displayName")] spawn f_fnc_radioSwitchChannel;
-		};
-	}];
-
 	// Auto leave All Nets when dropping backpack
 	if !(isNil "f_eh_putRadio") then { _unit removeEventHandler ["Put", f_eh_putRadio] };
 	f_eh_putRadio = _unit addEventHandler ["Put", {
@@ -94,16 +89,55 @@ f_fnc_enableRadioEH = {
 		[_unit] spawn f_fnc_giveRadioBackpack;
 	}];
 	
-	//if (!isNil "f_act_takeRadio") then { _unit removeAction f_act_takeRadio };
-	//f_act_takeRadio = _unit addAction ["Take Backpack (Radio)", {  params ["_target", "_caller", "_actionId", "_arguments"]; systemChat format["Target: %1 Caller: %2", backpack _target, backpack _caller]},[], 11, true, true, "", "lifeState cursorTarget [] && backpack cursorTarget == }",2];
-	
-	
-    //_target: Object - the object to which action is attached or, if the object is a unit inside of vehicle, the vehicle
-    //_this: Object - caller person to whom the action is shown (or not shown if condition returns false)
-    //_originalTarget: Object - the original object to which the action is attached, regardless if the object/unit is in a vehicle or not
+	if (!isNil "f_act_takeRadio") then { _unit removeAction f_act_takeRadio };
+	f_act_takeRadio = _unit addAction [format["Take %1", getText (configFile >> "CfgVehicles" >> f_radios_backpack >> "displayName")], 
+		{
+			params ["_target", "_caller", "_actionId", "_arguments"];
+			_caller playAction "PutDown";
+					
+			_cursorTarget = cursorTarget;
+			_tItems = backpackItems _cursorTarget;
+			_pItems = backpackItems _caller;
+			_pBackpack = backpack _caller;
+			
+			// Add targets items to players backpack.
+			removeBackpack _caller;
+			_caller addBackpack f_radios_backpack;
+			{ backpackContainer _caller addItemCargo [_x, 1] } forEach _tItems;
 
-	
-	
+			// Add main channel
+			if ([] call f_fnc_hasUsableRadio) then {
+				[f_radios_mainChID, true, format["<t size='1.5'>(Radio from <t color='#FF0080'>%2</t>)</t>", 
+					getText (configFile >> "CfgVehicles" >> f_radios_backpack >> "displayName"),
+					name _cursorTarget]
+				] spawn f_fnc_radioSwitchChannel;
+			};
+			
+			// Add players items to players backpack.
+			removeBackpackGlobal _cursorTarget;
+			_cursorTarget addBackpackGlobal _pBackpack;
+			waitUntil { !isNull backpackContainer _cursorTarget };
+			{ backpackContainer _cursorTarget addItemCargoGlobal [_x, 1] } forEach _pItems;
+
+			// Remove targets channels remotely
+			if !isServer then { // SP Fix
+				{ 
+					player setVariable ["f_radios_isOperator", false];
+					{ [_x#1, false, "(Radio Removed)"] spawn f_fnc_radioSwitchChannel } forEach (missionNamespace getVariable [format["f_var_ch%1", side group player], []]);
+					setCurrentChannel 3;
+				} remoteExec ["BIS_fnc_spawn", _cursorTarget];
+				
+				[[format["<t color='#FF0080' size='1.5'>%1</t><t size='1.5'> removed your %2</t>", name _caller, getText (configFile >> "CfgVehicles" >> f_radios_backpack >> "displayName")], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
+			};
+		},
+		[],
+		7,
+		true,
+		true,
+		"",
+		"backpack _originalTarget != backpack cursorTarget && backpack cursorTarget == f_radios_backpack && (cursorTarget distance _originalTarget) <= 3 && {lifeState cursorTarget == 'INCAPACITATED'}",
+		1
+	];
 };
 
 // Remove all Radio EHs for locked radios
@@ -115,22 +149,23 @@ f_fnc_disableRadioEH = {
 	if !(isNil "f_eh_getOutRadio") then { _unit removeEventHandler ["GetOutMan", f_eh_getOutRadio] };
 	if !(isNil "f_eh_getInRadio") then { _unit removeEventHandler ["GetInMan", f_eh_getInRadio] };
 	if !(isNil "f_eh_respawnRadio") then { _unit removeEventHandler ["Respawn", f_eh_respawnRadio] };
+	if (!isNil "f_act_takeRadio") then { _unit removeAction f_act_takeRadio };
 };
 
 // Replace the players backpack with a valid radio
 f_fnc_giveRadioBackpack = {
-	params [["_unit", player]];
+	params [["_unit", player], ["_forced",false]];
 	
 	private _lrUnits = missionNamespace getVariable ["f_radios_settings_longRangeUnits",["leaders"]];
 	
-	if ((_unit getVariable ["f_var_assignGear", "r"]) in (["ro"] + _lrUnits) || "all" in _lrUnits || ((leader _unit == _unit) && "leaders" in _lrUnits)) then {
-		private _backpackItems = backpackItems _unit;
+	if ((_unit getVariable ["f_var_assignGear", "r"]) in (["ro"] + _lrUnits) || "all" in _lrUnits || ((leader _unit == _unit) && "leaders" in _lrUnits) || _forced) then {
+		private _bItems = backpackItems _unit;
 		private _config = configFile >> "CfgVehicles" >> (backpack _unit);
 		
 		// Only remove the backpack if it isn't a portable weapon. 
 		if (getNumber (_config >> "maximumLoad") > 0) then { removeBackpack _unit };
 		_unit addBackpack f_radios_backpack;
-		{ _unit addItemToBackpack _x } forEach _backpackItems;
+		{ backpackContainer _unit addItemCargo [_x, 1] } forEach _bItems;
 		
 		_unit setVariable ["f_radios_isOperator", true];
 		
