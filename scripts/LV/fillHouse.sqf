@@ -83,13 +83,13 @@ _fSel = switch (_faction) do {
 	case "SYND": 	{ ["IND_C_F","EdSubcat_Personnel_Paramilitary"] };
 
 	// EAST
-	case "ChDKZ": 	{ ["rhsgref_faction_chdkz","rhsgref_EdSubcat_infantry"] };
+	case "CHDKZE": 	{ ["rhsgref_faction_chdkz","rhsgref_EdSubcat_infantry"] };
 	case "CSAT": 	{ ["OPF_F","EdSubcat_Personnel"] };
 	case "CSATU": 	{ ["OPF_F","EdSubcat_Personnel_Camo_Urban"] };
 	case "CSATSF": 	{ ["OPF_F","EdSubcat_Personnel_Viper"] };
 	case "CSATP": 	{ ["OPF_T_F","EdSubcat_Personnel"] };
 	case "CSATPSF":	{ ["OPF_T_F","EdSubcat_Personnel_Viper"] };
-	case "FIA": 	{ ["OPF_G_F","EdSubcat_Personnel"] };
+	case "FIAE": 	{ ["OPF_G_F","EdSubcat_Personnel"] };
 	case "RUEMR": 	{ ["rhs_faction_msv","rhs_EdSubcat_infantry_emr"] };
 	case "RU": 		{ ["rhs_EdSubcat_infantry_flora"] };
 	case "RUD": 	{ ["rhs_faction_vdv","rhs_EdSubcat_infantry_emr_des"] };
