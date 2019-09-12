@@ -1,5 +1,6 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.0
 // [] execVM "scripts\civPopulation.sqf";
+if !isServer exitWith {};
 
 // The following constants may be used to tweak behaviour
 ZCS_var_WaitTime = 60; // Maximum standing still time in seconds
@@ -8,7 +9,8 @@ ZCS_var_UnitsPerBuilding = 0.1;
 ZCS_var_MaxGrpCount = 15;
 ZCS_var_MinDist = 100;
 ZCS_var_MaxDist = 300;
-ZCS_var_HunterSpawn = false;
+ZCS_var_EnemyChance = 0.05; // Chance of a hostile civilian appearing
+ZCS_var_BomberChance = 0.01; // Chance of hostile civilian being a bomber
 ZCS_var_BlackList = [];
 ZCS_var_HideMrk = true;
 ZCS_var_LOWTasks = true;
@@ -337,7 +339,17 @@ while { ZCS_var_Running } do {
 
 	if (count ZCS_CivList < _unitsCount) then {
 		_pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
-		_newUnit = [_pos] call ZCS_fnc_SpawnUnit;
+		
+		_newUnit = if (random 1 <= ZCS_var_EnemyChance) then {
+			if ( random 1 <= ZCS_var_BomberChance) then {
+				[_pos] call ZCS_fnc_SpawnBomber;
+			} else {
+				[_pos] call ZCS_fnc_SpawnHunter;
+			}
+		} else {
+			[_pos] call ZCS_fnc_SpawnUnit;
+		};
+		
 		if (!isNull _newUnit) then {
 			ZCS_CivList pushBack [_newUnit, [], getPos _newUnit, false, time, random 1 < ZCS_var_RunChance];
 		};
@@ -389,7 +401,7 @@ while { ZCS_var_Running } do {
 		_unit forceSpeed (if _isRunning then { -1 } else { 1 });
 
 		_x set [2, getPos _unit];
-	} forEach ZCS_CivList;
+	} forEach ZCS_CivList select { side _x == Civilian };
 
 	sleep 5;
 };
