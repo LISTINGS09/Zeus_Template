@@ -1,9 +1,11 @@
 //  AI Paradrop Script - Spawns a vehicle and drops AI Soldiers
 //  Version: 0.1
 //  Author: 2600K
-//	_nul = [thisTrigger,EAST] execVM "scripts\UPS\UPS_Lite.sqf";
+//	_nul = [thisTrigger] execVM "scripts\paradrop.sqf";
 //
 if !isServer exitWith {};
+
+scriptName "paradrop.sqf";
 
 params ["_location","_startPos"];
 
@@ -23,7 +25,12 @@ _groupSize = 8; // Units number per para group
 _location = switch (typeName _location) do { case "STRING": { getMarkerPos _location }; case "OBJECT": { getPos _location }; default { _location }; };
 _location set [2,0];
 
-_startPos = if (!isNil "_startPos") then { _startPos } else { _location getPos [2000, random 360] };
+_startPos = if (!isNil "_startPos") then {
+		switch (typeName _startPos) do {
+			case "STRING": { getMarkerPos _startPos};
+			case "OBJECT": { getPos _startPos};
+		};
+	} else { _location getPos [3000, random 360] };
 
 // Split out init from class.
 _init = "";
