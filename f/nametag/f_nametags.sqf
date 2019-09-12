@@ -1,60 +1,44 @@
 // F3 - Nametags
-// Credits: Please see the F3 online manual http://www.ferstaberinde.com/f3/en/
-// ====================================================================================
-
-// MAKE SURE THE PLAYER INITIALIZES PROPERLY
-
-if (!isDedicated && (isNull player)) then {
-    waitUntil {sleep 0.1; !isNull player};
-};
+if (!isDedicated && (isNull player)) then { waitUntil {sleep 0.1; !isNull player} };
 
 // Only run in MP and for valid players!
 if (!isMultiplayer || !hasInterface || playerSide == sideLogic) exitWith {};
 
-f_fnc_drawNameTag = compileFinal preprocessFileLineNumbers "f\nametag\fn_drawNametag.sqf";
-
 // SET GLOBAL VARIABLES
+F_DIST_TAGS = 50;		// Distance to display name tags for all units around
+F_KEY_TAGS =  "TeamSwitch"; // The action key to toggle the name tags. See possible keys here: http://community.bistudio.com/wiki/Category:Key_Actions
 
-// MODIFYABLE
+// Globally disable this script by setting a mission variable 'F_SHOW_TAGS = FALSE'.
+F_SHOW_TAGS = missionNamespace getVariable ['F_SHOW_TAGS', profileNamespace getVariable ['F_SHOW_TAGS', true]]; // Draw tags (master)
 
-// Default values (can be modified by players in the briefing entry)
-// Comment any of these to deactivate the feature entirely
-F_SHOWGROUP_NAMETAGS = true;	 // Show unit's group next to unit name (except for player's own group)
-F_SHOWDISTANCE_NAMETAGS = false; // Show distance to unit under name
-F_SHOWVEHICLE_NAMETAGS = false;  // Show type of vehicle under driver's name
-F_SHOWCURSORONLY_NAMETAGS = false; // Show only units under cursor target (disable 360° view)
+F_SIZE_TAGS = profileNamespace getVariable ['F_SIZE_TAGS', 0.04]; // The size the names are displayed in
+F_FONT_TAGS = profileNamespace getVariable ['F_FONT_TAGS', "PuristaBold"]; // Font for the names
 
-// Other values
-F_DISTCURSOR_NAMETAGS = 100;	// Distance to display name tag for unit under cursor
-F_DISTALL_NAMETAGS = 25;		// Distance to display name tags for all units around
-F_KEY_NAMETAGS =  "TeamSwitch"; // The action key to toggle the name tags. See possible keys here: http://community.bistudio.com/wiki/Category:Key_Actions
+F_TEAM_TAGS = profileNamespace getVariable ['F_TEAM_TAGS', true]; // Show team icons only?
+F_NAME_TAGS = profileNamespace getVariable ['F_NAME_TAGS', true]; // Draw names
+F_GPID_TAGS = profileNamespace getVariable ['F_GPID_TAGS', true]; // Show unit's group next to unit name (except for player's own group)
+F_TYPE_TAGS = profileNamespace getVariable ['F_TYPE_TAGS', true]; // Show type of vehicle under driver's names
+F_TYPE_ICON = profileNamespace getVariable ['F_TYPE_ICON', true]; // Show type of vehicle under driver's names
+F_OVER_ONLY = profileNamespace getVariable ['F_OVER_ONLY', false]; // Cursor only mode
 
-// Display values
-F_SIZE_NAMETAGS = 0.035; // The size the names are displayed in
-F_HEIGHT_STANDING_NAMETAGS = 2; // Height above standing infantry unit
-F_HEIGHT_CROUCH_NAMETAGS = 1.5; // Height above crouching infantry unit
-F_HEIGHT_PRONE_NAMETAGS = 0.9;  // Height above prone infantry unit
-F_VHEIGHT_NAMETAGS = 0; // The height of the name tags for units in vehicles (0 = hovering over vehicle)
-F_SHADOW_NAMETAGS = 2; // The shadow for the name tags (0 - 2)
-F_COLOR_NAMETAGS =  [1,1,1,0.9]; // The color for infantry and units in vehicle cargo (in [red,green, blue, opacity])
-F_COLOR2_NAMETAGS = [1,0.1,0.2,0.9]; // The color for units in driver, gunner and other vehicle positions positions
-F_GROUPCOLOR_NAMETAGS = [0,1,0.7,0.9]; // The color for units of the same group
-F_FONT_NAMETAGS = "PuristaBold"; // Font for the names
+// DISABLE Tags for Regular Members
+if (count (squadParams player) > 0 && F_SHOW_TAGS) then {
+	if (toUpper ((squadParams player) # 0 # 0) == "ZEUS") then { F_SHOW_TAGS = false };
+};
 
-// SCRIPTSIDE
+if (isClass(configFile >> "CfgPatches" >> "ace_main") && F_SHOW_TAGS) then { F_SHOW_TAGS = false };
 
-F_DRAW_NAMETAGS = true;
-F_ACTIONKEY_NAMETAGS = (actionKeys F_KEY_NAMETAGS)#0;
-F_KEYNAME_NAMETAGS = actionKeysNames F_KEY_NAMETAGS;
-if (isNil "F_ACTIONKEY_NAMETAGS") then {F_ACTIONKEY_NAMETAGS = 22; F_KEYNAME_NAMETAGS = 'U';}; // If the user has not bound 'TeamSwitch' to a key we default to 'U' to toggle the tags
+F_ACTIONKEY_TAGS = (actionKeys F_KEY_TAGS)#0;
+F_KEYNAME_TAGS = actionKeysNames F_KEY_TAGS;
+if (isNil "F_ACTIONKEY_TAGS") then {F_ACTIONKEY_TAGS = 22; F_KEYNAME_TAGS = 'U';}; // If the user has not bound 'TeamSwitch' to a key we default to 'U' to toggle the tags
 
 F_KEYDOWN_NAMETAG = {
 	_key = _this#1;
 	_handeld = false;
-	if(_key == F_ACTIONKEY_NAMETAGS) then
+	if(_key == F_ACTIONKEY_TAGS) then
 	{
-		F_DRAW_NAMETAGS = !F_DRAW_NAMETAGS;
-		titleText [format["%1 unit tags", if (F_DRAW_NAMETAGS) then {"Enabled"} else {"Disabled"}], "PLAIN DOWN", 2];
+		F_SHOW_TAGS = !F_SHOW_TAGS;
+		titleText [format["%1 unit tags", if (F_SHOW_TAGS) then {"Enabled"} else {"Disabled"}], "PLAIN DOWN", 2];
 		_handeld = true;
 	};
 	_handeld;
@@ -62,46 +46,46 @@ F_KEYDOWN_NAMETAG = {
 
 // ADD BRIEFING SECTION
 // A section is added to the player's briefing to inform them about name tags being available.
-
+cursorTarget enableSimulationGlobal true;
 [] spawn {
-	_bstr = format ["<font size='18' color='#80FF00'>NAME TAGS</font><br/>Toggle name tags for friendly units below.<br/><br/>
-Name tags are displayed when aiming at individual units up to %4m away, and constantly for all units within %3m.
-        ", F_KEYNAME_NAMETAGS, F_KEY_NAMETAGS, F_DISTALL_NAMETAGS, F_DISTCURSOR_NAMETAGS];
+	_bstr = format ["<font size='18' color='#80FF00'>NAME TAGS</font><br/>Toggle name tags for friendly units below.<br/><br/>No information will be displayed for any units greater than %3m away.<br/>", 
+		F_KEYNAME_TAGS, F_KEY_TAGS, F_DIST_TAGS];
 
-        _bstr = _bstr + "<br/><br/>[<execute expression=""
-                if (F_DRAW_NAMETAGS) then [{hintSilent 'Tags deactivated!';F_DRAW_NAMETAGS= false},{F_DRAW_NAMETAGS = true;hintSilent 'Tags activated!'}];""
-                >ENABLE NAMETAGS</execute>] Toggle tags for nearby units.";
-
-        if !(isNil "F_SHOWGROUP_NAMETAGS") then {
-                _bstr = _bstr + "<br/><br/>[<execute expression=""
-                if (F_SHOWGROUP_NAMETAGS) then [{hintSilent 'Group display deactivated!';F_SHOWGROUP_NAMETAGS= false},{F_SHOWGROUP_NAMETAGS = true;hintSilent 'Group display activated!'}];""
-                >TOGGLE GROUP NAME</execute>] Toggle group name next to a unit.";
-        };
-
-        if !(isNil "F_SHOWDISTANCE_NAMETAGS") then {
-                _bstr = _bstr + "<br/><br/>[<execute expression=""
-                if (F_SHOWDISTANCE_NAMETAGS) then [{hintSilent 'Distance display deactivated!';F_SHOWDISTANCE_NAMETAGS= false},{F_SHOWDISTANCE_NAMETAGS = true;hintSilent 'Distance display activated!'}];""
-                >TOGGLE DISTANCE</execute>] Toggle distance from units.";
-        };
-
-        if !(isNil "F_SHOWVEHICLE_NAMETAGS") then {
-                _bstr = _bstr + "<br/><br/>[<execute expression=""
-                if (F_SHOWVEHICLE_NAMETAGS) then [{hintSilent 'Vehicle type display deactivated!';F_SHOWVEHICLE_NAMETAGS= false},{F_SHOWVEHICLE_NAMETAGS = true;hintSilent 'Vehicle type display activated!'}];""
-				>TOGGLE VEHICLE TYPE</execute>] Toggle vehicle type under driver.";
-        };
+	{
+		_x params ["_title","_desc","_id","_off","_on","_color"];
+		
+		if (missionNamespace getVariable [str _id,""] == "") then {
+			_bstr = _bstr + format["<br/><font color='#00FFFF'>%1</font> - %2 <font %6><execute expression=""%3 = true; hintSilent '%1: %5'; profileNamespace setVariable ['%3', %3]; saveProfileNamespace;"">%5</execute></font> | <font %7><execute expression=""%3 = false; hintSilent '%1: %4'; profileNamespace setVariable ['%3', %3]; saveProfileNamespace;"">%4</execute></font>",
+				_title,
+				_desc,
+				_id,
+				_off,
+				_on,
+				if (_color) then {"color='#80FF00'"} else {""},
+				if (_color) then {"color='#CF142B'"} else {""}
+			];
+		};
+	} forEach [
+		["All Tags","Displaying of all unit tags: ","F_SHOW_TAGS","Disabled","Enabled",true],
+		["Icon Display","Display Icons for: ","F_OVER_ONLY","Nearby Units","Cursor Only",false],
+		["Icon Filter","Floating Icons for: ","F_TEAM_TAGS","Everyone","Team Only",false],
+		["Group ID","Show when looking at a unit: ","F_GPID_TAGS","Deactivated","Activated",true],
+		["Unit Name","Show when looking at a unit: ","F_NAME_TAGS","Deactivated","Activated",true],
+		["Type Text","Show when looking at a unit: ","F_TYPE_TAGS","Deactivated","Activated",true],
+		["Type Icon","Show all units ranks or types: ","F_TYPE_ICON","Rank","Type",false]
+	];
 			
 	_bstr = _bstr + "<br/><br/><font size='18' color='#80FF00'>FONT TYPES</font><br/>Click on any of the following fonts to set the font type.<br/>
-	[<font face='EtelkaMonospaceProBold'><execute expression=""F_FONT_NAMETAGS = 'EtelkaMonospaceProBold';"">Etelka Bold</execute></font>]<br/>
-	[<font face='PuristaBold'><execute expression=""F_FONT_NAMETAGS = 'PuristaBold';"">Purista Bold</execute></font>] (Default)<br/>
-	[<font face='PuristaMedium'><execute expression=""F_FONT_NAMETAGS = 'PuristaMedium';"">Purista</execute></font>]<br/>
-	[<font face='RobotoCondensedBold'><execute expression=""F_FONT_NAMETAGS = 'RobotoCondensedBold';"">Roboto Bold</execute></font>]<br/>
-	[<font face='RobotoCondensed'><execute expression=""F_FONT_NAMETAGS = 'RobotoCondensed';"">Roboto</execute></font>]<br/>";
+	<font face='EtelkaMonospaceProBold'><execute expression=""F_FONT_TAGS = 'EtelkaMonospaceProBold'; hintSilent 'Font: Etelka Bold'; profileNamespace setVariable ['F_FONT_TAGS', F_FONT_TAGS]; saveProfileNamespace;"">Etelka Bold</execute></font><br/>
+	<font face='PuristaBold'><execute expression=""F_FONT_TAGS = 'PuristaBold'; hintSilent 'Font: Purista Bold'; profileNamespace setVariable ['F_FONT_TAGS', F_FONT_TAGS]; saveProfileNamespace;"">Purista Bold</execute></font> (Default)<br/>
+	<font face='PuristaMedium'><execute expression=""F_FONT_TAGS = 'PuristaMedium'; hintSilent 'Font: Purista'; profileNamespace setVariable ['F_FONT_TAGS', F_FONT_TAGS]; saveProfileNamespace;"">Purista</execute></font><br/>
+	<font face='RobotoCondensedBold'><execute expression=""F_FONT_TAGS = 'RobotoCondensedBold'; hintSilent 'Font: Roboto Bold'; profileNamespace setVariable ['F_FONT_TAGS', F_FONT_TAGS]; saveProfileNamespace;"">Roboto Bold</execute></font><br/>
+	<font face='RobotoCondensed'><execute expression=""F_FONT_TAGS = 'RobotoCondensed'; hintSilent 'Font: Roboto'; profileNamespace setVariable ['F_FONT_TAGS', F_FONT_TAGS]; saveProfileNamespace;"">Roboto</execute></font><br/>";
 	
 	_bstr = _bstr + "<br/><font size='18' color='#80FF00'>FONT SIZE</font><br/>Click on any of the below options to set the font size.<br/>
-	[<execute expression=""if (f_size_Nametags > 1) then { f_size_Nametags = 1 } else { f_size_Nametags = f_size_Nametags + 0.01 };  hintSilent format['Tag Size: %1', f_size_Nametags];"">Increase Font</execute>]<br/>
-	[<execute expression=""if (f_size_Nametags < 0.01) then { f_size_Nametags = 0.015 } else { f_size_Nametags = f_size_Nametags - 0.01 }; hintSilent format['Tag Size: %1', f_size_Nametags];"">Decrease Font</execute>]<br/>
-	[<execute expression=""f_size_Nametags = 0.035;  hintSilent format['Tag Size: %1', f_size_Nametags];"">Reset to Default</execute>]<br/>
-	";
+	<execute expression=""if (F_SIZE_TAGS > 1) then { F_SIZE_TAGS = 1 } else { F_SIZE_TAGS = F_SIZE_TAGS + 0.005 };  hintSilent format['Tag Size: %1', F_SIZE_TAGS]; profileNamespace setVariable ['F_SIZE_TAGS', F_SIZE_TAGS]; saveProfileNamespace;"">+ Increase Font</execute><br/>
+	<execute expression=""if (F_SIZE_TAGS < 0.01) then { F_SIZE_TAGS = 0.01 } else { F_SIZE_TAGS = F_SIZE_TAGS - 0.005 }; hintSilent format['Tag Size: %1', F_SIZE_TAGS]; profileNamespace setVariable ['F_SIZE_TAGS', F_SIZE_TAGS]; saveProfileNamespace;"">- Decrease Font</execute><br/>
+	<execute expression=""F_SIZE_TAGS = 0.04;  hintSilent format['Tag Size: %1', F_SIZE_TAGS]; profileNamespace setVariable ['F_SIZE_TAGS', F_SIZE_TAGS]; saveProfileNamespace;"">Reset to Default</execute><br/>";
 
 	//player removeDiaryRecord ["Diary", "NameTags (Options)"];
 	player createDiaryRecord ["Diary", ["NameTags (Options)",_bstr]];
@@ -114,101 +98,148 @@ sleep 0.1;
 
 waitUntil {!isNull (findDisplay 46)}; // Make sure the display we need is initialized
 
-// DISABLE Tags for Regular Members
-if (count (squadParams player) > 0) then {
-	if (toUpper ((squadParams player) # 0 # 0) == "ZEUS") then { F_DRAW_NAMETAGS = false };
-};
-
-if (isClass(configFile >> "CfgPatches" >> "ace_main")) then { F_DRAW_NAMETAGS = false };
-
-//(findDisplay 46) displayAddEventHandler   ["keyup", "_this call F_KEYUP_NAMETAG"];
 (findDisplay 46) displayAddEventHandler   ["keydown", "_this call F_KEYDOWN_NAMETAG"];
 
-addMissionEventHandler ["Draw3D", {
+// Set defaults in case they were missed
+if (isNil "F_SIZE_TAGS") then { F_SIZE_TAGS = 0.04 };
+if (isNil "F_FONT_TAGS") then { F_FONT_TAGS = "PuristaBold" };
+if (isNil "F_TEAM_TAGS") then { F_MODE_TAGS = true };
+if (isNil "F_NAME_TAGS") then { F_SHOW_TAGS = false };
+if (isNil "F_GPID_TAGS") then { F_SHOW_TAGS = false };
+if (isNil "F_TYPE_TAGS") then { F_SHOW_TAGS = false };
+if (isNil "F_TYPE_ICON") then { F_NAME_TAGS = false };
+if (isNil "F_OVER_ONLY") then { F_NAME_TAGS = true };
 
-	if(F_DRAW_NAMETAGS) then {
-	
-		private ["_ents","_veh","_color","_inc","_suffix","_pos","_angle"];
-
-		_ents = [];
-
-		// Unless disabled, collect all entities in the relevant distance
-		if !(F_SHOWCURSORONLY_NAMETAGS) then {
-			_ents = (position player) nearEntities [["CAManBase","LandVehicle","Helicopter","Plane","Ship_F"], F_DISTALL_NAMETAGS];
-		};
-
-		if (!(cursorTarget in _ents) && {(player distance cursorTarget) <= F_DISTCURSOR_NAMETAGS}) then {_ents append [cursorTarget]};
-
-		// Start looping through all entities
+if (!isNil "f_eh_nameTags") then { removeMissionEventHandler ["Draw3D", f_eh_nameTags] };
+f_eh_nameTags = addMissionEventHandler ["Draw3D", {
+	if F_SHOW_TAGS then {
 		{
-			// Filter entities
-			if (
-				// Only for the player's side
-				(side _x == side player || {group _x == group player}) &&
-				// Only other players & no virtual units
-				{_x != player && !(player isKindOf "VirtualMan_F")}
-				)
-			then {
-				// If the entity is Infantry
-				if((typeOf _x) isKindOf "Man") then {
-					_pos = getPosVisual _x;
-					
-					if (surfaceIsWater _pos) then { _pos set [2, (getPosASL _x)#2] }; 
-					
-					[_x,_pos] call f_fnc_drawNameTag;
-				} else {
-					// Else (if it's a vehicle)
-					_veh = _x;
-					_inc = 1;
-					_alternate = 0;
+			private _unit = _x;
 
-					{
-						// Get the various crew slots
-						_suffix = switch (true) do {
-							case (driver _veh == _x && !((_veh isKindOf "helicopter") || (_veh isKindOf "plane"))):{" [D]"};
-							case (driver _veh == _x && ((_veh isKindOf "helicopter") || (_veh isKindOf "plane"))):{" [P]"};
-							case (commander _veh == _x);
-							case (effectiveCommander _veh == _x):{" [CO]"};
-							case (gunner _veh == _x):{" [G]"};
-							case (assignedVehicleRole _x select 0 == "Turret" && commander _veh != _x && gunner _veh != _x && driver _veh != _x):{" [C]"};
-							default {""};
-						};
+			_dist = (player distance _unit) / F_DIST_TAGS;
+			_colorIcon = [1,1,1,1];
+			_colorName = [1,1,1,1];
+			_colorRole = [1,0.75,0,1];
+			_icon = format ["a3\Ui_f\data\GUI\Cfg\Ranks\%1_gs.paa",rank _unit];
 
-						_pos = getPosVisual _x;
+			if (leader _unit == _unit) then {
+				_colorIcon = [1,0.75,0,1];
+				//_colorRole = [1,1,1,1];
+				_icon = "a3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa";
+			};
+			
+			if (F_TYPE_ICON) then {
+				if (leader _unit == _unit) exitWith { _icon = "\A3\ui_f\data\map\vehicleIcons\iconManLeader_ca.paa" };
+				_icon = getText (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "icon");
+			};
 
-						// Only display tags for non-driver crew and cargo if player is up close
-						if (effectiveCommander _veh == _x || group _x == group player || _pos distance player <= F_DISTALL_NAMETAGS) then {
-
-							// If the unit is the driver, calculate the available and taken seats
-							if (effectiveCommander _veh == _x) then {
-								// Workaround for http://feedback.arma3.com/view.php?id=21602
-								_maxSlots = getNumber(configFile >> "CfgVehicles" >> typeOf _veh >> "transportSoldier") + (count allTurrets [_veh, true] - count allTurrets _veh);
-								_freeSlots = _veh emptyPositions "cargo";
-
-								if (_maxSlots > 0) then {
-									_suffix = _suffix + format [" (%1/%2)",(_maxSlots-_freeSlots),_maxSlots];
-								};
-							};
-
-							// If the unit is in a turret, a passenger or the driver
-							if (_pos distance (getPosVisual (driver _veh)) > 0.1 || driver _veh == _x) then {
-								[_x,_pos,_suffix] call f_fnc_drawNameTag;
-							} else {
-								// Gunners and all other slots 
-								if(_x == gunner _veh) then {
-									_pos = [_veh modelToWorld (_veh selectionPosition "gunnerview") select 0,_veh modelToWorld (_veh selectionPosition "gunnerview") select 1,(visiblePosition _x) select 2];
-								} else {
-									_angle = (getDir _veh)+180;
-									_pos = [((_pos select 0) + sin(_angle)*(0.6*_inc)) , (_pos select 1) + cos(_angle)*(0.6*_inc),_pos select 2 + F_VHEIGHT_NAMETAGS];
-									_inc = _inc + 1;
-								};
-
-								[_x,_pos,_suffix] call f_fnc_drawNameTag;
-							};
-						};
-					} forEach crew _veh;
+			if (_unit getVariable "talking") then {
+				_icon = selectRandom ["A3\Ui_f\data\GUI\Rsc\RscDisplayArsenal\voice_ca.paa"];
+			};
+			
+			// Units of same group
+			if(_unit in units player) then {
+				switch (assignedTeam _unit) do {
+					case "RED": {_colorIcon = [1,0,0,0.7]; };
+					case "GREEN": {_colorIcon = [0,1,0,0.7]; };
+					case "BLUE": {_colorIcon = [0,0.5,1,0.7]; };
+					case "YELLOW": {_colorIcon = [1,1,0,0.7]; };
+					default {_colorIcon = [1,1,1,1] };
 				};
 			};
-		} forEach _ents;
+			
+			// Set role icon
+			if (vehicle _unit != _unit) then {
+				(((fullCrew (vehicle _unit)) select {_x#0 isEqualTo _unit})#0) params ["", "_role", "_index", "_turretPath", "_isTurret"];
+				
+				if (_role == "driver") exitWith { _icon = "a3\ui_f\data\igui\cfg\commandBar\imagedriver_ca.paa" };
+				if (_role == "commander") exitWith { _icon = "a3\ui_f\data\igui\cfg\commandBar\imagecommander_ca.paa" };
+				if (_role == "cargo") exitWith { _icon = "a3\ui_f\data\igui\cfg\commandBar\imagecargo_ca.paa" };
+				if (_role == "turret" && _isTurret) exitWith { _icon = "a3\ui_f\data\igui\cfg\simpleTasks\types\rifle_ca.paa" };
+				if (_role == "gunner" || (_role == "turret" && !_isTurret)) exitWith { _icon = "a3\ui_f\data\igui\cfg\commandBar\imagegunner_ca.paa" };
+			};
+						
+			// Check if we're allowed to show the injured icons
+			if (missionNamespace getVariable ["f_var_ShowInjured", true]) then {
+				// Show incapacitated units if allowed
+				if ((_unit getVariable["ACE_isUnconscious", false]) || lifeState _unit == "INCAPACITATED") then {
+					_icon = "\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_forceRespawn_ca.paa";
+					_colorIcon = [1,0.1,0.1,1];
+				};
+				
+				// Show stabilised units if allowed
+				if (_unit getVariable "FAR_var_isStable") then { 
+					_icon = "\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_revive_ca.paa";
+					_colorIcon = [0.7,0.0,0.6,1];
+				};
+			};
+
+			_trans = 1 - _dist;
+			
+			if (_trans > 0.1) then {
+				_colorIcon set [3, _trans];
+				_colorName set [3, _trans];
+				_colorRole set [3, _trans];
+								
+				_height = [2.2, 3] select (vehicle _unit != _unit);
+				_target = effectiveCommander vehicle cursorTarget;
+				
+				if (F_OVER_ONLY && _target != _unit) exitWith {};
+
+				// Icon
+				if (!F_TEAM_TAGS || _unit in units player || _target == _unit) then {
+					drawIcon3D [
+						_icon,
+						_colorIcon,
+						[(visiblePosition _unit)#0, (visiblePosition _unit)#1, _height],
+						1,
+						1,
+						2,
+						"",
+						1,
+						F_SIZE_TAGS * 0.7,
+						F_FONT_TAGS
+					];
+				};
+				
+				if (_target == _unit || (!F_TEAM_TAGS && vehicle _unit != _unit)) then {
+					// Name / Group
+					drawIcon3D [
+					"",
+					_colorName,
+					[(visiblePosition _unit)#0, (visiblePosition _unit)#1, _height],
+					2,
+					-1.40,
+					0,
+					format["%1%2",
+						if (F_GPID_TAGS) then { if (group _unit != group player || !F_NAME_TAGS) then { format["%1%2", groupId (group _unit), [""," - "] select F_NAME_TAGS] } else { "" } } else { "" },
+						if (F_NAME_TAGS) then { name _unit } else { ""}
+					],
+					1,
+					F_SIZE_TAGS,
+					F_FONT_TAGS,
+					"Right"
+					];
+
+					// Role / Vehicle
+					drawIcon3D [
+					"",
+					_colorRole,
+					[(visiblePosition _unit)#0, (visiblePosition _unit)#1, _height],
+					2,
+					0.20,
+					0,
+					format["%1%2",
+						if (F_TYPE_TAGS || vehicle _unit != _unit) then { getText (configFile >> "CfgVehicles" >> typeOf (vehicle _unit) >> "displayName") + " " } else { "" },
+						if (vehicle _unit != _unit) then { format["[%1/%2] ", count fullCrew [vehicle _unit, "", false], count fullCrew [vehicle _unit, "", true]] } else { "" }
+					],
+					2,
+					F_SIZE_TAGS * 0.7,
+					F_FONT_TAGS,
+					"Right"
+					];
+				};
+			};
+		} forEach ((playableUnits + switchableUnits - [player]) select {alive _x && (side group _x getFriend side group player) > 0.6 && (vehicle _x == _x || (effectiveCommander (vehicle _x)) == _x)});
 	};
 }];

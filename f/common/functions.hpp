@@ -5,13 +5,13 @@ class F
 	{
 		file = "f\common";
 		class logIssue{};
-		class processParamsArray{ preInit = 1; postInit = 1 };
+		class processParamsArray{ preInit = 1; postInit = 1; };
 		class spectateInit{};
 	};
 	class missionConditions
 	{
 		file = "f\missionConditions";
-		class setConditions{ preInit = 1 };
+		class setConditions{ preInit = 1; };
 	};
 	class assignGear
     {
@@ -26,16 +26,16 @@ class F
 	class medical_init
 	{
 		file = "f\medical";
-		class medical_init{ postInit = 1 };
+		class medical_init{ postInit = 1; };
 	};
 	class radio_init
 	{
 		file = "f\radios";
-		class radio_init{ postInit = 1 };
+		class radio_init{ postInit = 1; };
 	};
     class zeus
 	{
 		file = "f\zeus";
-		class zeusInit{ postInit = 1 };
+		class zeusInit{ postInit = 1; };
 	};
 };

@@ -523,7 +523,7 @@ FAR_fnc_Bag = {
 	private _cursorTarget = cursorObject; // Can't be passed in addAction arguments!
 	
 	// Looking at weapons holder - Find the body.
-	if !(lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN']) then {
+	if !(lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN'] && !(_cursorTarget isKindOf "CAManBase")) then {
 		_cursorTarget = (_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] }) # 0;
 	};
 	
@@ -538,11 +538,11 @@ FAR_fnc_Bag = {
 
 	if (FAR_var_RespawnBagTime > 0 && isPlayer _cursorTarget && !([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy)) then {
 		{ 
-			if (!alive player && playerRespawnTime > FAR_var_RespawnBagTime) then { 
+			if (!alive player && (playerRespawnTime > FAR_var_RespawnBagTime || playerRespawnTime < 0)) then { 
 				setPlayerRespawnTime FAR_var_RespawnBagTime;
 				[format["Respawn in %1 Minutes",round FAR_var_RespawnBagTime / 60], 0] call BIS_fnc_respawnCounter;
-				titleText ["<t size='2'>Your dead body was recovered.<br/>","PLAIN DOWN", 2, true, true] 
-			}
+				titleText ["<t size='2'>Your body was recovered.<br/>","PLAIN DOWN", 2, true, true];
+			};
 		} remoteExec ["BIS_fnc_spawn", _cursorTarget];
 	};
 

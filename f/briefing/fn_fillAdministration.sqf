@@ -88,9 +88,10 @@ if (missionNamespace getVariable["f_param_groupMarkers",0] > 0) then {
 if (missionNamespace getVariable["f_param_radioMode", -1] >= 0) then {
 	_diaryText = _diaryText + "<br/><br/><font size='18' color='#80FF00'>RADIOS</font>";
 	
-	_diaryText = _diaryText + format["<br/>Radio Mode: <font color='#00FFFF'>%1</font>", ["All Units","Restricted"] select f_param_radioMode];
-	
-	_diaryText = _diaryText + format["<br/>", ["Any unit can join and leave any listed channel in Signals.","Only units with radio backpacks or units inside radio carrying vehicles may join channels listed in Signals."] select f_param_radioMode];
+	_diaryText = _diaryText + format["<br/>Radio Mode: <font color='#00FFFF'>%1</font><br/>%2", 
+		["All Units","Restricted"] select f_param_radioMode,
+		["Any unit can join and leave any listed channel in Signals.","Only units with radio backpacks or units inside radio carrying vehicles may join channels listed in Signals."] select f_param_radioMode
+	];
 };
 
 // RESPAWN / JIP

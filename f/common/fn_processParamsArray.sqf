@@ -115,7 +115,7 @@ if (isNil "f_var_setParams") then {
 		if (!isNil "_grpIND") then { f_var_groupsGUER = _grpIND };
 		if (!isNil "_grpCIV") then { f_var_groupsCIVILIAN = _grpCIV };
 		
-		{ publicVariable format["f_var_groups%1", _x] } forEach [west, east, independent, civilian];
+		{ missionNamespace setVariable [format["f_var_groups%1", _x], missionNamespace getVariable [format["f_var_groups%1", _x],[]], true] } forEach [west, east, independent, civilian];
 		
 		// Let the client know params are set.
 		if (_paramsLoaded) then {
