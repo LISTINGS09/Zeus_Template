@@ -99,7 +99,7 @@ _diaryText = _diaryText + "<br/><br/><font size='18' color='#80FF00'>JIP / RESPA
 
 if (!isNil "f_param_respawn") then {
 	if (f_param_respawn == 0) then {
-		_diaryText = _diaryText + "<br/>Respawn is <font color='#00FFFF'>Disabled</font><br/>";
+		_diaryText = _diaryText + format["<br/>Respawn is <font color='#00FFFF'>Disabled</font>%1<br/>", if (missionNamespace getVariable ["FAR_var_RespawnBagTime", 0] > 0) then { ", but you will respawn if your body is recovered by a medic." } else { "" } ];
 	} else {
 		if (f_param_respawn <= 10) then {
 			_diaryText = _diaryText + format["<br/>LIMITED TICKETS: <font color='#00FFFF'>%1</font><br/>",f_param_respawn];
@@ -125,7 +125,7 @@ if (missionNamespace getVariable["f_param_jipTeleport",0] > 0) then {
 // MEDICAL
 _diaryText = _diaryText + "<br/><br/><font size='18' color='#80FF00'>MEDICAL</font>";
 
-if (f_var_medical_level  > 0 && (getMissionConfigValue ["ReviveMode",0] == 0)) then {
+if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionConfigValue ["ReviveMode",0] == 0)) then {
 	switch (f_var_medical_level) do {
 		case 1: { // FAROOQ
 			waitUntil{!isNil "FAR_var_ReviveMode"};

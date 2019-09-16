@@ -35,11 +35,10 @@ if (isNil "F_ACTIONKEY_TAGS") then {F_ACTIONKEY_TAGS = 22; F_KEYNAME_TAGS = 'U';
 F_KEYDOWN_NAMETAG = {
 	_key = _this#1;
 	_handeld = false;
-	if(_key == F_ACTIONKEY_TAGS) then
-	{
+	if(_key == F_ACTIONKEY_TAGS) then {
 		F_SHOW_TAGS = !F_SHOW_TAGS;
 		titleText [format["%1 unit tags", if (F_SHOW_TAGS) then {"Enabled"} else {"Disabled"}], "PLAIN DOWN", 2];
-		_handeld = true;
+		//_handeld = true;
 	};
 	_handeld;
 };
@@ -98,7 +97,8 @@ sleep 0.1;
 
 waitUntil {!isNull (findDisplay 46)}; // Make sure the display we need is initialized
 
-(findDisplay 46) displayAddEventHandler   ["keydown", "_this call F_KEYDOWN_NAMETAG"];
+if (!isNil "f_eh_nameKeys") then { (findDisplay 46) displayRemoveEventHandler ["keyDown", f_eh_nameKeys] };
+f_eh_nameKeys = (findDisplay 46) displayAddEventHandler   ["keyDown", "_this spawn F_KEYDOWN_NAMETAG"];
 
 // Set defaults in case they were missed
 if (isNil "F_SIZE_TAGS") then { F_SIZE_TAGS = 0.04 };
@@ -196,7 +196,7 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 						1,
 						2,
 						"",
-						1,
+						2,
 						F_SIZE_TAGS * 0.7,
 						F_FONT_TAGS
 					];
@@ -215,7 +215,7 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 						if (F_GPID_TAGS) then { if (group _unit != group player || !F_NAME_TAGS) then { format["%1%2", groupId (group _unit), [""," - "] select F_NAME_TAGS] } else { "" } } else { "" },
 						if (F_NAME_TAGS) then { name _unit } else { ""}
 					],
-					1,
+					2,
 					F_SIZE_TAGS,
 					F_FONT_TAGS,
 					"Right"

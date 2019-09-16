@@ -71,6 +71,13 @@ f_radios_activeChID = [];
 // Set up for restricted radio mode for clients
 if (f_param_radioMode == 1) then { 
 	call compile preprocessFileLineNumbers "f\radios\vanilla\restricted_radios.sqf"
+} else { 
+	// Rejoin channels on respawn
+	if !(isNil "f_eh_respawnRadio") then { player removeEventHandler ["Respawn", f_eh_respawnRadio] };
+	f_eh_respawnRadio = player addEventHandler ["Respawn", {
+		params ["_unit", "_corpse"];
+		{ [_x, true] spawn f_fnc_radioSwitchChannel } forEach f_radios_activeChID;
+	}];
 };
 
 // Disable the Command Channel

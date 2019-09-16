@@ -36,3 +36,25 @@ if (side group player != CIVILIAN) then {
 	<br/>
 	",f_param_CasualtiesCap]]];
 };
+
+/*
+// Sector Heatmap (PEL Markers)
+// <br/>Toggle PEL IDs <font color='#80FF00'><execute expression=""allMapMarkers apply { if (['pel_text_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0.3 }; };"">On</execute></font> | <font color='#CF142B'><execute expression=""allMapMarkers apply { if (['pel_text_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0 }; };"">Off</execute></font>
+{
+	_x params ["_pos", "_count"];
+	
+	private _mkr = createMarkerLocal [format["pel_area_%1",_forEachIndex], _pos];
+	_mkr setMarkerShapeLocal "RECTANGLE";
+	_mkr setMarkerBrushLocal "SolidBorder";
+	_mkr setMarkerAlphaLocal 0.3;
+	_mkr setMarkerColorLocal "ColorEast";
+	_mkr setMarkerSizeLocal [50,50];
+	
+	private _mkr = createMarkerLocal [format["pel_text_%1",_forEachIndex], [(_pos#0)-50,(_pos#1)-40]];
+	_mkr setMarkerTypeLocal "MIL_DOT";
+	_mkr setMarkerTextLocal format["PEL %1", _forEachIndex + 1];
+	_mkr setMarkerAlphaLocal 0;
+	_mkr setMarkerColorLocal "ColorEast";
+	_mkr setMarkerSizeLocal [0.1,0.1];
+} forEach ((allGroups select { side _x != side group player && count units _x >= 2 } apply { getPos leader _x select [0,2] apply { _x - _x % 100 + 50 } }) call BIS_fnc_consolidateArray);
+*/
