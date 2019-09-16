@@ -340,7 +340,9 @@ while { ZCS_var_Running } do {
 	if (count ZCS_CivList < _unitsCount) then {
 		_pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
 		
-		_newUnit = if (random 1 <= ZCS_var_EnemyChance) then {
+		_spawnClose = ["respawn_east","respawn_west","respawn_guerrila","respawn_civilian"] findIf { getMarkerPos _x distance _pos < 1000 } > 0;
+		
+		_newUnit = if (random 1 <= ZCS_var_EnemyChance && !_spawnClose) then {
 			if ( random 1 <= ZCS_var_BomberChance) then {
 				[_pos] call ZCS_fnc_SpawnBomber;
 			} else {
