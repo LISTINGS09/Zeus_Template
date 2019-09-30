@@ -5,7 +5,7 @@ if (!isDedicated && (isNull player)) then { waitUntil {sleep 0.1; !isNull player
 if (!isMultiplayer || !hasInterface || playerSide == sideLogic) exitWith {};
 
 // SET GLOBAL VARIABLES
-F_DIST_TAGS = 50;		// Distance to display name tags for all units around
+F_DIST_TAGS = 60;		// Distance to display name tags for all units around
 F_KEY_TAGS =  "TeamSwitch"; // The action key to toggle the name tags. See possible keys here: http://community.bistudio.com/wiki/Category:Key_Actions
 
 // Globally disable this script by setting a mission variable 'F_SHOW_TAGS = FALSE'.
@@ -140,10 +140,10 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 			// Units of same group
 			if(_unit in units player) then {
 				switch (assignedTeam _unit) do {
-					case "RED": {_colorIcon = [1,0,0,0.7]; };
-					case "GREEN": {_colorIcon = [0,1,0,0.7]; };
-					case "BLUE": {_colorIcon = [0,0.5,1,0.7]; };
-					case "YELLOW": {_colorIcon = [1,1,0,0.7]; };
+					case "RED": {_colorIcon = [1,0,0,1]; };
+					case "GREEN": {_colorIcon = [0,1,0,1]; };
+					case "BLUE": {_colorIcon = [0,0.5,1,1]; };
+					case "YELLOW": {_colorIcon = [1,1,0,1]; };
 					default {_colorIcon = [1,1,1,1] };
 				};
 			};
@@ -177,11 +177,14 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 			_trans = 1 - _dist;
 			
 			if (_trans > 0.1) then {
-				_colorIcon set [3, _trans];
+				_colorIcon set [3, _trans min 0.6];
 				_colorName set [3, _trans];
 				_colorRole set [3, _trans];
-								
-				_height = [2.2, 3] select (vehicle _unit != _unit);
+							
+				_posIcon = getPosVisual _unit;
+				_height = [(if (surfaceIsWater _posIcon) then { (getPosASL _unit)#2 } else { (getPosATL _unit)#2 }) + 2, 3] select (vehicle _unit != _unit);
+				_posIcon set [2, _height];
+				
 				_target = effectiveCommander vehicle cursorTarget;
 				
 				if (F_OVER_ONLY && _target != _unit) exitWith {};
@@ -191,7 +194,7 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 					drawIcon3D [
 						_icon,
 						_colorIcon,
-						[(visiblePosition _unit)#0, (visiblePosition _unit)#1, _height],
+						_posIcon,
 						1,
 						1,
 						2,
@@ -207,7 +210,7 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 					drawIcon3D [
 					"",
 					_colorName,
-					[(visiblePosition _unit)#0, (visiblePosition _unit)#1, _height],
+					_posIcon,
 					2,
 					-1.40,
 					0,
@@ -225,7 +228,7 @@ f_eh_nameTags = addMissionEventHandler ["Draw3D", {
 					drawIcon3D [
 					"",
 					_colorRole,
-					[(visiblePosition _unit)#0, (visiblePosition _unit)#1, _height],
+					_posIcon,
 					2,
 					0.20,
 					0,

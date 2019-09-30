@@ -2,38 +2,6 @@
 // Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
 // ====================================================================================
 
-// DECLARE VARIABLES AND FUNCTIONS
-f_radios_acre2_giveRadioAction = {
-	_unit = player;
-	
-	//Give the player a message so it isn't forgotten about during the briefing.
-	[_this] spawn {
-		waitUntil{time>10};
-		systemChat format["[ACRE] WARNING: No room to add '%1'! Use scroll-wheel action to get a radio.",_this select 0];
-	};
-
-	//Create addAction to give radio.
-	_radioName = getText (configFile >> "CfgWeapons" >> _this >> "displayName");
-	_actionID = _unit addAction [format ["<t color='#3375D6'>[ACRE] Add %1</t>",_radioName],
-		 {
-			 _radioToGive = (_this select 3) select 0;
-			 _unit = (_this select 0),
-			 if (_unit canAdd _radioToGive) then {
-				_unit addItem _radioToGive;
-				_unit removeAction (_this select 2);
-			 } else {
-				 systemChat format["[ACRE] WARNING: No room to add radio '%1', remove items and try again",_radioToGive];
-			 };
-		 }
-		 ,[_this],0,false,false,"","(_target == _this)"];
-	[_actionID,_unit] spawn {
-		sleep 300;
-		if (!isNull (_this select 1)) then {
-			(_this select 1) removeAction (_this select 0);
-		};
-	};
-};
-
 // CHANNEL NAMES
 // Establish default pre-set frequencies.
 private _presetName = "default";
@@ -113,29 +81,17 @@ private _fRadiosExtraRadio = missionNamespace getVariable ["f_radios_settings_ac
 if(!f_radios_settings_disableAllRadios) then {
 	// Everyone gets a short-range radio by default
 	if ((player getVariable ["f_var_radioAddSR", true]) && (_typeofUnit in _fRadiosShortRange || "all" in _fRadiosShortRange || (player == leader (group player) && "leaders" in _fRadiosShortRange))) then {
-		if (player canAdd f_radios_settings_acre2_standardSRRadio) then {
-			player addItem f_radios_settings_acre2_standardSRRadio;
-		} else {
-			f_radios_settings_acre2_standardSRRadio call f_radios_acre2_giveRadioAction;
-		};
+		uniformContainer player addItemCargo [f_radios_settings_acre2_standardSRRadio, 1];
 	};
 
 	// If unit is in the above list, add a 148
 	if((player getVariable ["f_var_radioAddLR", true]) && (_typeofUnit in _fRadiosLongRange || "all" in _fRadiosLongRange || (player == leader (group player) && "leaders" in _fRadiosLongRange))) then {
-		if (player canAdd f_radios_settings_acre2_standardLRRadio) then {
-			player addItem f_radios_settings_acre2_standardLRRadio;
-		} else {
-			f_radios_settings_acre2_standardLRRadio call f_radios_acre2_giveRadioAction;
-		};
+		uniformContainer player addItemCargo [f_radios_settings_acre2_standardLRRadio, 1];
 	};
 	
 	// If unit is in the list of units that receive an extra long-range radio, add another 148
 	if((player getVariable ["f_var_radioAddAR", true]) && (_typeofUnit in _fRadiosExtraRadio || "all" in _fRadiosExtraRadio)) then {
-		if (player canAdd f_radios_settings_acre2_extraRadio) then {
-			player addItem f_radios_settings_acre2_extraRadio;
-		} else {
-			f_radios_settings_acre2_extraRadio call f_radios_acre2_giveRadioAction;
-		};
+		uniformContainer player addItemCargo [f_radios_settings_acre2_extraRadio, 1];
 	};
 };
 

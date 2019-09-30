@@ -56,36 +56,39 @@ _addTime = {
 
 // SELECT MISSION TIME OF DAY
 // Using the value of _timeOfDay, we define new values for _hour and _minute.
-switch (_timeOfDay) do {
+_time = switch (_timeOfDay) do {
 	// 60m to Sunrise
-	case 1: { _time = [_sunrise,-60] call _addTime; };	
+	case 1: { [_sunrise,-60] call _addTime; };	
 	// 30m to Sunrise
-	case 2: { _time = [_sunrise,-30] call _addTime; };
+	case 2: { [_sunrise,-30] call _addTime; };
 	// Sunrise
-	case 3: { _time = _sunrise; };
+	case 3: { _sunrise; };
 	// Early Morning 30m after Sunrise
-	case 4: { _time = [_sunrise,30] call _addTime; };
+	case 4: { [_sunrise,30] call _addTime; };
 	// Morning 90m after Sunrise
-	case 5: { _time = [_sunrise,60] call _addTime; };
+	case 5: { [_sunrise,60] call _addTime; };
 	// Late Morning
-	case 6: { _time = [9,0]; }; 
+	case 6: { [9,0]; }; 
 	// Noon
-	case 7:{ _time = [12,0]; }; 
+	case 7:{ [12,0]; }; 
 	// Afternoon
-	case 8:{ _time = [15,0]; }; 
+	case 8:{ [15,0]; }; 
 	// Late Afternoon (60m To Last Light)
-	case 9: { _time = [_sunset,-60] call _addTime; };	
+	case 9: { [_sunset,-60] call _addTime; };	
 	// Evening (30m To Last Light)
-	case 10: { _time = [_sunset,-30] call _addTime; };	
+	case 10: { [_sunset,-30] call _addTime; };	
 	// Sunset
-	case 11: { _time = _sunset; };	
+	case 11: { _sunset; };	
 	// Night
-	case 12:{ _time = [22,15]; }; 
+	case 12:{ [22,15]; }; 
 	// Midnight
-	case 13: { _time = [0,0]; };
+	case 13: { [0,0]; };
 	// Random
-	case 14:{ _time = [floor random 23.9,floor random 60]; };
+	case 14:{ [floor random 23.9,floor random 60]; };
 };
+
+// VR Daytime
+if (worldName == "VR") then { _time = [12,0] };
 
 _time params ["_hour","_minute"];
 

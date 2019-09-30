@@ -110,11 +110,14 @@ while {true} do {
 	sleep 10;
 };
 
+// Don't continue if the mission is finishing
+if !(isNil "BIS_fnc_endMission_effects") exitWith {};
+
 // END CASCAP
 // Depending on input, either MPEnd or the parsed code itself is called
 if (_end isEqualType 0) exitWith {
-	diag_log text format ["[F3] INFO (f_CasualtiesCapCheck.sqf): End%1 Called.",_end];
-	format["End%1",_end] call BIS_fnc_endMissionServer;
+		diag_log text format ["[F3] INFO (f_CasualtiesCapCheck.sqf): End%1 Called.",_end];
+		format["End%1",_end] call BIS_fnc_endMissionServer;
 };
 
 if (_end isEqualType {}) exitWith {
