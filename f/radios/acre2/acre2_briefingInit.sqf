@@ -98,6 +98,7 @@ _radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Long Rang
 } forEach _presetLRArray;
 
 _radioText = _radioText + format["<br/><br/><br/>Problem? Re-run the <execute expression='[] call f_acre2_reinitRadio;'>Radio Setup</execute> script to attempt to re-add any radios.", _groupFreqIndex, _groupLRFreqIndex];
+_radioText = _radioText + "<br/>Toggle <execute expression=""if (missionNamespace getVariable ['acre_sys_signal_showSignalHint',false]) then { acre_sys_signal_showSignalHint = true } else { acre_sys_signal_showSignalHint = false };"">Signal Strength</execute> display.";
 
 //player removeDiaryRecord ["Diary", "Signal"];
 player createDiaryRecord ["Diary", ["Signal",_radioText]];

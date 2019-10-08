@@ -17,7 +17,7 @@ f_fnc_hasUsableRadio = {
 	if (f_param_radioMode < 1) exitWith { true };
 		
 	if ((toLower backpack _unit) find "radio" < 0 && // Any radio class backpack
-		missionNamespace getVariable ["f_radios_backpack","B_RadioBag_01_black_F"] != backpack _unit && // Backpack Variable
+		{ _unit distance _x < 3 && missionNamespace getVariable ["f_radios_backpack","B_RadioBag_01_wdl_F"] == backpack _x} count (allPlayers) <= 0 && // Has or is near Backpack
 		rank _unit != "COLONEL" && // Commander can do anything
 		vehicle _unit == _unit // Not in a vehicle
 	) exitWith { 

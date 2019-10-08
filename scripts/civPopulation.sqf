@@ -1,6 +1,5 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.0
 // [] execVM "scripts\civPopulation.sqf";
-if !isServer exitWith {};
 
 // The following constants may be used to tweak behaviour
 ZCS_var_WaitTime = 60; // Maximum standing still time in seconds
@@ -15,6 +14,9 @@ ZCS_var_BlackList = [];
 ZCS_var_HideMrk = true;
 ZCS_var_LOWTasks = true;
 ZCS_var_Debug = false;
+
+if !isServer exitWith {};
+
 ZCS_var_UnitClass = [ "C_man_1","C_man_p_fugitive_F_asia","C_man_p_beggar_F_afro","C_man_p_beggar_F_euro"]; // Basic Unit Classes - Gear is applied below
 ZCS_var_UnitGear = [
 	[
@@ -197,10 +199,12 @@ ZCS_fnc_SpawnUnit = {
 		private _killer = if (isNull (_this#2)) then { (_this#0) getVariable ["ace_medical_lastDamageSource", (_this#1)] } else { (_this#2) };
 		
 		if (isPlayer _killer) then { 
-			missionNamespace setVariable ["var_deadCivCount", (missionNamespace getVariable ["var_deadCivCount",0])+1,true]; 
+			missionNamespace setVariable ["ZCS_var_deadCivCount", (missionNamespace getVariable ["ZCS_var_deadCivCount",0])+1,true]; 
 			format["%1 (%2) killed Civilian (%3)",name _killer,groupId group _killer,name (_this select 0)] remoteExec ["systemChat",0];
 			
 			if (ZCS_var_LOWTasks) then {
+				missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.05,true];
+				
 				// Create Parent Task
 				if !(["ZCS_TSK_PARENT"] call BIS_fnc_taskExists) then {
 					_task = ["ZCS_TSK_PARENT", TRUE, ["The <font color='#72E500'>Laws of War</font> are a set of international rules that set out what can and cannot be done during an armed conflict.<br/><br/>The main purpose of international humanitarian law is to maintain some humanity in armed conflicts, saving lives and reducing suffering.", "Laws of War", ""], nil, "CREATED", 1, false, true, "meet"] call BIS_fnc_setTask;
@@ -314,7 +318,7 @@ ZCS_fnc_SpawnBomber = {
 	[_bomber] spawn {
 		params ["_unit"];
 		
-		waitUntil { sleep 1; playSound3D ["A3\sounds_f\sfx\beep_target.wss", _unit, false, getPosASL _unit, 1, 0.5, 25]; (!alive _unit || allPlayers findIf { alive _x && _unit distance _x < 5 } >= 0) };
+		waitUntil { sleep 1; playSound3D ["A3\sounds_f\sfx\beep_target.wss", _unit, false, getPosASL _unit, 1, 0.5, 75]; (!alive _unit || allPlayers findIf { alive _x && _unit distance _x < 5 } >= 0) };
 
 		if(random 1 > 0.2) then {
 			_exp = "HelicopterExploSmall" createVehicle (getPos _unit);

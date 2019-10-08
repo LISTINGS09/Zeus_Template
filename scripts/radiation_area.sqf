@@ -2,6 +2,9 @@
 // Radiation script applies effect and damages player
 // Can be reversed so 'hazard areas' become safe zones and the entire world is radioactive.
 // _nul = [TR_AREA_1,TR_AREA_2] execVM "scripts\radiation_area.sqf";
+//
+// To include a zone mid-mission (server side)
+// missionNamespace setVariable ["ZRA_Areas", (missionNamespace getVariable ["ZRA_Areas",[]]) + [TR_AREA_1], true];
 if !hasInterface exitWith {};
 
 sleep 1;
@@ -35,12 +38,11 @@ ZRA_getPlayerPPE = {
 		_x params [["_checklist",[]],["_value",0],["_wearing",""]];
 		if (toLower _wearing in (_checklist apply { toLower _x })) then { _protection = _protection + _value };
 	} forEach [
-		[_ppeEyes, _ppeEyesValue, goggles player],
-		[_ppeHead, _ppeHeadValue, headgear player],
-		[_ppeVest, _ppeVestValue, vest player],
-		[_ppeBody, _ppeBodyValue, uniform player],
-		[_ppeBack, _ppeBackValue, backpack player]
-	
+		[_ppeEyes, _ppeEyesValue, goggles player]
+		,[_ppeHead, _ppeHeadValue, headgear player]
+		,[_ppeVest, _ppeVestValue, vest player]
+		,[_ppeBody, _ppeBodyValue, uniform player]
+		,[_ppeBack, _ppeBackValue, backpack player]
 	];
 	
 	// Apply protection if player is in vehicle
@@ -79,10 +81,6 @@ ZRA_Areas = [];
 		};
 	};
 } forEach _this;
-
-if (ZRA_Areas isEqualTo []) exitWith {
-	["ERROR","No valid areas present!"] call ZRA_logIssue;
-};
 
 // Set-up Screen Effects
 ZRA_ppGrain = ppEffectCreate ["FilmGrain", 23];

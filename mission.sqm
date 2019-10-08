@@ -1,14 +1,14 @@
 version=53;
 class EditorData
 {
-	moveGridStep=4;
+	moveGridStep=1;
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=165;
+	toggles=37;
 	class ItemIDProvider
 	{
-		nextID=4356;
+		nextID=4468;
 	};
 	class MarkerIDProvider
 	{
@@ -20,86 +20,22 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5000.2378,30,7147.5127};
-		dir[]={0,-0.70710683,0.70710683};
-		up[]={0,0.70710677,0.70710677};
-		aside[]={0.99999994,0,0};
+		pos[]={3039.5061,18.3444,938.50751};
+		dir[]={0.41465011,-0.50731826,0.75549299};
+		up[]={0.24409698,0.8617512,0.44474477};
+		aside[]={0.87667865,4.4354238e-007,-0.48116487};
 	};
 };
 binarizationWanted=0;
 addons[]=
 {
-	"A3_Ui_F",
-	"A3_Soft_F_Quadbike_01",
-	"A3_Boat_F_Boat_Armed_01",
-	"A3_Characters_F",
-	"A3_Modules_F_Multiplayer",
-	"A3_Modules_F",
-	"A3_Static_F_Mortar_01",
-	"A3_Armor_F_Beta_APC_Wheeled_02",
-	"A3_Modules_F_Intel",
-	"A3_Characters_F_Mark",
-	"A3_Armor_F_Beta_APC_Tracked_01",
-	"A3_Armor_F_Beta_APC_Tracked_02",
-	"A3_Armor_F_EPB_APC_Tracked_03",
-	"A3_Structures_F_Mil_Flags",
-	"A3_Air_F_Beta_Heli_Transport_01",
-	"A3_Air_F_Heli_Light_02",
-	"A3_Air_F_EPB_Heli_Light_03",
-	"A3_Soft_F_Gamma_Truck_02",
-	"A3_Structures_F_Items_Electronics",
-	"A3_Structures_F_Heli_Items_Electronics",
-	"A3_Structures_F_Items_Documents",
-	"A3_Soft_F_Beta_MRAP_03",
-	"A3_Soft_F_Beta_Truck_02",
-	"A3_Soft_F_Beta_Truck_01",
-	"A3_Soft_F_Exp_Truck_01",
-	"A3_Soft_F_MRAP_01",
-	"A3_Soft_F_MRAP_02",
-	"A3_Soft_F_EPC_Truck_03",
-	"A3_Characters_F_Exp_Civil",
-	"A3_Structures_F_Wrecks",
-	"A3_Air_F_Exp_VTOL_01",
-	"A3_Soft_F_Gamma_Hatchback_01",
-	"A3_Modules_F_Curator_Misc",
-	"A3_Structures_F_Mil_Helipads",
-	"A3_Weapons_F_Explosives",
-	"A3_Modules_F_Curator_Mines",
-	"A3_Structures_F_Items_Vessels",
-	"A3_Structures_F_Civ_Constructions",
-	"A3_Structures_F_Furniture",
-	"A3_Structures_F_Heli_Ind_Machines",
-	"A3_Air_F_Jets_UAV_05",
-	"A3_Structures_F_Civ_Camping",
-	"A3_Armor_F_Gamma_APC_Wheeled_03",
-	"A3_Characters_F_Orange",
-	"A3_Weapons_F",
-	"A3_Characters_F_Orange_Headgear",
-	"A3_Weapons_F_Items",
-	"A3_Characters_F_Orange_Vests",
-	"A3_Soft_F_Offroad_01",
-	"A3_Props_F_Orange_Humanitarian_Supplies",
-	"A3_Soft_F_Gamma_Van_01",
-	"A3_Props_F_Exp_A_Military_Equipment",
-	"A3_Props_F_Exp_Commercial_Market",
-	"A3_Weapons_F_Tank",
-	"A3_Weapons_F_Tank_Launchers_MRAWS",
-	"A3_Supplies_F_Heli_CargoNets",
-	"A3_Static_F_Sams_Radar_System_01",
-	"A3_Characters_F_Common",
-	"A3_Static_F_Sams_SAM_System_03",
-	"A3_Structures_F_EPC_Items_Electronics",
-	"A3_Static_F_Jets_AAA_System_01",
-	"A3_Weapons_F_Exp_Rifles_AKM",
-	"A3_Weapons_F_Exp",
-	"A3_Characters_F_Orange_Facewear",
-	"A3_Characters_F_Heads"
+
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=36;
+		items=49;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -130,225 +66,312 @@ class AddonsMetaData
 		};
 		class Item4
 		{
+			className="ace_nouniformrestrictions";
+			name="ACE3 - No Uniform Restrictions";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item5
+		{
 			className="A3_Modules_F";
 			name="Arma 3 Alpha - Scripted Modules";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item5
+		class Item6
 		{
 			className="A3_Static_F";
 			name="Arma 3 Alpha - Turrets";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item6
+		class Item7
+		{
+			className="XLA_FixedArsenal";
+			name="XLA_FixedArsenal";
+		};
+		class Item8
 		{
 			className="A3_Armor_F_Beta";
 			name="Arma 3 Beta - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item7
+		class Item9
 		{
 			className="A3_Characters_F_Mark";
 			name="Arma 3 Marksmen - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item8
+		class Item10
+		{
+			className="ace_explosives";
+			name="ACE3 - Explosives";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item11
 		{
 			className="A3_Armor_F_EPB";
 			name="Arma 3 Adapt Episode - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item9
+		class Item12
 		{
 			className="A3_Structures_F_Mil";
 			name="Arma 3 - Military Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item10
+		class Item13
 		{
 			className="A3_Air_F_Beta";
 			name="Arma 3 Beta - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item11
+		class Item14
 		{
 			className="A3_Air_F";
 			name="Arma 3 Alpha - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item12
+		class Item15
 		{
 			className="A3_Air_F_EPB";
 			name="Arma 3 Adapt Episode - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item13
+		class Item16
 		{
 			className="A3_Soft_F_Gamma";
 			name="Arma 3 - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item14
+		class Item17
 		{
 			className="A3_Structures_F";
 			name="Arma 3 - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item15
+		class Item18
 		{
 			className="A3_Structures_F_Heli";
 			name="Arma 3 Helicopters - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item16
+		class Item19
 		{
 			className="A3_Soft_F_Beta";
 			name="Arma 3 Beta - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item17
+		class Item20
 		{
 			className="A3_Soft_F_Exp";
 			name="Arma 3 Apex - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item18
+		class Item21
+		{
+			className="ace_cargo";
+			name="ACE3 - Cargo";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item22
 		{
 			className="A3_Soft_F_EPC";
 			name="Arma 3 Win Episode - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item19
+		class Item23
+		{
+			className="zeu_tb_alfr_units";
+			name="zeu_tb_alfr_units";
+		};
+		class Item24
 		{
 			className="A3_Characters_F_Exp";
 			name="Arma 3 Apex - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item20
+		class Item25
 		{
 			className="A3_Structures_F_Wrecks";
 			name="Arma 3 - Vehicle Wrecks";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item21
+		class Item26
 		{
 			className="A3_Air_F_Exp";
 			name="Arma 3 Apex - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item22
+		class Item27
 		{
 			className="A3_Modules_F_Curator";
 			name="Arma 3 Zeus Update - Scripted Modules";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item23
+		class Item28
 		{
 			className="A3_Weapons_F";
 			name="Arma 3 Alpha - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item24
+		class Item29
 		{
 			className="A3_Air_F_Jets";
 			name="Arma 3 Jets - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item25
+		class Item30
 		{
 			className="A3_Armor_F_Gamma";
 			name="Arma 3 - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item26
+		class Item31
 		{
 			className="A3_Characters_F_Orange";
 			name="Arma 3 Orange - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item27
+		class Item32
+		{
+			className="ace_optics";
+			name="ACE3 - Optics";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item33
+		{
+			className="ace_medical";
+			name="ACE3 - Medical";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item34
 		{
 			className="A3_Props_F_Orange";
 			name="Arma 3 Orange - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item28
+		class Item35
 		{
 			className="A3_Props_F_Exp_A";
 			name="Arma 3 Nexus Update - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item29
+		class Item36
 		{
 			className="A3_Props_F_Exp";
 			name="Arma 3 Apex - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item30
+		class Item37
+		{
+			className="ace_dragging";
+			name="ACE3 - Dragging";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item38
 		{
 			className="A3_Weapons_F_Tank";
 			name="Arma 3 Tank - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item31
+		class Item39
 		{
 			className="A3_Supplies_F_Heli";
 			name="Arma 3 Helicopters - Ammoboxes and Supplies";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item32
+		class Item40
 		{
 			className="A3_Static_F_Sams";
 			name="Arma 3 Sams - Turrets";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item33
+		class Item41
 		{
 			className="A3_Structures_F_EPC";
 			name="Arma 3 Win Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item34
+		class Item42
 		{
 			className="A3_Static_F_Jets";
 			name="Arma 3 Jets - Turrets";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item35
+		class Item43
 		{
 			className="A3_Weapons_F_Exp";
 			name="Arma 3 Apex - Weapons and Accessories";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item44
+		{
+			className="ace_ballistics";
+			name="ACE3 - Ballistics";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item45
+		{
+			className="ace_goggles";
+			name="ACE3 - Goggles";
+			author="ACE-Team";
+			url="http://ace3mod.com/";
+		};
+		class Item46
+		{
+			className="A3_Props_F_Enoch";
+			name="Arma 3 Enoch - Decorative and Mission Objects";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item47
+		{
+			className="A3_Armor_F_Tank";
+			name="Arma 3 Tank - Armored Land Vehicles";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item48
+		{
+			className="A3_Weapons_F_Mod";
+			name="Arma 3 Official Mod - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -463,6 +486,25 @@ class CustomAttributes
 		name="Scenario";
 		class Attribute0
 		{
+			property="cba_settings_hasSettingsFile";
+			expression="false";
+			class Value
+			{
+				class data
+				{
+					class type
+					{
+						type[]=
+						{
+							"BOOL"
+						};
+					};
+					value=1;
+				};
+			};
+		};
+		class Attribute1
+		{
 			property="EnableDebugConsole";
 			expression="true";
 			class Value
@@ -480,7 +522,7 @@ class CustomAttributes
 				};
 			};
 		};
-		nAttributes=1;
+		nAttributes=2;
 	};
 };
 class Mission
@@ -511,7 +553,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=529;
+		items=574;
 		class Item0
 		{
 			dataType="Marker";
@@ -1326,7 +1368,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -1810,7 +1852,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -2089,7 +2131,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -2368,7 +2410,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -2647,7 +2689,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -2808,7 +2850,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -3110,7 +3152,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -3389,7 +3431,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -3668,7 +3710,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -3947,7 +3989,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -4110,7 +4152,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -4425,7 +4467,6 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_A2_FTL";
 						description="Grenadier";
-						isPlayer=1;
 						isPlayable=1;
 					};
 					id=2682;
@@ -4606,7 +4647,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -4618,7 +4659,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="BLU Alpha ";
+							value="BLU Alpha";
 						};
 					};
 				};
@@ -4928,7 +4969,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -5231,7 +5272,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -5511,7 +5552,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -5962,7 +6003,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -7789,7 +7830,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -7864,7 +7905,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -7939,7 +7980,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8014,7 +8055,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8153,7 +8194,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8292,7 +8333,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8431,7 +8472,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8570,7 +8611,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8752,7 +8793,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8893,7 +8934,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -8969,7 +9010,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9045,7 +9086,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9144,7 +9185,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9239,7 +9280,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9334,7 +9375,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9429,7 +9470,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9524,7 +9565,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9619,7 +9660,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9696,7 +9737,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9773,7 +9814,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9850,7 +9891,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -9947,7 +9988,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -10044,7 +10085,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -10141,7 +10182,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -10238,7 +10279,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -10377,7 +10418,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -10454,7 +10495,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -10782,6 +10823,7 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_TH1_P";
 						description="Vector1 - Pilot@Vector1";
+						isPlayer=1;
 						isPlayable=1;
 					};
 					id=2646;
@@ -10901,7 +10943,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -11059,7 +11101,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -11217,7 +11259,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -11394,7 +11436,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -11552,7 +11594,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -11772,7 +11814,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -11895,7 +11937,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12018,7 +12060,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12141,7 +12183,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12264,7 +12306,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12387,7 +12429,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12595,7 +12637,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12718,7 +12760,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12841,7 +12883,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -12964,7 +13006,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -13369,7 +13411,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -14026,7 +14068,7 @@ class Mission
 				class Attribute0
 				{
 					property="groupID";
-					expression="_this setGroupID [_value];";
+					expression="[_this, _value] call CBA_fnc_setCallsign";
 					class Value
 					{
 						class data
@@ -14491,7 +14533,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={2521,5.0014391,2552.0488};
+						position[]={2521,5.0014391,2552.05};
 					};
 					side="East";
 					flags=6;
@@ -14504,6 +14546,7 @@ class Mission
 					class Attributes
 					{
 						rank="MAJOR";
+						init="removeFromRemainsCollector [this];" \n "[this,   " \n "format[""Take ID from <t color='#72E500'>%1</t>"", name this],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """_this distance _target < 3 && !alive _target && !(_target getVariable ['var_verified', false])"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _target setVariable [""var_verified"", true, true]; " \n " _caller playAction ""PutDown""; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
 						name="HVT_OFFICER";
 					};
 					id=3006;
@@ -14511,6 +14554,25 @@ class Mission
 					class CustomAttributes
 					{
 						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
 						{
 							property="pitch";
 							expression="_this setpitch _value;";
@@ -14529,7 +14591,7 @@ class Mission
 								};
 							};
 						};
-						nAttributes=1;
+						nAttributes=2;
 					};
 				};
 			};
@@ -14584,12 +14646,12 @@ class Mission
 		class Item159
 		{
 			dataType="Trigger";
-			position[]={2527,5,2551};
+			position[]={2527,5,2552};
 			class Attributes
 			{
 				name="TR_HVTDEAD_1";
 				condition="!alive HVT_OFFICER";
-				onActivation="""HVTMKR_1"" setMarkerColor ""ColorGrey""; ""HVTMKR_2"" setMarkerColor ""ColorGrey""; [""End1""] call BIS_fnc_endMissionServer;";
+				onActivation="""HVTMKR_1"" setMarkerColor ""ColorGrey""; ""HVTMKR_2"" setMarkerColor ""ColorGrey"";";
 				sizeA=0;
 				sizeB=0;
 				timeout[]={5,5,5};
@@ -14606,7 +14668,7 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={2527,5,2550};
+				position[]={2527,5,2551};
 			};
 			id=3011;
 			type="ModuleTaskSetState_F";
@@ -14919,7 +14981,7 @@ class Mission
 			dataType="Marker";
 			position[]={2528,5,2551};
 			name="HVTMKR_2";
-			text="Locate and Eliminate Officer";
+			text="Eliminate Officer and Verify Kill";
 			type="mil_circle";
 			colorName="ColorEAST";
 			id=3013;
@@ -32072,8 +32134,8 @@ class Mission
 			flags=6;
 			class Attributes
 			{
-				init="this attachTo [(synchronizedObjects this)#0,[0,-2.6,2.2]];";
-				textures="Sand";
+				init="this attachTo [(synchronizedObjects this)#0,[0,-2.6,2.2]]; this setAutonomous false;";
+				textures="Green";
 				reportRemoteTargets=1;
 				receiveRemoteTargets=1;
 				reportOwnPosition=1;
@@ -35283,16 +35345,2743 @@ class Mission
 			};
 			id=4345;
 		};
+		class Item529
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3040.875,5.3055372,1343.25};
+				angles[]={0,3.1415927,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,   " \n "format[""<t color='#72E500'>Open %1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """_this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _caller playAction ""PutDown"";  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"", 0]) + 1, true]; " \n " private _giveItem = var_itemCount >= 2; " \n " private _item = objNull; " \n "  " \n " sleep 1; " \n "  " \n " private _case = createSimpleObject [[""CBRNContainer_01_yellow_F"",""CBRNContainer_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), getPosASL _target]; " \n " private _lid = createSimpleObject [[""CBRNLid_01_yellow_F"",""CBRNLid_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), [0,0,0]]; " \n " _lid setPos (_case modelToWorld [selectRandom [0.3,-0.3], selectRandom [0.4,-0.4], -0.15]); " \n " _lid setVectorDirAndUp [[1,random 0.8,random 0.8],[0,0,1]];  " \n "  " \n " if (_giveItem && !(missionNamespace getVariable [""var_gotItem"", false])) then { " \n "  _item = createSimpleObject [""CBRNCase_01_F"", [0,0,0]]; " \n "  _item attachTo [_case,[0,0,0.1]]; " \n " }; " \n "  " \n " deleteVehicle _target; " \n "  " \n " if (!isNull _item) then { " \n "  sleep 1; " \n "  missionNamespace setVariable [""var_gotItem"", true, true]; " \n "  deleteVehicle _item; " \n "  (parseText format[""<t size='1.5' color='#72E500'>Item Collected:</t><br/><br/>%2<br/><br/><img  image='%3' size='5'/><br/><br/>Found By: <t color='#0080FF'>%1</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""editorPreview"")]) remoteExec [""hintSilent""]; " \n " }; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4358;
+			type="CBRNContainer_01_closed_olive_F";
+		};
+		class Item530
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3042.875,5.3055372,1343.25};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,   " \n "format[""<t color='#72E500'>Open %1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """_this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _caller playAction ""PutDown"";  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"", 0]) + 1, true]; " \n " private _giveItem = var_itemCount >= 2; " \n " private _item = objNull; " \n "  " \n " sleep 1; " \n "  " \n " private _case = createSimpleObject [[""CBRNContainer_01_yellow_F"",""CBRNContainer_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), getPosASL _target]; " \n " private _lid = createSimpleObject [[""CBRNLid_01_yellow_F"",""CBRNLid_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), [0,0,0]]; " \n " _lid setPos (_case modelToWorld [selectRandom [0.3,-0.3], selectRandom [0.4,-0.4], -0.15]); " \n " _lid setVectorDirAndUp [[1,random 0.8,random 0.8],[0,0,1]];  " \n "  " \n " if (_giveItem && !(missionNamespace getVariable [""var_gotItem"", false])) then { " \n "  _item = createSimpleObject [""CBRNCase_01_F"", [0,0,0]]; " \n "  _item attachTo [_case,[0,0,0.1]]; " \n " }; " \n "  " \n " deleteVehicle _target; " \n "  " \n " if (!isNull _item) then { " \n "  sleep 1; " \n "  missionNamespace setVariable [""var_gotItem"", true, true]; " \n "  deleteVehicle _item; " \n "  (parseText format[""<t size='1.5' color='#72E500'>Item Collected:</t><br/><br/>%2<br/><br/><img  image='%3' size='5'/><br/><br/>Found By: <t color='#0080FF'>%1</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""editorPreview"")]) remoteExec [""hintSilent""]; " \n " }; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4362;
+			type="CBRNContainer_01_closed_yellow_F";
+		};
+		class Item531
+		{
+			dataType="Trigger";
+			position[]={3040.875,5,1353.25};
+			class Attributes
+			{
+				name="TR_CBRN";
+				condition="(missionNamespace getVariable [""var_gotItem"",false])";
+				onActivation="""CBRNMKR"" setMarkerColor ""ColorGrey"";";
+				sizeA=0;
+				sizeB=0;
+				isServerOnly=1;
+			};
+			id=4383;
+			type="EmptyDetector";
+		};
+		class Item532
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3040.875,5,1350.25};
+			};
+			id=4384;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				nAttributes=2;
+			};
+		};
+		class Item533
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3040.875,5,1347.25};
+			};
+			name="TSK_CBRN";
+			id=4385;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="search";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Search CBRN Containers";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Find the Chemical being transported inside a CBRN Container.";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="170";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=11;
+			};
+		};
+		class Item534
+		{
+			dataType="Marker";
+			position[]={3040.875,5,1347.25};
+			name="CBRNMKR";
+			text="Find Sample";
+			type="mil_circle";
+			colorName="ColorEAST";
+			id=4386;
+		};
+		class Item535
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3036.875,5.3055372,1343.25};
+				angles[]={0,3.1415927,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,   " \n "format[""<t color='#72E500'>Open %1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """_this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _caller playAction ""PutDown"";  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"", 0]) + 1, true]; " \n " private _giveItem = var_itemCount >= 2; " \n " private _item = objNull; " \n "  " \n " sleep 1; " \n "  " \n " private _case = createSimpleObject [[""CBRNContainer_01_yellow_F"",""CBRNContainer_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), getPosASL _target]; " \n " private _lid = createSimpleObject [[""CBRNLid_01_yellow_F"",""CBRNLid_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), [0,0,0]]; " \n " _lid setPos (_case modelToWorld [selectRandom [0.3,-0.3], selectRandom [0.4,-0.4], -0.15]); " \n " _lid setVectorDirAndUp [[1,random 0.8,random 0.8],[0,0,1]];  " \n "  " \n " if (_giveItem && !(missionNamespace getVariable [""var_gotItem"", false])) then { " \n "  _item = createSimpleObject [""CBRNCase_01_F"", [0,0,0]]; " \n "  _item attachTo [_case,[0,0,0.1]]; " \n " }; " \n "  " \n " deleteVehicle _target; " \n "  " \n " if (!isNull _item) then { " \n "  sleep 1; " \n "  missionNamespace setVariable [""var_gotItem"", true, true]; " \n "  deleteVehicle _item; " \n "  (parseText format[""<t size='1.5' color='#72E500'>Item Collected:</t><br/><br/>%2<br/><br/><img  image='%3' size='5'/><br/><br/>Found By: <t color='#0080FF'>%1</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""editorPreview"")]) remoteExec [""hintSilent""]; " \n " }; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4387;
+			type="CBRNContainer_01_closed_olive_F";
+		};
+		class Item536
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3038.875,5.3055372,1343.25};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,   " \n "format[""<t color='#72E500'>Open %1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",   " \n """_this distance _target < 3"",   " \n """_caller distance _target < 3"",   " \n "{},   " \n "{},   " \n "{ " \n " _caller playAction ""PutDown"";  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"", 0]) + 1, true]; " \n " private _giveItem = var_itemCount >= 2; " \n " private _item = objNull; " \n "  " \n " sleep 1; " \n "  " \n " private _case = createSimpleObject [[""CBRNContainer_01_yellow_F"",""CBRNContainer_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), getPosASL _target]; " \n " private _lid = createSimpleObject [[""CBRNLid_01_yellow_F"",""CBRNLid_01_olive_F""] select (typeOf _target == ""CBRNContainer_01_closed_olive_F""), [0,0,0]]; " \n " _lid setPos (_case modelToWorld [selectRandom [0.3,-0.3], selectRandom [0.4,-0.4], -0.15]); " \n " _lid setVectorDirAndUp [[1,random 0.8,random 0.8],[0,0,1]];  " \n "  " \n " if (_giveItem && !(missionNamespace getVariable [""var_gotItem"", false])) then { " \n "  _item = createSimpleObject [""CBRNCase_01_F"", [0,0,0]]; " \n "  _item attachTo [_case,[0,0,0.1]]; " \n " }; " \n "  " \n " deleteVehicle _target; " \n "  " \n " if (!isNull _item) then { " \n "  sleep 1; " \n "  missionNamespace setVariable [""var_gotItem"", true, true]; " \n "  deleteVehicle _item; " \n "  (parseText format[""<t size='1.5' color='#72E500'>Item Collected:</t><br/><br/>%2<br/><br/><img  image='%3' size='5'/><br/><br/>Found By: <t color='#0080FF'>%1</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _item >> ""editorPreview"")]) remoteExec [""hintSilent""]; " \n " }; " \n "},    " \n "{},    " \n "[],    " \n "1,    " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4388;
+			type="CBRNContainer_01_closed_yellow_F";
+		};
+		class Item537
+		{
+			dataType="Group";
+			side="Civilian";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={3038.811,5.0014391,963.40796};
+						angles[]={0,3.1415927,0};
+					};
+					side="Civilian";
+					flags=7;
+					class Attributes
+					{
+					};
+					id=4390;
+					type="C_man_sport_1_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male03GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.94999999;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4389;
+		};
+		class Item538
+		{
+			dataType="Group";
+			side="Civilian";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={3042.811,5.0014391,963.40796};
+						angles[]={0,3.1415927,0};
+					};
+					side="Civilian";
+					flags=7;
+					class Attributes
+					{
+					};
+					id=4392;
+					type="C_man_sport_2_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4391;
+		};
+		class Item539
+		{
+			dataType="Group";
+			side="Civilian";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={3046.811,5.0014391,963.40796};
+						angles[]={0,3.1415927,0};
+					};
+					side="Civilian";
+					flags=7;
+					class Attributes
+					{
+					};
+					id=4394;
+					type="C_Man_casual_6_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4393;
+		};
+		class Item540
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3033,5,964.875};
+			};
+			init="_nul = [] spawn { " \n " if !hasInterface exitWith {};" \n " sleep 1;" \n "" \n " findDisplay 46 displayAddEventHandler [ ""KeyDown"", { " \n "  if (inputAction ""revealTarget"" > 0 && side cursorObject == CIVILIAN && { typeOf cursorObject isKindOf ""Man"" } && (missionNamespace getVariable [""var_canScan"", true])) then { " \n "   var_canScan = false; " \n " " \n "   cursorObject spawn {  " \n "    private _id =  _this getVariable [""var_id"",[]]; " \n "    if (count _id > 0) then { " \n "     hint parseText format[""<br/><img size='2' color='#FF7F00' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\meet_ca.paa'/><br/><t size='1.5' color='#FF7F00'>ID Check:</t><br/><br/> " \n "      <t color='#0080FF' align='left' size='1.5'>%1</t><br/> " \n "      <t align='left'>DOB:</t> <t align='right' color='#888888'>%2</t><br/> " \n "      <t align='left'>Nationality:</t> <t align='right' color='#888888'>%3</t><br/> " \n "      <t align='left'>Occupation:</t> <t align='right' color='#888888'>%4</t><br/> " \n "      <t align='left'>Visa:</t> <t align='right' color='#888888'>%5</t><br/> " \n "      <br/> " \n "      %6<br/>"",  " \n "      name _this, " \n "      _id#1, " \n "      _id#2, " \n "      _id#3, " \n "      _id#4, " \n "      [""<t size='1.5' color='#FF0044'>*** DETAIN ***</t>"", ""<t size='1.5' color='#80FF00'>*** CLEAR ***</t>""] select _id#0 " \n "     ]; " \n "    } else { " \n "     for ""_i"" from 0 to 50 do { " \n "      _dob = format[""%1-%2-19%3"",ceil random 30, ceil random 12, 35 + ceil random 60]; " \n "      _nationality = selectRandom [""Afghan"",""Austrian"",""Chinese"",""Dominican"",""Estonian"",""Guatemalan"",""Indonesian"",""Iraqi"",""Jamaican"",""Kenyan"",""Tajikistani"",""South African"",""Tunisian"",""Vietnamese"",""Zambian""]; " \n "      _occupation = selectRandom [""Consultant"",""Laborer"",""Smuggler"",""Farm Hand"",""Drug Mule"",""Geneticist"",""Surveyor"",""Prostitute"",""Scientist"",""Conservationist"",""Commercial Pilot"",""Contract Killer"",""Undercover Officer"",""Pickpocket"",""Forest Manager"",""Journalist"",""Higgler"",""Astronomer""]; " \n "      _visa = selectRandom [""Valid"", ""Valid"", ""Valid"", ""Expired""]; " \n "      _valid = !(_occupation in [""Smuggler"",""Drug Mule"",""Prostitute"",""Contract Killer"",""Pickpocket""] || _visa == ""Expired"" || random 1 > 0.8); " \n "       " \n "      _id = [_valid, _dob, _nationality, _occupation, _visa]; " \n "       " \n "      _dot = [""."","".."",""...""] select (_i mod 3); " \n "      hint parseText format[""<br/><img size='2' color='#FF7F00' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\meet_ca.paa'/><br/><t size='1.5' color='#FF7F00'>ID Check:</t><br/><br/> " \n "       <t color='#0080FF' align='left' size='1.5'>%1</t><br/> " \n "       <t align='left'>DOB:</t> <t align='right' color='#888888'>%2</t><br/> " \n "       <t align='left'>Nationality:</t> <t align='right' color='#888888'>%3</t><br/> " \n "       <t align='left'>Occupation:</t> <t align='right' color='#888888'>%4</t><br/> " \n "       <t align='left'>Visa:</t> <t align='right' color='#888888'>%5</t><br/> " \n "       <br/> " \n "       %6<br/>"", " \n "       name _this, " \n "       if (_i >= 10) then { _dob } else { _dot }, " \n "       if (_i >= 20) then { _nationality } else { _dot }, " \n "       if (_i >= 30) then { _occupation } else { _dot }, " \n "       if (_i >= 40) then { _visa } else { _dot }, " \n "       if (_i >= 50) then { [""<t size='1.5' color='#FF0044'>*** DETAIN ***</t>"", ""<t size='1.5' color='#80FF00'>*** CLEAR ***</t>""] select _valid } else { ""*** Searching ***"" } " \n "      ]; " \n "       " \n "      sleep 0.2; " \n "       }; " \n "        " \n "       _this setVariable [""var_id"", _id, true]; " \n "    }; " \n "     " \n "    var_canScan = true; " \n "   }; " \n "  }; " \n " }]; " \n "};";
+			id=4395;
+			type="Logic";
+		};
+		class Item541
+		{
+			dataType="Marker";
+			position[]={3045.125,5,1164.125};
+			name="ITEMMKR";
+			text="Collect Supplies";
+			type="mil_circle";
+			colorName="ColorEAST";
+			id=4397;
+		};
+		class Item542
+		{
+			dataType="Marker";
+			position[]={3040.5,5,968.5};
+			name="IDENTMKR";
+			text="Identify Suspect";
+			type="mil_circle";
+			colorName="ColorEAST";
+			id=4398;
+		};
+		class Item543
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3035.155,5.0370998,1153.1169};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,     " \n "format[""take <t color='#72E500'>%1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """_this distance _target < 3"",  " \n """_caller distance _target < 3"",  " \n "{},  " \n "{},  " \n "{  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"",0]) + 1, true];   " \n " _caller playAction ""PutDown"";   " \n " sleep 1;  " \n " deleteVehicle _target;  " \n " (parseText format[""<br/><img size='2' color='#72E500' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><t size='1.25' color='#72E500'>Item Collected</t><br/><br/><t size='1.5'>%2</t><br/><br/><img image='%3' chadow='2' size='5'/><br/><br/><br/><br/>Found by: <t color='#0080FF'>%1</t><br/>Total Collected: <t color='#FF7F00'>%4</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""editorPreview""), var_itemCount]) remoteExec [""hintSilent""];   " \n "},  " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4399;
+			type="Land_Camera_01_F";
+		};
+		class Item544
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3033.803,5.3105268,1155.976};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,     " \n "format[""take <t color='#72E500'>%1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """_this distance _target < 3"",  " \n """_caller distance _target < 3"",  " \n "{},  " \n "{},  " \n "{  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"",0]) + 1, true];   " \n " _caller playAction ""PutDown"";   " \n " sleep 1;  " \n " deleteVehicle _target;  " \n " (parseText format[""<br/><img size='2' color='#72E500' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><t size='1.25' color='#72E500'>Item Collected</t><br/><br/><t size='1.5'>%2</t><br/><br/><img image='%3' chadow='2' size='5'/><br/><br/><br/><br/>Found by: <t color='#0080FF'>%1</t><br/>Total Collected: <t color='#FF7F00'>%4</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""editorPreview""), var_itemCount]) remoteExec [""hintSilent""];   " \n "},  " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4402;
+			type="Land_FlatTV_01_F";
+		};
+		class Item545
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3036.7129,5.022862,1155.626};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,     " \n "format[""take <t color='#72E500'>%1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """_this distance _target < 3"",  " \n """_caller distance _target < 3"",  " \n "{},  " \n "{},  " \n "{  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"",0]) + 1, true];   " \n " _caller playAction ""PutDown"";   " \n " sleep 1;  " \n " deleteVehicle _target;  " \n " (parseText format[""<br/><img size='2' color='#72E500' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><t size='1.25' color='#72E500'>Item Collected</t><br/><br/><t size='1.5'>%2</t><br/><br/><img image='%3' chadow='2' size='5'/><br/><br/><br/><br/>Found by: <t color='#0080FF'>%1</t><br/>Total Collected: <t color='#FF7F00'>%4</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""editorPreview""), var_itemCount]) remoteExec [""hintSilent""];   " \n "},  " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4403;
+			type="Land_PortableSolarPanel_01_olive_F";
+		};
+		class Item546
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3040.2991,5.1560721,1156.46};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this,     " \n "format[""take <t color='#72E500'>%1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"",  " \n """_this distance _target < 3"",  " \n """_caller distance _target < 3"",  " \n "{},  " \n "{},  " \n "{  " \n " missionNamespace setVariable [""var_itemCount"", (missionNamespace getVariable [""var_itemCount"",0]) + 1, true];   " \n " _caller playAction ""PutDown"";   " \n " sleep 1;  " \n " deleteVehicle _target;  " \n " (parseText format[""<br/><img size='2' color='#72E500' image='\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\upload_ca.paa'/><br/><t size='1.25' color='#72E500'>Item Collected</t><br/><br/><t size='1.5'>%2</t><br/><br/><img image='%3' chadow='2' size='5'/><br/><br/><br/><br/>Found by: <t color='#0080FF'>%1</t><br/>Total Collected: <t color='#FF7F00'>%4</t><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""editorPreview""), var_itemCount]) remoteExec [""hintSilent""];   " \n "},  " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+			};
+			id=4405;
+			type="Land_Laptop_unfolded_F";
+		};
+		class Item547
+		{
+			dataType="Marker";
+			position[]={3000.5,5,823};
+			name="CASMKR_1";
+			text="Tag for Strike #1";
+			type="mil_circle";
+			colorName="ColorEAST";
+			id=4407;
+		};
+		class Item548
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3100,7.0699368,819.25};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=4409;
+			type="CamoNet_OPFOR_big_F";
+		};
+		class Item549
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={2999.875,7.0699368,820.125};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=4410;
+			type="CamoNet_OPFOR_big_F";
+		};
+		class Item550
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3047.6321,5,1172.541};
+			};
+			name="TSK_CBRN_1";
+			id=4411;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="search";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Search CBRN Containers";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Find the Chemical being transported inside a CBRN Container.";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="180";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=11;
+			};
+		};
+		class Item551
+		{
+			dataType="Trigger";
+			position[]={3047.6323,5,1178.541};
+			class Attributes
+			{
+				name="TR_CBRN_1";
+				condition="(missionNamespace getVariable [""var_gotItem"",false])";
+				onActivation="""CBRNMKR"" setMarkerColor ""ColorGrey"";";
+				sizeA=0;
+				sizeB=0;
+				isServerOnly=1;
+			};
+			id=4412;
+			type="EmptyDetector";
+		};
+		class Item552
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3047.6323,5,1175.541};
+			};
+			id=4413;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				nAttributes=2;
+			};
+		};
+		class Item553
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3057.1299,5,979.56897};
+			};
+			name="TSK_CBRN_2";
+			id=4414;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="search";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="190";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=11;
+			};
+		};
+		class Item554
+		{
+			dataType="Trigger";
+			position[]={3057.1299,5,985.56885};
+			class Attributes
+			{
+				name="TR_CBRN_2";
+				condition="(missionNamespace getVariable [""var_gotItem"",false])";
+				onActivation="""CBRNMKR"" setMarkerColor ""ColorGrey"";";
+				sizeA=0;
+				sizeB=0;
+				isServerOnly=1;
+			};
+			id=4415;
+			type="EmptyDetector";
+		};
+		class Item555
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3057.1299,5,982.56885};
+			};
+			id=4416;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				nAttributes=2;
+			};
+		};
+		class Item556
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3053,5,844};
+			};
+			name="TSK_CASTARGET_MAIN";
+			id=4417;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="destroy";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Destroy Tanks";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Locate two MBTs and attach a tracker to each of them to allow the guidance of a long range missile onto the targets.";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="200";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=11;
+			};
+		};
+		class Item557
+		{
+			dataType="Trigger";
+			position[]={3053.0002,5,849.99994};
+			class Attributes
+			{
+				name="TR_CASTARGET_ALL";
+				condition="!alive CASTARGET_1 && !alive CASTARGET_2";
+				sizeA=0;
+				sizeB=0;
+				isServerOnly=1;
+			};
+			id=4418;
+			type="EmptyDetector";
+		};
+		class Item558
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3053,5,847};
+			};
+			id=4419;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				nAttributes=2;
+			};
+		};
+		class Item559
+		{
+			dataType="Marker";
+			position[]={3100.375,5,822.375};
+			name="CASMKR_2";
+			text="Tag for Strike #2";
+			type="mil_circle";
+			colorName="ColorEAST";
+			id=4420;
+		};
+		class Item560
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3000.5,5,823};
+			};
+			name="TSK_CASTARGET_1";
+			id=4421;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="move1";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="MBT #1";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Locate the MBTs and attach a tracker to it. Make sure you are in cover when the missile lands!";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="201";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="200";
+						};
+					};
+				};
+				nAttributes=11;
+			};
+		};
+		class Item561
+		{
+			dataType="Trigger";
+			position[]={3000.5,5,829};
+			class Attributes
+			{
+				name="TR_CASTARGET_1";
+				condition="!alive CASTARGET_1";
+				onActivation="""CASMKR_1"" setMarkerColor ""ColorGrey"";";
+				sizeA=0;
+				sizeB=0;
+				isServerOnly=1;
+			};
+			id=4422;
+			type="EmptyDetector";
+		};
+		class Item562
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3000.4995,5,826.00024};
+			};
+			id=4423;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				nAttributes=2;
+			};
+		};
+		class Item563
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3100.375,5,822.375};
+			};
+			name="TSK_CASTARGET_2";
+			id=4424;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="move2";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="MBT #2";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Locate the MBTs and attach a tracker to it. Make sure you are in cover when the missile lands!";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="202";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="200";
+						};
+					};
+				};
+				nAttributes=11;
+			};
+		};
+		class Item564
+		{
+			dataType="Trigger";
+			position[]={3100.375,5,828.375};
+			class Attributes
+			{
+				name="TR_CASTARGET_2";
+				condition="!alive CASTARGET_2";
+				onActivation="""CASMKR_2"" setMarkerColor ""ColorGrey"";";
+				sizeA=0;
+				sizeB=0;
+				isServerOnly=1;
+			};
+			id=4425;
+			type="EmptyDetector";
+		};
+		class Item565
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3100.3745,5,825.37524};
+			};
+			id=4426;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				nAttributes=2;
+			};
+		};
+		class Item566
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3100,7.4174871,817};
+				angles[]={0,3.1415927,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				lock="LOCKED";
+				init="[this, " \n "format[""Call Strike on <t color='#72E500'>%1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")], " \n """\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_connect_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_connect_ca.paa"", " \n """_this distance _target < 4 && !(_target getVariable ['var_marked',false])"",  " \n """_caller distance _target < 4"",  " \n "{},  " \n "{},  " \n "{  " \n " _target setVariable [""var_marked"", true, true];   " \n " _caller playAction ""PutDown"";   " \n " sleep 1;  " \n " (parseText format[""<br/><img size='2' color='#72E500' image='\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\cas_ca.paa'/><br/><t size='1.25' color='#72E500'>Target Marked</t><br/><br/><t size='1.5'>%2</t><br/><br/><img image='%3' shadow='2' size='5'/><br/><br/>Tagged by: <t color='#0080FF'>%1</t><br/><br/>Missile inbound ETA <t color='#FF7F00'>1 Minute</t><br/><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""editorPreview"")]) remoteExec [""hintSilent""]; " \n "_target spawn { sleep 60; " \n " [(_this getPos [1500, random 360]) vectorAdd [0,0,500], ""ammo_Missile_Cruise_01"", _this, 180, true, [0,0,0.25]] remoteExec [""BIS_fnc_exp_camp_guidedProjectile"", 2]; };" \n "},  " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+				name="CASTARGET_2";
+			};
+			id=4427;
+			type="O_MBT_04_cannon_F";
+		};
+		class Item567
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3000,7.4174871,818};
+				angles[]={0,3.1415927,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				lock="LOCKED";
+				init="[this, " \n "format[""Call Strike on <t color='#72E500'>%1</t>"", getText (configFile >> ""CfgVehicles"" >> (typeOf this) >> ""displayName"")], " \n """\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_connect_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_connect_ca.paa"", " \n """_this distance _target < 4 && !(_target getVariable ['var_marked',false])"",  " \n """_caller distance _target < 4"",  " \n "{},  " \n "{},  " \n "{  " \n " _target setVariable [""var_marked"", true, true];   " \n " _caller playAction ""PutDown"";   " \n " sleep 1;  " \n " (parseText format[""<br/><img size='2' color='#72E500' image='\a3\Ui_f\data\GUI\Cfg\CommunicationMenu\cas_ca.paa'/><br/><t size='1.25' color='#72E500'>Target Marked</t><br/><br/><t size='1.5'>%2</t><br/><br/><img image='%3' shadow='2' size='5'/><br/><br/>Tagged by: <t color='#0080FF'>%1</t><br/><br/>Missile inbound ETA <t color='#FF7F00'>1 Minute</t><br/><br/>"", name _caller, getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""displayName""),  getText (configFile >> ""CfgVehicles"" >> typeOf _target >> ""editorPreview"")]) remoteExec [""hintSilent""]; " \n "_target spawn { sleep 60; " \n " [(_this getPos [1500, random 360]) vectorAdd [0,0,500], ""ammo_Missile_Cruise_01"", _this, 180, true, [0,0,0.25]] remoteExec [""BIS_fnc_exp_camp_guidedProjectile"", 2]; };" \n "},  " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+				name="CASTARGET_1";
+			};
+			id=4428;
+			type="O_MBT_04_cannon_F";
+		};
+		class Item568
+		{
+			dataType="Group";
+			side="Independent";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={3056,5.0014391,960.04999};
+						angles[]={0,3.1415927,0};
+					};
+					side="Independent";
+					flags=7;
+					class Attributes
+					{
+						init="removeAllWeapons this; removeFromRemainsCollector [this]; " \n "[this,    " \n "format[""place weapon by <t color='#72E500'>%1</t>"", name this],    " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\rifle_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\rifle_ca.paa"",  " \n """_this distance _target < 3 && !alive _target && !(_target getVariable ['var_hasWeapon',false])"",     " \n """_caller distance _target < 3"",    " \n "{},    " \n "{},    " \n "{  " \n " _target setVariable [""var_hasWeapon"", true, true]; " \n " _weaponHolder = ""WeaponHolderSimulated"" createVehicle [0,0,0]; " \n " _weaponHolder setDir random 360; " \n " _weaponHolder addWeaponCargo [primaryWeapon _caller, 1]; " \n " _caller playAction ""PutDown""; " \n " _weaponHolder setPos (_target getPos [0.6, _target getDir _caller]); " \n "},     " \n "{},     " \n "[],     " \n "1,     " \n "10] call bis_fnc_holdActionAdd;";
+					};
+					id=4434;
+					type="I_officer_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male02GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.99000001;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4433;
+		};
+		class Item569
+		{
+			dataType="Group";
+			side="East";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={3058,5.0014391,960.04999};
+						angles[]={0,3.1415927,0};
+					};
+					side="East";
+					flags=7;
+					class Attributes
+					{
+						init="removeAllWeapons this; removeFromRemainsCollector [this]; " \n "[this,    " \n "format[""place weapon by <t color='#72E500'>%1</t>"", name this],    " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\rifle_ca.paa"",  " \n """\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\rifle_ca.paa"",  " \n """_this distance _target < 3 && !alive _target && !(_target getVariable ['var_hasWeapon',false])"",     " \n """_caller distance _target < 3"",    " \n "{},    " \n "{},    " \n "{  " \n " _target setVariable [""var_hasWeapon"", true, true]; " \n " _weaponHolder = ""WeaponHolderSimulated"" createVehicle [0,0,0]; " \n " _weaponHolder setDir random 360; " \n " _weaponHolder addWeaponCargo [primaryWeapon _caller, 1]; " \n " _caller playAction ""PutDown""; " \n " _weaponHolder setPos (_target getPos [0.6, _target getDir _caller]); " \n "},     " \n "{},     " \n "[],     " \n "1,     " \n "10] call bis_fnc_holdActionAdd;";
+					};
+					id=4436;
+					type="O_officer_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male02PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4435;
+		};
+		class Item570
+		{
+			dataType="Trigger";
+			position[]={2525,5,2553};
+			class Attributes
+			{
+				name="TR_HVTCHECKED";
+				condition="(HVT_OFFICER getVariable [""var_verified"", false])";
+				onActivation="[""End1""] call BIS_fnc_endMissionServer;";
+				sizeA=0;
+				sizeB=0;
+				timeout[]={5,5,5};
+				interuptable=1;
+				activationType="NOT PRESENT";
+				isRectangle=1;
+				isServerOnly=1;
+			};
+			id=4461;
+			type="EmptyDetector";
+		};
+		class Item571
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={2525,5,2552};
+			};
+			id=4462;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="SUCCEEDED";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				nAttributes=3;
+			};
+		};
+		class Item572
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={2526,5,2552};
+			};
+			id=4463;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="kill";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Verify Target";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="Confrim the Officer has been eliminated.";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="22";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"SCALAR"
+								};
+							};
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=1;
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute11
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=12;
+			};
+		};
+		class Item573
+		{
+			dataType="Group";
+			side="Civilian";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={3044,5.0014391,950.04999};
+					};
+					side="Civilian";
+					flags=7;
+					class Attributes
+					{
+						class Inventory
+						{
+							class primaryWeapon
+							{
+								name="SMG_03C_hex";
+								class primaryMuzzleMag
+								{
+									name="50Rnd_570x28_SMG_03";
+									ammoLeft=50;
+								};
+							};
+							class binocular
+							{
+								name="Rangefinder";
+							};
+							class uniform
+							{
+								typeName="U_C_man_sport_3_F";
+								isBackpack=0;
+								class MagazineCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="50Rnd_570x28_SMG_03";
+										count=1;
+										ammoLeft=50;
+									};
+									class Item1
+									{
+										name="6Rnd_45ACP_Cylinder";
+										count=2;
+										ammoLeft=6;
+									};
+								};
+							};
+							map="ItemMap";
+							compass="ItemCompass";
+							watch="ItemWatch";
+							goggles="G_Sport_Greenblack";
+						};
+					};
+					id=4366;
+					type="C_man_sport_3_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male05GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4365;
+		};
 	};
 	class Connections
 	{
 		class LinkIDProvider
 		{
-			nextID=131;
+			nextID=146;
 		};
 		class Links
 		{
-			items=131;
+			items=146;
 			class Item0
 			{
 				linkID=0;
@@ -36598,6 +39387,156 @@ class Mission
 				linkID=130;
 				item0=3921;
 				item1=3922;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item131
+			{
+				linkID=131;
+				item0=4383;
+				item1=4384;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item132
+			{
+				linkID=132;
+				item0=4385;
+				item1=4384;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item133
+			{
+				linkID=133;
+				item0=4412;
+				item1=4413;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item134
+			{
+				linkID=134;
+				item0=4411;
+				item1=4413;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item135
+			{
+				linkID=135;
+				item0=4415;
+				item1=4416;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item136
+			{
+				linkID=136;
+				item0=4414;
+				item1=4416;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item137
+			{
+				linkID=137;
+				item0=4418;
+				item1=4419;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item138
+			{
+				linkID=138;
+				item0=4417;
+				item1=4419;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item139
+			{
+				linkID=139;
+				item0=4422;
+				item1=4423;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item140
+			{
+				linkID=140;
+				item0=4421;
+				item1=4423;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item141
+			{
+				linkID=141;
+				item0=4425;
+				item1=4426;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item142
+			{
+				linkID=142;
+				item0=4424;
+				item1=4426;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item143
+			{
+				linkID=143;
+				item0=4462;
+				item1=4461;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item144
+			{
+				linkID=144;
+				item0=4463;
+				item1=4462;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item145
+			{
+				linkID=145;
+				item0=4463;
+				item1=3010;
 				class CustomData
 				{
 					type="Sync";

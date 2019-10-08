@@ -15,7 +15,7 @@ _scope2 = ["rhs_acc_pkas","rhs_acc_1p29","rhs_acc_1p78"]; // MED
 _scope3 = "rhs_acc_pso1m2"; // DMR
 _scope4 = "rhs_acc_pso1m2"; // SNP
 
-_bipod1 = "rhs_bipod"; // Bipod
+_bipod1 = "bipod_01_f_blk"; // Bipod
 
 // Default setup
 _attachments = [_flashHider,_attach1,_scope1]; // The default attachment set for most units, overwritten in the individual unitType

@@ -65,9 +65,6 @@ if (alive player) then {
 
 	// Add radios to each unit
 	[] call f_fnc_tfr_addRadios;
-	
-	// Configure AI hearing
-	call f_fnc_tfr_aiHearing;
 } else {
 	// No need to fix radios, just move into spectator chat
 	[player, true] call TFAR_fnc_forceSpectator;

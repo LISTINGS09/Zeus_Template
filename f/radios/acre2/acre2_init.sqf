@@ -58,7 +58,7 @@ private _f_fnc_acrePresetChannels = {
 	{
 		private _radioName = _x;
 		{	
-			[_radioName, _preset, _forEachIndex + 1, "name", _x select 0] call acre_api_fnc_setPresetChannelField;
+			[_radioName, _preset, _forEachIndex + 1, "label", _x select 0] call acre_api_fnc_setPresetChannelField;
 			
 			if ((_x select 0) isEqualTo "NEUTRAL") then {
 				// Neutral frequency set is the same for all sides.

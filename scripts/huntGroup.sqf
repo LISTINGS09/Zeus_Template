@@ -56,12 +56,13 @@ _ZHS_fnc_spawnTeam = {
 		{ 
 			// Custom Loadouts here etc...
 			
-			_x addEventHandler ["killed",{
-				params ["_unit"];
-				if (units _unit select { alive _x } isEqualTo []) then { 
+			// Re-run script when leader is killed.
+			if (leader _this == _x) then {
+				_x addEventHandler ["killed",{
+					params ["_unit"];
 					[_unit] execVM "scripts\huntGroup.sqf";
-				};
-			}];
+				}];
+			};
 		} forEach units _this;
 	};
 	

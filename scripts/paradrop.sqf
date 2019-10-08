@@ -147,7 +147,7 @@ _wp setWaypointStatements ["true","
 				_x moveinDriver _pc;
 			} forEach (units _x);
 			sleep 1;
-		} forEach (_this getVariable ['var_dropGroup',grpNull]);
+		} forEach (_this getVariable ['var_dropGroup',[]]);
 	};
 "];
 

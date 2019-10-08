@@ -45,9 +45,7 @@ if (side group player in [west, east, independent]) then {
 		_spokenLanguages = missionNamespace getVariable [format["f_radios_settings_acre2_language_%1", side group player],f_radios_settings_acre2_language_guer];
 	};
 
-	if (f_radios_settings_acre2_SplitFrequencies) then {
-			_presetName = format["%1",side group player];
-	};
+	if (f_radios_settings_acre2_SplitFrequencies) then { _presetName = format["%1",side group player] };
 };
 
 f_radios_settings_acre2_presetName = _presetName;
@@ -58,7 +56,7 @@ f_radios_settings_acre2_presetName = _presetName;
 ["ACRE_PRC117F",_presetName] call acre_api_fnc_setPreset;
 
 // if dead, set spectator and exit
-if (!alive player) exitWith {[true] call acre_api_fnc_setSpectator;};
+if (!alive player) exitWith { [true] call acre_api_fnc_setSpectator };
 
 _spokenLanguages call acre_api_fnc_babelSetSpokenLanguages;
 
@@ -153,7 +151,7 @@ if(!f_radios_settings_disableAllRadios) then {
 	params ["_SRChIndx","_LRChIndx"];
     private ["_radioSR","_radioLR","_radioExtra","_hasSR","_hasLR","_hasExtra"];
 
-    waitUntil {uiSleep 0.1; [] call acre_api_fnc_isInitialized};
+    waitUntil { [] call acre_api_fnc_isInitialized };
 	
     _radioSR = [f_radios_settings_acre2_standardSHRadio] call acre_api_fnc_getRadioByType;
     _radioLR = [f_radios_settings_acre2_standardLRRadio] call acre_api_fnc_getRadioByType;

@@ -9,7 +9,7 @@ if (isNull _oldUnit) exitWith {};
 showSubtitles false;
 
 // Assign the unit their gear. or gear from death
-if (_oldUnit getVariable ["f_var_assignGear",""] != "") then {
+if (_oldUnit getVariable ["f_var_assignGear",""] != "" && (missionNamespace getVariable ["f_param_virtualArsenal",0] == 0)) then {
 	[(_oldUnit getVariable ["f_var_assignGear",""]),_newUnit] call f_fnc_assignGear;
 } else {
 	[_newUnit, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory;

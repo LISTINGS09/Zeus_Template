@@ -7,11 +7,13 @@ force TFAR_givePersonalRadioToRegularSoldier = FALSE;
 force TFAR_giveMicroDagrToSoldier = FALSE;
 force TFAR_SameSRFrequenciesForSide = TRUE;
 force TFAR_SameLRFrequenciesForSide = TRUE;
-force TFAR_fullDuplex = FALSE;
-force TFAR_enableIntercom = TRUE;
-force TFAR_objectInterceptionEnabled = FALSE;
-force TFAR_spectatorCanHearEnemyUnits = TRUE;
-force TFAR_spectatorCanHearFriendlies = TRUE;
+
+force TFAR_setting_defaultFrequencies_sr_west = "300,301,302,303,304,305,306,307";
+force TFAR_setting_defaultFrequencies_lr_west = "30,30.2,30.4,30.6,30.8,31,31.2,31.4,31.6";
+force TFAR_setting_defaultFrequencies_sr_east = "400,401,402,403,404,405,406,407";
+force TFAR_setting_defaultFrequencies_lr_east = "40,40.2,40.4,40.6,40.8,41,41.2,41.4,41.6";
+force TFAR_setting_defaultFrequencies_sr_independent = "500,501,502,503,504,505,506,507";
+force TFAR_setting_defaultFrequencies_lr_independent = "50,50.2,50.4,50.6,50.8,51,51.2,51.4,51.6";
 
 // ACRE
 force acre_sys_core_terrainLoss = 0.35;
@@ -28,6 +30,8 @@ force ace_advanced_fatigue_recoveryFactor = 1.6;
 force ace_advanced_fatigue_terrainGradientFactor = 0.9;
 
 force ace_map_mapShake = FALSE;
+
+force ace_pylons_enabled = FALSE;
 
 force ace_repair_engineerSetting_fullRepair = 1;
 force ace_repair_fullRepairLocation = 0;

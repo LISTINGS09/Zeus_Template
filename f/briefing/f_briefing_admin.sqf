@@ -220,6 +220,11 @@ This performs a basic check for any mission related logic issues and problems. I
 <execute expression=""[true] call f_fnc_spectateInit;"">Spectator Start</execute> - Initialises the BIS Spectator Script.<br/>
 <execute expression=""[false] call f_fnc_spectateInit;"">Spectator Stop</execute> - Terminates the BIS Spectator Script if it is running.<br/>
 <br/>
+Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0 } } forEach allMapMarkers;"">Hide</execute> |
+<execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 1 } } forEach allMapMarkers;"">Show</execute> |
+<execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlpha 0 } } forEach allMapMarkers;"">Hide (Global)</execute> | 
+<execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlpha 1 } } forEach allMapMarkers;"">Show (Global)</execute><br/>
+<br/>
 ";
 
 player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
@@ -311,7 +316,9 @@ _missionFramework = _missionFramework + "<br/><font size='16' color='#FF0080'>SC
 	["Misc - Unit Caching","f_sqf_cache", "f\cache\f_cInit.sqf"]
 ];
 
-_missionFramework = _missionFramework + "<br/>Medical - FAROOQ: <font color='#80FF00'><execute expression=""{missionNamespace setVariable ['f_var_medical_level', 1, true]; _nul = [] execVM 'f\medical\FAR_revive\FAR_revive_init.sqf'; hintSilent 'FAR Medical: Enabled';} remoteExec ['BIS_fnc_spawn', 0];"">Enable</execute></font> | <font color='#CF142B'><execute expression=""{[player] call FAR_fnc_unitRemove} remoteExec ['BIS_fnc_spawn',0]; hintSilent 'FAR Medical: Disabled';"">Disable</execute></font><br/>";
+if (missionNamespace getVariable ["f_var_medical_level", 0] == 1) then {
+	_missionFramework = _missionFramework + "<br/>Medical - FAROOQ: <font color='#80FF00'><execute expression=""{missionNamespace setVariable ['f_var_medical_level', 1, true]; _nul = [] execVM 'f\medical\FAR_revive\FAR_revive_init.sqf'; hintSilent 'FAR Medical: Enabled';} remoteExec ['BIS_fnc_spawn', 0];"">Enable</execute></font> | <font color='#CF142B'><execute expression=""{[player] call FAR_fnc_unitRemove} remoteExec ['BIS_fnc_spawn',0]; hintSilent 'FAR Medical: Disabled';"">Disable</execute></font><br/>";
+};
 
 player createDiaryRecord ["ZeuAdmin", ["Framework",_missionFramework]];
 

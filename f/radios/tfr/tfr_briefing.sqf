@@ -3,35 +3,30 @@ if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { diag_log te
 
 params [["_SRGroups",[]], ["_LRGroups",[]], ["_SRindex",-1], ["_LRindex",0]];
 
-private ["_rfRadio","_srFreq","_lrFreq"];
+private _side = [str playerSide, "INDEPENDENT"] select (playerSide == Independent);
+
+private _radioNames = [];
+
+{
+	_x params ["_class", "_config"];
+	
+	if (isClass (configFile >> _config >> _class)) then {
+		_radioNames set [_forEachIndex,  getText (configFile >> _config >> _class >> "displayName")];
+	} else {
+		_radioNames set [_forEachIndex, "Unknown"];
+	};
+} forEach [
+	[missionNamespace getVariable [ format["TFAR_DefaultRadio_Personal_%1", _side], missionNamespace getVariable [ format["TF_default%1PersonalRadio", playerSide], ""]], "CfgWeapons"],
+	[missionNamespace getVariable [ format["TFAR_DefaultRadio_Rifleman_%1", _side], missionNamespace getVariable [ format["TF_default%1RiflemanRadio", playerSide], ""]], "CfgWeapons"],
+	[missionNamespace getVariable [ format["TFAR_DefaultRadio_Backpack_%1", _side], missionNamespace getVariable [ format["TF_default%1Backpack", playerSide], ""]], "CfgVehicles"]
+];
+
+_radioNames params ["_pr", "_rf", "_bp"];
+
+private _srFreq = missionNamespace getVariable [format["TFAR_defaultFrequencies_sr_%1", [playerSide, "Independent"] select (playerSide == Independent)], []];
+private _lrFreq = missionNamespace getVariable [format["TFAR_defaultFrequencies_lr_%1", [playerSide, "Independent"] select (playerSide == Independent)], []];
 
 private _radioText = "<br/><font size='18' color='#80FF00'>RADIO OPERATION</font>";
-private _srRadio = "short range";
-private _lrRadio = "long range";
-
-switch (playerSide) do {
-	case west: {		
-		_srRadio = getText (configFile >> "CfgWeapons" >> TF_defaultWestPersonalRadio >> "displayName");
-		_rfRadio = getText (configFile >> "CfgWeapons" >> TF_defaultWestRiflemanRadio >> "displayName");
-		_lrRadio = getText (configFile >> "CfgVehicles" >> TF_defaultWestBackpack >> "displayName");
-		_srFreq = tf_freq_west select 2;
-		_lrFreq = tf_freq_west_lr select 2;
-	};
-	case east: {
-		_srRadio = getText (configFile >> "CfgWeapons" >> TF_defaultEastPersonalRadio >> "displayName");
-		_rfRadio = getText (configFile >> "CfgWeapons" >> TF_defaultEastRiflemanRadio >> "displayName");
-		_lrRadio = getText (configFile >> "CfgVehicles" >> TF_defaultEastBackpack >> "displayName");
-		_srFreq = tf_freq_east select 2;
-		_lrFreq = tf_freq_east_lr select 2;
-	};
-	case resistance: {
-		_srRadio = getText (configFile >> "CfgWeapons" >> TF_defaultGuerPersonalRadio >> "displayName");
-		_rfRadio = getText (configFile >> "CfgWeapons" >> TF_defaultGuerRiflemanRadio >> "displayName");
-		_lrRadio = getText (configFile >> "CfgVehicles" >> TF_defaultGuerBackpack >> "displayName");
-		_srFreq = tf_freq_guer select 2;
-		_lrFreq = tf_freq_guer_lr select 2;
-	};
-};
 
 if (count _SRGroups == 0) exitWith {
 	["tfr_briefing.sqf",format["No groups found in mission\groups.sqf for side %1.",side group player]] call f_fnc_logIssue;
@@ -50,28 +45,28 @@ private _fRadiosRifleman = missionNamespace getVariable ["f_radios_settings_rifl
 private _fRadiosLongRange = missionNamespace getVariable ["f_radios_settings_longRangeUnits",["leaders"]];
 
 if ("all" in _fRadiosPersonal) then {
-	_radioText = _radioText + format["<br/>Standard equipment for all units is a short-range %1 radio.",_srRadio];
+	_radioText = _radioText + format["<br/>Standard equipment for all units is a short-range %1 radio.",_pr];
 } else {
 	if ("all" in _fRadiosRifleman) then {
-		_radioText = _radioText + format["<br/>Senior ranks are provided with a short-range %1 personal radio.<br/>All other units carry a %2 rifleman radio.",_srRadio,_rfRadio];
+		_radioText = _radioText + format["<br/>Senior ranks are provided with a short-range %1 personal radio.<br/>All other units carry a %2 rifleman radio.",_pr,_rf];
 	} else {
 		if (count _fRadiosRifleman == 0 && count _fRadiosPersonal == 0) then {
-			_radioText = _radioText + format["<br/>Short-range radios are <font color='#FF0000'>NOT PROVIDED</font>.",_srRadio];
+			_radioText = _radioText + format["<br/>Short-range radios are <font color='#FF0000'>NOT PROVIDED</font>.",_pr];
 		} else {
-			_radioText = _radioText + format["<br/>Only senior ranks have a short-range %1 personal radio.<br/>All other units carry <font color='#FF0000'>NO RADIO</font>.",_srRadio];
+			_radioText = _radioText + format["<br/>Only senior ranks have a short-range %1 personal radio.<br/>All other units carry <font color='#FF0000'>NO RADIO</font>.",_pr];
 		};
 	};
 };
 
 if ("leaders" in _fRadiosLongRange) then { 
-	_radioText = _radioText + format["<br/><br/>All leaders carry a long-range %1 backpack radio.",_lrRadio]; 
+	_radioText = _radioText + format["<br/><br/>All leaders carry a long-range %1 backpack radio.",_bp]; 
 };
 
 if (!("leaders" in _fRadiosLongRange) && count _fRadiosLongRange > 0) then { 
-	_radioText = _radioText + format["<br/><br/>Only selected soldiers carry a long-range %1 backpack radio.",_lrRadio]; 
+	_radioText = _radioText + format["<br/><br/>Only selected soldiers carry a long-range %1 backpack radio.",_bp]; 
 };
 
-_radioText = _radioText + format["<br/><br/><br/><font size='18' color='#80FF00'>SHORT RANGE (%1 / %2)</font>",_srRadio,_rfRadio];
+_radioText = _radioText + format["<br/><br/><br/><font size='18' color='#80FF00'>SHORT RANGE (%1 / %2)</font>",_pr,_rf];
 
 // SHORT RANGE
 private _lastSR = 0;
@@ -83,7 +78,7 @@ private _lastSR = 0;
 	};
 	
 	if (_SRindex == _forEachIndex) then {
-		_radioText = _radioText + format["<br/>%1: <font color='#777777'>SR Frequency</font> %2Mhz <font color='#72E500'>(Channel #1)</font>", (_x select 0), _lastSR];
+		_radioText = _radioText + format["<br/>%1: <font color='#777777'>SR Frequency</font> %2Mhz <font color='#00FFFF'>(Channel #1)</font>", (_x select 0), _lastSR];
 		f_tfar_localSRfreq = _lastSR;
 	} else {
 		_radioText = _radioText + format["<br/>%1: <font color='#555555'>SR Frequency %2Mhz</font>", (_x select 0), _lastSR];
@@ -91,7 +86,7 @@ private _lastSR = 0;
 } forEach _SRGroups;
 
 if (count _fRadiosLongRange > 0) then {
-	_radioText = _radioText + format["<br/><br/><font size='18' color='#80FF00'>LONG RANGE (%1)</font>",_lrRadio];
+	_radioText = _radioText + format["<br/><br/><font size='18' color='#80FF00'>LONG RANGE (%1)</font>",_bp];
 	
 	// LONG RANGE
 	private _lastLR = 0;
@@ -100,7 +95,7 @@ if (count _fRadiosLongRange > 0) then {
 		if (_forEachIndex < count _lrFreq) then {
 			_lastLR = parseNumber (_lrFreq select _forEachIndex);
 			if (_LRindex == _forEachIndex) then {
-				_radioText = _radioText + format["<br/>%1: <font color='#777777'>LR Frequency</font> %2Mhz <font color='#72E500'>(Channel #%3)</font>", (_x select 0), _lastLR, _forEachIndex + 1 ];
+				_radioText = _radioText + format["<br/>%1: <font color='#777777'>LR Frequency</font> %2Mhz <font color='#00FFFF'>(Channel #%3)</font>", (_x select 0), _lastLR, _forEachIndex + 1 ];
 			} else {
 				_radioText = _radioText + format["<br/>%1: <font color='#555555'>LR Frequency %2Mhz</font> <font color='#666666'>(Channel #%3)</font>", (_x select 0), _lastLR, _forEachIndex + 1 ]; 
 			};
