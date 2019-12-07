@@ -51,7 +51,7 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = "arifle_AKM_F";
-_riflemag = "30Rnd_762x39_Mag_F";
+_riflemag = "30Rnd_762x39_AK12_Mag_F";
 _riflemag_tr = "30Rnd_762x39_Mag_Tracer_Green_F";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
@@ -71,7 +71,7 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = "arifle_AK12_GL_F";
-_glriflemag = "30Rnd_762x39_Mag_F";
+_glriflemag = "30Rnd_762x39_AK12_Mag_F";
 _glriflemag_tr = "30Rnd_762x39_Mag_Tracer_Green_F";
 _glmag = "1Rnd_HE_Grenade_shell";
 
@@ -152,7 +152,7 @@ _RATmag = "RPG7_F";
 _RATmag2 = "RPG7_F";
 
 // Medium AT
-_MAT = ["launch_RPG32_F","launch_RPG32_ghex_F","launch_MRAWS_olive_rail_F"];
+_MAT = ["launch_RPG32_green_F","launch_MRAWS_olive_rail_F"];
 _MATmag1 = "RPG32_F";
 _MATmag2 = "RPG32_HE_F";
 

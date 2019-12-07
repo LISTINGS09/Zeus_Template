@@ -137,8 +137,8 @@ _baghsamag = "I_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["rhs_weap_m249_pip_L","rhs_weap_m249_pip_L_para","rhs_weap_m249_pip_L_vfg","rhs_weap_m249_pip_S","rhs_weap_m249_pip_S_para","rhs_weap_m249_pip_S_vfg","rhs_weap_m27iar"];
-_ARmag = "rhs_200rnd_556x45_M_SAW";
-_ARmag_tr = "rhs_200rnd_556x45_T_SAW";
+_ARmag = "rhsusf_200Rnd_556x45_box";
+_ARmag_tr = "rhsusf_200rnd_556x45_mixed_box";
 
 // Medium MG
 _MMG = "MMG_02_black_F";
@@ -210,13 +210,13 @@ _diverRig = ["V_RebreatherB"];
 _diverGlasses = ["G_Diving"];
 
 // Pilot
-_pilotUniform = ["U_I_HeliPilotCoveralls"];
+_pilotUniform = ["rhssaf_uniform_m10_digital_summer"];
 _pilotHelmet = ["H_PilotHelmetHeli_I"];
 _pilotRig = ["V_TacVest_oli"];
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = ["U_I_CombatUniform"];
+_crewUniform = ["rhssaf_uniform_m10_digital_summer"];
 _crewHelmet = ["H_HelmetCrew_I"];
 _crewRig = ["V_TacVest_oli"];
 _crewGlasses = [];

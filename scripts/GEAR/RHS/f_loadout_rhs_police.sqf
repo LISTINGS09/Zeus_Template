@@ -132,8 +132,8 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["rhs_weap_m249_pip_L","rhs_weap_m249_pip_L_para","rhs_weap_m249_pip_L_vfg","rhs_weap_m249_pip_S","rhs_weap_m249_pip_S_para","rhs_weap_m249_pip_S_vfg"];
-_ARmag = "rhs_200rnd_556x45_M_SAW";
-_ARmag_tr = "rhs_200rnd_556x45_T_SAW";
+_ARmag = "rhsusf_200Rnd_556x45_box";
+_ARmag_tr = "rhsusf_200rnd_556x45_mixed_box";
 
 // Medium MG
 _MMG = "rhs_weap_m240B";

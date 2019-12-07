@@ -147,7 +147,7 @@ _DMrifle = "srifle_DMR_06_olive_F";
 _DMriflemag = "20Rnd_762x51_Mag";
 
 // Rifleman AT
-_RAT = "launch_RPG32_ghex_F";
+_RAT = "launch_RPG32_green_F";
 _RATmag = "RPG32_F";
 _RATmag2 = "RPG32_HE_F";
 

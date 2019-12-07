@@ -51,8 +51,8 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = "arifle_AK12_F";
-_riflemag = "30Rnd_762x39_Mag_F";
-_riflemag_tr = "30Rnd_762x39_Mag_Tracer_F";
+_riflemag = "30Rnd_762x39_AK12_Mag_F";
+_riflemag_tr = "30Rnd_762x39_AK12_Mag_Tracer_F";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = "arifle_AKS_F";
@@ -71,8 +71,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = "arifle_AK12_GL_F";
-_glriflemag = "30Rnd_762x39_Mag_F";
-_glriflemag_tr = "30Rnd_762x39_Mag_Tracer_F";
+_glriflemag = "30Rnd_762x39_AK12_Mag_F";
+_glriflemag_tr = "30Rnd_762x39_AK12_Mag_Tracer_F";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc

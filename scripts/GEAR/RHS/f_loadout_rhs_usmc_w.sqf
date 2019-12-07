@@ -117,7 +117,7 @@ _chemalt = "Chemlight_blue";
 // Backpacks
 _bagsmall = "rhsusf_assault_eagleaiii_coy";			// carries 120, weighs 20
 _bagmedium = "rhsusf_assault_eagleaiii_coy";		// carries 240, weighs 30
-_baglarge =  "rhsusf_assault_eagleaiii_coy"; 			// carries 320, weighs 40
+_baglarge =  "B_Carryall_khk"; 			// carries 320, weighs 40
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "B_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "I_HMG_01_weapon_F";				// used by Heavy MG gunner
@@ -135,8 +135,8 @@ _baghsamag = "I_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["rhs_weap_m249_pip_L","rhs_weap_m249_pip_L_para","rhs_weap_m249_pip_L_vfg","rhs_weap_m249_pip_S","rhs_weap_m249_pip_S_para","rhs_weap_m249_pip_S_vfg"];
-_ARmag = "rhs_200rnd_556x45_M_SAW";
-_ARmag_tr = "rhs_200rnd_556x45_T_SAW";
+_ARmag = "rhsusf_200Rnd_556x45_box";
+_ARmag_tr = "rhsusf_200rnd_556x45_mixed_box";
 
 // Medium MG
 _MMG = "rhs_weap_m240B";
@@ -152,7 +152,7 @@ _RAT = ["rhs_weap_M136","rhs_weap_M136_hedp","rhs_weap_M136_hp"];
 //_RATmag = "";
 
 // Medium AT
-_MAT = ["rhs_weap_smaw_green","rhs_weap_smaw_green"];
+_MAT = "rhs_weap_smaw_green";
 _MATmag1 = "rhs_mag_smaw_HEAA";
 _MATmag2 = "rhs_mag_smaw_HEDP";
 
@@ -444,6 +444,7 @@ switch (_typeofUnit) do
 	// LOADOUT: HEAVY MG ASSISTANT GUNNER
 	case "hmgag":
 	{
+		_bagmedium = _baglarge;
 		[_typeofUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
@@ -456,12 +457,14 @@ switch (_typeofUnit) do
 	// LOADOUT: MEDIUM AT GUNNER
 	case "matg":
 	{
+		_bagmedium = _baglarge;
 		[_typeofUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		_unit addMagazines [_smokegrenade,2];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _MAT] call f_fnc_addWeapon;
+		_unit addSecondaryWeaponItem "rhs_weap_optic_smaw";
 	};
 
 	// LOADOUT: MEDIUM AT ASSISTANT GUNNER

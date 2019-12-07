@@ -147,14 +147,14 @@ _DMrifle = "srifle_DMR_06_olive_F";
 _DMriflemag = "20Rnd_762x51_Mag";
 
 // Rifleman AT
-_RAT = ["launch_RPG7_F","launch_MRAWS_olive_rail_F"];
-_RATmag = "RPG7_F";
-_RATmag2 = "RPG7_F";
+_RAT = ["launch_RPG32_green_F"];
+_RATmag = "RPG32_F";
+_RATmag2 = "RPG32_HE_F";
 
 // Medium AT
-_MAT = "launch_B_Titan_short_tna_F";
-_MATmag1 = "Titan_AT";
-_MATmag2 = "Titan_AP";
+_MAT = "launch_MRAWS_green_rail_F";
+_MATmag1 = "MRAWS_HEAT55_F";
+_MATmag2 = "MRAWS_HE_F";
 
 // Heavy AT
 _HAT = "launch_B_Titan_short_tna_F";
