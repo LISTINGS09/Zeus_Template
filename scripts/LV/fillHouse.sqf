@@ -1,5 +1,5 @@
 /*
-ARMA3 - FILL HOUSE SCRIPT v1.9 - by 26K, SPUn & lostvar
+ARMA3 - FILL HOUSE SCRIPT v1.10 - by 26K, SPUn & lostvar
 
 Fills house or buildings in defined range with soldiers
 
@@ -45,7 +45,7 @@ params [ "_center",
 	["_faction", "NATO"],
 	["_patrol", FALSE],
 	["_pDist", 100],
-	["_ratio", [2,3]],
+	["_ratio", [2,5]],
 	["_radius", 25],
 	["_skills", [0.4,0.5,1,0.8,0.7,1,1,1,1]]
 ];
@@ -99,7 +99,10 @@ _fSel = switch (_faction) do {
 	case "TAKI": 	{ ["Taki_Opfor","EdSubcat_Personnel"] };
 	case "TLA": 	{ ["rhsgref_faction_tla","rhsgref_EdSubcat_infantry"] };
 	case "EGER": 	{ ["gm_fc_gc","gm_esc_men_80"] };
-	case "EGERW": 	{ ["gm_fc_gc","gm_esc_men_80_winter"] };	
+	case "EGERW": 	{ ["gm_fc_gc","gm_esc_men_80_winter"] };
+	
+	// CIV
+	case "ZOM": 	{ ["ZOMBIE_Faction","EdSubcat_Personnel"] };
 	default 		{ "INVALID" };
 };
 
@@ -109,6 +112,11 @@ if !(_fSel isEqualType []) exitWith {
 };
 
 _fSel params ["_factionID","_factionCat"];
+
+if !(isClass (configFile >> "CfgFactionClasses" >> _factionID)) exitWith { 
+	systemChat format ["[FillHouse] ERROR - Invalid Faction: %1", _faction];
+	diag_log text format ["[FillHouse] ERROR - Invalid Faction: %1", _faction];
+};
 
 // Get side of the faciton
 _side = [east, west, independent] select (getNumber (configFile >> "CfgFactionClasses" >> _factionID >> "side"));
