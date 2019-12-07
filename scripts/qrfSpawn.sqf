@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek
+	Author: 2600K / Josef Zemanek v1.01
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -111,6 +111,19 @@ _Heavy = [["O_APC_Tracked_02_AA_F","[_grpVeh,false,['showSLATHull',0.5,'showCamo
 _Air = ["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_bench_F"];
 _CAS = [["O_Heli_Light_02_dynamicLoadout_F","_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F", "_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
 
+// EAST - SPETSNAZ (VANILLA)
+_side = EAST;
+_Soldier = ["O_R_Soldier_TL_F","O_R_Soldier_AR_F","O_R_Soldier_LAT_F","O_R_Soldier_GL_F"];
+_Sentry = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_R_InfSentry"];
+_Team = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_R_InfTeam"];
+_Squad = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_R_InfSquad"];
+_Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_T_MotInf_Reinforcements"];
+_Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
+_Medium = [["O_T_APC_Wheeled_02_rcws_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
+_Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_bench_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
+_CAS = ["O_T_VTOL_02_infantry_dynamicLoadout_F",["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
+
 // EAST - FIA (VANILLA)
 _side = EAST;
 _Soldier = ["O_G_Soldier_SL_F","O_G_Soldier_AR_F","O_G_Soldier_LAT_F","O_G_Soldier_F"];
@@ -146,6 +159,19 @@ _Medium = [["I_LT_01_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATH
 _Heavy = [["I_MBT_03_cannon_F","[_grpVeh,false,['HideTurret',0.3,'HideHull',0.3,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 _Air = [["I_Heli_light_03_unarmed_F","[_grpVeh,['Indep',1]] call BIS_fnc_initVehicle;"],"I_Heli_Transport_02_F", ["O_Heli_Light_02_unarmed_F","_grpVeh setObjectTextureGlobal [0,'\a3\air_f\Heli_Light_02\Data\heli_light_02_ext_indp_co.paa'];"], ["B_Heli_Light_01_F","_grpVeh setObjectTextureGlobal [0,'A3\Air_F\Heli_Light_01\Data\heli_light_01_ext_indp_co.paa'];"]];
 _CAS = ["I_Heli_light_03_dynamicLoadout_F","I_Plane_Fighter_03_dynamicLoadout_F",["O_Heli_Light_02_dynamicLoadout_F","_grpVeh setObjectTextureGlobal [0,'\a3\air_f\Heli_Light_02\Data\heli_light_02_ext_indp_co.paa']; _grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"]];
+
+// GUER - LDF (VANILLA)
+_side = INDEPENDENT;
+_Soldier = ["I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldier_AR_F","I_E_Soldier_TL_F"];
+_Sentry = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Infantry" >> "I_E_InfSentry"];
+_Team = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Infantry" >> "I_E_InfTeam"];
+_Squad = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Infantry" >> "I_E_InfSquad"];
+_Truck = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Motorized" >> "I_E_MotInf_Reinforcements"];
+_Light = [["I_MRAP_03_HMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"],["I_MRAP_03_GMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"]];
+_Medium = [["I_LT_01_cannon_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["I_E_APC_tracked_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3,'showSLATHull',0.5,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"]];
+_Air = ["I_E_Heli_light_03_unarmed_F"];
+_CAS = ["I_E_Heli_light_03_dynamicLoadout_F"];
 
 ********************
 *** ADDON GROUPS ***
@@ -327,6 +353,7 @@ _CAS = [];
 
 */
 
+
 // Functions.
 ZRF_fnc_CreateReinforcements = {
 	params [
@@ -335,13 +362,13 @@ ZRF_fnc_CreateReinforcements = {
 		"_side",
 		"_unitClass"
 	];
-	_reinfGrp = grpNull;
-	_grpVeh = objNull;
-	_vehType = "";
-	_sleep = TRUE;
-	_tooClose = FALSE;
-	_dir = 0;
-	_customInit = "";
+	private _reinfGrp = grpNull;
+	private _grpVeh = objNull;
+	private _vehType = "";
+	private _sleep = TRUE;
+	private _tooClose = FALSE;
+	private _dir = 0;
+	private _customInit = "";
 	
 	// No positions to use
 	if (count _posArray == 0) exitWith {};
@@ -391,7 +418,8 @@ ZRF_fnc_CreateReinforcements = {
 			_veh setDir _dir;
 		};
 		
-		if (_vehType == "car") then {
+		if (_vehType == "car" || (!canFire _veh && !_isAir)) then {
+			_vehType = "car";
 			_soldierArr = [];
 		
 			for [{_i = 1}, {_i <= count (fullCrew [_veh, "", true])}, {_i = _i + 1}] do {
@@ -559,6 +587,9 @@ ZRF_fnc_CreateReinforcements = {
 	
 	_reinfGrp deleteGroupWhenEmpty true;
 	{ _x addCuratorEditableObjects [(units _reinfGrp) + [_grpVeh], TRUE] } forEach allCurators;
+	
+	systemChat format["[QRF] Spawned - %1 (%2)", _unitClass, _vehType];
+	diag_log text format["[QRF] Spawned - %1 (%2)", _unitClass, _vehType];
 
 	if (_sleep) then {
 		sleep random 20;
@@ -618,12 +649,11 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 1}] do {
 	(format ["spawnMkr_%1", _forEachIndex]) setMarkerTextLocal str _forEachIndex;
 } forEach _spawns;
 
-
 // MAIN
 // Spawn waves.
 for [{_wave = 1}, {_wave < _waveMax}, {_wave = _wave + 1}] do {
 	// Stop spawns if no-one is nearby.
-	if (({ _location distance2D _x < (_spawnDist + 1000) } count (switchableUnits + playableUnits)) isEqualTo 0) exitWith {
+	if (({ _location distance2D _x < (_spawnDist + 1000) } count (switchableUnits + playableUnits)) isEqualTo 0 && isMultiplayer) exitWith {
 		diag_log text format["[QRF] Aborting - No players within %1 meters!", _spawnDist + 1000];
 	};
 	
