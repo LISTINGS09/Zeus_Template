@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.0
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.2
 // [] execVM "scripts\civPopulation.sqf";
 
 // The following constants may be used to tweak behaviour
@@ -65,19 +65,19 @@ if !isServer exitWith {};
 ZCS_fnc_FindSpawnPos = {
 	params ["_playerBuildings"];
 		
-	_tries = 0;
-	_foundPosition = [];
+	private _tries = 0;
+	private _foundPosition = [];
 
 	while { count _playerBuildings > 0 && count _foundPosition == 0 && _tries < 10 } do {
 		_tries = _tries + 1;
-		_building = selectRandom _playerBuildings;
+		private _building = selectRandom _playerBuildings;
 		_playerBuildings deleteAt (_playerBuildings find _building); // Remove it from the list
 		//_playerBuildings = _playerBuildings - [_building]; // Remove it from the list
 		
-		_buildingPosList = _building buildingPos -1;
+		private _buildingPosList = _building buildingPos -1;
 		
 		if (count _buildingPosList > 0) then {		
-			_tooClose = (allPlayers findIf { _x distance _building < ZCS_var_MinDist }) >= 0;
+			private _tooClose = (allPlayers findIf { _x distance _building < ZCS_var_MinDist }) >= 0;
 			
 			if (!_tooClose && (ZCS_var_BlackList findIf {getPos _building inArea _x} < 0)) exitWith {
 				_foundPosition = selectRandom _buildingPosList;
@@ -91,13 +91,11 @@ ZCS_fnc_FindSpawnPos = {
 };
 
 ZCS_fnc_FindDestPos = {
-	//
 	params ["_unit"];
-	private ["_tries", "_foundPosition", "_buildingPosList", "_buildings", "_building", "_buildingPosNo", "_unitPos"];
 
-	_foundPosition = [];
-	_tries = 0;
-	_unitPos = getPosAtl _unit;
+	private _foundPosition = [];
+	private _tries = 0;
+	private _unitPos = getPosAtl _unit;
 	
 	if (random 100 > 50) then {
 		// Pick a building
@@ -106,9 +104,9 @@ ZCS_fnc_FindDestPos = {
 		while { count _buildings > 0 && count _foundPosition == 0 && _tries < 10 } do {
 			_tries = _tries + 1;
 			
-			_building = selectRandom _buildings;
-			_buildings = _buildings - [_building];
-			_buildingPosList = _building buildingPos -1;
+			private _building = selectRandom _buildings;
+			private _buildings = _buildings - [_building];
+			private _buildingPosList = _building buildingPos -1;
 									
 			if (count _buildingPosList > 0 && (ZCS_var_BlackList findIf {getPos _building inArea _x} < 0)) exitWith {
 				_foundPosition = selectRandom _buildingPosList;
@@ -119,7 +117,7 @@ ZCS_fnc_FindDestPos = {
 		while { count _foundPosition == 0 && _tries < 10 } do {
 			_tries = _tries + 1;
 			
-			_pos = _unitPos getPos [random 200, random 360];
+			private _pos = _unitPos getPos [random 200, random 360];
 			if (!isOnRoad _pos && !surfaceIsWater _pos && (ZCS_var_BlackList findIf {_pos inArea _x} < 0)) exitWith {
 				_foundPosition = _pos;
 			};
@@ -133,7 +131,7 @@ ZCS_fnc_FindDestPos = {
 
 ZCS_fnc_NearBuildings = {
 	// Get all player positions and find any good buildings within the max range.
-	_buildings = [];
+	private _buildings = [];
 	
 	{
 		{	
@@ -159,7 +157,7 @@ ZCS_fnc_DressUnit = {
 	{
 		_x params [["_classes",[]],["_classTree","CfgWeapons"]];
 		
-		_item = selectRandom _classes;
+		private _item = selectRandom _classes;
 		
 		if (isNil "_item") then { _item = "" };
 		
@@ -191,7 +189,7 @@ ZCS_fnc_SpawnUnit = {
 	
 	if (_pos isEqualTo []) exitWith { objNull };
 	
-	_unit = createAgent [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "NONE"];
+	private _unit = createAgent [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "NONE"];
 	
 	[_unit] spawn ZCS_fnc_DressUnit;
 	
@@ -203,7 +201,8 @@ ZCS_fnc_SpawnUnit = {
 			format["%1 (%2) killed Civilian (%3)",name _killer,groupId group _killer,name (_this select 0)] remoteExec ["systemChat",0];
 			
 			if (ZCS_var_LOWTasks) then {
-				missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.05,true];
+				missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.1, true];
+				missionNamespace setVariable ["ZCS_var_BomberChance", (missionNamespace getVariable ["ZCS_var_BomberChance",0.01])+0.05, true];
 				
 				// Create Parent Task
 				if !(["ZCS_TSK_PARENT"] call BIS_fnc_taskExists) then {
@@ -243,25 +242,27 @@ ZCS_fnc_SpawnHunter = {
 		_pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
 	};
 	
-	_huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
+	private _huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
 	 
 	if(_huntPlayer isEqualTo []) exitWith { objNull };
 	
-	_enemySide = if (side _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side _huntPlayer getFriend EAST < 0.6) then { EAST } else { INDEPENDENT }; };	
-	_enemyGroup = createGroup [_enemySide, true];
-	_tempGroup = createGroup [civilian, true];
+	private _enemySide = if (side _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side _huntPlayer getFriend EAST < 0.6) then { EAST } else { INDEPENDENT }; };	
+	private _enemyGroup = createGroup [_enemySide, true];
+	private _tempGroup = createGroup [civilian, true];
 	
-	_hunter = _tempGroup createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
+	private _hunter = _tempGroup createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
 	[_hunter] joinSilent _enemyGroup;
 	
 	[_hunter] call ZCS_fnc_DressUnit;
 	
 	selectRandom [["hgun_Rook40_F","16Rnd_9x21_Mag"],["hgun_Pistol_heavy_01_F","11Rnd_45ACP_Mag"],["SMG_05_F","30Rnd_9x21_Mag_SMG_02"],["hgun_PDW2000_Holo_F","30Rnd_9x21_Mag"],["SMG_02_ACO_F","30Rnd_9x21_Mag_SMG_02"],["SMG_03C_TR_khaki","50Rnd_570x28_SMG_03"]] params ["_weapon", "_ammo"];
-	_hunter addBackpack "B_LegStrapBag_black_F";
+	//_hunter addBackpack "B_LegStrapBag_black_F";
 	_hunter addItem "HandGrenade";
-	_hunter addItem "SmokeShell";
-	_hunter addMagazines [_ammo,3];
-	_hunter addWeapon _weapon;
+	_hunter addItem "HandGrenade";
+	if (random 1 <= 0.9) then {
+		_hunter addMagazines [_ammo,3];
+		_hunter addWeapon _weapon;
+	};
 	_hunter setCombatMode "RED";
 	_hunter setBehaviour "AWARE";
 	
@@ -277,26 +278,25 @@ ZCS_fnc_SpawnBomber = {
 	params [["_pos",[]]];
 
 	if (_pos isEqualTo []) then {
-		_playerBuildings = [] call ZCS_fnc_NearBuildings;
-		_pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
+		_pos = [[] call ZCS_fnc_NearBuildings] call ZCS_fnc_FindSpawnPos;
 	};
 	
-	_huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
+	private _huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
 	 
 	if(_huntPlayer isEqualTo []) exitWith { objNull };
 	
-	_enemySide = if (side _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side _huntPlayer getFriend EAST < 0.6) then { EAST } else { INDEPENDENT }; };	
-	_enemyGroup = createGroup [_enemySide, true];
-	_tempGroup = createGroup [civilian, true];
+	private _enemySide = if (side _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side _huntPlayer getFriend EAST < 0.6) then { EAST } else { INDEPENDENT }; };	
+	private _enemyGroup = createGroup [_enemySide, true];
+	private _tempGroup = createGroup [civilian, true];
 	
-	_bomber = _tempGroup createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
+	private _bomber = _tempGroup createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
 	[_bomber] joinSilent _enemyGroup;
 	
 	[_bomber] spawn ZCS_fnc_DressUnit;
 	
-	_ied1 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
-	_ied2 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
-	_ied3 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
+	private _ied1 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
+	private _ied2 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
+	private _ied3 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
 
 	_ied1 attachTo [_bomber, [-0.1,0.1,0.15],"Pelvis"];
 	_ied1 setVectorDirAndUp [[0.5,0.5,0],[-0.5,0.5,0]];
@@ -318,7 +318,7 @@ ZCS_fnc_SpawnBomber = {
 	[_bomber] spawn {
 		params ["_unit"];
 		
-		waitUntil { sleep 1; playSound3D ["A3\sounds_f\sfx\beep_target.wss", _unit, false, getPosASL _unit, 1, 0.5, 75]; (!alive _unit || allPlayers findIf { alive _x && _unit distance _x < 5 } >= 0) };
+		waitUntil { sleep 1; playSound3D ["A3\sounds_f\sfx\beep_target.wss", _unit, false, getPosASL _unit, 1, 0.5, 100]; (!alive _unit || allPlayers findIf { alive _x && _unit distance _x < 5 } >= 0) };
 
 		if(random 1 > 0.2) then {
 			_exp = "HelicopterExploSmall" createVehicle (getPos _unit);
@@ -337,14 +337,16 @@ ZCS_CivList = []; // Items of type [unit, destination pos, last pos, isMoving, n
 ZCS_var_Running = true;
 
 while { ZCS_var_Running } do {
-	_playerBuildings = [] call ZCS_fnc_NearBuildings;
-	_unitsCount = ceil (ZCS_var_UnitsPerBuilding * count _playerBuildings);
+	private _playerBuildings = [] call ZCS_fnc_NearBuildings;
+	private _unitsCount = ceil (ZCS_var_UnitsPerBuilding * count _playerBuildings);
 	if (_unitsCount > ZCS_var_MaxGrpCount) then { _unitsCount = ZCS_var_MaxGrpCount; };
 
 	if (count ZCS_CivList < _unitsCount) then {
-		_pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
+		private _pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
 		
-		_spawnClose = ["respawn_east","respawn_west","respawn_guerrila","respawn_civilian"] findIf { getMarkerPos _x distance _pos < 1000 } > 0;
+		if (_pos isEqualTo []) exitWith {}; // No valid position
+		
+		private _spawnClose = ["respawn_east","respawn_west","respawn_guerrila","respawn_civilian"] findIf { getMarkerPos _x distance _pos < 1000 } > 0;
 		
 		_newUnit = if (random 1 <= ZCS_var_EnemyChance && !_spawnClose) then {
 			if ( random 1 <= ZCS_var_BomberChance) then {
@@ -382,7 +384,7 @@ while { ZCS_var_Running } do {
 
 		// If civilian has reached its destination or we've been waiting too long
 		if ((_isMoving && _lastPos distance getPos _unit < 1) || _nextActionTime > time + (ZCS_var_WaitTime * 2)) then {
-			_nextActionTime = time + random ZCS_var_WaitTime;
+			private _nextActionTime = time + random ZCS_var_WaitTime;
 			
 			_x set [3, false]; // Set isMoving = false
 			_x set [4, _nextActionTime]; // Next action time
