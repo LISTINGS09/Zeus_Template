@@ -66,7 +66,7 @@ openMap false;
 if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
 	[player, 1, ["ACE_SelfActions","ACE_TeamManagement","PAR"]] call ace_interact_menu_fnc_removeActionFromObject;
 } else {
-	player removeAction f_mapClickTeleportAction;
+	if (!isNil "f_mapClickTeleportAction") then { player removeAction f_mapClickTeleportAction };
 };
 
 f_var_mapClickTeleport_Used = f_var_mapClickTeleport_Used + 1;

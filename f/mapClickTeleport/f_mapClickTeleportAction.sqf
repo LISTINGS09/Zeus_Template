@@ -1,6 +1,8 @@
 // F3 - Mission Maker Teleport
 // Credits: Please see the F3 online manual http://www.ferstaberinde.com/f3/en/
 // ====================================================================================
+// this addAction ["<t color='#B70000'>HALO</t>", { [[1,0,false,[],2000,true], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; },"",0,true,true,"","true",6];
+
 // Only run this for players
 if (!hasInterface) exitWith {};
 
@@ -8,12 +10,14 @@ f_fnc_mapClickTeleportGroup = compileFinal preprocessFileLineNumbers "f\mapClick
 f_fnc_mapClickTeleportUnit = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportUnit.sqf";
 f_fnc_mapClickHaloEffect = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickHaloEffect.sqf";
 
+
+
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
 if (!isDedicated && (isNull player)) then {
     waitUntil {sleep 0.1; !isNull player};
 };
 
-params [["_uses",1,[1]],["_timeLimit",0,[0]],["_groupTP",true,[true]],["_unitList",[],[[]]],["_dropHeight",0,[0]]];
+params [["_uses",1,[1]],["_timeLimit",0,[0]],["_groupTP",true,[true]],["_unitList",[],[[]]],["_dropHeight",0,[0]],["_skipAction",false,[false]]];
 
 // How often the TP action can be used. 0 = infinite usage.
 if (isNil "f_var_mapClickTeleport_Uses") then {f_var_mapClickTeleport_Uses = _uses};
@@ -43,6 +47,9 @@ _unitList = _unitList - [objNull];
 // We end the script if it is not running on a server or if only group leaders can use
 // the action and the player is not the leader of his/her group
 if (count _unitList > 0 && !(player in _unitList)) exitWith {};
+
+// Skip action setup and just execute
+if (_skipAction) exitWith { [] spawn f_fnc_mapClickTeleportUnit };
 
 _string = if (f_var_mapClickTeleport_Height == 0) then {"Fast Travel"} else {"HALO Drop"};
 

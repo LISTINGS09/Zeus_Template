@@ -38,15 +38,6 @@ if isServer then {
 	}];
 };
 // ====================================================================================
-// Vehicle View Distances
-[] spawn {
-	sleep 1;
-	switch (player getVariable ["f_var_assignGear","r"]) do {
-		case "pp"; case "pc"; case "pcc": { setViewDistance 5000; systemChat "View Distance Increased (Air) - Check Settings" };
-		case "vc"; case "vd"; case "vg"; case "uav": { setViewDistance 3000; systemChat "View Distance Increased (Vehicle) - Check Settings" };
-	};
-};
-// ====================================================================================
 // Post-process effects
 /* if (hasInterface) then {
 	_hdl = ppEffectCreate ["colorCorrections", 1501];

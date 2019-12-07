@@ -11,11 +11,10 @@
 // EXAMPLE
 // [] execVM "f\misc\f_stayInVehicle.sqf";
 if !isServer exitWith {};
-private ["_ignoreSides", "_vehicles"];
 
 if (!isNil "DAC_Basic_Value") then {waitUntil {sleep 5;DAC_Basic_Value > 0}} else {sleep 30};
 
-_ignoresides = [];
+private _ignoresides = [];
 
 // Get list of sides to ignore.
 {
@@ -24,39 +23,34 @@ _ignoresides = [];
 	};
 } forEach playableUnits + switchableUnits;
 
-//if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log text format["[F3] DEBUG (fn_stayInVehicle.sqf): Ignoring: %1",_ignoreSides];};
-
-_vehicles = [];
-
-{
-	if (canFire _x && !(side _x in _ignoreSides) && !(_x isKindOf "StaticWeapon")) then { _vehicles pushBack _x };
-} forEach vehicles;
-
-if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log text format["[F3] DEBUG (fn_stayInVehicle.sqf): Found: %1 vehicles",count _vehicles];};
+private _vehicles = vehicles select { canFire _x && !(side _x in _ignoreSides) && !(_x isKindOf "StaticWeapon") && count crew _x > 0};
 
 if (count _vehicles == 0) exitWith {};
 
+if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log text format["[F3] DEBUG (fn_stayInVehicle.sqf): Found: %1 vehicles",count _vehicles];};
+
 {
-	private ["_unitset", "_unit", "_damage"];
-	_unitset = _x getVariable "z_stayIn";
-	if (isNil "_unitset") then {
-		_unit = _x;
+	if (_x getVariable ["zeu_stayIn", false]) then {
+		private _unit = _x;
+		
+		// Enable ACE Cooking
+		if (vehicleVarName _unit == "" && random 1 > 0.6) then { _unit setVariable ["ace_cookoff_enable", true, true] };
 		
 		if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log text format["[F3] DEBUG (fn_stayInVehicle.sqf): Processing vehicle: %1 (%2)",_unit,typeOf _unit];};
 		
 		_unit allowCrewInImmobile true;
-		_unit setVariable ["z_stayIn",true];
+		_unit setVariable ["zeu_stayIn",true];
 
 		_x addEventHandler [ "Hit",
-		{
-			params["_unit"];
-			_damage = getDammage _unit;
+			{
+				params["_unit"];
 
-			 if (_damage > 0.8 || !(canFire _unit)) then {
-				_unit allowCrewInImmobile false;
-				{_x action ["eject", _unit];} forEach crew _unit;
-				_unit removeEventHandler ["Hit",0];
-			};
-		}];
+				 if (getDammage _unit > 0.8 || !(canFire _unit)) then {
+					_unit allowCrewInImmobile false;
+					{_x action ["eject", _unit];} forEach crew _unit;
+					_unit removeEventHandler ["Hit",0];
+				};
+			}
+		];
    };
 } forEach _vehicles;

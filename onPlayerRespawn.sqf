@@ -4,6 +4,13 @@ if (isNull _oldUnit) exitWith {};
 // Disable Spectator
 [false] call f_fnc_spectateInit;
 
+// Black screen fix?
+titleCut ["", "BLACK IN", 2];
+5 fadeSound 1;
+5 fadeMusic 1;
+5 fadeSpeech 1;
+5 fadeRadio 1; 
+
 // Disable player voice and radio
 [player, "NoVoice"] remoteExec ["setSpeaker", -2, format["NoVoice_%1", netId player]];
 showSubtitles false;

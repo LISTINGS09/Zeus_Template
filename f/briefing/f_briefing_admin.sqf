@@ -227,6 +227,23 @@ Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then 
 <br/>
 ";
 
+// TFAR
+if ("task_force_radio" in activatedAddons) then {
+	_missionDebug = _missionDebug + "<font size='16' color='#80FF00'>TFAR</font><br/><br/>
+	<execute expression=""(findDisplay 12) createDisplay 'RscDisplayDebugPublic';hintSilent 'Displaying Debug Window';"">Show Debug Window</execute><br/>
+	<br/>
+	";
+};
+
+// ACRE
+if ("acre_main" in activatedAddons) then {
+	_missionDebug = _missionDebug + "<font size='16' color='#80FF00'>ACRE</font><br/>
+	<execute expression=""uniformContainer player addItemCargo [f_radios_settings_acre2_standardSRRadio, 1]; systemChat 'SR Radio Added';"">Add SR Radio</execute><br/>
+	<execute expression=""uniformContainer player addItemCargo [f_radios_settings_acre2_standardLRRadio, 1]; systemChat 'LR Radio Added';"">Add LR Radio</execute><br/>
+	<br/>
+	";
+};
+
 player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
 
 // ====================================================================================
@@ -408,31 +425,24 @@ player createDiaryRecord ["ZeuAdmin", ["Time & Weather",_missionWeather]];
 // ENDINGS SECTION
 // This block of code collects all valid endings and formats them properly
 
-_title = [];
-_ending = [];
-_endings = [];
+private _missionEndings = "<font size='18' color='#80FF00'>ENDINGS</font><br/><br/>These endings are available. To trigger an ending click on its link - It will take a few seconds to synchronise across all clients.<br/><br/>";
 
-_i = 1;
-while {true} do {
-	_title = getText (missionConfigFile >> "CfgDebriefing" >> format ["end%1",_i] >> "title");
-	_description = getText (missionConfigFile >> "CfgDebriefing" >> format ["end%1",_i] >> "description");
-	if (_title == "") exitWith {};
-	_ending = [_i,_title,_description];
-	_endings append ([_ending]);
-	_i = _i + 1;
+for "_i" from 1 to 15 do {
+	private _eID = format ["end%1",_i];
+
+	if (getText (getMissionConfig "CfgDebriefing" >> _eID >> "Title") != "") then {	
+		_missionEndings = _missionEndings + format [
+			"%4<br/><execute expression=""['f_briefing_admin.sqf','End%1 called by %5','INFO'] remoteExec ['f_fnc_logIssue',2]; 'End%1' remoteExec ['BIS_fnc_endMission'];"">Ending #%1</execute> - %2:<br/>%3<br/><br/>",
+			_i,
+			getText (getMissionConfig "CfgDebriefing" >> _eID >> "title"),
+			getText (getMissionConfig "CfgDebriefing" >> _eID >> "description"),
+			format["<img image='%1' height='32'/>", getText (getMissionConfig "CfgDebriefing" >> _eID >> "picture")],
+			name player
+		];	
+	};
 };
 
 // Create the briefing section to display the endings
-
-_missionEndings = "<font size='18' color='#80FF00'>ENDINGS</font><br/><br/>These endings are available. To trigger an ending click on its link - It will take a few seconds to synchronise across all clients.<br/><br/>";
-
-{;
-	_missionEndings = _missionEndings + format [
-		"<execute expression=""['f_briefing_admin.sqf','End%1 called by %4','INFO'] remoteExec ['f_fnc_logIssue',2]; 'End%1' remoteExec ['BIS_fnc_endMission'];"">Ending #%1</execute> - %2:<br/>%3<br/><br/>",
-		_x#0, _x#1, _x#2, name player
-	];
-} forEach _endings;
-
 player createDiaryRecord ["ZeuAdmin", ["Endings",_missionEndings]];
 
 // Tasking

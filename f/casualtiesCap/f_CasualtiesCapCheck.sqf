@@ -110,6 +110,8 @@ while {true} do {
 	sleep 10;
 };
 
+sleep 5;
+
 // Don't continue if the mission is finishing
 if !(isNil "BIS_fnc_endMission_effects") exitWith {};
 

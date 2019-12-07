@@ -174,7 +174,7 @@ if (_isMan && !_skipCheck) then {
 	_unitMags = (magazines _unit) apply { toLower _x };
 	
 	if (handgunWeapon _unit != "") then {
-		_configMags = getArray(configFile >> "CfgWeapons" >> (handgunWeapon _unit) >> "magazines") apply { toLower _x };
+		_configMags = ([handgunWeapon _unit] call BIS_fnc_compatibleMagazines) apply { toLower _x };
 		
 		if (_unitMags arrayIntersect _configMags isEqualTo []) then {
 			["fn_assignGear.sqf",format["Unit %1 %2_%3 has no additional magazines for side-arm '%4'.",_unit,_side,_typeofUnit,handgunWeapon _unit]] call f_fnc_logIssue;
@@ -185,7 +185,7 @@ if (_isMan && !_skipCheck) then {
 	if (primaryWeapon _unit == "") then {
 		["fn_assignGear.sqf",format["Unit %1 %2_%3 has no primary weapon!",_unit,_side,_typeofUnit]] call f_fnc_logIssue;
 	} else {
-		_configMags = getArray(configFile >> "CfgWeapons" >> (primaryWeapon _unit) >> "magazines") apply { toLower _x };
+		_configMags = ([primaryWeapon _unit] call BIS_fnc_compatibleMagazines) apply { toLower _x };
 		
 		if (_unitMags arrayIntersect _configMags isEqualTo []) then {
 			["fn_assignGear.sqf",format["Unit %1 %2_%3 has no additional magazines for primary '%4'.",_unit,_side,_typeofUnit,primaryWeapon _unit]] call f_fnc_logIssue;
