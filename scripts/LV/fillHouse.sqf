@@ -1,5 +1,5 @@
 /*
-ARMA3 - FILL HOUSE SCRIPT v1.10 - by 26K, SPUn & lostvar
+ARMA3 - FILL HOUSE SCRIPT v1.11 - by 26K, SPUn & lostvar
 
 Fills house or buildings in defined range with soldiers
 
@@ -157,7 +157,7 @@ _bPoss = [];
 
 if(_radius > 1) then {
 	{
-		_bPoss append (_x buildingPos -1);
+		_bPoss append (_x buildingPos -1) select { count (_x nearEntities ["Man",0.5]) < 1 }; // Any pos not already occupied
 	} forEach (nearestObjects [_center, ["building"], _radius]);
 } else {
 	_bPoss = (nearestBuilding _center) buildingPos -1;
