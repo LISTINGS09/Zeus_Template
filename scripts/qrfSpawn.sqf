@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek v1.01
+	Author: 2600K / Josef Zemanek v1.02
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -334,7 +334,7 @@ _Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >
 _Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_motorizedinfantry" >> "gm_ge_army_motorizedInfantry_squad_u1300l"];
 _Light = ["gm_ge_army_iltis_milan"];
 _Medium = ["gm_ge_army_fuchsa0_engineer","gm_ge_army_m113a1g_apc"];
-_Heavy = ["gm_ge_army_Leopard1a1a1","gm_ge_army_gepard1a1"];
+_Heavy = ["gm_ge_army_Leopard1a3","gm_ge_army_gepard1a1"];
 _Air = [];
 _CAS = [];
 
@@ -351,8 +351,59 @@ _Heavy = ["gm_ge_army_Leopard1a1a1_win","gm_ge_army_gepard1a1_win"];
 _Air = [];
 _CAS = [];
 
-*/
+// West Germany - Tropical
+_side = WEST;
+_Soldier = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"];
+_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_80_ols"];
+_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_80_ols",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_mggroup_80_ols"];
+_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_squad_80_ols"];
+_Truck = [["gm_ge_army_u1300l_cargo","[_grpVeh,['gm_ge_trp',1]] call BIS_fnc_initVehicle;"]];
+_Light = ["gm_ge_army_iltis_milan_trp"];
+_Medium = ["gm_ge_army_fuchsa0_engineer_trp","gm_ge_army_m113a1g_apc_trp"];
+_Heavy = ["gm_ge_army_Leopard1a3_trp","gm_ge_army_gepard1a1_trp"];
+_Air = [];
+_CAS = [];
 
+// West Germany - Desert
+_side = WEST;
+_Soldier = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"];
+_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_80_ols"];
+_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_atgroup_80_ols",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_mggroup_80_ols"];
+_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry" >> "gm_ge_army_infantry_squad_80_ols"];
+_Truck = [["gm_ge_army_u1300l_cargo","[_grpVeh,['gm_ge_des',1]] call BIS_fnc_initVehicle;"]];
+_Light = ["gm_ge_army_iltis_milan_des"];
+_Medium = ["gm_ge_army_fuchsa0_engineer_des","gm_ge_army_m113a1g_apc_des"];
+_Heavy = ["gm_ge_army_Leopard1a3_des","gm_ge_army_gepard1a1_des"];
+_Air = [];
+_CAS = [];
+
+// Poland - Winter
+_side = EAST;
+_Soldier = ["gm_pl_army_rifleman_akm_80_win","gm_pl_army_squadleader_akm_80_win","gm_pl_army_machinegunner_pk_80_win","gm_pl_army_antitank_akm_rpg7_80_win"];
+_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_infantry_80" >> "gm_pl_army_infantry_mggroup_80_win"];
+_Team = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_infantry_80" >> "gm_pl_army_infantry_atgroup_80_win"];
+_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_infantry_80" >> "gm_pl_army_infantry_squad_80_win"];
+_Truck = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_motorizedinfantry_80" >> "gm_pl_army_motorizedinfantly_squad_ural4320_cargo_80"];
+_Light = ["gm_pl_army_brdm2_olw"];
+_Medium = ["gm_pl_army_bmp1sp2_olw","gm_pl_army_ot64a_olw"];
+_Heavy = ["gm_pl_army_zsu234v1_olw","gm_pl_army_pt76b_olw","gm_pl_army_t55_olw"];
+_Air = [];
+_CAS = [];
+
+// Poland - Summer
+_side = EAST;
+_Soldier = ["gm_pl_army_rifleman_akm_80_autumn_moro","gm_pl_army_squadleader_akm_80_autumn_moro","gm_pl_army_machinegunner_pk_80_autumn_moro","gm_pl_army_antitank_akm_rpg7_80_autumn_moro"];
+_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_infantry_80" >> "gm_pl_army_infantry_mggroup_80_moro"];
+_Team = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_infantry_80" >> "gm_pl_army_infantry_atgroup_80_moro"];
+_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_infantry_80" >> "gm_pl_army_infantry_squad_80_moro"];
+_Truck = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_motorizedinfantry_80" >> "gm_pl_army_motorizedinfantly_squad_ural4320_cargo_80"];
+_Light = ["gm_pl_army_brdm2"];
+_Medium = ["gm_pl_army_bmp1sp2","gm_pl_army_ot64a"];
+_Heavy = ["gm_pl_army_zsu234v1","gm_pl_army_pt76b","gm_pl_army_t55"];
+_Air = [];
+_CAS = [];
+
+*/
 
 // Functions.
 ZRF_fnc_CreateReinforcements = {
