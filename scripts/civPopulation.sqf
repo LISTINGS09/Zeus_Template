@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.2
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.3
 // [] execVM "scripts\civPopulation.sqf";
 
 // The following constants may be used to tweak behaviour
@@ -256,12 +256,11 @@ ZCS_fnc_SpawnHunter = {
 	[_hunter] call ZCS_fnc_DressUnit;
 	
 	selectRandom [["hgun_Rook40_F","16Rnd_9x21_Mag"],["hgun_Pistol_heavy_01_F","11Rnd_45ACP_Mag"],["SMG_05_F","30Rnd_9x21_Mag_SMG_02"],["hgun_PDW2000_Holo_F","30Rnd_9x21_Mag"],["SMG_02_ACO_F","30Rnd_9x21_Mag_SMG_02"],["SMG_03C_TR_khaki","50Rnd_570x28_SMG_03"]] params ["_weapon", "_ammo"];
-	//_hunter addBackpack "B_LegStrapBag_black_F";
-	_hunter addItem "HandGrenade";
-	_hunter addItem "HandGrenade";
+	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
+	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
 	if (random 1 <= 0.9) then {
-		_hunter addMagazines [_ammo,3];
-		_hunter addWeapon _weapon;
+		uniformContainer _hunter addMagazineCargo [_ammo, 3];
+		uniformContainer _hunter addWeaponCargo [_weapon, 1];
 	};
 	_hunter setCombatMode "RED";
 	_hunter setBehaviour "AWARE";
@@ -293,6 +292,7 @@ ZCS_fnc_SpawnBomber = {
 	[_bomber] joinSilent _enemyGroup;
 	
 	[_bomber] spawn ZCS_fnc_DressUnit;
+	_bomber addBackpack selectRandom ["B_Messenger_Black_F","B_Messenger_Gray_F"];
 	
 	private _ied1 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
 	private _ied2 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
