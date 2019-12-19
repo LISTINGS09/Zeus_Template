@@ -227,24 +227,25 @@ Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then 
 <br/>
 ";
 
-// TFAR
-if ("task_force_radio" in activatedAddons) then {
-	_missionDebug = _missionDebug + "<font size='16' color='#80FF00'>TFAR</font><br/><br/>
-	<execute expression=""(findDisplay 12) createDisplay 'RscDisplayDebugPublic';hintSilent 'Displaying Debug Window';"">Show Debug Window</execute><br/>
-	<br/>
-	";
-};
+player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
 
 // ACRE
 if ("acre_main" in activatedAddons) then {
-	_missionDebug = _missionDebug + "<font size='16' color='#80FF00'>ACRE</font><br/>
-	<execute expression=""uniformContainer player addItemCargo [f_radios_settings_acre2_standardSRRadio, 1]; systemChat 'SR Radio Added';"">Add SR Radio</execute><br/>
-	<execute expression=""uniformContainer player addItemCargo [f_radios_settings_acre2_standardLRRadio, 1]; systemChat 'LR Radio Added';"">Add LR Radio</execute><br/>
-	<br/>
-	";
+	private _missionAcre = "<font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
+	
+	{ 
+		if (isClass (configFile >> "CfgWeapons" >> _x)) then {
+			_missionAcre = _missionAcre + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargo ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
+				_x,
+				getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
+				getText (configFile >> "CfgWeapons" >> _x >> "descriptionShort"),
+				getText (configFile >> "CfgWeapons" >> _x >> "picture")
+			];
+		};
+	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F"];
+	
+	player createDiaryRecord ["ZeuAdmin", ["ACRE",_missionAcre]];
 };
-
-player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
 
 // ====================================================================================
 

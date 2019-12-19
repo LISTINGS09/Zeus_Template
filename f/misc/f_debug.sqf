@@ -20,6 +20,18 @@ if (getText ((getMissionConfig "Header") >> "gameType") == "") then { ["f_debug.
 // Check for BIS Revive
 if (getMissionConfigValue ["ReviveMode",0] > 0) then { ["f_debug.sqf","BIS Revive is Active, cannot use FAROOQ Medical."] call f_fnc_logIssue }; 
 
+// Check for mines
+if (count allMines > 5 && { _x getUnitTrait 'explosiveSpecialist' } count (playableUnits + switchableUnits) <= 0) then { ["f_debug.sqf","Mines present but no Explosives Experts detected!"] call f_fnc_logIssue }; 
+
+// Missing Group Markers
+if ({ !(groupID group _x in ((missionNamespace getVariable ["f_var_allGroups",[["","",""]]]) apply { _x#2 }))} count (playableUnits + switchableUnits) > 0) then {
+	["groups.sqf",format["%1 units have no group ID assigned: %2",
+		{ !(groupID group _x in ((missionNamespace getVariable ["f_var_allGroups",[["","",""]]]) apply { _x#2 }))} count (playableUnits + switchableUnits),
+		(playableUnits + switchableUnits) select { !(groupID group _x in ((missionNamespace getVariable ["f_var_allGroups",["","",""]]) apply { _x#2 }))}
+		]
+	] call f_fnc_logIssue
+}; 
+
 // Warn if the file wasn't cleared.
 if (count (missionNamespace getVariable ["f_var_allGroups",[]]) > 30) then { ["mission\groups.sqf",format["%1 groups are listed! Remove unused groups from 'groups.sqf'", count f_var_allGroups]] call f_fnc_logIssue };
 
