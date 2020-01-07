@@ -169,38 +169,34 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 		
 			_diaryText = _diaryText + "<br/>Medical Level: <font color='#00FFFF'><b>ACE</b></font><br/>";
 			_diaryText = _diaryText + format["<br/><font color='#80FF00'>Settings</font>
-			<br/>Medic Training: <font color='#00FFFF'>%1</font>
-			<br/>Prevent Instant Death: <font color='#00FFFF'>%2</font>
+			<br/>Medic System: <font color='#00FFFF'>%1</font>
+			<br/>Wound Reopening: <font color='#00FFFF'>%2</font>
 			<br/>Damage Threshold: <font color='#00FFFF'>%3</font>
 			<br/>",
-			(["Anyone","Medic Basic","Medic Advanced"] select ace_medical_medicSetting),
-			(["Off", "On"] select ace_medical_preventInstaDeath),
-			ace_medical_playerdamagethreshold];
+			(["Basic","Advanced"] select (missionNamespace getVariable ["ace_medical_treatment_advancedMedication", false])),
+			(["Off", "On"] select (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])),
+			missionNamespace getVariable ["ace_medical_playerDamageThreshold", 1]];
 			
 			// PAK OR NOT
-			if (ace_medical_level == 2) then {
-				if (ace_medical_useLocation_PAK != 4) then {
-					_diaryText = _diaryText + format["<br/><font color='#80FF00'>Personal First-Aid Kits (PAK)</font>
-					<br/>%1 may use a PAK %2, %3. The PAK %4 be removed upon treatment.<br/>",
-					(["Anyone","Any trained Medic","Doctors"] select ace_medical_medicSetting_PAK),
-					(["anywhere","only in a medical vehicle","only at medical facility","in a medical vehicle/medical facility"] select ace_medical_useLocation_PAK),
-					(["in any condition","only when stable"] select ace_medical_useCondition_PAK),
-					(["will not", "will"] select ace_medical_consumeItem_PAK)];
-				} else {
-					_diaryText = _diaryText + "<br/><font color='#80FF00'>Personal First-Aid Kits (PAK)</font><br/>PAKs are not permitted.";
-				};
+			if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then {
+				_diaryText = _diaryText + format["<br/><font color='#80FF00'>Personal First-Aid Kits (PAK)</font>
+				<br/>%1 may use a PAK %2. The PAK %3 be removed upon treatment.<br/>",
+				(["Anyone","Any trained Medic","Doctors"] select (missionNamespace getVariable ["ace_medical_treatment_medicPAK", 0])),
+				(["anywhere","only in a medical vehicle","only at medical facility","in a medical vehicle/medical facility"] select (missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0])),
+				(["will not", "will"] select (missionNamespace getVariable ["ace_medical_treatment_consumePAK", 0]))];
+			} else {
+				_diaryText = _diaryText + "<br/><font color='#80FF00'>Personal First-Aid Kits (PAK)</font><br/>PAKs are not permitted.";
+			};
 
-				// SURGICAL KIT OR NOT
-				if (ace_medical_useLocation_SurgicalKit != 4 && ace_medical_enableAdvancedWounds) then {
-					_diaryText = _diaryText + format["<br/><font color='#80FF00'>Surgical Kits</font>
-					<br/>%1 may use a Surgical Kit %2, %3. The Kit %4 be removed upon treatment.<br/>",
-					(["Anyone","Any trained Medic","Doctors"] select ace_medical_medicSetting_SurgicalKit),
-					(["anywhere","only in a medical vehicle","only at medical facility","in a medical vehicle/medical facility"] select ace_medical_useLocation_SurgicalKit),
-					(["in any condition","only when stable"] select ace_medical_useCondition_SurgicalKit),
-					(["will not", "will"] select ace_medical_consumeItem_SurgicalKit)];
-				} else {
-					_diaryText = _diaryText + format["<br/><font color='#80FF00'>Surgical Kits</font><br/>Wounds do not re-open -Surgical Kits are not %1.",(["required","permitted"] select ace_medical_enableAdvancedWounds)];
-				};
+			// SURGICAL KIT OR NOT
+			if (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false]) then {
+				_diaryText = _diaryText + format["<br/><font color='#80FF00'>Surgical Kits</font>
+				<br/>%1 may use a Surgical Kit %2. The Kit %3 be removed upon treatment.<br/>",
+				(["Anyone","Any trained Medic","Doctors"] select (missionNamespace getVariable ["ace_medical_treatment_medicSurgicalKit", 0])),
+				(["anywhere","only in a medical vehicle","only at medical facility","in a medical vehicle/medical facility"] select (missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0])),
+				(["will not", "will"] select (missionNamespace getVariable ["ace_medical_treatment_consumeSurgicalKit", 0]))];
+			} else {
+				_diaryText = _diaryText + "<br/><font color='#80FF00'>Surgical Kits</font><br/>Wounds do not re-open -Surgical Kits are not required.";
 			};
 		};
 	};

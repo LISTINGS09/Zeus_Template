@@ -24,8 +24,10 @@ _cntMediKit = {_x == "MediKit"} count _itemCargoList;
 
 if (_cntFAK + _cntMediKit == 0) exitWith {}; // Nothing to convert.
 
+private _advMedical = missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]; // ACE Advanced Medical Setting
+
 if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { 
-	["fn_ace_medicalConverter.sqf",format["Converting medical_level_%5 for %2 (%1 - F%3 M%4)",_unit,typeOf _unit,_cntFAK,_cntMediKit,ace_medical_level],"INFO"] call f_fnc_logIssue;
+	["fn_ace_medicalConverter.sqf",format["Converting medical (ADV:%5) for %2 (%1 - F%3 M%4)", _unit, typeOf _unit, _cntFAK, _cntMediKit, _advMedical],"INFO"] call f_fnc_logIssue;
 };
 
 // REMOVE ALL VANILLA ITEMS
@@ -54,7 +56,9 @@ if (_unit getVariable ["ace_medical_medicclass", getNumber (configFile >> "CfgVe
 	_unit addItemCargoGlobal ["ACE_bloodIV_500", 10];
 	_unit addItemCargoGlobal ["ACE_bloodIV", 10];
 	
-	if (ace_medical_level == 2) then {
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 10]; };	
+	
+	if (_advMedical) then {
 		_unit addItemCargoGlobal ["ACE_tourniquet", 10];
 		_unit addItemCargoGlobal ["ACE_elasticBandage", 40];
 		_unit addItemCargoGlobal ["ACE_packingBandage", 30];
@@ -65,8 +69,8 @@ if (_unit getVariable ["ace_medical_medicclass", getNumber (configFile >> "CfgVe
 		_unit addItemCargoGlobal ["ACE_salineIV_250",10];
 		_unit addItemCargoGlobal ["ACE_salineIV_500",10];
 		_unit addItemCargoGlobal ["ACE_salineIV",10];
-		if (ace_medical_uselocation_pak != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 12]; };
-		if (ace_medical_uselocation_surgicalkit != 4 && ace_medical_enableadvancedwounds) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 16]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 12]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 16]; };
 	};
 };
 
@@ -76,15 +80,17 @@ if (_cntFAK <= 25 && {_cntMediKit == 0}) then {
 	_unit addItemCargoGlobal ["ACE_epinephrine", 2];
 	_unit addItemCargoGlobal ["ACE_fieldDressing", 20];
 	_unit addItemCargoGlobal ["ACE_bloodIV", 4];
+	
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 2]; };	
 		
-	if (ace_medical_level == 2) then {
+	if (_advMedical) then {
 		_unit addItemCargoGlobal ["ACE_tourniquet", 2];
 		_unit addItemCargoGlobal ["ACE_elasticBandage", 20];
 		_unit addItemCargoGlobal ["ACE_packingBandage", 10];
 		_unit addItemCargoGlobal ["ACE_quikclot", 10];
 		_unit addItemCargoGlobal ["ACE_salineIV_500", 2];
-		if (ace_medical_uselocation_pak != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 1]; };
-		if (ace_medical_uselocation_surgicalkit != 4 && ace_medical_enableadvancedwounds) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 2]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 1]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 2]; };
 	};
 };
 
@@ -96,14 +102,16 @@ if (_cntFAK <= 25 && {_cntMediKit == 1}) then {
 	_unit addItemCargoGlobal ["ACE_fieldDressing", 30];
 	_unit addItemCargoGlobal ["ACE_bloodIV", 8];
 	
-	if (ace_medical_level == 2) then {
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 4]; };	
+	
+	if (_advMedical) then {
 		_unit addItemCargoGlobal ["ACE_tourniquet", 4];
 		_unit addItemCargoGlobal ["ACE_elasticBandage", 30];
 		_unit addItemCargoGlobal ["ACE_packingBandage", 15];
 		_unit addItemCargoGlobal ["ACE_quikclot", 15];
 		_unit addItemCargoGlobal ["ACE_salineIV_500", 4];
-		if (ace_medical_uselocation_pak != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 2]; };
-		if (ace_medical_uselocation_surgicalkit != 4 && ace_medical_enableadvancedwounds) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 4]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 2]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 4]; };
 	};
 };
 
@@ -115,13 +123,15 @@ if (_cntFAK > 50 || {_cntMediKit > 1}) then {
 	_unit addItemCargoGlobal ["ACE_fieldDressing", 50];
 	_unit addItemCargoGlobal ["ACE_bloodIV", 8];
 	
-	if (ace_medical_level == 2) then {
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 8]; };	
+	
+	if (_advMedical) then {
 		_unit addItemCargoGlobal ["ACE_tourniquet", 8];
 		_unit addItemCargoGlobal ["ACE_elasticBandage", 50];
 		_unit addItemCargoGlobal ["ACE_packingBandage", 30];
 		_unit addItemCargoGlobal ["ACE_quikclot", 30];
 		_unit addItemCargoGlobal ["ACE_salineIV_500",8];
-		if (ace_medical_uselocation_pak != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 4]; };
-		if (ace_medical_uselocation_surgicalkit != 4 && ace_medical_enableadvancedwounds) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 8]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 4]; };
+		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 8]; };
 	};
 };
