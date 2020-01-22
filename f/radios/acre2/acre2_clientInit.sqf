@@ -52,46 +52,37 @@ if (isNil "f_var_acreBriefDone") then {
 	f_var_acreBriefDone = true;
 };
 
-// RADIO ASSIGNMENT
-// Wait for gear assignation to take place
-waitUntil{(player getVariable ["f_var_assignGear_done", false])};
-_typeofUnit = player getVariable ["f_var_assignGear", "r"];
+// RADIO ASSIGNMENT - ASSIGN RADIOS TO UNITS
+// Populate radio defaults if they have not been set (also referenced when assigning radios).
+private _fRadiosShortRange = (missionNamespace getVariable ["f_radios_settings_riflemanRadio",["all"]]) + (missionNamespace getVariable ["f_radios_settings_personalRadio",["leaders"]]);
+private _fRadiosLongRange = missionNamespace getVariable ["f_radios_settings_longRangeUnits",["leaders"]];
+private _fRadiosExtraRadio = missionNamespace getVariable ["f_radios_settings_acre2_extraRadios",[]];
+private _typeofUnit = player getVariable ["f_var_assignGear", "r"]; // Wait for gear assignation to take place
 
-// REMOVE ALL RADIOS
-// Wait for ACRE2 to initialise any radios the unit has in their inventory, and then
-// remove them to ensure that duplicate radios aren't added by accident.
 if(!f_radios_settings_disableAllRadios) then {
+	// Wait for ACRE2 to initialise any radios the unit has in their inventory, and then
+	// remove them to ensure that duplicate radios aren't added by accident.
     waitUntil{uiSleep 0.3; !("ItemRadio" in (items player + assignedItems player))};
     uiSleep 1;
 
     waitUntil{[] call acre_api_fnc_isInitialized};
     {player removeItem _x;} forEach ([] call acre_api_fnc_getCurrentRadioList);
-};
-
-// ASSIGN RADIOS TO UNITS
-// Populate radio defaults if they have not been set (also referenced when assigning radios).
-private _fRadiosShortRange = (missionNamespace getVariable ["f_radios_settings_riflemanRadio",["all"]]) + (missionNamespace getVariable ["f_radios_settings_personalRadio",["leaders"]]);
-private _fRadiosLongRange = missionNamespace getVariable ["f_radios_settings_longRangeUnits",["leaders"]];
-private _fRadiosExtraRadio = missionNamespace getVariable ["f_radios_settings_acre2_extraRadios",[]];
-
-// Depending on the loadout used in the assignGear component, each unit is assigned
-// a set of radios.
-
-// If radios are enabled in the settings
-if(!f_radios_settings_disableAllRadios) then {
+	
+	// Depending on the loadout used in the assignGear component, each unit is assigned a set of radios.
+	
 	// Everyone gets a short-range radio by default
 	if ((player getVariable ["f_var_radioAddSR", true]) && (_typeofUnit in _fRadiosShortRange || "all" in _fRadiosShortRange || (player == leader (group player) && "leaders" in _fRadiosShortRange))) then {
-		uniformContainer player addItemCargo [f_radios_settings_acre2_standardSRRadio, 1];
+		uniformContainer player addItemCargoGlobal [f_radios_settings_acre2_standardSRRadio, 1];
 	};
 
 	// If unit is in the above list, add a 148
 	if((player getVariable ["f_var_radioAddLR", true]) && (_typeofUnit in _fRadiosLongRange || "all" in _fRadiosLongRange || (player == leader (group player) && "leaders" in _fRadiosLongRange))) then {
-		uniformContainer player addItemCargo [f_radios_settings_acre2_standardLRRadio, 1];
+		uniformContainer player addItemCargoGlobal [f_radios_settings_acre2_standardLRRadio, 1];
 	};
 	
 	// If unit is in the list of units that receive an extra long-range radio, add another 148
 	if((player getVariable ["f_var_radioAddAR", true]) && (_typeofUnit in _fRadiosExtraRadio || "all" in _fRadiosExtraRadio)) then {
-		uniformContainer player addItemCargo [f_radios_settings_acre2_extraRadio, 1];
+		uniformContainer player addItemCargoGlobal [f_radios_settings_acre2_extraRadio, 1];
 	};
 };
 

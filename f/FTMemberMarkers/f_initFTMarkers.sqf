@@ -5,18 +5,17 @@ if (!hasInterface || playerSide == sideLogic) exitWith {};
 if (isNil "f_var_ShowFTMarkers") then { f_var_ShowFTMarkers = !(isClass(configFile >> "CfgPatches" >> "ace_main")) };
 
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
-if (!isNil "f_eh_ftmap") then { findDisplay 12 displayCtrl 51 ctrlRemoveEventHandler ["Draw", f_eh_ftmap] };
-//if (!isNil "f_eh_ftgps") then { ((uiNamespace getVariable ["RscCustomInfoMiniMap", displayNull]) displayCtrl 13301) controlsGroupCtrl 101 ctrlRemoveEventHandler ["Draw", f_eh_ftgps] };
-
 waitUntil {sleep 0.1; !isNull player};
 
-f_fnc_drawFTMarker = {
+_f_fnc_drawFTMarker = {	
+	if !('MinimapDisplay' in (infoPanel 'left' + infoPanel 'right') || visibleMap) exitWith {};
+	
 	{
 		// Allow display to be controlled in-mission
 		if !(f_var_ShowFTMarkers) exitWith {};
 		
 		_iconDir = getDir vehicle _x;
-		_iconSize = (0.5 / ctrlMapScale (_this#0)) min 20;
+		_iconSize = if (str (_this select 0) == "Control #101") then { 18 } else { (0.5 / ctrlMapScale (_this#0)) min 20 };
 		_iconShape = getText (configFile >> "CfgVehicles" >> typeOf (vehicle _x) >> "icon");
 
 		// Switch color according a team
@@ -55,13 +54,13 @@ f_fnc_drawFTMarker = {
 		};
 		
 		// Hide the leaders icon if group markers are being used
-		if  (leader _x == _x && (missionNamespace getVariable ["f_param_groupMarkers",0]) > 0) then { _iconShape = "" };
+		if  (leader _x == _x && (missionNamespace getVariable ["f_param_groupMarkers",0]) in [1,2,3]) then { _iconShape = "" };
 		
 		// No text if we're zoomed out.
 		if (ctrlMapScale (_this#0) > 0.02) then { _text = "" };
-
+		
 		if (_iconShape != "") then {
-			_this select 0 drawIcon
+			(_this select 0) drawIcon
 			[
 				_iconShape,
 				_iconColor,
@@ -79,12 +78,16 @@ f_fnc_drawFTMarker = {
 	} forEach (units player) select { alive _x };
 };
 
-f_eh_ftmap = findDisplay 12 displayCtrl 51 ctrlAddEventHandler ["Draw", f_fnc_drawFTMarker];
+if (!isNil "f_eh_ftmap") then { findDisplay 12 displayCtrl 51 ctrlRemoveEventHandler ["Draw", f_eh_ftmap] };
+f_eh_ftmap = findDisplay 12 displayCtrl 51 ctrlAddEventHandler ["Draw", _f_fnc_drawFTMarker];
 
-/*
-private _display = uiNamespace getVariable ["RscCustomInfoMiniMap", displayNull];
-private _miniMapControlGroup = _display displayCtrl 13301;
-private _miniMap = _miniMapControlGroup controlsGroupCtrl 101;
+waitUntil { sleep 1; !isNull (uiNamespace getVariable ["RscCustomInfoMiniMap", displayNull]) };
+	
 
-f_eh_ftgps = _miniMap ctrlAddEventHandler ["Draw", f_fnc_drawFTMarker];
-*/
+{ 
+	if (!isNull (_x displayCtrl 101)) exitWith {
+		_gps = (_x displayCtrl 101);
+		_gps ctrlRemoveAllEventHandlers 'Draw';
+		_gps ctrlAddEventHandler ['Draw', _f_fnc_drawFTMarker];
+	};
+} forEach ((uiNamespace getVariable 'IGUI_displays') select { str _x == "Display #311" });

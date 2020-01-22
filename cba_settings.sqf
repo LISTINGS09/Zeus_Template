@@ -15,6 +15,25 @@ force TFAR_setting_defaultFrequencies_lr_east = "40,40.2,40.4,40.6,40.8,41,41.2,
 force TFAR_setting_defaultFrequencies_sr_independent = "500,501,502,503,504,505,506,507";
 force TFAR_setting_defaultFrequencies_lr_independent = "50,50.2,50.4,50.6,50.8,51,51.2,51.4,51.6";
 
+//force TFAR_setting_defaultFrequencies_lr_east = "51,52,53,54,55,56,57,58,59";
+//force TFAR_setting_defaultFrequencies_lr_independent = "71,72,73,74,75,76,78,79";
+//force TFAR_setting_defaultFrequencies_lr_west = "51,52,53,54,55,56,57,58,59";
+//force TFAR_setting_defaultFrequencies_sr_east = "41,42,43,44,45,46,47,48,49";
+//force TFAR_setting_defaultFrequencies_sr_independent = "61,62,63,64,65,67,68,69";
+//force TFAR_setting_defaultFrequencies_sr_west = "41,42,43,44,45,46,47,48,49";
+//force TFAR_setting_DefaultRadio_Rifleman_West = "TFAR_rf7800str";
+//force TFAR_DefaultRadio_Personal_West = "TFAR_anprc152";
+//force TFAR_setting_DefaultRadio_Backpack_west = "TFAR_rt1523g";
+//force TFAR_setting_DefaultRadio_Airborne_West = "TFAR_anarc210";
+//force TFAR_setting_DefaultRadio_Rifleman_East = "TFAR_pnr1000a";
+//force TFAR_setting_DefaultRadio_Personal_east = "TFAR_fadak";
+//force TFAR_setting_DefaultRadio_Backpack_east = "TFAR_mr3000";
+//force TFAR_setting_DefaultRadio_Airborne_east = "TFAR_mr6000l";
+//force TFAR_setting_DefaultRadio_Rifleman_Independent = "TFAR_anprc154";
+//force TFAR_setting_DefaultRadio_Personal_Independent = "TFAR_anprc148jem";
+//force TFAR_setting_DefaultRadio_Backpack_Independent = "TFAR_anprc155";
+//force TFAR_setting_DefaultRadio_Airborne_Independent = "TFAR_anarc164";
+
 // ACRE
 force acre_sys_core_terrainLoss = 0.35;
 
@@ -39,19 +58,3 @@ force ace_repair_fullRepairLocation = 0;
 force ace_weather_enableServerController = FALSE;
 force ace_weather_enabled = FALSE;
 force ace_weather_useACEWeather = FALSE;
-
-force ace_medical_AIDamageThreshold = 0.8;
-force ace_medical_healHitPointAfterAdvBandage = TRUE;
-force ace_medical_medicSetting_PAK = 1;
-force ace_medical_useCondition_PAK = 1;
-force ace_medical_useLocation_PAK = 0;
-force ace_medical_consumeItem_PAK = 1;
-force ace_medical_medicSetting_SurgicalKit = 1;
-force ace_medical_useCondition_SurgicalKit = 0;
-force ace_medical_useLocation_SurgicalKit = 0;
-force ace_medical_consumeItem_SurgicalKit = 0;
-force ace_medical_playerDamageThreshold = 2.5;
-force ace_medical_preventInstaDeath = FALSE;
-force ace_medical_enableAdvancedWounds = TRUE; // Wound Re-Opening
-force ace_medical_level = 2; // 0 = "Disabled", 1 = "Basic", 2 = "Advanced"
-force ace_medical_medicSetting = 2; // 0 = Everyone, 1 = Medics are medics, Doctors need param 2 = Medics are Doctors

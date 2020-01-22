@@ -22,10 +22,8 @@ _typeofUnit = player getVariable ["f_var_assignGear", "r"];
 {player addItem "ACE_fieldDressing"} forEach [1,2,3,4,5,6,7,8];
 {player addItem "ACE_morphine"} forEach [1,2];
 {player addItem "ACE_epinephrine"} forEach [1,2];
-if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]) then {
-	player addItem "ACE_tourniquet";
-	{player addItem "ACE_elasticBandage"} forEach [1,2,3,4,5,6,7,8];
-};
+player addItem "ACE_tourniquet";
+if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]) then { {player addItem "ACE_elasticBandage"} forEach [1,2,3,4,5,6,7,8] };
 
 player setVariable ["ACE_hasEarPlugsIn", true, true];
 player removeItem "ACE_EarPlugs";
@@ -35,15 +33,16 @@ if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 	(unitBackpack player) addItemCargoGlobal ["ACE_fieldDressing", 10];
 	(unitBackpack player) addItemCargoGlobal ["ACE_morphine", 16];
 	(unitBackpack player) addItemCargoGlobal ["ACE_epinephrine", 10];
-	(unitBackpack player) addItemCargoGlobal ["ACE_adenosine", 10];
+	(unitBackpack player) addItemCargoGlobal ["ACE_tourniquet", 4];
 	
-	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 4]; };	
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 4]; };	// Fractures
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { (unitBackpack player) addItemCargoGlobal ["ACE_personalAidKit", 2]; }; // PAKs
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { (unitBackpack player) addItemCargoGlobal ["ACE_surgicalKit", 1] }; // Wound Reopening
+	if (missionNamespace getVariable ["ace_medical_treatment_advancedMedication", false]) then { (unitBackpack player) addItemCargoGlobal ["ACE_adenosine", 10]; }; // Advanced Medication
 	
+	// Advanced Bandages
 	if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]) then {
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { (unitBackpack player) addItemCargoGlobal ["ACE_personalAidKit", 2] };
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { (unitBackpack player) addItemCargoGlobal ["ACE_surgicalKit", 1] };
 		(unitBackpack player) addItemCargoGlobal ["ACE_elasticBandage", 30];
-		(unitBackpack player) addItemCargoGlobal ["ACE_tourniquet", 4];
 		(unitBackpack player) addItemCargoGlobal ["ACE_quikclot", 15];
 		(unitBackpack player) addItemCargoGlobal ["ACE_packingBandage", 15];
 		(unitBackpack player) addItemCargoGlobal ["ACE_salineIV_500", 6];

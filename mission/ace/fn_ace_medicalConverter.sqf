@@ -69,9 +69,10 @@ if (_unit getVariable ["ace_medical_medicclass", getNumber (configFile >> "CfgVe
 		_unit addItemCargoGlobal ["ACE_salineIV_250",10];
 		_unit addItemCargoGlobal ["ACE_salineIV_500",10];
 		_unit addItemCargoGlobal ["ACE_salineIV",10];
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 12]; };
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 16]; };
 	};
+	
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 12]; };
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 16]; };
 };
 
 // FireTeam sized cargo
@@ -89,9 +90,10 @@ if (_cntFAK <= 25 && {_cntMediKit == 0}) then {
 		_unit addItemCargoGlobal ["ACE_packingBandage", 10];
 		_unit addItemCargoGlobal ["ACE_quikclot", 10];
 		_unit addItemCargoGlobal ["ACE_salineIV_500", 2];
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 1]; };
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 2]; };
 	};
+	
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 1]; };
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 2]; };
 };
 
 // Squad sized cargo
@@ -110,9 +112,10 @@ if (_cntFAK <= 25 && {_cntMediKit == 1}) then {
 		_unit addItemCargoGlobal ["ACE_packingBandage", 15];
 		_unit addItemCargoGlobal ["ACE_quikclot", 15];
 		_unit addItemCargoGlobal ["ACE_salineIV_500", 4];
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 2]; };
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 4]; };
 	};
+	
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 2]; };
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 4]; };
 };
 
 // Platoon sized Cargo
@@ -131,7 +134,8 @@ if (_cntFAK > 50 || {_cntMediKit > 1}) then {
 		_unit addItemCargoGlobal ["ACE_packingBandage", 30];
 		_unit addItemCargoGlobal ["ACE_quikclot", 30];
 		_unit addItemCargoGlobal ["ACE_salineIV_500",8];
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 4]; };
-		if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 8]; };
 	};
+	
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 4]; };
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 8]; };
 };
