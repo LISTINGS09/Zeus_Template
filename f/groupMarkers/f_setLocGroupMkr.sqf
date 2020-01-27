@@ -54,7 +54,9 @@ F_EH_GroupEnter = addMissionEventHandler ["GroupIconOverEnter", {
 		
 	_group setGroupIconParams [_iconParams#0, groupId _group, _iconParams#2, true]; 
 	
-	_text = format["<br/><t size='1.25' font='TahomaB' color='#72E500'>%1 Group</t><br/>",groupId _group];
+	_text = format["<br/><t size='1.25' font='TahomaB' color='#72E500'>%1 Group</t>",groupId _group];
+	_text = _text + format["<br/><t color='#888888'>%1</t><br/>", if (vehicle leader _group != leader _group) then { getText (configFile >> "CfgVehicles" >> (typeOf vehicle leader _group) >> "displayName")} else { "" }];
+
 	_text = _text + "<t align='left'>";
 	{	
 		_unitIco = (getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "icon") call bis_fnc_textureVehicleIcon);

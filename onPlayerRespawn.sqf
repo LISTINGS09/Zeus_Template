@@ -4,8 +4,6 @@ if (isNull _oldUnit) exitWith {};
 // Disable Spectator
 [false] call f_fnc_spectateInit;
 
-// Black screen fix?
-titleCut ["", "BLACK IN", 2];
 5 fadeSound 1;
 5 fadeMusic 1;
 5 fadeSpeech 1;

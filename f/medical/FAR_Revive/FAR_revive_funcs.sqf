@@ -5,6 +5,7 @@ FAR_fnc_unitInit = {
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
 	_unit setVariable ["FAR_var_isDragging", false, true];
+	_unit setVariable ["FAR_var_timer", FAR_var_BleedOut, true];
 	
 	if !(isPlayer _unit) exitWith {};
 	
@@ -640,9 +641,7 @@ FAR_fnc_getMedicalVehicles = {
 
 FAR_fnc_TeleportNearestVehicle = {
 	params ["_unit", ["_foundVehs",([] call FAR_fnc_getMedicalVehicles)]];
-	
-	[0, "BLACK", 3, 1] call BIS_fnc_fadeEffect;
-	
+		
 	if !(isPlayer _unit) exitWith {};
 	
 	_target = objNull;
@@ -652,6 +651,8 @@ FAR_fnc_TeleportNearestVehicle = {
 	} forEach (((missionNamespace getVariable ["FAR_var_MedicalVehs",[]]) + _foundVehs) select { alive _x });
 	
 	if (isNull _target) exitWith {};
+	
+	[0, "BLACK", 3, 1] call BIS_fnc_fadeEffect;
 	
 	sleep random 4;
 	
