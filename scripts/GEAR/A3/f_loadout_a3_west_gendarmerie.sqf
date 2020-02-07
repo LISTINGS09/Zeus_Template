@@ -689,7 +689,8 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_chem,2];
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_satchel,2];
-		_unit spawn { sleep 0.1; (backpackContainer _this) setObjectTextureGlobal [0,"A3\weapons_f\ammoboxes\bags\data\backpack_tortila_blk_co.paa"]; };
+		_unit spawn { sleep 0.1; (backpackContainer _this) setObjectTextureGlobal [0,"A3\weapons_f\ammoboxes\bags\data\backpack_tortila_blk_co.paa"] };
+		_unit addEventHandler [ "Respawn", { [] spawn { sleep 1; (backpackContainer player) setObjectTextureGlobal [0,"A3\weapons_f\ammoboxes\bags\data\backpack_tortila_blk_co.paa"] } } ];
 	};
 
 	// LOADOUT: ENGINEER (MINES)
@@ -705,7 +706,8 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_chem,2];
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_APmine2,2];
-		_unit spawn { sleep 0.1; (backpackContainer _this) setObjectTextureGlobal [0,"A3\weapons_f\ammoboxes\bags\data\backpack_tortila_blk_co.paa"]; };
+		_unit spawn { sleep 0.1; (backpackContainer _this) setObjectTextureGlobal [0,"A3\weapons_f\ammoboxes\bags\data\backpack_tortila_blk_co.paa"] };
+		_unit addEventHandler [ "Respawn", { [] spawn { sleep 1; (backpackContainer player) setObjectTextureGlobal [0,"A3\weapons_f\ammoboxes\bags\data\backpack_tortila_blk_co.paa"] } }];
 	};
 
 	// LOADOUT: UAV OPERATOR

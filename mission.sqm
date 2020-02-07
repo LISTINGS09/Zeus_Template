@@ -21,9 +21,9 @@ class EditorData
 	class Camera
 	{
 		pos[]={1697.136,40.166965,2442.7527};
-		dir[]={0,-0.70710683,0.70710683};
-		up[]={0,0.70710677,0.70710677};
-		aside[]={0.99999994,0,0};
+		dir[]={-0.3733418,-0.24135536,0.89575958};
+		up[]={-0.092854649,0.97043514,0.22278674};
+		aside[]={0.92304659,-1.7201455e-007,0.38471562};
 	};
 };
 binarizationWanted=0;
@@ -4239,6 +4239,7 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_ASL_SL";
 						description="Alpha - Squad Leader@Alpha";
+						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -37051,7 +37052,6 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						isPlayer=1;
 						class Inventory
 						{
 							class primaryWeapon

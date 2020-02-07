@@ -252,6 +252,7 @@ if (_isMan) then {
 	_unit spawn {
 		sleep 0.1;
 		_this setObjectTextureGlobal [0, "\A3\Characters_F_Exp\Syndikat\Data\U_I_C_Soldier_Para_4_F_2_co.paa"];
+		_this addEventHandler [ "Respawn", { [] spawn { sleep 1; player setObjectTextureGlobal [0, "\A3\Characters_F_Exp\Syndikat\Data\U_I_C_Soldier_Para_4_F_2_co.paa"] } } ];
 	};
 	
 	// ADD UNIVERSAL ITEMS

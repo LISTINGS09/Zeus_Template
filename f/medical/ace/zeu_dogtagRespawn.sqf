@@ -11,7 +11,7 @@ if (!f_param_dogTagRespawn || !(isClass(configFile >> "CfgPatches" >> "ace_main"
 player addEventHandler [
 	"Respawn", { 
 		_targetPos = missionNamespace getVariable ["f_var_dogTagRespawnPos",[]];
-		if (_targetPos isEqualType [] && count _targetPos > 0) then { waitUntil {sleep 0.5; alive player}; player setPos (_targetPos findEmptyPosition [1,25]); };
+		if (_targetPos isEqualType [] && count _targetPos > 0) then { player setPos (_targetPos findEmptyPosition [1,25]) };
 	}
 ];
 

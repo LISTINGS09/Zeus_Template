@@ -30,7 +30,11 @@ FAR_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_
 [] spawn {
     waitUntil { !isNull player };
 	
-	FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; // Persistent after respawn
+	// Persistent after respawn - Don't add it again if present
+	if (isNil "FAR_EHID_HandleDamage") then { 
+		FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
+	};
+	
 	[player] spawn FAR_fnc_unitInit;
 	
 	// If vehicle list isn't populated, fill it

@@ -249,6 +249,7 @@ if (_isMan) then {
 	_unit spawn {
 		sleep 0.1;
 		_this setObjectTextureGlobal [1,'\A3\Characters_F\Common\Data\basicbody_black_co.paa'];
+		_this addEventHandler [ "Respawn", { [] spawn { sleep 1; player setObjectTextureGlobal [0, "\A3\Characters_F\Common\Data\basicbody_black_co.paa"] } } ];
 	};
 
 	// ADD UNIVERSAL ITEMS

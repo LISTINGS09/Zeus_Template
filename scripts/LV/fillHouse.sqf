@@ -45,7 +45,7 @@ params [ "_center",
 	["_faction", "NATO"],
 	["_patrol", FALSE],
 	["_pDist", 100],
-	["_ratio", [2,5]],
+	["_ratio", [1,5]],
 	["_radius", 25],
 	["_skills", [0.4,0.5,1,0.8,0.7,1,1,1,1]]
 ];

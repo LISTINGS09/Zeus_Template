@@ -254,6 +254,7 @@ if (_isMan) then {
 	_unit spawn {
 		sleep 0.1;
 		_this setObjectTextureGlobal [0, "\a3\characters_f\OPFOR\Data\clothing_rus_co.paa"];
+		_this addEventHandler [ "Respawn", { [] spawn { sleep 1; player setObjectTextureGlobal [0, "\a3\characters_f\OPFOR\Data\clothing_rus_co.paa"] } } ];
 	}; 
 	
 	

@@ -250,6 +250,7 @@ if (_isMan) then {
 		sleep 0.1;
 		_this setObjectTextureGlobal [0,"A3\Characters_F\Civil\Data\c_cloth1_bandit_co.paa"]; // Red Camo Top
 		_this setObjectTextureGlobal [1,'\A3\Characters_F\Common\Data\basicbody_black_co.paa']; // Black Trousers
+		_this addEventHandler [ "Respawn", { [] spawn { sleep 1; player setObjectTextureGlobal [0, '\A3\Characters_F\Civil\Data\c_cloth1_kabeiroi_co.paa']; player setObjectTextureGlobal [1, '\A3\Characters_F\Common\Data\basicbody_black_co.paa'] } } ];
 	};
 	
 	// ADD UNIVERSAL ITEMS

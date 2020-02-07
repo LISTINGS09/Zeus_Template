@@ -33,7 +33,7 @@ if ({ !(groupID group _x in ((missionNamespace getVariable ["f_var_allGroups",[[
 }; 
 
 // Warn if the file wasn't cleared.
-if (count (missionNamespace getVariable ["f_var_allGroups",[]]) > 30) then { ["mission\groups.sqf",format["%1 groups are listed! Remove unused groups from 'groups.sqf'", count f_var_allGroups]] call f_fnc_logIssue };
+if (count (missionNamespace getVariable ["f_var_allGroups",[]]) > 25) then { ["mission\groups.sqf",format["%1 groups are listed! Remove unused groups from 'groups.sqf'", count f_var_allGroups]] call f_fnc_logIssue };
 
 _arr = [];
 

@@ -9,15 +9,16 @@ _bpi = backPackItems _unit;
 
 removeBackpack _unit;
 ace_map_mapShake = true;
+
+"dynamicBlur" ppEffectEnable true;
+"dynamicBlur" ppEffectAdjust [6];
+"dynamicBlur" ppEffectCommit 0; 
+"dynamicBlur" ppEffectAdjust [0.0];
+"dynamicBlur" ppEffectCommit 5;
+
 sleep 0.5;
 
 _unit addBackpack "B_parachute";
-
-"dynamicBlur" ppEffectEnable true;   
-"dynamicBlur" ppEffectAdjust [6];   
-"dynamicBlur" ppEffectCommit 0;     
-"dynamicBlur" ppEffectAdjust [0.0];  
-"dynamicBlur" ppEffectCommit 5;  
 
 cutText ["", "BLACK IN", 5];
 

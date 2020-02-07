@@ -88,7 +88,7 @@ private _radioText = "<br/><font size='18' color='#80FF00'>RADIO CHANNELS</font>
 _radioText = _radioText + format["<br/>You are a member of Group <font color='#72E500'>%1</font>%3.<br/><br/>The vanilla 'Command' channel has been replaced with a 'Company' channel that all <font color='#FF0080'>%2</font> automatically join.<br/><br/>These channels are available to allow Lead Elements to communicate directly with certain platoons and keep the Company Channel free for emergencies only.", 
 	groupId (group player),
 	["Group Leaders","Radio Operators"] select f_param_radioMode,
-	["",", channels are <font color='#00FFFF'>Restricted</font>. Only units with radios or inside vehicles may use these channels."] select f_param_radioMode];
+	["",", channels are <font color='#00FFFF'>Restricted</font>. Only units with radios or inside vehicles may use these channels"] select f_param_radioMode];
 		
 _radioText = _radioText + "<br/><br/><font size='18' color='#80FF00'>CHANNEL LIST</font>";
 

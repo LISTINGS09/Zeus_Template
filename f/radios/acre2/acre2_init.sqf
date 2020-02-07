@@ -87,4 +87,6 @@ if hasInterface then {
 	if (!alive player) exitWith {[true] call acre_api_fnc_setSpectator;};
 
 	[] execVM "f\radios\acre2\acre2_clientInit.sqf";
+	
+	player addEventHandler [ "Respawn", { [] spawn { sleep 0.1; execVM "f\radios\acre2\acre2_clientInit.sqf" } } ];
 };
