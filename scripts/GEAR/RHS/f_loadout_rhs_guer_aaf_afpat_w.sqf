@@ -12,7 +12,7 @@ _silencer2 = ""; // SNP suppressor
 
 _scope1 = ["optic_ACO","optic_ACO_grn","FHQ_optic_AIM","FHQ_optic_AC12136"]; // CQB
 _scope2 = ["optic_MRCO","optic_Hamr","rhsusf_acc_ACOG_RMR","FHQ_optic_AimM_BLK"]; // MED
-_scope3 = ["rhsusf_acc_ACOG_RMR","rhsusf_acc_ACOG_RMR_tan","optic_MRCO","optic_DMS","optic_SOS"]; // DMR
+_scope3 = ["rhsusf_acc_ACOG_RMR","rhsusf_acc_acog_d","optic_MRCO","optic_DMS","optic_SOS"]; // DMR
 _scope4 = ["optic_SOS","optic_AMS_snd","optic_AMS","FHQ_optic_LeupoldERT","FHQ_optic_LeupoldERT_tan","optic_LRPS"]; // SNP
 
 _bipod1 = ["bipod_03_F_blk","bipod_01_F_snd"]; // Bipod

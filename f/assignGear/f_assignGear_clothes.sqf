@@ -69,8 +69,7 @@ if (_typeofUnit in _specOp) then {
 
 //Random Uniform:
 if(count _uniform > 0) then {
-	private ["_toCheck"];
-	_toCheck = [_uniform] call f_fnc_arrayCheck;
+	private _toCheck = [_uniform] call f_fnc_arrayCheck;
 	if (_toCheck == "") then {
 		removeUniform _unit;
 	} else {
@@ -81,12 +80,13 @@ if(count _uniform > 0) then {
 			["f_assingnGear_clothes.sqf",format["Uniform (%1) not found for %2 of type '%3'",_toCheck,_unit,_typeofUnit]] call f_fnc_logIssue;
 		};
 	};
+	
+	if (_uniform isEqualType [] && isPlayer _unit) then { missionNamespace setVariable [format["f_var_%1_%2_gear_uniform",_side,_typeofUnit], _uniform select {isClass (configFile >> "CfgWeapons" >> _x)}, true] };
 };
 
 //Random Helmet:
 if(count _helmet > 0) then {
-	private ["_toCheck"];
-	_toCheck = [_helmet] call f_fnc_arrayCheck;
+	private _toCheck = [_helmet] call f_fnc_arrayCheck;
 	if (_toCheck == "") then {
 		removeHeadgear _unit;
 	} else {
@@ -97,12 +97,13 @@ if(count _helmet > 0) then {
 			["f_assingnGear_clothes.sqf",format["Helmet (%1) not found for %2 of type '%3'",_toCheck,_unit,_typeofUnit]] call f_fnc_logIssue;
 		};
 	};
+	
+	if (_helmet isEqualType [] && isPlayer _unit) then { missionNamespace setVariable [format["f_var_%1_%2_gear_headgear",_side,_typeofUnit], _helmet select {isClass (configFile >> "CfgWeapons" >> _x)}, true] };
 };
 
 //Random Rig:
 if(count _rig > 0) then {
-	private ["_toCheck"];
-	_toCheck = [_rig] call f_fnc_arrayCheck;
+	private _toCheck = [_rig] call f_fnc_arrayCheck;
 	if (_toCheck == "") then {
 		removeVest _unit;
 	} else {
@@ -113,12 +114,13 @@ if(count _rig > 0) then {
 			["f_assingnGear_clothes.sqf",format["Vest (%1) not found for %2 of type '%3'",_toCheck,_unit,_typeofUnit]] call f_fnc_logIssue;
 		};
 	};
+	
+	if (_rig isEqualType [] && isPlayer _unit) then { missionNamespace setVariable [format["f_var_%1_%2_gear_vest",_side,_typeofUnit], _rig] };
 };
 
 //Random Glasses:
 if(count _glasses > 0) then {
-	private ["_toCheck"];
-	_toCheck = [_glasses] call f_fnc_arrayCheck;
+	private _toCheck = [_glasses] call f_fnc_arrayCheck;
 	if (_toCheck == "") then {
 		removeGoggles _unit;
 	} else {
@@ -128,6 +130,8 @@ if(count _glasses > 0) then {
 			["f_assingnGear_clothes.sqf",format["Goggles (%1) not found for %2 of type '%3'",_toCheck,_unit,_typeofUnit]] call f_fnc_logIssue;
 		};
 	};
+	
+	if (_glasses isEqualType [] && isPlayer _unit) then { missionNamespace setVariable [format["f_var_%1_%2_gear_goggles",_side,_typeofUnit], _glasses] };
 } else {
 	removeGoggles _unit;
 };

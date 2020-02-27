@@ -12,7 +12,7 @@ _silencer2 = ["rhsusf_acc_rotex5_grey"]; // SNP suppressor
 
 _scope1 = ["rhsusf_acc_eotech_552","FHQ_optic_AIM","FHQ_optic_HWS","FHQ_optic_AC11704"]; // CQB BLK
 _scope2 = ["rhsusf_acc_ACOG_RMR","optic_MRCO","optic_Hamr","FHQ_optic_AimM_BLK"]; // MED BLK
-_scope3 = ["optic_Hamr","rhsusf_acc_ACOG_RMR_tan","optic_SOS","optic_AMS","optic_AMS_snd"]; // MKSMAN TAN - "optic_NVS"
+_scope3 = ["optic_Hamr","rhsusf_acc_acog_d","optic_SOS","optic_AMS","optic_AMS_snd"]; // MKSMAN TAN - "optic_NVS"
 _scope4 = ["optic_AMS","optic_AMS_snd","FHQ_optic_LeupoldERT","FHQ_optic_LeupoldERT_tan","rhsusf_acc_LEUPOLDMK4","rhsusf_acc_LEUPOLDMK4_2","rhsusf_acc_premier_anpvs27"]; // SNIPER TAN 
 
 _bipod1 = ["bipod_01_F_blk","bipod_01_F_snd","rhsusf_acc_harris_bipod"];

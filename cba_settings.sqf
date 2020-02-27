@@ -45,7 +45,7 @@ force STHud_Settings_Occlusion = TRUE;
 // http://www.29th.org/a3/index.php?title=ACE_3_Settings
 force ace_advanced_fatigue_loadFactor = 0.8;
 force ace_advanced_fatigue_performanceFactor = 1.25;
-force ace_advanced_fatigue_recoveryFactor = 1.6;
+force ace_advanced_fatigue_recoveryFactor = 2;
 force ace_advanced_fatigue_terrainGradientFactor = 0.9;
 
 force ace_map_mapShake = FALSE;

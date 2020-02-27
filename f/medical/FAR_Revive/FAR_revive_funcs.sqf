@@ -119,7 +119,6 @@ FAR_fnc_HandleDamage = {
 		// If not instant death check allowed values, otherwise just make them unconscious
 		if ((random 100 < FAR_var_DeathChance  && (_damage < FAR_var_DeathDmgHead && _selection in ["head", "face_hub"] || _damage < FAR_var_DeathDmgBody && _selection == "")) || { !FAR_var_InstantDeath }) then {
 			_unit allowDamage false;
-			_unit switchMove "";
 			[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
 			0
 		};
@@ -166,10 +165,8 @@ FAR_fnc_SetUnconscious = {
 		sleep 0.5;
 	};
 	
-	if (random 3 > 1.7) then {
-		_rand = (floor random 18) + 1;
-		playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
-	};
+	_rand = (floor random 18) + 1;
+	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	
 	_unit setUnconscious true;
 	_unit setCaptive true;

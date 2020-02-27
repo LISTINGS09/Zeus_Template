@@ -17,7 +17,7 @@ f_fnc_hasUsableRadio = {
 	if (f_param_radioMode < 1) exitWith { true };
 		
 	if ((toLower backpack _unit) find "radio" < 0 && // Any radio class backpack
-		{ _unit distance _x < 3 && missionNamespace getVariable ["f_radios_backpack","B_RadioBag_01_wdl_F"] == backpack _x} count (allPlayers) <= 0 && // Has or is near Backpack
+		{ _unit distance _x < 5 && missionNamespace getVariable ["f_radios_backpack","B_RadioBag_01_wdl_F"] == backpack _x} count (allPlayers) <= 0 && // Has or is near Backpack
 		rank _unit != "COLONEL" && // Commander can do anything
 		vehicle _unit == _unit // Not in a vehicle
 	) exitWith { 
@@ -115,8 +115,8 @@ if (isNil "f_radios_mainChID") then {
 	};
 } forEach _chList;
 
-if (leader player == player && f_param_radioMode == 1) then {
-	_radioText = _radioText + "<br/><br/><font size='18' color='#80FF00'>LOST RADIO</font><br/>Group leaders may request a <execute expression=""[player, true] spawn f_fnc_giveRadioBackpack; hintSilent format['Radio assigned to %1', name player];"">Replacement Radio</execute> if your Radio Operator is MIA or any other technical issue.";
+if (f_param_radioMode == 1) then {
+	_radioText = _radioText + "<br/><br/><font size='18' color='#80FF00'>LOST RADIO</font><br/>Anyone may request a <execute expression=""[player, true] spawn f_fnc_giveRadioBackpack; hintSilent format['Radio assigned to %1', name player];"">Replacement Radio</execute> if your Radio Operator is MIA or any other technical issue.";
 };
 
 //player removeDiaryRecord ["Diary", "Signal"];

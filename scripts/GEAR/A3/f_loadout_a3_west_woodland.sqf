@@ -51,18 +51,18 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_MX_Black_F","arifle_MX_khk_F"];
-_riflemag = "30Rnd_65x39_caseless_mag";
-_riflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_riflemag = "30Rnd_65x39_caseless_black_mag";
+_riflemag_tr = "30Rnd_65x39_caseless_black_mag_Tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["arifle_MXC_Black_F","arifle_MXC_khk_F"];
-_carbinemag = "30Rnd_65x39_caseless_mag";
-_carbinemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_carbinemag = "30Rnd_65x39_caseless_black_mag";
+_carbinemag_tr = "30Rnd_65x39_caseless_black_mag_Tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = "SMG_01_F";
-_smgmag = "30Rnd_45ACP_Mag_SMG_01";
-_smgmag_tr = "30Rnd_45ACP_Mag_SMG_01_Tracer_Red";
+_smg = "SMG_03C_black";
+_smgmag = "50Rnd_570x28_SMG_03";
+_smgmag_tr = "50Rnd_570x28_SMG_03";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -71,8 +71,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["arifle_MX_GL_Black_F","arifle_MX_GL_khk_F"];
-_glriflemag = "30Rnd_65x39_caseless_mag";
-_glriflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_glriflemag = "30Rnd_65x39_caseless_black_mag";
+_glriflemag_tr = "30Rnd_65x39_caseless_black_mag_Tracer";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -103,7 +103,7 @@ _binos1 = "Binocular";
 _binos2 = "Rangefinder";
 
 // Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles";
+_nvg = "NVGoggles_INDEP";
 
 // UAV Terminal
 _uavterminal = "B_UavTerminal";	  // BLUFOR - FIA
@@ -113,9 +113,9 @@ _chem =  "Chemlight_blue";
 _chemalt = "Chemlight_red";
 
 // Backpacks
-_bagsmall = "B_AssaultPack_mcamo";			// carries 120, weighs 20
-_bagmedium = "B_Kitbag_mcamo";				// carries 240, weighs 30
-_baglarge =  "B_Carryall_mcamo"; 			// carries 320, weighs 40
+_bagsmall = "B_AssaultPack_wdl_F";			// carries 120, weighs 20
+_bagmedium = "B_Kitbag_rgr";				// carries 240, weighs 30
+_baglarge =  "B_Carryall_wdl_F"; 			// carries 320, weighs 40
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "B_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "B_HMG_01_weapon_F";				// used by Heavy MG gunner
@@ -132,9 +132,9 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_MX_SW_Black_F","arifle_MX_SW_khk_F"];
-_ARmag = "100Rnd_65x39_caseless_mag";
-_ARmag_tr = "100Rnd_65x39_caseless_mag_Tracer";
+_AR = ["arifle_MX_SW_Black_F"];
+_ARmag = "100Rnd_65x39_caseless_black_mag";
+_ARmag_tr = "100Rnd_65x39_caseless_black_mag_Tracer";
 
 // Medium MG
 _MMG = "MMG_02_black_F";
@@ -142,7 +142,7 @@ _MMGmag = "130Rnd_338_Mag";
 _MMGmag_tr = "130Rnd_338_Mag";
 
 // Marksman rifle
-_DMrifle = ["arifle_MXM_Black_F","arifle_MXM_khk_F","srifle_DMR_03_khaki_F","srifle_DMR_03_F","srifle_DMR_06_olive_F"];
+_DMrifle = ["arifle_MXM_Black_F","srifle_DMR_03_F","srifle_DMR_06_olive_F"];
 _DMriflemag = "30Rnd_65x39_caseless_mag";
 
 // Rifleman AT
@@ -151,21 +151,21 @@ _RATmag = "MRAWS_HEAT_F";
 _RATmag2 = "MRAWS_HE_F";
 
 // Medium AT
-_MAT = "launch_B_Titan_short_F";
+_MAT = "launch_I_Titan_short_F";
 _MATmag1 = "Titan_AT";
 _MATmag2 = "Titan_AP";
 
 // Surface Air
-_SAM = "launch_B_Titan_F";
+_SAM = "launch_B_Titan_olive_F";
 _SAMmag = "Titan_AA";
 
 // Heavy AT
-_HAT = "launch_B_Titan_short_F";
+_HAT = "launch_I_Titan_short_F";
 _HATmag1 = "Titan_AT";
 _HATmag2 = "Titan_AP";
 
 // Sniper
-_SNrifle = ["srifle_LRR_F","srifle_LRR_tna_F","srifle_DMR_02_camo_F","srifle_DMR_02_F"];
+_SNrifle = ["srifle_LRR_F","srifle_DMR_02_F"];
 _SNrifleMag = "7Rnd_408_Mag";
 
 // Engineer items
@@ -190,14 +190,14 @@ _specOp = [];
 
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
-_baseUniform = ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_vest"];
-_baseHelmet = ["H_HelmetB_snakeskin","H_HelmetB_grass"];
+_baseUniform = ["U_B_CombatUniform_vest_mcam_wdl_f"];
+_baseHelmet = ["H_HelmetB_plain_wdl"];
 _baseGlasses = [""];
 
 // Vests
-_lightRig = ["V_PlateCarrier1_rgr"];
-_mediumRig = ["V_PlateCarrier2_rgr"]; 	// default for all infantry classes
-_heavyRig = ["V_PlateCarrier3_rgr"];
+_lightRig = ["V_PlateCarrier1_wdl"];
+_mediumRig = ["V_PlateCarrier2_wdl"]; 	// default for all infantry classes
+_heavyRig = ["V_PlateCarrierGL_wdl"];
 
 // Diver
 _diverUniform =  ["U_B_Wetsuit"];
@@ -208,26 +208,26 @@ _diverGlasses = ["G_Diving"];
 // Pilot
 _pilotUniform = ["U_B_HeliPilotCoveralls"];
 _pilotHelmet = ["H_PilotHelmetHeli_B"];
-_pilotRig = ["V_BandollierB_khk"];
+_pilotRig = ["V_BandollierB_rgr"];
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = ["U_B_CombatUniform_mcam_vest"];
+_crewUniform = ["U_B_CombatUniform_vest_mcam_wdl_f"];
 _crewHelmet = ["H_HelmetCrew_B"];
-_crewRig = ["V_BandollierB_cbr"];
+_crewRig = ["V_BandollierB_rgr"];
 _crewGlasses = [];
 
 // Ghillie
-_ghillieUniform = ["U_B_GhillieSuit"]; //DLC alternatives: ["U_B_FullGhillie_lsh","U_B_FullGhillie_ard","U_B_FullGhillie_sard"];
+_ghillieUniform = ["U_B_FullGhillie_lsh"]; //DLC alternatives: ["U_B_FullGhillie_lsh","U_B_FullGhillie_ard","U_B_FullGhillie_sard"];
 _ghillieHelmet = [];
 _ghillieRig = ["V_Chestrig_rgr"];
 _ghillieGlasses = [];
 
 // Spec Op
-_sfuniform = ["U_B_SpecopsUniform_sgg"];
-_sfhelmet = ["H_HelmetSpecB","H_HelmetSpecB_paint1","H_HelmetSpecB_paint2","H_HelmetSpecB_blk"];
-_sfRig = ["V_PlateCarrierSpec_rgr"];
-_sfGlasses = [];
+_sfuniform = ["U_B_CBRN_Suit_01_Wdl_F"];
+_sfhelmet = ["H_HelmetB_plain_wdl"];
+_sfRig = ["V_PlateCarrier1_wdl"];
+_sfGlasses = ["G_AirPurifyingRespirator_01_F"];
 
 // ================================
 
@@ -254,6 +254,7 @@ if (_isMan) then {
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
 	_unit linkItem "ItemGPS"; 		// Add and equip a GPS
+	_unit addItem "H_Booniehat_wdl";// Free hat!
 };
 
 // SETUP BACKPACKS
@@ -279,7 +280,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: COMMANDER
 	case "co":
 	{
-		_unit addHeadGear "H_Cap_tan_specops_US";
+		_unit addHeadGear "H_MilCap_wdl";
 		["g"] call _backpack;
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
@@ -299,7 +300,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: DEPUTY COMMANDER AND SQUAD LEADER
 	case "dc":
 	{
-		_unit addHeadGear "H_HelmetSpecB_snakeskin";
+		_unit addHeadGear "H_HelmetB";
 		["g"] call _backpack;
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];

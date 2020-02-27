@@ -7,8 +7,8 @@ _attach1 = ["acc_pointer_IR","acc_flashlight"];
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ["muzzle_snds_B_lush_F"]; // Rifleman
-_silencer2 = ["muzzle_snds_B_lush_F"]; // MG
+_silencer1 = ["muzzle_snds_B"]; // Rifleman
+_silencer2 = ["muzzle_snds_B"]; // MG
 
 _scope1 = ["optic_Holosight_lush_F"]; // CQB
 _scope2 = ["optic_Arco_AK_lush_F"]; // Low
@@ -50,12 +50,12 @@ _defMags = 4;
 _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["arifle_AK12_lush_F"];
+_rifle = ["arifle_AK12_lush_F","arifle_AK12_F"];
 _riflemag = "30rnd_762x39_AK12_Lush_Mag_F";
 _riflemag_tr = "30rnd_762x39_AK12_Lush_Mag_Tracer_F";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = "arifle_AK12U_lush_F";
+_carbine = ["arifle_AK12U_lush_F","arifle_AK12U_F"];
 _carbinemag = "30rnd_762x39_AK12_Lush_Mag_F";
 _carbinemag_tr = "30rnd_762x39_AK12_Lush_Mag_Tracer_F";
 
@@ -70,7 +70,7 @@ _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = ["arifle_AK12_GL_lush_F"];
+_glrifle = ["arifle_AK12_GL_lush_F","arifle_AK12_GL_F"];
 _glriflemag = "30rnd_762x39_AK12_Lush_Mag_F";
 _glriflemag_tr = "30rnd_762x39_AK12_Lush_Mag_Tracer_F";
 _glmag = "1Rnd_HE_Grenade_shell";
@@ -132,7 +132,7 @@ _baghsamag = "O_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_RPK12_lush_F"];
+_AR = ["arifle_RPK12_lush_F","arifle_RPK12_F"];
 _ARmag = "75rnd_762x39_AK12_Lush_Mag_F";
 _ARmag_tr = "75rnd_762x39_AK12_Lush_Mag_Tracer_F";
 
@@ -256,7 +256,7 @@ if (_isMan) then {
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
 	_unit linkItem "ItemGPS"; 		// Add and equip a GPS
-	_unit addItem "H_MilCap_taiga";// Free Hat!
+	_unit addItem "H_Booniehat_taiga";// Free Hat!
 };
 // ====================================================================================
 

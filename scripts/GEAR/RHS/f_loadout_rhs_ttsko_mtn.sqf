@@ -162,8 +162,8 @@ _SAMmag = "rhs_mag_9k38_rocket";
 
 // Heavy AT
 _HAT = "rhs_weap_rpg7_pgo";
-_HATmag1 = "rhs_rpg7_PG7V_mag";
-_HATmag2 = "rhs_rpg7_PG7VL_mag";
+_HATmag1 = "rhs_rpg7_PG7VR_mag";
+_HATmag2 = "rhs_rpg7_PG7V_mag";
 
 // Sniper
 _SNrifle = "rhs_weap_svdp_wd";

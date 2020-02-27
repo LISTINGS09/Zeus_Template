@@ -11,7 +11,7 @@ _silencer1 = ["muzzle_snds_H","muzzle_snds_M"]; // Rifleman
 _silencer2 = ["muzzle_snds_H_MG","muzzle_snds_M"]; // MG
 
 _scope1 = ["optic_ACO","optic_ACO_grn"]; // CQB
-_scope2 = ["optic_Hamr","optic_ERCO_blk_F","optic_MRCO"]; // Low
+_scope2 = ["optic_Arco_AK_blk_F","optic_Hamr","optic_ERCO_blk_F","optic_MRCO"]; // Low
 _scope3 = ["optic_SOS","optic_SOS_khk_F","optic_AMS","optic_AMS_khk"]; // Medium
 _scope4 = ["optic_LRPS","optic_LRPS_tna_F","optic_AMS","optic_AMS_khk"]; // High
 

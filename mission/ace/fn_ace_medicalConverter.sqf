@@ -32,110 +32,48 @@ if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {
 
 // REMOVE ALL VANILLA ITEMS
 {
-	if (_x == "FirstAidKit" || {_x == "MediKit"}) then {
-		_itemCargoList = _itemCargoList - [_x];
-	};
+	if (_x == "FirstAidKit" || {_x == "MediKit"}) then { _itemCargoList = _itemCargoList - [_x] };
 } forEach _itemCargoList;
 
 clearItemCargoGlobal _unit;
 
-{
-	_unit addItemCargoGlobal [_x,1];
-} forEach _itemCargoList;
+{ _unit addItemCargoGlobal [_x,1] } forEach _itemCargoList;
 
 // ADD BACK ACE3 ITEMS FOR REMOVED VANILLA ITEMS
-_unit addItemCargoGlobal ["ACE_fieldDressing", (_cntFAK * 5)];
+_unit addItemCargoGlobal ["ACE_fieldDressing", (_cntFAK * 2)];
 
 // Medic Specialist Equipment
-if (_unit getVariable ["ace_medical_medicclass", getNumber (configFile >> "CfgVehicles" >> typeOf _unit >> "attendant")] > 0) then 
-{
-	_unit addItemCargoGlobal ["ACE_morphine", 20];
-	_unit addItemCargoGlobal ["ACE_epinephrine", 20];
-	_unit addItemCargoGlobal ["ACE_fieldDressing", 40];
-	_unit addItemCargoGlobal ["ACE_bloodIV_250", 10];
-	_unit addItemCargoGlobal ["ACE_bloodIV_500", 10];
-	_unit addItemCargoGlobal ["ACE_bloodIV", 10];
+if (_unit getVariable ["ace_medical_medicclass", getNumber (configFile >> "CfgVehicles" >> typeOf _unit >> "attendant")] > 0) then {	
+	{	
+		if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 3] };
+	} forEach ["ACE_morphine", "ACE_epinephrine", "ACE_fieldDressing", "ACE_bloodIV_250", "ACE_bloodIV_500", "ACE_bloodIV"];
 	
 	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 10]; };	
 	
 	if (_advMedical) then {
-		_unit addItemCargoGlobal ["ACE_tourniquet", 10];
-		_unit addItemCargoGlobal ["ACE_elasticBandage", 40];
-		_unit addItemCargoGlobal ["ACE_packingBandage", 30];
-		_unit addItemCargoGlobal ["ACE_quikclot", 30];
-		_unit addItemCargoGlobal ["ACE_plasmaIV_250", 10];
-		_unit addItemCargoGlobal ["ACE_plasmaIV_500", 10];
-		_unit addItemCargoGlobal ["ACE_plasmaIV", 10];
-		_unit addItemCargoGlobal ["ACE_salineIV_250",10];
-		_unit addItemCargoGlobal ["ACE_salineIV_500",10];
-		_unit addItemCargoGlobal ["ACE_salineIV",10];
-	};
-	
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 12]; };
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 16]; };
-};
-
-// FireTeam sized cargo
-if (_cntFAK <= 25 && {_cntMediKit == 0}) then {
-	_unit addItemCargoGlobal ["ACE_morphine", 10];
-	_unit addItemCargoGlobal ["ACE_epinephrine", 2];
-	_unit addItemCargoGlobal ["ACE_fieldDressing", 20];
-	_unit addItemCargoGlobal ["ACE_bloodIV", 4];
-	
-	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 2]; };	
+		{	
+			if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 2] };
+		} forEach ["ACE_tourniquet", "ACE_elasticBandage", "ACE_packingBandage", "ACE_quikclot", "ACE_bodyBag"];
 		
-	if (_advMedical) then {
-		_unit addItemCargoGlobal ["ACE_tourniquet", 2];
-		_unit addItemCargoGlobal ["ACE_elasticBandage", 20];
-		_unit addItemCargoGlobal ["ACE_packingBandage", 10];
-		_unit addItemCargoGlobal ["ACE_quikclot", 10];
-		_unit addItemCargoGlobal ["ACE_salineIV_500", 2];
+		{	
+			if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 2] };
+		} forEach ["ACE_plasmaIV_250", "ACE_plasmaIV_500", "ACE_plasmaIV", "ACE_salineIV_250", "ACE_salineIV_500", "ACE_salineIV"];
 	};
 	
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 1]; };
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 2]; };
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 4 + _cntMediKit * 4]; };
+	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 4 + _cntMediKit * 4]; };
 };
 
-// Squad sized cargo
-if (_cntFAK <= 25 && {_cntMediKit == 1}) then {
-	// Add items for 1 medic
-	_unit addItemCargoGlobal ["ACE_morphine", 15];
-	_unit addItemCargoGlobal ["ACE_epinephrine", 4];
-	_unit addItemCargoGlobal ["ACE_fieldDressing", 30];
-	_unit addItemCargoGlobal ["ACE_bloodIV", 8];
-	
-	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 4]; };	
-	
-	if (_advMedical) then {
-		_unit addItemCargoGlobal ["ACE_tourniquet", 4];
-		_unit addItemCargoGlobal ["ACE_elasticBandage", 30];
-		_unit addItemCargoGlobal ["ACE_packingBandage", 15];
-		_unit addItemCargoGlobal ["ACE_quikclot", 15];
-		_unit addItemCargoGlobal ["ACE_salineIV_500", 4];
-	};
-	
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 2]; };
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 4]; };
+{	
+	if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 2] };
+} forEach ["ACE_morphine", "ACE_epinephrine", "ACE_fieldDressing", "ACE_bloodIV"];
+
+if (_advMedical) then {
+	{	
+		if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 3] };
+	} forEach ["ACE_tourniquet", "ACE_elasticBandage", "ACE_packingBandage", "ACE_quikclot", "ACE_salineIV_500"];
 };
 
-// Platoon sized Cargo
-if (_cntFAK > 50 || {_cntMediKit > 1}) then {
-	// Add items for 4 medics
-	_unit addItemCargoGlobal ["ACE_morphine", 20];
-	_unit addItemCargoGlobal ["ACE_epinephrine", 8];
-	_unit addItemCargoGlobal ["ACE_fieldDressing", 50];
-	_unit addItemCargoGlobal ["ACE_bloodIV", 8];
-	
-	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 8]; };	
-	
-	if (_advMedical) then {
-		_unit addItemCargoGlobal ["ACE_tourniquet", 8];
-		_unit addItemCargoGlobal ["ACE_elasticBandage", 50];
-		_unit addItemCargoGlobal ["ACE_packingBandage", 30];
-		_unit addItemCargoGlobal ["ACE_quikclot", 30];
-		_unit addItemCargoGlobal ["ACE_salineIV_500",8];
-	};
-	
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 4]; };
-	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 8]; };
-};
+if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 15]; };		
+if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { _unit addItemCargoGlobal ["ACE_personalAidKit", 2 + _cntMediKit * 2]; };
+if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { _unit addItemCargoGlobal ["ACE_surgicalKit", 2 + _cntMediKit * 2]; };

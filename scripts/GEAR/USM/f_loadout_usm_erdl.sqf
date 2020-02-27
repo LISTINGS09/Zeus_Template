@@ -153,8 +153,8 @@ _RAT = "rhs_weap_rpg26";
 
 // Medium AT
 _MAT = "rhs_weap_rpg7_pgo";
-_MATmag1 = "rhs_rpg7_PG7VR_mag";
-_MATmag2 = "rhs_rpg7_OG7V_mag";
+_MATmag1 = "rhs_rpg7_PG7V_mag";
+_MATmag2 = "rhs_rpg7_PG7VL_mag";
 
 // Surface Air
 _SAM = "rhs_weap_fim92";

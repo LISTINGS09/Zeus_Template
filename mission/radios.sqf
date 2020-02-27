@@ -7,7 +7,7 @@ f_radios_settings_disableAllRadios = false;
 
 // Unit types you want to give a long-range
 // e.g: ["co","dc","pp","pc","pcc","vc","vd","vg"] would give the CO, FTLs and all medics long-range
-f_radios_settings_longRangeUnits = ["leaders"];
+f_radios_settings_longRangeUnits = ["leaders"]; // ["co","ftl","vc","pp"];
 
 // Set the list of units that get a personal/short-range radio e.g. "co","dc","ftl","p"
 // Undefined will assign to ALL by default, below gives any leader a PR

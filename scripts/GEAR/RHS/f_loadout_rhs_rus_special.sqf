@@ -53,18 +53,18 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["rhs_weap_ak74m_camo","rhs_weap_ak74m_2mag_camo","rhs_weap_ak74m"];
-_riflemag = "rhs_30Rnd_545x39_AK";
-_riflemag_tr = "rhs_30Rnd_545x39_AK_green";
+_riflemag = "rhs_30Rnd_545x39_7N6M_plum_AK";
+_riflemag_tr = "rhs_30Rnd_545x39_AK_plum_green";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["rhs_weap_ak74m_camo_folded","rhs_weap_aks74u"];
-_carbinemag = "rhs_30Rnd_545x39_AK";
-_carbinemag_tr = "rhs_30Rnd_545x39_AK_green";
+_carbine = ["rhs_weap_ak74m_camo","rhs_weap_aks74u"];
+_carbinemag = "rhs_30Rnd_545x39_7N6M_plum_AK";
+_carbinemag_tr = "rhs_30Rnd_545x39_AK_plum_green";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = "rhs_weap_aks74u_folded";
-_smgmag = "rhs_30Rnd_545x39_AK";
-_smgmag_tr = "rhs_30Rnd_545x39_AK_green";
+_smg = "rhs_weap_aks74u";
+_smgmag = "rhs_30Rnd_545x39_7N6M_plum_AK";
+_smgmag_tr = "rhs_30Rnd_545x39_AK_plum_green";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -73,8 +73,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["rhs_weap_ak74m_gp25","rhs_weap_ak74m_fullplum_gp25"];
-_glriflemag = "rhs_30Rnd_545x39_AK";
-_glriflemag_tr = "rhs_30Rnd_545x39_AK_green";
+_glriflemag = "rhs_30Rnd_545x39_7N6M_plum_AK";
+_glriflemag_tr = "rhs_30Rnd_545x39_AK_plum_green";
 _glmag = "rhs_VOG25P";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -162,8 +162,8 @@ _SAMmag = "rhs_mag_9k38_rocket";
 
 // Heavy AT
 _HAT = "rhs_weap_rpg7_pgo";
-_HATmag1 = "rhs_rpg7_PG7V_mag";
-_HATmag2 = "rhs_rpg7_PG7VL_mag";
+_HATmag1 = "rhs_rpg7_PG7VR_mag";
+_HATmag2 = "rhs_rpg7_PG7V_mag";
 
 // Sniper
 _SNrifle = ["rhs_weap_svdp","rhs_weap_svds"];

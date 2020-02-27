@@ -32,7 +32,7 @@ private _gearVar = format["f_var_%1_%2_gear",side player, player getVariable ["f
 private _handVar = [missionNamespace getVariable [format["f_var_%1_gear_smokeTH",side player],[]], missionNamespace getVariable [format["f_var_%1_gear_flareTH",side player],[]]];
 private _launcherVar = [missionNamespace getVariable [format["f_var_%1_gear_smokeGL",side player],[]], missionNamespace getVariable [format["f_var_%1_gear_flareGL",side player],[]]];
 private _grenadeVar = [missionNamespace getVariable [format["f_var_%1_gear_grenade",side player],[]]];
-private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,";
+private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,/";
 
 // Gets the picture from the relevant config
 _fnc_itemPicture = {
@@ -244,7 +244,7 @@ f_fnc_matchingItem = {
 			} else {systemChat '[GEAR] You have already equipped this item.'};
 		};"">Equip</execute></font><font size='16'>] </font>"]
 	];
-
+	
 // ========================
 // Grenades
 private _textGR = "";
@@ -334,37 +334,78 @@ if (_textGL != "") then {
 };
 
 // ========================
-// Uniform
-private _textUN = "";
+// Clothing
+_text = _text + "<br/><br/><font size='18' color='#80FF00'>CLOTHING</font><br/>";
+
+private _textTmp = "";
 
 // Glasses
-if (goggles player != "") then {
-	_textUN = _textUN + format["%3 <font size='16'>[</font><font size='16'><execute expression=""if ([] call f_fnc_inStartLocation) then {if (goggles player != '%1') then {systemChat '[GEAR] Equipped %2'; player addGoggles '%1';} else {systemChat '[GEAR] Already Equipped %2';};};"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""if ([] call f_fnc_inStartLocation) then {if (goggles player != '') then {systemChat '[GEAR] Removed %2'; removeGoggles player;};};"">Remove</execute></font><font size='16'>] %2</font><br/>",
-		goggles player,
-		[getText (configFile >> "CfgGlasses" >> (goggles player) >> "displayName"),_stringFilter] call BIS_fnc_filterString,
-		[goggles player,30] call _fnc_itemPicture];
-};
+_text = _text + "<br/><font size='16' color='#80FF00'>Goggles</font><br/>";
 
-/*if (count (missionNamespace getVariable [format["f_var_%1_gear_glasses",side player],[]]) > 0) then {
-	private _textTmp = "";
-	{		
-		_textTmp = _textTmp + format["%3 [<font><execute expression=""if (goggles player != '%1') then {systemChat '[GEAR] Equipped %2'; player addGoggles '%1';} else {systemChat '[GEAR] Already Equipped';};"">Add</execute></font>] [<font><execute expression=""if (goggles player != '') then {systemChat '[GEAR] Removed'; removeGoggles player;};"">Remove</execute></font>] %2<br/>",
+private _gogglesList = missionNamespace getVariable [format["%1_goggles",_gearVar],[]];
+
+if (count _gogglesList > 1) then {	
+	{
+		_textTmp = _textTmp + format["%3 [<font><execute expression=""if (headgear player != '%1') then {systemChat '[GEAR] Equipped %2'; player addHeadgear '%1';} else {systemChat '[GEAR] Already Equipped';};"">Add</execute></font>] %2%4<br/>",
 		_x,
 		[getText (configFile >> "CfgGlasses" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
-		[_x,30] call _fnc_itemPicture];
-	} forEach (missionNamespace getVariable format["f_var_%1_gear_glasses",side player]);
+		[_x,15] call _fnc_itemPicture,
+		if (headgear player == _x) then {" <font color='#00FFFF'>* Default *</font>"} else { "" }];
+	} forEach _gogglesList;
 	
-	_textUN = _textUN + _textTmp + "<br/><br/>";
-};*/
-
-if (headgear player != "") then { _textUN = _textUN + format["%2 %1<br/>",getText (configFile >> "CfgWeapons" >> (headgear player) >> "displayName"),[headgear player,40] call _fnc_itemPicture]; };
-if (uniform player != "") then { _textUN = _textUN + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgWeapons" >> (uniform player) >> "displayName"),round (100*loadUniform player),[uniform player,40] call _fnc_itemPicture]; };
-if (vest player != "") then { _textUN = _textUN + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgWeapons" >> (vest player) >> "displayName"), round (100*loadVest player),[vest player,40] call _fnc_itemPicture]; };
-if (backpack player != "") then { _textUN = _textUN + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgVehicles" >> (backpack player) >> "displayName"), round (100*loadBackpack player),[backpack player,40] call _fnc_itemPicture]; };
-
-if (_textUN != "") then {
-		_text = _text + "<br/><br/><font size='18' color='#80FF00'>UNIFORM (%FULL)</font><br/><br/>" + _textUN;
+	_text = _text + _textTmp + "<br/><br/>";
+} else {
+	if (goggles player != "") then {
+		_text = _text + format["%3 <font size='16'>[</font><font size='16'><execute expression=""if ([] call f_fnc_inStartLocation) then {if (goggles player != '%1') then {systemChat '[GEAR] Equipped %2'; player addGoggles '%1';} else {systemChat '[GEAR] Already Equipped %2';};};"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""if ([] call f_fnc_inStartLocation) then {if (goggles player != '') then {systemChat '[GEAR] Removed %2'; removeGoggles player;};};"">Remove</execute></font><font size='16'>] %2</font><br/>",
+			goggles player,
+			[getText (configFile >> "CfgGlasses" >> (goggles player) >> "displayName"),_stringFilter] call BIS_fnc_filterString,
+			[goggles player,15] call _fnc_itemPicture];
+	} else {
+		_text = _text + "None<br/>";
+	};
 };
+
+// Headgear
+_text = _text + "<br/><font size='16' color='#80FF00'>Headgear</font><br/>";
+
+private _headgearList = missionNamespace getVariable [format["%1_headgear",_gearVar],[]];
+
+if (count _headgearList > 1) then {
+	{
+		_textTmp = _textTmp + format["%3 [<font><execute expression=""if (headgear player != '%1') then {systemChat '[GEAR] Equipped %2'; player addHeadgear '%1';} else {systemChat '[GEAR] Already Equipped';};"">Add</execute></font>] %2%4<br/>",
+		_x,
+		[getText (configFile >> "CfgWeapons" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
+		[_x,15] call _fnc_itemPicture,
+		if (headgear player == _x) then {" <font color='#00FFFF'>* Default *</font>"} else { "" }];
+	} forEach _headgearList;
+	
+	_text = _text + _textTmp + "<br/>";
+} else {
+	if (headgear player != "") then { 
+		_text = _text + format["%2 %1<br/>",getText (configFile >> "CfgWeapons" >> (headgear player) >> "displayName"),[headgear player,15] call _fnc_itemPicture];
+	} else {
+		_text = _text + "None<br/>";
+	};
+};
+
+// Uniform
+_text = _text + "<br/><font size='16' color='#80FF00'>Uniform (%FULL)</font><br/>";
+
+private _uniformList = missionNamespace getVariable [format["%1_uniform",_gearVar],[]];
+
+if (uniform player != "") then { _text = _text + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgWeapons" >> (uniform player) >> "displayName"),round (100*loadUniform player),[uniform player,15] call _fnc_itemPicture]; };
+
+// Vest
+_text = _text + "<br/><font size='16' color='#80FF00'>Vest (%FULL)</font><br/>";
+
+private _vestList = missionNamespace getVariable [format["%1_vest",_gearVar],[]];
+
+if (vest player != "") then { _text = _text + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgWeapons" >> (vest player) >> "displayName"), round (100*loadVest player),[vest player,15] call _fnc_itemPicture]; };
+
+// Backpack
+_text = _text + "<br/><font size='16' color='#80FF00'>Backpack (%FULL)</font><br/>";
+
+if (backpack player != "") then { _text = _text + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgVehicles" >> (backpack player) >> "displayName"), round (100*loadBackpack player),[backpack player,15] call _fnc_itemPicture]; };
 
 // ========================
 // Misc Items
@@ -399,5 +440,4 @@ _text = _text + "<br/><br/><font size='18' color='#80FF00'>MISC ITEMS (#):</font
 } forEach (assignedItems player - ["Rangefinder","Binocular","Laserdesignator","ACE_Vector"]);
 
 // ADD DIARY SECTION
-//player removeDiaryRecord ["Diary", format["Loadout (%1)",name player]];
-_att = player createDiaryRecord ["Diary", [format["Loadout (%1)",name player], _text]];
+player createDiaryRecord ["Diary", [format["Loadout (%1)",name player], _text]];

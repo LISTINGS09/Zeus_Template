@@ -35,7 +35,7 @@ if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 	(unitBackpack player) addItemCargoGlobal ["ACE_epinephrine", 10];
 	(unitBackpack player) addItemCargoGlobal ["ACE_tourniquet", 4];
 	
-	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 4]; };	// Fractures
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 6]; };	// Fractures
 	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { (unitBackpack player) addItemCargoGlobal ["ACE_personalAidKit", 2]; }; // PAKs
 	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { (unitBackpack player) addItemCargoGlobal ["ACE_surgicalKit", 1] }; // Wound Reopening
 	if (missionNamespace getVariable ["ace_medical_treatment_advancedMedication", false]) then { (unitBackpack player) addItemCargoGlobal ["ACE_adenosine", 10]; }; // Advanced Medication
@@ -64,16 +64,17 @@ if (_typeofUnit == "eng" || (player getUnitTrait "engineer")) then {
 	player setVariable ["ACE_IsEngineer",1];
 	player addItem "ACE_clacker";
 	player addItem "ACE_M26_Clacker";
-	player addItem "ACE_wirecutter";
-	player addItem "ACE_EntrenchingTool";
 };
 
 if (_typeofUnit == "engm" || (player getUnitTrait "explosiveSpecialist")) then {	
 	player setVariable ["ACE_isEOD",1];
 	player addItem "ACE_DefusalKit";
+	player addWeapon "ACE_VMH3";
+};
+
+if (_typeofUnit == "eng" || _typeofUnit == "engm") then {
 	player addItem "ACE_wirecutter";
 	player addItem "ACE_EntrenchingTool";
-	player addWeapon "ACE_VMH3";
 };
 
 if (_typeofUnit in ["sn","sp"]) then {
