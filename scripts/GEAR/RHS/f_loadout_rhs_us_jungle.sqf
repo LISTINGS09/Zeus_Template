@@ -207,7 +207,7 @@ _diverGlasses = "G_Diving";
 
 // Pilot
 _pilotUniform = "U_B_T_Soldier_AR_F";
-_pilotHelmet = "H_PilotHelmetHeli_B";
+_pilotHelmet = ["rhsusf_hgu56p","rhsusf_hgu56p_black","rhsusf_hgu56p_green","rhsusf_hgu56p_mask","rhsusf_hgu56p_mask_black","rhsusf_hgu56p_mask_black_skull","rhsusf_hgu56p_mask_green","rhsusf_hgu56p_mask_green_mo","rhsusf_hgu56p_mask_mo","rhsusf_hgu56p_mask_saf","rhsusf_hgu56p_mask_skull","rhsusf_hgu56p_mask_smiley","rhsusf_hgu56p_mask_pink","rhsusf_hgu56p_pink","rhsusf_hgu56p_tan","rhsusf_hgu56p_saf","rhsusf_hgu56p_usa","rhsusf_hgu56p_visor","rhsusf_hgu56p_visor_black","rhsusf_hgu56p_visor_green","rhsusf_hgu56p_visor_mask","rhsusf_hgu56p_visor_mask_Empire_black","rhsusf_hgu56p_visor_mask_black","rhsusf_hgu56p_visor_mask_black_skull","rhsusf_hgu56p_visor_mask_green","rhsusf_hgu56p_visor_mask_green_mo","rhsusf_hgu56p_visor_mask_mo","rhsusf_hgu56p_visor_mask_saf","rhsusf_hgu56p_visor_mask_skull","rhsusf_hgu56p_visor_mask_smiley","rhsusf_hgu56p_visor_mask_tan","rhsusf_hgu56p_visor_mask_pink","rhsusf_hgu56p_visor_pink","rhsusf_hgu56p_visor_tan","rhsusf_hgu56p_visor_saf","rhsusf_hgu56p_visor_usa","rhsusf_hgu56p_visor_white","rhsusf_hgu56p_white","rhsusf_ihadss"];
 _pilotRig = "V_Chestrig_rgr";
 _pilotGlasses = [];
 

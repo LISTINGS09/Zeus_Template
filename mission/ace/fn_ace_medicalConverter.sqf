@@ -24,7 +24,7 @@ _cntMediKit = {_x == "MediKit"} count _itemCargoList;
 
 if (_cntFAK + _cntMediKit == 0) exitWith {}; // Nothing to convert.
 
-private _advMedical = missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]; // ACE Advanced Medical Setting
+private _advMedical = missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1; // ACE Advanced Medical Setting
 
 if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { 
 	["fn_ace_medicalConverter.sqf",format["Converting medical (ADV:%5) for %2 (%1 - F%3 M%4)", _unit, typeOf _unit, _cntFAK, _cntMediKit, _advMedical],"INFO"] call f_fnc_logIssue;

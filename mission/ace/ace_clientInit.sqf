@@ -21,9 +21,8 @@ _typeofUnit = player getVariable ["f_var_assignGear", "r"];
 {player addItem "ACE_CableTie"} forEach [1,2,3,4];
 {player addItem "ACE_fieldDressing"} forEach [1,2,3,4,5,6,7,8];
 {player addItem "ACE_morphine"} forEach [1,2];
-{player addItem "ACE_epinephrine"} forEach [1,2];
 player addItem "ACE_tourniquet";
-if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]) then { {player addItem "ACE_elasticBandage"} forEach [1,2,3,4,5,6,7,8] };
+if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1) then { {player addItem "ACE_elasticBandage"} forEach [1,2,3,4,5,6,7,8] };
 
 player setVariable ["ACE_hasEarPlugsIn", true, true];
 player removeItem "ACE_EarPlugs";
@@ -41,14 +40,18 @@ if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 	if (missionNamespace getVariable ["ace_medical_treatment_advancedMedication", false]) then { (unitBackpack player) addItemCargoGlobal ["ACE_adenosine", 10]; }; // Advanced Medication
 	
 	// Advanced Bandages
-	if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", false]) then {
+	if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1) then {
 		(unitBackpack player) addItemCargoGlobal ["ACE_elasticBandage", 30];
 		(unitBackpack player) addItemCargoGlobal ["ACE_quikclot", 15];
 		(unitBackpack player) addItemCargoGlobal ["ACE_packingBandage", 15];
+		(unitBackpack player) addItemCargoGlobal ["ACE_salineIV_250", 6];
 		(unitBackpack player) addItemCargoGlobal ["ACE_salineIV_500", 6];
+		(unitBackpack player) addItemCargoGlobal ["ACE_salineIV", 4];
 	} else {
 		(unitBackpack player) addItemCargoGlobal ["ACE_fieldDressing", 20];
+		(unitBackpack player) addItemCargoGlobal ["ACE_bloodIV_250", 6];
 		(unitBackpack player) addItemCargoGlobal ["ACE_bloodIV_500", 6];
+		(unitBackpack player) addItemCargoGlobal ["ACE_bloodIV", 4];
 	};
 };
 
