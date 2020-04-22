@@ -2,7 +2,7 @@
 
 if (isNil "F_SHOW_TAGS") exitWith {};
 
-if F_SHOW_TAGS exitWith {};
+if !F_SHOW_TAGS exitWith {};
 
 // Set defaults in case they were missed
 if (isNil "F_SIZE_TAGS") then { F_SIZE_TAGS = 0.04 };

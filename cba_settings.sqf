@@ -48,9 +48,15 @@ force ace_advanced_fatigue_performanceFactor = 1.25;
 force ace_advanced_fatigue_recoveryFactor = 2;
 force ace_advanced_fatigue_terrainGradientFactor = 0.9;
 
+force ace_medical_AIDamageThreshold = 0.3;
+force ace_medical_playerDamageThreshold = 1.6;
+force ace_medical_spontaneousWakeUpChance = 0.8;
+force ace_medical_spontaneousWakeUpEpinephrineBoost = 5;
+force ace_medical_treatment_clearTraumaAfterBandage = true;
+
 force ace_map_mapShake = FALSE;
 
-force ace_pylons_enabled = FALSE;
+force ace_pylons_enabled = TRUE;
 
 force ace_repair_engineerSetting_fullRepair = 1;
 force ace_repair_fullRepairLocation = 0;

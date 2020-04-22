@@ -7,7 +7,7 @@ if (!isMultiplayer || !hasInterface || playerSide == sideLogic) exitWith {};
 f_fnc_drawNameTag = compileFinal preprocessFileLineNumbers "f\nametag\fn_drawNameTag.sqf";
 
 // SET GLOBAL VARIABLES
-F_DIST_TAGS = 60;		// Distance to display name tags for all units around
+F_DIST_TAGS = 75;		// Distance to display name tags for all units around
 F_KEY_TAGS =  "TeamSwitch"; // The action key to toggle the name tags. See possible keys here: http://community.bistudio.com/wiki/Category:Key_Actions
 
 // Globally disable this script by setting a mission variable 'F_SHOW_TAGS = FALSE'.
@@ -24,11 +24,12 @@ F_TYPE_ICON = profileNamespace getVariable ['F_TYPE_ICON', true]; // Show type o
 F_OVER_ONLY = profileNamespace getVariable ['F_OVER_ONLY', false]; // Cursor only mode
 
 // DISABLE Tags for Regular Members
-if (count (squadParams player) > 0 && F_SHOW_TAGS) then {
+if (count (squadParams player) > 0) then {
+	//["ZEUS"] findIf { _x == "zeus" }
 	if (toUpper ((squadParams player) # 0 # 0) == "ZEUS") then { F_SHOW_TAGS = false };
 };
 
-if (isClass(configFile >> "CfgPatches" >> "ace_main") && F_SHOW_TAGS) then { F_SHOW_TAGS = false };
+if (isClass(configFile >> "CfgPatches" >> "ace_main")) then { F_SHOW_TAGS = false };
 
 F_ACTIONKEY_TAGS = (actionKeys F_KEY_TAGS)#0;
 F_KEYNAME_TAGS = actionKeysNames F_KEY_TAGS;
@@ -39,6 +40,7 @@ F_KEYDOWN_NAMETAG = {
 	_handeld = false;
 	if(_key == F_ACTIONKEY_TAGS) then {
 		F_SHOW_TAGS = !F_SHOW_TAGS;
+		profileNamespace setVariable ['F_SHOW_TAGS', F_SHOW_TAGS];
 		titleText [format["%1 unit tags", if (F_SHOW_TAGS) then {"Enabled"} else {"Disabled"}], "PLAIN DOWN", 2];
 		//_handeld = true;
 	};
@@ -67,7 +69,7 @@ cursorTarget enableSimulationGlobal true;
 			];
 		};
 	} forEach [
-		["All Tags","Displaying of all unit tags: ","F_SHOW_TAGS","Enabled","Disabled",false],
+		["All Tags","Displaying of all unit tags: ","F_SHOW_TAGS","Disabled","Enabled",false],
 		["Icon Display","Display Icons for: ","F_OVER_ONLY","Nearby Units","Cursor Only",false],
 		["Icon Filter","Floating Icons for: ","F_TEAM_TAGS","Everyone","Team Only",false],
 		["Group ID","Show when looking at a unit: ","F_GPID_TAGS","Deactivated","Activated",true],

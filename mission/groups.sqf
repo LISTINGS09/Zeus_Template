@@ -37,12 +37,12 @@ _grpBLU = [
 	,["GrpBLU_IFV3","IFV3","b_mech_inf","IFV3",_green]
 	,["GrpBLU_IFV4","IFV4","b_mech_inf","IFV4",_orange]
 	,["GrpBLU_IFV5","IFV5","b_mech_inf","IFV5",_black]
-	,["GrpBLU_IFV6","IFV6","b_mech_inf","IFV6",_white]
 	,["GrpBLU_TNK1","Thunder","b_armor","THU",_red]
 	,["GrpBLU_TH1","Vector1","b_air","V1",_red]
 	,["GrpBLU_TH2","Vector2","b_air","V2",_blue]
 	,["GrpBLU_TH3","Vector3","b_air","V3",_green]
 	,["GrpBLU_TH4","Vector4","b_air","V4",_orange]
+	,["GrpBLU_TH5","Vector5","b_air","V5",_black]
 	,["GrpBLU_AH1","Hawk","b_air","HWK",_red]
 ];
 
@@ -69,12 +69,12 @@ _grpOPF = [
 	,["GrpOPF_IFV3","IFV3","b_mech_inf","IFV3",_green]
 	,["GrpOPF_IFV4","IFV4","b_mech_inf","IFV4",_orange]
 	,["GrpOPF_IFV5","IFV5","b_mech_inf","IFV5",_black]
-	,["GrpOPF_IFV6","IFV6","b_mech_inf","IFV6",_white]
 	,["GrpOPF_TNK1","Thunder","b_armor","THU",_red]
 	,["GrpOPF_TH1","Vector1","b_air","V1",_red]
 	,["GrpOPF_TH2","Vector2","b_air","V2",_blue]
 	,["GrpOPF_TH3","Vector3","b_air","V3",_green]
 	,["GrpOPF_TH4","Vector4","b_air","V4",_orange]
+	,["GrpOPF_TH5","Vector5","b_air","V5",_black]
 	,["GrpOPF_AH1","HAWK","b_air","HWK",_red]
 ];
 
@@ -101,11 +101,11 @@ _grpIND = [
 	,["GrpIND_IFV3","IFV3","b_mech_inf","IFV3",_green]
 	,["GrpIND_IFV4","IFV4","b_mech_inf","IFV4",_orange]
 	,["GrpIND_IFV5","IFV5","b_mech_inf","IFV5",_black]
-	,["GrpIND_IFV6","IFV6","b_mech_inf","IFV6",_white]
 	,["GrpIND_TNK1","Thunder","b_armor","THU",_red]
 	,["GrpIND_TH1","Vector1","b_air","V1",_red]
 	,["GrpIND_TH2","Vector2","b_air","V2",_blue]
 	,["GrpIND_TH3","Vector3","b_air","V3",_green]
 	,["GrpIND_TH4","Vector4","b_air","V4",_orange]
+	,["GrpIND_TH5","Vector5","b_air","V5",_black]
 	,["GrpIND_AH1","Hawk","b_air","HWK",_red]
 ];

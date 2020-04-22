@@ -157,9 +157,8 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			FAR_var_BleedOut,
 			["Off", "On"] select FAR_var_InstantDeath,
 			["","Any critical hit will result in instant death for the player. "] select FAR_var_InstantDeath,
-			["","A Medic may place a dead player in a Body Bag to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
+			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
-			
 		};
 		
 		case 2: { // ACE
@@ -203,6 +202,9 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 } else {
 	_diaryText = _diaryText + format["<br/>Medical Level: <font color='#00FFFF'>Vanilla (%1)</font><br/>", (["No Revive", "Revive Enabled", "Custom Revive"] select (getMissionConfigValue ["ReviveMode",0]))];
 };
+
+_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 AND player == vehicle player) then { [] spawn { private _pos = getPosATL player; private _dir = getDir player; titleCut ['', 'BLACK']; private _temp = 'C_Quadbike_01_F' createVehicle [0,0,0]; _temp allowDamage false; player moveInAny _temp; sleep 0.1; unassignVehicle player; moveOut player; player setDir _dir; player setPosATL _pos; sleep 0.5; deleteVehicle _temp; titleCut ['', 'PLAIN']; }; };"">Fix Ragdoll</execute><br/>";
+
 
 // RETURN
 _diaryText;

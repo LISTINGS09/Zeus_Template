@@ -94,6 +94,7 @@ if (_typeofUnit in ["mtrg","mtrag"]) then {
 	player addItem "ACE_RangeTable_82mm";
 	player addItem "ACE_MapTools";
 	player addItem "ACE_RangeCard";
+	private _box = createVehicle ["ACE_Box_82mm_Mo_Combo", position player, [], 0, "NONE"];
 };
 
 player setVariable ["f_var_ACEclientInitDone",true];
