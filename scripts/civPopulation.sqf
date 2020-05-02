@@ -1,5 +1,7 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.3
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.4
 // [] execVM "scripts\civPopulation.sqf";
+
+// missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
 // The following constants may be used to tweak behaviour
 ZCS_var_WaitTime = 60; // Maximum standing still time in seconds
@@ -238,8 +240,7 @@ ZCS_fnc_SpawnHunter = {
 	params [["_pos",[]]];
 	
 	if (_pos isEqualTo []) then {
-		_playerBuildings = [] call ZCS_fnc_NearBuildings;
-		_pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
+		_pos = [[] call ZCS_fnc_NearBuildings] call ZCS_fnc_FindSpawnPos;
 	};
 	
 	private _huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
@@ -248,10 +249,9 @@ ZCS_fnc_SpawnHunter = {
 	
 	private _enemySide = if (side _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side _huntPlayer getFriend EAST < 0.6) then { EAST } else { INDEPENDENT }; };	
 	private _enemyGroup = createGroup [_enemySide, true];
-	private _tempGroup = createGroup [civilian, true];
 	
-	private _hunter = _tempGroup createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
-	[_hunter] joinSilent _enemyGroup;
+	private _hunter = (createGroup [civilian, true]) createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
+	[_hunter] joinSilent _enemyGroup; // BugFix - createUnit group is ignored?
 	
 	[_hunter] call ZCS_fnc_DressUnit;
 	
@@ -260,7 +260,7 @@ ZCS_fnc_SpawnHunter = {
 	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
 	if (random 1 <= 0.9) then {
 		uniformContainer _hunter addMagazineCargo [_ammo, 3];
-		uniformContainer _hunter addWeaponCargo [_weapon, 1];
+		_hunter addWeapon _weapon;
 	};
 	_hunter setCombatMode "RED";
 	_hunter setBehaviour "AWARE";
@@ -282,14 +282,13 @@ ZCS_fnc_SpawnBomber = {
 	
 	private _huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
 	 
-	if(_huntPlayer isEqualTo []) exitWith { objNull };
+	if(isNull _huntPlayer) exitWith { objNull };
 	
 	private _enemySide = if (side _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side _huntPlayer getFriend EAST < 0.6) then { EAST } else { INDEPENDENT }; };	
 	private _enemyGroup = createGroup [_enemySide, true];
-	private _tempGroup = createGroup [civilian, true];
 	
-	private _bomber = _tempGroup createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
-	[_bomber] joinSilent _enemyGroup;
+	private _bomber = ( createGroup [civilian, true]) createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
+	[_bomber] joinSilent _enemyGroup; // BugFix - createUnit group is ignored?
 	
 	[_bomber] spawn ZCS_fnc_DressUnit;
 	_bomber addBackpack selectRandom ["B_Messenger_Black_F","B_Messenger_Gray_F"];
@@ -299,13 +298,13 @@ ZCS_fnc_SpawnBomber = {
 	private _ied3 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
 
 	_ied1 attachTo [_bomber, [-0.1,0.1,0.15],"Pelvis"];
-	_ied1 setVectorDirAndUp [[0.5,0.5,0],[-0.5,0.5,0]];
+	[_ied1, [[0.5,0.5,0],[-0.5,0.5,0]]] remoteExec ["setVectorDirAndUp", _bomber];
 
 	_ied2 attachTo [_bomber, [0,0.15,0.15],"Pelvis"];
-	_ied2 setVectorDirAndUp [[1,0,0],[0,1,0]];
+	[_ied2, [[1,0,0],[0,1,0]]] remoteExec ["setVectorDirAndUp", _bomber];
 
 	_ied3 attachTo [_bomber, [0.1,0.1,0.15],"Pelvis"];
-	_ied3 setVectorDirAndUp [[0.5,-0.5,0],[0.5,0.5,0]];
+	[_ied3, [[0.5,-0.5,0],[0.5,0.5,0]]] remoteExec ["setVectorDirAndUp", _bomber];
 	
 	_bomber setBehaviour "CARELESS";
 	_bomber setPos _pos;
