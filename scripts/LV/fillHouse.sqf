@@ -1,5 +1,5 @@
 /*
-ARMA3 - FILL HOUSE SCRIPT v1.11 - by 26K, SPUn & lostvar
+ARMA3 - FILL HOUSE SCRIPT v1.12 - by 26K, SPUn & lostvar
 
 Fills house or buildings in defined range with soldiers
 
@@ -131,7 +131,7 @@ _fnc_notInString = {
 	private _notInString = TRUE;
 	{
 		if (toLower _type find _x >= 0) exitWith { _notInString = FALSE };
-	} forEach [ "_story", "_vr", "competitor", "ghillie", "miller", "survivor", "crew", "diver", "pilot", "rangemaster", "uav", "unarmed", "officer" ];
+	} forEach [ "_story", "_vr", "competitor", "ghillie", "miller", "survivor", "crew", "diver", "pilot", "rangemaster", "uav", "unarmed", "officer", "ugv" ];
 	
 	_notInString
 };
