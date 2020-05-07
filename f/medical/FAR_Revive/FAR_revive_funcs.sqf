@@ -5,7 +5,7 @@ FAR_fnc_unitInit = {
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
 	_unit setVariable ["FAR_var_isDragging", false, true];
-	_unit setVariable ["FAR_var_timer", FAR_var_BleedOut, true];
+	FAR_var_timer = FAR_var_BleedOut;
 	
 	if !(isPlayer _unit) exitWith {};
 	
@@ -242,20 +242,25 @@ FAR_fnc_SetUnconscious = {
 		};
 	};
 		
-	_bleedOut = time + FAR_var_BleedOut;
+	_bleedOut = time + FAR_var_timer;
 	
 	// Deduct 1m from bleed-out timer.
-	if (FAR_var_BleedOut > 60 && FAR_var_BleedOut <= 600) then { FAR_var_BleedOut = FAR_var_BleedOut - 60 };
+	if (FAR_var_timer > 60) then {
+		if (FAR_var_timer <= 600) then { FAR_var_timer = FAR_var_timer - 60 };
+		// Do nothing if we're over 600 (fixed respawn values)
+	} else {
+		FAR_var_timer = 60;
+	};
 	
 	private _tick = 0;
 	
 	while { alive _unit && 
 			(lifeState _unit == "INCAPACITATED") &&
 			!(_unit getVariable ["FAR_var_isStable",false]) && 
-			(FAR_var_BleedOut < 0 || time < _bleedOut) 
+			(FAR_var_timer < 0 || time < _bleedOut) 
 	} do {
 		if (isPlayer _unit) then  {
-			if (FAR_var_BleedOut > 600) then {
+			if (FAR_var_timer > 600) then {
 				hintSilent format["Waiting for a medic\n\n%1", call FAR_fnc_CheckFriendlies];
 			} else { 
 				hintSilent format["Bleedout in %1 seconds\n\n%2", round (_bleedOut - time), call FAR_fnc_CheckFriendlies];
@@ -326,7 +331,7 @@ FAR_fnc_SetUnconscious = {
 	{ _x ppEffectEnable false } forEach [FAR_eff_ppVig, FAR_eff_ppBlur];
 	
 	// Bled out
-	if (FAR_var_BleedOut > 0 && 
+	if (FAR_var_timer > 0 && 
 			{time > _bleedOut} && 
 			(lifeState _unit == "INCAPACITATED") &&
 			!(_unit getVariable ["FAR_var_isStable",false])
@@ -372,14 +377,16 @@ FAR_fnc_CheckRevive = {
 	
 	// Variable for CASVAC Missions etc...
 	if !(_cursorTarget getVariable ["FAR_var_AllowRevive", true]) exitWith {};
+	
+	// format["REVIVE: %1 | %2 | %3 | %4 | %5", !(player getVariable ["FAR_var_isDragging", false]), cursorTarget in (playableUnits + switchableUnits), !([side group cursorTarget, side group player] call BIS_fnc_sideIsEnemy), ( (player getUnitTrait "Medic" && FAR_var_ReviveMode == 0) || ((count (FAR_FAK arrayIntersect (items player))) > 0 && FAR_var_ReviveMode == 1) || ((count (FAR_Medkit arrayIntersect (items player + items cursorTarget))) > 0 && FAR_var_ReviveMode == 2)),{lifeState _cursorTarget == 'INCAPACITATED'}];
 		
 	if (!(_caller getVariable ["FAR_var_isDragging", false]) && 
 		_cursorTarget in (playableUnits + switchableUnits) && 
 		!([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy) && 
 		(
 			(_caller getUnitTrait "Medic" && FAR_var_ReviveMode == 0) ||
-			((count (FAR_FAK arrayIntersect (items _caller))) > 0 && FAR_var_ReviveMode == 1) ||
-			((count (FAR_Medkit arrayIntersect (items _caller + items _cursorTarget))) > 0 && FAR_var_ReviveMode == 2)
+			((count (FAR_var_FAK arrayIntersect (items _caller))) > 0 && FAR_var_ReviveMode == 1) ||
+			((count (FAR_var_Medkit arrayIntersect (items _caller + items _cursorTarget))) > 0 && FAR_var_ReviveMode == 2)
 		) &&
 		{lifeState _cursorTarget == 'INCAPACITATED'})
 	exitWith { 
@@ -425,6 +432,8 @@ FAR_fnc_CheckStabilize = {
 	
 	if (isNull _cursorTarget) exitWith { false };
 	
+	// format["STABLE: %1 | %2 | %3 | %4 | %5 | %6 | %7", (cursorTarget getVariable ["FAR_var_isDragging", false]), cursorTarget in (playableUnits + switchableUnits),  !([side group cursorTarget, side group player] call BIS_fnc_sideIsEnemy), !(cursorTarget getVariable ["FAR_var_isDragged",false]), !(cursorTarget getVariable ['FAR_var_isStable',false]), ('FirstAidKit' in (items player) || 'Medikit' in (items player) || 'FirstAidKit' in (items cursorTarget)), {lifeState cursorTarget == 'INCAPACITATED'} ];
+	
 	if (!(_caller getVariable ["FAR_var_isDragging", false]) && 
 		_cursorTarget in (playableUnits + switchableUnits) && 
 		!([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy) && 
@@ -433,7 +442,6 @@ FAR_fnc_CheckStabilize = {
 		('FirstAidKit' in (items _caller) || 'Medikit' in (items _caller) || 'FirstAidKit' in (items _cursorTarget)) &&
 		{lifeState _cursorTarget == 'INCAPACITATED'}) 
 	exitWith { 
-		
 		_caller setUserActionText [FAR_act_Stabilise, format["<t color='#FF0000'>Stabilize<img image='%2'/>(%1)</t>", name _cursorTarget, (getText (configFile >> "CfgVehicles" >> (typeOf _cursorTarget) >> "icon") call bis_fnc_textureVehicleIcon)], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa'/>"];
 		true };
 	
@@ -484,6 +492,8 @@ FAR_fnc_CheckDragging = {
 	private _cursorTarget = cursorTarget; // Can't be passed in addAction arguments!
 	
 	if (isNull _cursorTarget) exitWith { false };
+	
+	// format["DRAG: %1 | %2 | %3 | %4 | %5", !(player getVariable ["FAR_var_isDragging", false]),!(cursorTarget getVariable ["FAR_var_isDragged",false]),!([player] call FAR_fnc_isUnderwater),!([cursorTarget] call FAR_fnc_isUnderwater),{lifeState cursorTarget == 'INCAPACITATED'} ];
 
 	if (!(_caller getVariable ["FAR_var_isDragging", false]) && 
 		!( _cursorTarget getVariable ["FAR_var_isDragged",false]) && 
@@ -502,6 +512,8 @@ FAR_fnc_CheckBag = {
 	private _cursorTarget = cursorObject; // Can't be passed in addAction arguments!	
 	
 	if (isNull _cursorTarget) exitWith { false };
+	
+	// format["BAG: %1 | %2 | %3 | %4", !(player getVariable ["FAR_var_isDragging", false]),!([player] call FAR_fnc_isUnderwater),!(player nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] && !(isObjectHidden _x) } isEqualTo []),{"Medikit" in (items player)} ];
 	
 	if (!(_caller getVariable ["FAR_var_isDragging", false]) && 
 		!([_caller] call FAR_fnc_isUnderwater) &&
@@ -539,7 +551,7 @@ FAR_fnc_Bag = {
 			if (!alive player && (playerRespawnTime > FAR_var_RespawnBagTime || playerRespawnTime < 0)) then { 
 				setPlayerRespawnTime FAR_var_RespawnBagTime;
 				[format["Respawn in %1 Minutes",round FAR_var_RespawnBagTime / 60], 0] call BIS_fnc_respawnCounter;
-				titleText ["<t size='2'>Your body was recovered.<br/>","PLAIN DOWN", 2, true, true];
+				titleText [format["<t size='2'>Your body was recovered. Respawn in %1 Minutes<br/>", round FAR_var_RespawnBagTime / 60],"PLAIN DOWN", 2, true, true];
 			};
 		} remoteExec ["BIS_fnc_spawn", _cursorTarget];
 	};

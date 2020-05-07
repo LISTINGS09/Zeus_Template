@@ -63,8 +63,8 @@ _carbinemag_tr = "rhs_30Rnd_762x39mm_tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = ["rhs_weap_ak74m_camo_folded","rhs_weap_ak74m_folded"];
-_smgmag = "rhs_30Rnd_545x39_AK";
-_smgmag_tr = "rhs_30Rnd_545x39_AK_green";
+_smgmag = "30Rnd_545x39_Mag_Green_F";
+_smgmag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 
 // Diver
 _diverWep = "arifle_SDAR_F";

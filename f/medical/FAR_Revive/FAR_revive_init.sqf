@@ -1,4 +1,4 @@
-// Farooq's Revive 2.2 (2600K Edit)
+// Farooq's Revive 2.3 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.
@@ -15,7 +15,6 @@ if (isNil "FAR_var_SkipSide")		then { FAR_var_SkipSide = [sideLogic] };	// Don't
 
 call compile preprocessFileLineNumbers "f\medical\FAR_revive\FAR_revive_funcs.sqf";
 
-
 if !hasInterface exitWith {};
 if (FAR_var_SkipSide isEqualType sideLogic) then { FAR_var_SkipSide = [FAR_var_SkipSide] };
 if (side group player in FAR_var_SkipSide) exitWith {};
@@ -23,8 +22,8 @@ if (side group player in FAR_var_SkipSide) exitWith {};
 // Create PP effects
 FAR_eff_ppVig = ppEffectCreate ["ColorCorrections", 1633];
 FAR_eff_ppBlur = ppEffectCreate ["DynamicBlur", 525];
-FAR_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80"];
-FAR_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress"];
+FAR_var_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80"];
+FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress"];
 
 // Player Initialization
 [] spawn {

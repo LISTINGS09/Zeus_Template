@@ -52,3 +52,45 @@ if isServer then {
 		//_hdl ppEffectAdjust [0.9, 1, 0, [0.1, 0.1, 0.1, -0.1], [1, 1, 0.8, 0.528],  [1, 0.2, 0, 0]]; // Takistan
 	_hdl ppEffectCommit 0;
 };*/
+// ====================================================================================
+// Jumping Option
+/* if hasInterface then {
+	DROP_PLANE addAction [
+		"Jump Out (Parachute)",  
+		{
+			params ["_target", "_caller", "_actionId", "_arguments"];
+
+			if (position _caller#2 < 100) exitWith { systemChat format["Not high enough (%1m)", round (position _caller#2)] };
+
+			_bp = backpack _caller;
+			_bpi = backPackItems _caller;
+			removeBackpackGlobal _caller;
+			waitUntil { backpack _caller == "" };
+			moveOut _caller;
+			ace_map_mapShake = true;
+			"dynamicBlur" ppEffectEnable true;
+			"dynamicBlur" ppEffectAdjust [6];
+			"dynamicBlur" ppEffectCommit 0; 
+			"dynamicBlur" ppEffectAdjust [0.0];
+			"dynamicBlur" ppEffectCommit 5;
+			_caller addBackpackGlobal "B_parachute";
+			waitUntil {sleep 0.1; (position _caller select 2) < 125 };
+			if (vehicle _caller isEqualto _caller && alive _caller) then { _caller action ["openParachute", _caller] };
+			waitUntil {sleep 0.1; isTouchingGround _caller || (position _caller#2) < 1 };
+			_caller action ["eject", vehicle _caller];
+			ace_map_mapShake = false;
+			removeBackpackGlobal _caller;
+			if (_bp == "") exitWith {};
+			waitUntil { backpack _caller == "" };
+			_caller addBackpackGlobal _bp;
+			waitUntil { backpack _caller != "" };
+			{ (unitBackpack _caller) addItemCargoGlobal [_x, 1] } forEach _bpi;
+		},
+		[],
+		1.5, 
+		false, 
+		true, 
+		"",
+		"_this in crew _target && _this != driver _target"
+	];
+}; */

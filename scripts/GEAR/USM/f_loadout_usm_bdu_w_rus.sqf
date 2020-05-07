@@ -53,18 +53,18 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = "rhs_weap_ak74m_camo";
-_riflemag = "rhs_30Rnd_545x39_AK";
-_riflemag_tr = "rhs_30Rnd_545x39_AK_green";
+_riflemag = "30Rnd_545x39_Mag_Green_F";
+_riflemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = "rhs_weap_ak74m_camo_folded";
-_carbinemag = "rhs_30Rnd_545x39_AK";
-_carbinemag_tr = "rhs_30Rnd_545x39_AK_green";
+_carbinemag = "30Rnd_545x39_Mag_Green_F";
+_carbinemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = "rhs_weap_ak74m_camo_folded";
-_smgmag = "rhs_30Rnd_545x39_AK";
-_smgmag_tr = "rhs_30Rnd_545x39_AK_green";
+_smgmag = "30Rnd_545x39_Mag_Green_F";
+_smgmag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -73,8 +73,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = "rhs_weap_ak74m_gp25";
-_glriflemag = "rhs_30Rnd_545x39_AK";
-_glriflemag_tr = "rhs_30Rnd_545x39_AK_green";
+_glriflemag = "30Rnd_545x39_Mag_Green_F";
+_glriflemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 _glmag = "rhs_VOG25P";
 
 // Smoke for FTLs, Squad Leaders, etc
