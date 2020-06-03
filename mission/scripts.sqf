@@ -14,10 +14,8 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 //[] spawn {sleep 5; ZEU_tkLog_mpKilledEH = {};}; // Disable Zeus TK Spam
 // ====================================================================================
 // F3 - Casualty Cap - Sides: west | east | resistance - Format: [SIDE,ENDING,<PERCENT>]
-//[west,2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
-//[east,2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
-//[resistance,2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
-//[west,{f_var_casualtyLimitHit = true;}] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf"; // Alternative use with trigger.
+//[nil, 2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
+//[west, {f_var_casualtyLimitHit = true;}] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf"; // Alternative use with trigger.
 // ====================================================================================
 // F3 - Map Click Teleport
 // [1,600,true,[],3000] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";	// Set for HALO (3000m Height)
@@ -28,7 +26,7 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 // [] execVM "scripts\civPopulation.sqf";									// Civ Spawner
 // ====================================================================================
 // Remove Enemy weapons on death
-if isServer then {
+/* if isServer then {
 	addMissionEventHandler ["EntityKilled", {
 		params ["_unit"];
 		if (_unit isKindOf "CAManBase" && !(isPlayer _unit)) then {
@@ -36,7 +34,7 @@ if isServer then {
 				_unit removeWeapon (secondaryWeapon _unit);
 		};
 	}];
-};
+}; */
 // ====================================================================================
 // Post-process effects
 /* if (hasInterface) then {

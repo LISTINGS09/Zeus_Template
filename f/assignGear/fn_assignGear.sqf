@@ -2,8 +2,7 @@
 // Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
 
 // DECLARE VARIABLES AND FUNCTIONS
-private ["_side"];
-params[["_typeofUnit","",[""]],["_unit", player],"_faction",["_skipCheck",false,[false]]];
+params[["_typeofUnit","",[""]],["_unit", player],["_side", side group (_this#1)],["_skipCheck",false,[false]]];
 
 // This is kept in incase older version of gear scripts are running...
 if (isNil "f_param_backpacks") then {f_param_backpacks = 1};
@@ -19,117 +18,110 @@ if (isNil "f_fnc_compatibleItems") then { f_fnc_compatibleItems = compileFinal p
 if (isNil "f_fnc_tidyGear") then { f_fnc_tidyGear = compileFinal preprocessFileLineNumbers "f\assignGear\fn_tidyGear.sqf"; };
 
 // DETECT unit FACTION
-if (isNil "_faction") then {
-	_faction = (faction _unit);	
-};
+if (_side == sideUnknown) then { _side = [_unit, true] call BIS_fnc_objectSide };
 
 _typeofUnit = toLower _typeofUnit;
 
-// Was a side provided as the faction?
-if (_faction isEqualType west) then {
-	_side = format["%1",_faction];
-} else {
-	// Try and find the side from the faction given
-	_faction = toLower _faction;
-	_side = if (isClass (configFile >> "CfgGroups" >> _faction)) then { _faction } else {	
-		switch (getNumber (configFile >> "CfgFactionClasses" >> _faction >> "side")) do {
-			case 0: {"east"};
-			case 1: {"west"};
-			case 2: {"guer"};
-			default {_faction};
-		};
-	};
-};
+// Get side string
+if (_side isEqualType west) then { _side = format["%1",_side] };
 
 // DECLARE VARIABLES AND FUNCTIONS 2
 // Used by the faction-specific scripts
 private ["_attach1","_attach2","_flashHider","_silencer1","_silencer2","_silencer3","_scope1","_scope2","_scope3","_scope4","_bipod1","_bipod2","_attachments","_attach_co","_attach_fl","_attach_fl","_attach_mg","_attach_dm","_attach_sn","_hg_silencer1","_hg_scope1","_hg_attachments","_rifle","_riflemag","_riflemag_tr","_carbine","_carbinemag","_carbinemag_tr","_smg","_smgmag","_smgmag_tr","_diverWep","_diverMag1","_diverMag2","_glrifle","_glriflemag","_glriflemag_tr","_glmag","_glsmoke","_glsmokealt1","_glsmokealt2","_glflare","_glflarealt","_glflareyellow","_glflaregreen","_pistol","_pistolmag","_grenade","_grenadealt","_smokegrenade","_smokegrenadealt","_firstaid","_medkit","_nvg","_uavterminal","_chem","_chemalt","_chemyellow","_chemblue","_bagsmall","_bagmedium","_baglarge","_bagmediumdiver","_baguav","_baghmgg","_baghmgag","_baghatg","_baghatag","_bagmtrg","_bagmtrag","_baghsamg","_baghsamag","_AR","_ARmag","_ARmag_tr","_MMG","_MMGmag","_MMGmag_tr","_Tracer","_DMrifle","_DMriflemag","_RAT","_RATmag","_MAT","_MATmag1","_MATmag2","_HAT","_HATmag1","_HATmag2","_SAM","_SAMmag","_SNrifle","_SNrifleMag","_ATmine","_satchel","_APmine1","_APmine2","_light","_heavy","_diver","_pilot","_crew","_ghillie","_specOp","_baseUniform","_baseHelmet","_baseGlasses","_lightRig","_mediumRig","_heavyRig","_diverUniform","_diverHelmet","_diverRig","_diverGlasses","_pilotUniform","_pilotHelmet","_pilotRig","_pilotGlasses","_crewUniform","_crewHelmet","_crewRig","_crewGlasses","_ghillieUniform","_ghillieHelmet","_ghillieRig","_ghillieGlasses","_sfuniform","_sfhelmet","_sfRig","_sfGlasses","_typeofUnit","_unit","_isMan","_backpack","_typeofBackPack","_loadout","_COrifle","_grenadealt","_DCrifle","_FTLrifle","_armag","_RATmag","_typeofUnit"];
 
 _isMan = _unit isKindOf "CAManBase";	// We check if we're dealing with a soldier or a vehicle
+if (_typeofUnit == "") then {
+	if (_isMan) then { // Try and work out the units type.
+		_unitClasses = [
+			["B_soldier_F"	,	"r"		],
+			["I_soldier_F"	,	"r"		],
+			["O_soldier_F"	,	"r"		],
+			["B_G_soldier_F",	"r"		],
+			["I_G_soldier_F",	"r"		],
+			["O_G_soldier_F",	"r"		],
+			["_unarmed_",		"empty"	],
+			["_officer_"	,	"co"	],
+			["_colonel_"	,	"co"	],
+			["_sl_"			,	"dc"	],
+			["_tl_"			,	"ftl"	],
+			["_lite_"		,	"car"	],
+			["_ar_"			,	"ar"	],
+			["_aar_"		,	"aar"	],
+			["_a_"			,	"aar"	],
+			["_lat_"		,	"rat"	],
+			["_lat2_"		,	"rat"	],
+			["_medic_"		,	"m"		],
+			["_gl_"			,	"gren"	],
+			["_exp_"		,	"engm"	],
+			["_mine_"		,	"engm"	],
+			["_engineer_"	,	"eng"	],
+			["_mg_"			,	"mmgg"	],
+			["_heavygunner_",	"mmgg"	],
+			["_amg_"		,	"mmgag"	],
+			["_at_"			,	"matg"	],
+			["_aat_"		,	"matag"	],
+			["_hat_"		,	"hatg"	],
+			["_ahat_"		,	"hatag"	],
+			["_aa_"			,	"msamg"	],
+			["_aaa_"		,	"msamag"],
+			["_amort_"		,	"mtrag" ],
+			["_mort_"		,	"mtrg"  ],
+			["_uav_"		,	"uav"	],
+			["_ugv_"		,	"uav"	],
+			["_m_"			,	"dm"	],
+			["_sharpshooter_",	"dm"	],
+			["_sniper_"		,	"sn"	],
+			["_spotter_"	,	"sp"	],
+			["_diver_"		,	"div"	],
+			["_repair_"		,	"vd"	],
+			["_crew_"		,	"vd"	],
+			["_helipilot_"	,	"pp"	],
+			["_helicrew_"	,	"pc"	],
+			["_pilot_"		,	"pp"	],
+			["_cbrn_"		,	"cbrn"	],
+			["_radio"		,	"ro"	],
+			["t_1_"			,	"m"		],
+			["t_2_"			,	"rat"	],
+			["t_3_"			,	"ar"	],
+			["t_4_"			,	"ftl"	],
+			["t_5_"			,	"r"		],
+			["t_6_"			,	"gren"	],
+			["t_7_"			,	"car"	],
+			["t_8_"			,	"engm"	],
+			["p_1_"			,	"r"		],
+			["p_2_"			,	"ftl"	],
+			["p_3_"			,	"m"		],
+			["p_4_"			,	"ar"	],
+			["p_5_"			,	"rat"	],
+			["p_6_"			,	"gren"	],
+			["p_7_"			,	"car"	],
+			["p_8_"			,	"eng"	]
+		];
+		
+		_known = false;
+		{
+			_known = [toLower (_x#0),toLower (typeOf _unit)] call BIS_fnc_inString;
 
-if (_isMan && _typeofUnit == "") then { // Try and work out the units type.
-	_unitClasses = [
-		["B_soldier_F"	,	"r"		],
-		["I_soldier_F"	,	"r"		],
-		["O_soldier_F"	,	"r"		],
-		["B_G_soldier_F",	"r"		],
-		["I_G_soldier_F",	"r"		],
-		["O_G_soldier_F",	"r"		],
-		["_unarmed_",		"empty"	],
-		["_officer_"	,	"co"	],
-		["_colonel_"	,	"co"	],
-		["_sl_"			,	"dc"	],
-		["_tl_"			,	"ftl"	],
-		["_lite_"		,	"car"	],
-		["_ar_"			,	"ar"	],
-		["_aar_"		,	"aar"	],
-		["_a_"			,	"aar"	],
-		["_lat_"		,	"rat"	],
-		["_lat2_"		,	"rat"	],
-		["_medic_"		,	"m"		],
-		["_gl_"			,	"gren"	],
-		["_exp_"		,	"engm"	],
-		["_mine_"		,	"engm"	],
-		["_engineer_"	,	"eng"	],
-		["_mg_"			,	"mmgg"	],
-		["_heavygunner_",	"mmgg"	],
-		["_amg_"		,	"mmgag"	],
-		["_at_"			,	"matg"	],
-		["_aat_"		,	"matag"	],
-		["_hat_"		,	"hatg"	],
-		["_ahat_"		,	"hatag"	],
-		["_aa_"			,	"msamg"	],
-		["_aaa_"		,	"msamag"],
-		["_amort_"		,	"mtrag" ],
-		["_mort_"		,	"mtrg"  ],
-		["_uav_"		,	"uav"	],
-		["_m_"			,	"dm"	],
-		["_sharpshooter_",	"dm"	],
-		["_sniper_"		,	"sn"	],
-		["_spotter_"	,	"sp"	],
-		["_diver_"		,	"div"	],
-		["_repair_"		,	"vd"	],
-		["_crew_"		,	"vd"	],
-		["_helipilot_"	,	"pp"	],
-		["_helicrew_"	,	"pc"	],
-		["_pilot_"		,	"pp"	],
-		["_cbrn_"		,	"cbrn"	],
-		["_radio"		,	"ro"	],
-		["t_1_"			,	"m"		],
-		["t_2_"			,	"rat"	],
-		["t_3_"			,	"ar"	],
-		["t_4_"			,	"ftl"	],
-		["t_5_"			,	"r"		],
-		["t_6_"			,	"gren"	],
-		["t_7_"			,	"car"	],
-		["t_8_"			,	"engm"	],
-		["p_1_"			,	"r"		],
-		["p_2_"			,	"ftl"	],
-		["p_3_"			,	"m"		],
-		["p_4_"			,	"ar"	],
-		["p_5_"			,	"rat"	],
-		["p_6_"			,	"gren"	],
-		["p_7_"			,	"car"	],
-		["p_8_"			,	"eng"	]
-	];
-	
-	_known = false;
-	{
-		_known = [toLower (_x select 0),toLower (typeOf _unit)] call BIS_fnc_inString;
+			// If the unit's class-name corresponds to a class in the assignment array, set it's type
+			if (_known) exitWith {
+				_typeofUnit = _x#1;
+			};
+		} forEach _unitClasses;
+		
+		// Promote crew if they are a leader.
+		if (_typeofUnit == "vd" && leader _unit == _unit) then { _typeofUnit = "vc" };
 
-		// If the unit's class-name corresponds to a class in the assignment array, set it's type
-		if (_known) exitWith {
-			_typeofUnit = _x select 1;
+		// If the class is not in the _unitClasses array
+		if (!_known) then {
+			_typeofUnit = "r";
+			["fn_assignGear.sqf",format["Could not auto-identify gear for %1 %2. Ensure you are using vanilla units (NATO/CSAT/AAF) for players!", _unit, typeOf _unit]] call f_fnc_logIssue;
 		};
-	} forEach _unitClasses;
-	
-	// Promote crew if they are a leader.
-	if (_typeofUnit == "vd" && leader _unit == _unit) then { _typeofUnit = "vc" };
-
-	// If the class is not in the _unitClasses array
-	if (!_known) then {
-		_typeofUnit = "r";
-		["fn_assignGear.sqf",format["Could not auto-identify gear for %1 %2. Ensure you are using vanilla units (NATO/CSAT/AAF) for players!", _unit, typeOf _unit]] call f_fnc_logIssue;
+	} else {
+		if (_unit isKindOf "Thing") then {
+			_typeofUnit = "crate_med";
+		} else {
+			_typeofUnit = "v_car";
+		};
 	};
 };
 

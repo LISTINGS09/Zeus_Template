@@ -7,6 +7,8 @@ if (isNil "f_var_ShowFTMarkers") then { f_var_ShowFTMarkers = !(isClass(configFi
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
 waitUntil {sleep 0.1; !isNull player};
 
+sleep 1;
+
 _f_fnc_drawFTMarker = {	
 	if !('MinimapDisplay' in (infoPanel 'left' + infoPanel 'right') || visibleMap) exitWith {};
 	
@@ -82,7 +84,6 @@ if (!isNil "f_eh_ftmap") then { findDisplay 12 displayCtrl 51 ctrlRemoveEventHan
 f_eh_ftmap = findDisplay 12 displayCtrl 51 ctrlAddEventHandler ["Draw", _f_fnc_drawFTMarker];
 
 waitUntil { sleep 1; !isNull (uiNamespace getVariable ["RscCustomInfoMiniMap", displayNull]) };
-	
 
 { 
 	if (!isNull (_x displayCtrl 101)) exitWith {

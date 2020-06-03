@@ -4,7 +4,7 @@
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
 if !hasInterface exitWith {};
 if (!isDedicated && (isNull player)) then {
-    waitUntil {sleep 0.1; !isNull player};
+    waitUntil {uiSleep 0.1; !isNull player};
 };
 
 waitUntil{!isNil "f_var_setGroupsIDs";};
@@ -168,6 +168,11 @@ if (count _vehArray > 0) then {
 			_orbatText = _orbatText + format ["<font color='#777777'>(%1/%2 Crew%3)</font>", _vehCrewIn, _vehCrew, if (_vehPass > 0) then { format[" %1/%2 Seat%3", _vehPassIn, _vehPass, if (_vehPass > 1) then { "s" } else { "" }] } else { "" }];
 		};
 		
+		// Object must be named in 3DEN (server needs vehicle a ID)
+		if ((vehicleVarName _x != "" || driver _x == player || gunner _x == player) && { count getPylonMagazines _x > 1 }) then {
+			_orbatText = _orbatText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; [%3] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _x, _vehName, vehicleVarName _x];
+		};
+		
 		// Add lists of weapons and ammo
 		_orbatText = _orbatText + "<br/>" + (_x call _getWeaponText);
 
@@ -231,12 +236,20 @@ if (count _vehArray > 0) then {
 			_vehIcon = getText (configFile >> "CfgVehicles" >> (typeOf _vehObj) >> "icon");
 			_vehCrew = count fullCrew [_vehObj, "commander", TRUE] + count fullCrew [_vehObj, "driver", TRUE] + count fullCrew [_vehObj, "gunner", TRUE];
 			_vehPass = count fullCrew [_vehObj, "", TRUE] - _vehCrew;
-			_vehText = format["<img image='%1' width='16' height='16'/> <font color='#72E500'>%2</font>^ <font color='#397200'>(%3%4)</font><br />", 
+			_vehText = format["<img image='%1' width='16' height='16'/> <font color='#72E500'>%2</font>^ <font color='#397200'>(%3%4)</font>", 
 				_vehIcon,
 				_vehName,
 				if (_vehPass <= 1 && _vehObj isKindOf "car") then { format["%1 Driver", _vehCrew] } else { format["%1 Crew", _vehCrew] },
 				if (_vehPass > 0) then { format[" %1 Seat%2", _vehPass, if (_vehPass > 1) then { "s" } else { "" }] } else { "" }
 			];
+			
+			// Object must be named in 3DEN (server needs vehicle a ID)
+			if ((vehicleVarName _x != "" || driver _x == player || gunner _x == player) && { count getPylonMagazines _x > 1 }) then {
+				_vehText = _vehText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; [%3] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _x, _vehName, vehicleVarName _x];
+			};
+			
+			_vehText = _vehText + "<br/>";
+			
 			
 			if (getNumber (configFile >> "CfgVehicles" >> (typeOf _vehObj) >> "ace_fastroping_enabled") == 1 || !(isNull (_vehObj getVariable ["ace_fastroping_fries",objNull]))) then {
 				_vehText = _vehText + "<font color='#666666'>Fast Rope Insertion/Extraction System</font><br/>";

@@ -22,11 +22,21 @@ params["_grpstemp",
        ["_onlyPlayers",true],
        ["_faction",[]]];  
 	   
+sleep 10;
+
+if (isNil "_grpstemp") then {
+	private _west = WEST countSide allPlayers;
+	private _east = EAST countSide allPlayers;
+	private _guer = INDEPENDENT countSide allPlayers;
+	
+	_grpstemp = if (_west < _east) then { EAST } else { if ( _east < _guer ) then { INDEPENDENT } else { WEST } };
+};
+	   
 // Don't start if we've low players
 if (({ alive _x } count allPlayers) < f_param_CasMinToStart) then { 
 	waitUntil { 
-		sleep 30; 	
-		diag_log text format ["[F3] INFO (f\casualtiesCap\f_CasualtiesCapCheck.sqf): Insufficient players (%1/%2)", ({ alive _x } count allPlayers), f_param_CasMinToStart];
+		sleep 30;
+		diag_log text format ["[F3] INFO (f\casualtiesCap\f_CasualtiesCapCheck.sqf): Insufficient players (%1/%2)", ({ alive _x } count allPlayers), f_param_CasMinToStart, _grpstemp];
 		({ alive _x } count allPlayers) >= f_param_CasMinToStart;
 	};
 };
@@ -42,7 +52,7 @@ private _grps = [];
 if (_grpstemp isEqualType west) then {
 	{
 		if (_onlyPlayers) then {
-			_grps = allGroups select { side _x == _grpstemp && leader _x in (switchableUnits + playableUnits) };
+			_grps = allGroups select { side _x == _grpstemp && leader _x in allPlayers };
 		} else {
 			_grps = allGroups select { side _x == _grpstemp };
 		};

@@ -614,8 +614,7 @@ switch (_typeOfUnit) do
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
-		_unit addItem "ItemGPS";
-		_unit assignItem "ItemGPS";
+		_unit linkItem "ItemGPS";
 		[_unit, _binos1] call f_fnc_addWeapon;
 	};
 
@@ -628,8 +627,7 @@ switch (_typeOfUnit) do
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
-		_unit addItem "ItemGPS";
-		_unit assignItem "ItemGPS";
+		_unit linkItem "ItemGPS";
 	};
 
 	// LOADOUT: VEHICLE GUNNER
@@ -639,8 +637,7 @@ switch (_typeOfUnit) do
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
-		_unit addItem "ItemGPS";
-		_unit assignItem "ItemGPS";
+		_unit linkItem "ItemGPS";
 	};
 
 	// LOADOUT: AIR VEHICLE PILOTS
@@ -652,8 +649,7 @@ switch (_typeOfUnit) do
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
-		_unit addItem "ItemGPS";
-		_unit assignItem "ItemGPS";
+		_unit linkItem "ItemGPS";
 	};
 
 	// LOADOUT: AIR VEHICLE CREW CHIEF

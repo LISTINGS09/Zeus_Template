@@ -12,13 +12,6 @@ class f_param_debugMode			// F3 - Debug Mode
 	texts[] = {"Off","On"};
 	default = 0;
 };
-class f_param_caching			// F3 - Caching
-{
-	title = "Cache AI";
-	values[] = {0,600,800,1000,1500,2000};
-	texts[] = {"Off","Outside 600m","Outside 800m","Outside 1km","Outside 1.5km","Outside 2km"};
-	default = 1500;
-};
 class f_param_virtualArsenal
 {
 		title = "Virtual Arsenal";
@@ -66,7 +59,7 @@ class f_param_CasualtiesCap		// F3 - Casualty Limit - Can override by calling f_
 	title = "System - Casualty Counter - count and % of dead units";
 	values[] = {0,40,50,60,70,80,90};
 	texts[] = {"Disabled","40","50","60","70","80","90"};
-	default = 70;
+	default = 60;
 };	
 class f_param_respawn
 {

@@ -21,16 +21,18 @@ minPlayerDistance = 50; // 50m
 // CBA
 cba_settings_hasSettingsFile = 1;
 
+#include "f\common\controls.hpp"
+
+class CfgDebriefing {
+	#include "mission\endings.hpp"
+};
+
 class CfgFunctions {
     #include "f\common\functions.hpp"
 };
 
 class Params {
     #include "mission\parameters.hpp"
-};
-
-class CfgDebriefing {
-	#include "mission\endings.hpp"
 };
 
 class CfgRemoteExec {   

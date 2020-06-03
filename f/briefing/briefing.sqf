@@ -61,6 +61,9 @@ player createDiaryRecord ["Diary", ["",""]];
 // Default non-commanders to group, commanders to side.
 if (leader player == player) then { setCurrentChannel 1 } else { setCurrentChannel 3 };
 
+// Include TS Info
+[] execVm "f\misc\f_zeusJoin.sqf";
+
 // Automatically select Mission - Credits: Larrow
 waitUntil {!isNull (uiNamespace getVariable ["RscDiary", displayNull])};
 

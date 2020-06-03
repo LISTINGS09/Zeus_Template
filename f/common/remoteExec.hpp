@@ -8,6 +8,7 @@ class Commands {
 	class radioChannelAdd { allowedTargets=0; }; 		// restricted_radios.sqf
 	class radioChannelRemove { allowedTargets=0; }; 	// restricted_radios.sqf
 	class setCurrentChannel { allowedTargets=0; }; 		// restricted_radios.sqf
+	class setPylonLoadout { allowedTargets=0; }; 		// f_pylons.sqf
 	class setDir { allowedTargets=0; }; 				// FAR Revive.sqf
 	class TitleText { allowedTargets=0; }; 				// FAR Revive.sqf
 	class switchMove { allowedTargets=0; }; 			// FAR Revive.sqf

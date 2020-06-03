@@ -209,6 +209,21 @@ _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
 <br/>
 <execute expression=""[] call fnc_AdminTasking;"">Show Task Control</execute><br/>
 <br/>
+Reveal Players to AI: 
+<execute expression=""systemChat 'Starting Reveal'; 
+{ f_var_doReveal = true;
+	while {	f_var_doReveal } do { 
+		{ 
+			private _rGrp = _x; 
+			if (_rGrp knowsAbout _x < 4) then {
+				{ _rGrp reveal [_x, 4] } forEach (allPlayers select { side _x != side _rGrp AND vehicle _x == _x AND stance _x == 'STAND' });
+				sleep 0.5;
+			};
+		} forEach (allGroups select { side _x != side group (selectRandom allPlayers) });
+	}; 
+} remoteExec ['BIS_fnc_spawn', 0];"">Start</execute>
+ | <execute expression=""systemChat 'Stopping Reveal'; missionNamespace setVariable ['f_var_doReveal', false, true];"">Stop</execute><br/>
+<br/>
 <execute expression=""[player, { if (count (missionNamespace getVariable ['f_var_missionLog',[]]) > 0) then { [_this,['Diary', ['** ISSUES (Server) **', format['%1<br/>', f_var_missionLog joinString '<br/>']]]] remoteExec ['createDiaryRecord',_this]; } else { 'Server Issue log has no entries!' remoteExec ['systemChat',_this]; } }] remoteExec ['bis_fnc_spawn', 0];"">Server Issues List</execute><br/>
 <br/>
 <execute expression=""diag_log text '*** Active SQF Scripts Start ***';{diag_log _x} forEach diag_activeSQFScripts;diag_log text '*** Active SQF Scripts End ***';hintSilent 'Logging Scripts to local RPT';"">SQF Debug</execute><br/>
