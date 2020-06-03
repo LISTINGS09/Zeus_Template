@@ -1,6 +1,6 @@
 //
 //  Urban Patrol Script Zeus Edition
-//  Version: 1.6
+//  Version: 1.7
 //  Author: 2600K & Kronzky (www.kronzky.info / kronzky@gmail.com)
 //  BIS Forum: http://forums.bistudio.com/showthread.php?147904-Urban-Patrol-Script&highlight=Urban+Patrol+Script
 //
@@ -28,8 +28,8 @@ _closeEnough = 50; 	// WP Completion Radius
 _shareDist = 400; 	// AI Comms Range in meters
 _alertTime = 300; 	// AI Alert after spotting enemy
 _artyTime = 300;	// Arty delay between firing
-_artyRural = 200;	// Arty dispersion in rural areas
-_artyUrban = 100;	// Arty dispersion in urban areas
+_artyRural = 100;	// Arty dispersion in rural areas
+_artyUrban = 50;	// Arty dispersion in urban areas
 _unitSkill = [['aimingAccuracy',0.25],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',0.85],['spotTime',0.85]]; // Average AI
 
 if (isNil "ZAI_Debug") then { ZAI_Debug = false }; // Disable debug mode if not set
@@ -89,6 +89,7 @@ sleep 3 + random 3;
 missionNamespace setVariable ["ZAI_ID", (missionNamespace getVariable ["ZAI_ID", 0]) + 1];
 
 if (isNil "_grp") exitWith { ["ERROR", format["Invalid Object %1", _grp]] call _ZAI_fnc_LogMsg };
+if (_grp isKindOf "Logic") exitWith { ["ERROR", format["Logic Passed: %1", _grp]] call _ZAI_fnc_LogMsg };
 if (_grp isEqualType objNull) then { _grp = group _grp };
 if ({alive _x} count units _grp == 0) then { ["ERROR", format["No living units in %1", _grp]] call _ZAI_fnc_LogMsg };
 
@@ -476,7 +477,7 @@ while {TRUE} do {
 				// Attack Enemy
 				_wp = _grp addWaypoint [_attackPos, 0];
 				_wp setWaypointType "SAD";
-				_wp setWaypointSpeed "FULL";
+				_wp setWaypointSpeed "NORMAL";
 				_wp setWaypointFormation "WEDGE";
 				_grp setCurrentWaypoint _wp;
 				_grp enableAttack true;
@@ -486,7 +487,7 @@ while {TRUE} do {
 				// Smoke and run
 				_smoke = "SmokeShell" createVehicle (_grpLeader getPos [random 3, ( _attackPos getDir _grpLeader)]); 
 				_wp = _grp addWaypoint [( _grpLeader getPos [_safeDist, ( _attackPos getDir _grpLeader)]), 0];
-				_wp setWaypointSpeed "FULL";
+				_wp setWaypointSpeed "NORMAL";
 				_wp setWaypointStatements ["true", "(group this) enableAttack true"];
 				_wp setWaypointFormation "WEDGE";
 				_grp setCurrentWaypoint _wp;
@@ -532,7 +533,7 @@ while {TRUE} do {
 				
 				if (_forEachIndex == 0) then { _grp setCurrentWaypoint _wp };
 				if (_x isEqualTo _flankPos && !canFire (vehicle _grpLeader)) then { _wp setWaypointType "GETOUT"; _wp setWaypointStatements ["true", "{ unassignVehicle _x; [_x] orderGetIn false; } forEach units this;"]; };
-				if (_x isEqualTo _attackPos) then { _wp setWaypointSpeed "FULL"; _wp setWaypointType "SAD"; };
+				if (_x isEqualTo _attackPos) then { _wp setWaypointSpeed "NORMAL"; _wp setWaypointType "SAD"; };
 			} forEach _evadeWPs;
 			
 			["DEBUG", format["[%1] Task %2 - %3 WPs added.", _grpIDx, _taskType, count _evadeWPs]] call _ZAI_fnc_LogMsg;
