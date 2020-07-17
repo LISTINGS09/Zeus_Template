@@ -55,6 +55,13 @@ _addTime = {
 };
 
 // SELECT MISSION TIME OF DAY
+//Picks a random value from the existing f_param_timeOfDay values.
+if(_timeOfDay == 14 && isClass (missionConfigFile >> "Params" >> "f_param_timeOfDay")) then {
+	_paramsTime = getArray (missionConfigFile >> "Params" >> "f_param_timeOfDay" >> "values"); 
+	_maxNumber = (count _paramsTime) - 2; 
+	_arrayKey =  [1,_maxNumber] call BIS_fnc_randomInt; 
+	_timeOfDay = _paramsTime select _arrayKey;
+};
 // Using the value of _timeOfDay, we define new values for _hour and _minute.
 _time = switch (_timeOfDay) do {
 	// 60m to Sunrise
