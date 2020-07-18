@@ -15,8 +15,12 @@ if (_weather == 7) then {
 	//Picks a random value from the existing f_param_weather values.
 	if( isClass(missionConfigFile >> "Params" >> "f_param_weather")) then{	
 		_paramsTime = getArray (missionConfigFile >> "Params" >> "f_param_weather" >> "values"); 
+		if(0 in _paramsTime) then {
+			_MissionDefaultParam = _paramsTime find 0;
+			_paramsTime deleteAt _MissionDefaultParam;
+		};
 		_maxNumber = (count _paramsTime) - 2; 
-		_arrayKey =  [1,_maxNumber] call BIS_fnc_randomInt;
+		_arrayKey =  [0,_maxNumber] call BIS_fnc_randomInt;
 		_weather = _paramsTime select _arrayKey;
 	} else {
 		// If its night and if we should make the night clear.
