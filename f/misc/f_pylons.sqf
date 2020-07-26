@@ -5,7 +5,8 @@ params [["_veh", vehicle player, [objNull]]];
 
 if (isNil "f_pylon_disabled") then { f_pylon_disabled = false }; // Use this to exclude certain players / roles
 if (isNil "f_pylon_excludeMags") then { f_pylon_excludeMags = ["rhs_mag_DAGR_8","rhs_mag_AGM114L_2","rhs_mag_AGM114K_2","rhs_mag_AGM114M_2","rhs_mag_AGM114N_2","rhs_mag_M151_7","rhs_mag_M229_7","PylonRack_3Rnd_ACE_Hellfire_AGM114K","PylonRack_3Rnd_ACE_Hellfire_AGM114N","PylonRack_3Rnd_ACE_Hellfire_AGM114L","ace_hot_1_PylonRack_3Rnd","ace_hot_2_PylonRack_3Rnd","ace_hot_2MP_PylonRack_3Rnd","ace_hot_3_PylonRack_3Rnd"] }; // Exclude any pylons from CfgMagazines here (must be array!).
-if (isNil "f_pylon_freeTime") then { f_pylon_freeTime = 300 }; // Grace period before an ammo truck is required to be nearby (5 minutes).
+if (isNil "f_pylon_rearmMode") then { f_pylon_rearmMode = 1 }; // Rearm mode: 0 = Time Only, 1 = Vehicle Needed after FreeTime
+if (isNil "f_pylon_freeTime") then { f_pylon_freeTime = 300 }; // Grace period for free changes (5 minutes).
 
 private _vType = typeOf _veh;
 private _vName = getText (configFile >> "CfgVehicles" >> _vType >> "displayName");
@@ -33,16 +34,14 @@ fnc_pylon_setPylons = {
 	private _objName = getText (configFile >> "CfgVehicles" >> typeOf _obj >> "displayName");
 	private _disabled = missionNamespace getVariable ["f_pylon_disabled", false];
 	private _timeLimit = missionNamespace getVariable ["f_pylon_freeTime", 300];
+	private _rearmMode = missionNamespace getVariable ["f_pylon_rearmMode", 0];
 	private _loadout = missionNamespace getVariable [ format["f_var_pylon_%1", typeOf _obj], []];
 	private _pylons = getPylonMagazines _obj;
 	
 	if (isNull _obj || _disabled || count _loadout == 0 || count _pylons == 0) exitWith { systemChat format["[%1] Invalid Vehicle", _objName] };
-		
-	if (time < 1) exitWith { systemChat format["[%1] Cannot arm during briefing!", _objName] };
-	
-	if (count (vehicles select { locked _x <= 1 && getAmmoCargo _x > 0 && _x distance _obj < 25 }) < 1 &&
-		time > _timeLimit && _timeLimit > 1) exitWith { systemChat format["[%1] No Support Vehicle within 25m!", _objName] };
-		
+	if (time < 1) exitWith { systemChat format["[%1] Cannot change pylons during briefing!", _objName] };
+	if (time > _timeLimit && _rearmMode < 1) exitWith { systemChat format["[%1] Cannot change pylons after time has passed!", _objName] };
+	if (count (vehicles select { locked _x <= 1 && getAmmoCargo _x > 0 && _x distance _obj < 25 }) < 1 && _rearmMode == 1) exitWith { systemChat format["[%1] No Support Vehicle within 25m!", _objName] };
 	if (player distance _obj < 15) exitWith { systemChat format["[%1] You must be within 15m of the Vehicle!", _objName] };
 	
 	{

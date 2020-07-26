@@ -5,7 +5,7 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=37;
+	toggles=165;
 	class ItemIDProvider
 	{
 		nextID=4521;
@@ -4248,7 +4248,6 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_ASL_SL";
 						description="Alpha - Squad Leader@Alpha";
-						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -4313,6 +4312,7 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_ASL_M";
 						description="Medic";
+						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};

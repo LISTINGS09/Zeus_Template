@@ -480,6 +480,7 @@ switch (_typeOfUnit) do
 	{
 		[_typeOfUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
+		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _HAT] call f_fnc_addWeapon;
 	};
@@ -677,6 +678,7 @@ switch (_typeOfUnit) do
 		_unit setUnitTrait ["explosiveSpecialist",1];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
+		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
@@ -692,6 +694,7 @@ switch (_typeOfUnit) do
 		_unit setUnitTrait ["explosiveSpecialist",1];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
+		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];

@@ -5,6 +5,8 @@ FAR_fnc_unitInit = {
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
 	_unit setVariable ["FAR_var_isDragging", false, true];
+	_unit setVariable ["FAR_var_markerName", profileName, true];
+	if (getMarkerType format["FAR_MKR_%1", profileName] != "") then { deleteMarker format["FAR_MKR_%1", profileName] };
 	FAR_var_timer = FAR_var_BleedOut;
 	
 	if !(isPlayer _unit) exitWith {};
@@ -203,6 +205,8 @@ FAR_fnc_SetUnconscious = {
 			[resistance,"respawn_guerrila"],
 			[civilian,"respawn_civilian"]
 		];
+		
+		[side group _this, 1, false] call BIS_fnc_respawnTickets;
 	};
 	
 	// Apply visual effects.
@@ -338,6 +342,15 @@ FAR_fnc_SetUnconscious = {
 	) then {
 		// Kill player, stop the camera.
 		["Terminate"] call BIS_fnc_EGSpectator;
+		
+		if (FAR_var_RespawnBagTime > 0) then {
+			[[format["FAR_MKR_%1", profileName], [0,0,0]]] remoteExec ["createMarkerLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], position _unit] remoteExec ["setMarkerPosLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], "KIA"] remoteExec ["setMarkerTypeLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], "ColorYellow"] remoteExec ["setMarkerColorLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], [0.3,0.3]] remoteExec ["setMarkerSizeLocal", side group _unit];
+		};
+		
 		_unit setCaptive false;
 		_unit allowDamage true;
 		_unit setDamage 1;
@@ -545,6 +558,8 @@ FAR_fnc_Bag = {
 	private _simpleObj = createSimpleObject [switch (getNumber(configFile >> "CfgVehicles" >> typeOf _cursorTarget >> "side")) do { case 0: { "Land_Bodybag_01_black_F" }; case 1: { "Land_Bodybag_01_blue_F" }; default { "Land_Bodybag_01_white_F" } }, getPosWorld _cursorTarget];
 	_simpleObj setDir getDir _cursorTarget;
 	_simpleObj setVectorUp surfaceNormal getPosWorld _cursorTarget;
+	
+	if (getMarkerType format["FAR_MKR_%1", _cursorTarget getVariable ["FAR_var_markerName", profileName]] != "") then { deleteMarker format["FAR_MKR_%1", _cursorTarget getVariable ["FAR_var_markerName", profileName]] };
 
 	if (FAR_var_RespawnBagTime > 0 && isPlayer _cursorTarget && !([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy)) then {
 		{ 

@@ -18,15 +18,15 @@ _scope4 = ["optic_LRPS_ghex_F","optic_LRPS","optic_KHS_blk"]; // High
 _bipod1 = "bipod_02_F_blk";
 
 // Default setup
-_attachments = [_attach1,_scope1,_bipod1]; // The default attachment set for most units, overwritten in the individual unitType
+_attachments = [_attach1,_scope1,_bipod1,_silencer1]; // The default attachment set for most units, overwritten in the individual unitType
 
 // Predefined Class Attachment Setup
-_attach_co = [_attach1,_scope2,_bipod1];
-_attach_dc = [_attach1,_scope2,_bipod1]; // Also SL!
-_attach_fl = [_attach1,_scope2,_bipod1];
-_attach_mg = [_attach1,_scope1,_bipod1];
-_attach_dm = [_scope3,_bipod1];
-_attach_sn = [_scope4,_bipod1];
+_attach_co = [_attach1,_scope2,_bipod1,_silencer1];
+_attach_dc = [_attach1,_scope2,_bipod1,_silencer1]; // Also SL!
+_attach_fl = [_attach1,_scope2,_bipod1,_silencer1];
+_attach_mg = [_attach1,_scope1,_bipod1,_silencer1];
+_attach_dm = [_scope3,_bipod1,_silencer2];
+_attach_sn = [_scope4,_bipod1,_silencer2];
 
 // [] = remove all
 // [_attach1,_scope1,_silencer] = remove all, add items assigned in _attach1, _scope1 and _silencer1
@@ -497,6 +497,7 @@ switch (_typeOfUnit) do
 	{
 		[_typeOfUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
+		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _HAT] call f_fnc_addWeapon;
 	};
@@ -701,6 +702,7 @@ switch (_typeOfUnit) do
 		_unit setUnitTrait ["explosiveSpecialist",1];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
+		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
@@ -716,6 +718,7 @@ switch (_typeOfUnit) do
 		_unit setUnitTrait ["explosiveSpecialist",1];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
+		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];

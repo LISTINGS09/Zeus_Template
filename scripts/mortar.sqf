@@ -9,8 +9,8 @@ if !(local _mortar) exitWith {};
 sleep 1;
 
 _minDelay = 200; // Minimum delay between missions (maximum is 2x value).
-_closeDispersion = 100; // Target dispersion when < 300m from mortar.
-_maxDispersion = 200; // Maximum target dispersion in meters.
+_closeDispersion = 50; // Target dispersion when < 300m from mortar.
+_maxDispersion = 150; // Maximum target dispersion in meters.
 
 while {alive _mortar && canFire _mortar} do {
 	// Get target that is alive, in distance, known as enemy and not flying.
@@ -28,7 +28,7 @@ while {alive _mortar && canFire _mortar} do {
 	
 		_dispersion = if (_mortar distance2D _target < 200) then {_closeDispersion} else {_maxDispersion};
 		
-		for "_i" from 0 to (4 + random 4) do {
+		for "_i" from 0 to (6 + random 4) do {
 			_firePos = _target getPos [random _dispersion, random 360];
 			(effectiveCommander _mortar) commandArtilleryFire [_firePos, ((getArtilleryAmmo [vehicle _mortar])#0), 1];
 			sleep 5;

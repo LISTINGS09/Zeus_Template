@@ -32,7 +32,7 @@ if (side group player != CIVILIAN) then {
 	<br/>Created by <font color='#FF0080'>?</font color>
 	<br/>
 	<br/>A custom-made mission for ArmA 3 and Zeus Community
-	<br/>http://zeus-community.net/
+	<br/>http://zeus-community.net
 	<br/>",
 	if (f_param_CasualtiesCap > 0) then { format["Ensure casualties are kept below %1 and %1&#37; of your force is not incapacitated.<br/>", f_param_CasualtiesCap] } else { "" },
 	(((vehicles select { side _x getFriend side group player < 0.6 && !(_x isKindOf "staticWeapon" || _x isKindOf "static") && count crew _x > 0}) apply {  getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName") }) call BIS_fnc_consolidateArray) apply { format["%2x <font color='#00FFFF'>%1</font><br/>", _x#0, _x#1] } joinString "",
