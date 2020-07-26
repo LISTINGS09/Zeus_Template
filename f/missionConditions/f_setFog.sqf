@@ -18,6 +18,18 @@ if (_fog == 0) exitWith {};
 
 waitUntil { !isNil "f_var_missionLoaded" }; // SP FIX - Init.sqf needs to load to process any override settings.
 
+//Picks a random value from the existing f_param_fog values.
+if(_fog == 3 &&  isClass(missionConfigFile >> "Params" >> "f_param_fog")) then {
+		_paramsTime = getArray (missionConfigFile >> "Params" >> "f_param_fog" >> "values"); 
+		if(0 in _paramsTime) then {
+			_MissionDefaultParam = _paramsTime find 0;
+			_paramsTime deleteAt _MissionDefaultParam;
+		};
+		_maxNumber = (count _paramsTime) - 2; 
+		_arrayKey =  [0,_maxNumber] call BIS_fnc_randomInt;
+		_fog = _paramsTime select _arrayKey;
+};
+
 if (!isNil "_overRide") then {
 	_delay setFog _overRide;
 } else {

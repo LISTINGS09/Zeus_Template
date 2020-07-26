@@ -12,20 +12,32 @@ if (_weather == 0) exitWith {};
 
 // Preselect random weather
 if (_weather == 7) then {
-	// If its night and if we should make the night clear.
-	_sunrise = 4;
-	_sunset = 19;
-	_sunsetSunrise = date call BIS_fnc_sunriseSunsetTime;
-
-	if !(_sunsetSunrise in [[-1,0],[0,-1]]) then {
-		_sunrise = floor (_sunsetSunrise select 0);
-		_sunset = floor (_sunsetSunrise select 1);
-	};
-	
-	if (f_var_timeOfDay < _sunrise || f_var_timeOfDay >= _sunset) then { 
-		_weather = 1;
+	//Picks a random value from the existing f_param_weather values.
+	if( isClass(missionConfigFile >> "Params" >> "f_param_weather")) then{	
+		_paramsTime = getArray (missionConfigFile >> "Params" >> "f_param_weather" >> "values"); 
+		if(0 in _paramsTime) then {
+			_MissionDefaultParam = _paramsTime find 0;
+			_paramsTime deleteAt _MissionDefaultParam;
+		};
+		_maxNumber = (count _paramsTime) - 2; 
+		_arrayKey =  [0,_maxNumber] call BIS_fnc_randomInt;
+		_weather = _paramsTime select _arrayKey;
 	} else {
-		_weather = selectRandom [1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6];
+		// If its night and if we should make the night clear.
+		_sunrise = 4;
+		_sunset = 19;
+		_sunsetSunrise = date call BIS_fnc_sunriseSunsetTime;
+
+		if !(_sunsetSunrise in [[-1,0],[0,-1]]) then {
+			_sunrise = floor (_sunsetSunrise select 0);
+			_sunset = floor (_sunsetSunrise select 1);
+		};
+		
+		if (f_var_timeOfDay < _sunrise || f_var_timeOfDay >= _sunset) then { 
+			_weather = 1;
+		} else {
+			_weather = selectRandom [1,1,1,1,1,1,1,1,1,1,2,2,3,3,4,4,5,5,6];
+		};
 	};
 };
 
