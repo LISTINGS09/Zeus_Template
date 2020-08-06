@@ -1,7 +1,11 @@
-params [["_enable", TRUE,[TRUE]]];
+params [["_enable", true,[true]]];
 
 if (_enable) then {
-	["Initialize", [player, [], FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE]] call BIS_fnc_EGSpectator; // Disable AI Spectating Until BIS fix performance.
+	if (toUpper (getText ((getMissionConfig "Header") >> "gameType")) == "COOP") then {
+		["Initialize", [player, [], false, true, true, true, true, false, true, true]] call BIS_fnc_EGSpectator; // Disable AI Spectating Until BIS fix performance.
+	} else {
+		["Initialize", [player, [side group player], false, false, false, true, true, false, true, true]] call BIS_fnc_EGSpectator; // Disable 3P and other side spectating.
+	};
 
 	if (missionNamespace getVariable ["f_var_isAdmin",false]) then {
 		[] spawn {
@@ -11,8 +15,8 @@ if (_enable) then {
 		};
 	};
 	
-	if ("task_force_radio" in activatedAddons) then { [player, TRUE] call TFAR_fnc_forceSpectator; };
-	if ("acre_main" in activatedAddons) then { [TRUE] call acre_api_fnc_setSpectator; };
+	if ("task_force_radio" in activatedAddons) then { [player, true] call TFAR_fnc_forceSpectator; };
+	if ("acre_main" in activatedAddons) then { [true] call acre_api_fnc_setSpectator; };
 } else {
 	["Terminate"] call BIS_fnc_EGSpectator;
 	if ("task_force_radio" in activatedAddons) then { [player, false] call TFAR_fnc_forceSpectator; };

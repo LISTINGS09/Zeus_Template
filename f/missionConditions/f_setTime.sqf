@@ -101,3 +101,5 @@ _time params ["_hour","_minute"];
 ["f_setTime.sqf",format["Time set to %1:%2", _hour, _minute],"INFO"] call f_fnc_logIssue;
 
 missionNamespace setVariable ["f_var_timeOfDay", _hour, true];
+
+setTimeMultiplier (missionNamespace getVariable ["f_param_timeMultiplier", 1]);

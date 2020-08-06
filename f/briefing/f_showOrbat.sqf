@@ -14,6 +14,7 @@ waitUntil{!isNil "f_var_setGroupsIDs";};
 private _orbatText = "<br/><font size='18' color='#80FF00'>ORDER OF BATTLE</font><br/>The ORBAT below is <b>ONLY</b> accurate at mission start.<br/><br/>";
 private _groups = [];
 private _hiddenGroups = missionNamespace getVariable["f_var_hiddenGroups",[]]; // Add hidden groups if param is set.
+private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,/[]()";
 
 {
 	// Add to ORBAT if side matches, group isn't already listed, group has players and isn't in the hidden groups.
@@ -66,21 +67,21 @@ _orbatText = _orbatText + "Switch or reset your fire-team colour, by clicking on
 
 _orbatText = _orbatText + "<br/>";
 
-{		
+{	
 	private _color = "#999999";
 	if (_x == player) then { _color = "#72E500"; };
 	
 	_orbatText = _orbatText + format["<br/><img image='%4' height='16'/> <font color='%3'>%1</font> (%2)",
 		name _x,
-		([getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "displayName"),"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- "] call BIS_fnc_filterString),
+		([getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "displayName"),_stringFilter] call BIS_fnc_filterString),
 		_color,
 		(getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "icon") call bis_fnc_textureVehicleIcon)
 	];
 	
 	// All weapons minus the field glasses				
 	{
-		if (_x != "") then {
-			_orbatText = _orbatText + format[" <font color='#666666'>+ %1</font>",getText (configFile >> "CfgWeapons" >> _x >> "displayName")];
+		if (_x != "") then { 
+			_orbatText = _orbatText + format[" <font color='#666666'>+ %1</font>",[getText (configFile >> "CfgWeapons" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString];
 		};
 	} forEach [primaryWeapon _x,secondaryWeapon _x];
 } forEach units group player;
@@ -155,7 +156,7 @@ if (count _vehArray > 0) then {
 
 	{
 		 // Filter all characters which might break the diary entry (such as the & in Orca Black & White)
-		private _vehName = [getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "displayname"),"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ()[]"] call BIS_fnc_filterString;
+		private _vehName = [getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "displayname"),_stringFilter] call BIS_fnc_filterString;
 		private _vehIcon = getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "icon");
 		private _vehCrewIn = count fullCrew [_x, "commander", FALSE] + count fullCrew [_x, "driver", FALSE] + count fullCrew [_x, "gunner", FALSE];
 		private _vehCrew = count fullCrew [_x, "commander", TRUE] + count fullCrew [_x, "driver", TRUE] + count fullCrew [_x, "gunner", TRUE];
@@ -232,7 +233,7 @@ if (count _vehArray > 0) then {
 		// Skip duplicate vehicles
 		if (_vInd < 0 ) then {
 			 // Filter all characters which might break the diary entry (such as the & in Orca Black & White)
-			_vehName = [getText (configFile >> "CfgVehicles" >> (typeOf _vehObj) >> "displayName"),"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ()[]"] call BIS_fnc_filterString;
+			_vehName = [getText (configFile >> "CfgVehicles" >> (typeOf _vehObj) >> "displayName"),_stringFilter] call BIS_fnc_filterString;
 			_vehIcon = getText (configFile >> "CfgVehicles" >> (typeOf _vehObj) >> "icon");
 			_vehCrew = count fullCrew [_vehObj, "commander", TRUE] + count fullCrew [_vehObj, "driver", TRUE] + count fullCrew [_vehObj, "gunner", TRUE];
 			_vehPass = count fullCrew [_vehObj, "", TRUE] - _vehCrew;

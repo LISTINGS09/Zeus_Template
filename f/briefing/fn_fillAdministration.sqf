@@ -49,7 +49,7 @@ _diaryText = _diaryText + format["<br/>Start Time: <font color='#00FFFF'>%1:%2</
 		if (_sunsetMin < 10) then { format["0%1", _sunsetMin] } else { _sunsetMin }
 	];
 
-_diaryText = _diaryText + format["<br/>Fog: <font color='#00FFFF'>%1</font> <font color='#777777'>%2</font>",
+_diaryText = _diaryText + format["<br/>Fog Density: <font color='#00FFFF'>%1</font> Baseline: <font color='#FF0080'>%2 Meters</font>",
 		switch (floor (fog * 10)) do {
 			case 0: { "Clear" };
 			case 1: { "Light" };
@@ -57,10 +57,18 @@ _diaryText = _diaryText + format["<br/>Fog: <font color='#00FFFF'>%1</font> <fon
 			case 3: { "Thick" };
 			default { "Very Thick" };
 		},
+		round (fogParams # 2),
 		fogParams
 	];
 
-_diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font> <font color='#777777'>[%2]</font><br/>",
+_diaryText = _diaryText + format["<br/>Wind Direction: <font color='#00FFFF'>%1</font> Speed: <font color='#FF0080'>%2 mph</font> <font color='#FF0080'>%3 kph</font><br/>",
+		["North", "North by North-East", "North-East", "East by North-East", "East", "East by South-East", "South-East", "South by South-East", "South", "South by South-West", "South-West", "West by South-West", "West", "West by North-West", "North-West", "North by North-West"] select (floor ((if (windDir > 360) then { windDir - 360} else { windDir }) + 11.25) / 22.5),
+		round ((3.6 * sqrt ((wind#0)*(wind#0) + (wind#1)*(wind#1))) / 1.609344),
+		round (3.6 * sqrt ((wind#0)*(wind#0) + (wind#1)*(wind#1))),
+		windStr
+	];
+
+_diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font><br/>",
 		switch (floor (overcast * 10)) do {
 			case 0; case 1: { "Clear" };
 			case 2; case 3: { "Light Cloud" };

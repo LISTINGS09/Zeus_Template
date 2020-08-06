@@ -47,6 +47,13 @@ class f_param_timeOfDay
 	texts[] = {"Mission Default","1hr to First Light","30m to First Light","First Light","30m after First Light","Morning","Late Morning","Noon","Afternoon","1hr to Last Light","30m to Last Light","Last Light","Night","Midnight","Random"};
 	default = 14;
 };
+class f_param_timeMultiplier
+{
+	title = "Time of Day";
+	values[] = {1,6,12,24};
+	texts[] = {"Normal","1 Day = 4 Hours","1 Day = 2 Hours","1 Day = 1 Hour"};
+	default = 6;
+};
 class f_ParamSpacer_title2
 {
 	title = "---- GAME Options - Immersion ----";

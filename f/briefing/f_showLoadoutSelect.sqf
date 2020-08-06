@@ -32,7 +32,7 @@ private _gearVar = format["f_var_%1_%2_gear",side player, player getVariable ["f
 private _handVar = [missionNamespace getVariable [format["f_var_%1_gear_smokeTH",side player],[]], missionNamespace getVariable [format["f_var_%1_gear_flareTH",side player],[]]];
 private _launcherVar = [missionNamespace getVariable [format["f_var_%1_gear_smokeGL",side player],[]], missionNamespace getVariable [format["f_var_%1_gear_flareGL",side player],[]]];
 private _grenadeVar = [missionNamespace getVariable [format["f_var_%1_gear_grenade",side player],[]]];
-private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,/";
+private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,/[]()";
 
 // Gets the picture from the relevant config
 _fnc_itemPicture = {
@@ -61,7 +61,7 @@ _fnc_itemText = {
 	if (!(395180 in (getDLCs 1)) && getText (configFile >> "CfgWeapons" >> _item >> "DLC") == "Expansion") then {_dlcText = " [APEX]";};
 	
 	format["<font size='16'>%1</font><font size='16' color='#80FF00'>%2</font><br/><font color='#777777'>%3</font>",
-		getText (configFile >> "CfgWeapons" >> _item >> "displayName"),
+		[getText (configFile >> "CfgWeapons" >> _item >> "displayName"),_stringFilter] call BIS_fnc_filterString,
 		_dlcText,
 		getText (configFile >> "CfgWeapons" >> _item >> "descriptionShort")];
 };

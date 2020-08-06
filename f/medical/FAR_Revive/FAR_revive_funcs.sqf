@@ -159,14 +159,7 @@ FAR_fnc_HandleDeath = {
 
 FAR_fnc_SetUnconscious = {
 	params ["_unit", ["_killer", objNull]];
-	
-	// Eject unit if inside vehicle
-	if (vehicle _unit != _unit) then {
-		moveOut _unit;
-		_unit action ["getOut", vehicle _unit];
-		sleep 0.5;
-	};
-	
+		
 	_rand = (floor random 18) + 1;
 	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	
@@ -179,6 +172,13 @@ FAR_fnc_SetUnconscious = {
 	
 	// Allow unit time to rag-doll.
 	sleep 5;
+	
+	// Eject unit if inside vehicle and is destroyed
+	if (vehicle _unit != _unit && !alive vehicle _unit) then {
+		moveOut _unit;
+		_unit action ["getOut", vehicle _unit];
+		sleep 0.5;
+	};
 	
 	// If the unit was killed (instant death) exit.
 	if (!alive _unit) exitWith {};
