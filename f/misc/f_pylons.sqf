@@ -9,7 +9,8 @@ if (isNil "f_pylon_rearmMode") then { f_pylon_rearmMode = 1 }; // Rearm mode: 0 
 if (isNil "f_pylon_freeTime") then { f_pylon_freeTime = 300 }; // Grace period for free changes (5 minutes).
 
 private _vType = typeOf _veh;
-private _vName = getText (configFile >> "CfgVehicles" >> _vType >> "displayName");
+private _legalCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_ ";
+private _vName = [getText (configFile >> "CfgVehicles" >> _vType >> "displayName"),_legalCharacters] call BIS_fnc_filterString;
 
 if (isNull _veh || f_pylon_disabled || count getPylonMagazines _veh < 1) exitWith {}; // Nothing to do!
 
