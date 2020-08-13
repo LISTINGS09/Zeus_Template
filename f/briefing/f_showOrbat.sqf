@@ -156,7 +156,7 @@ if (count _vehArray > 0) then {
 
 	{
 		 // Filter all characters which might break the diary entry (such as the & in Orca Black & White)
-		private _vehName = [getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "displayname"),_stringFilter] call BIS_fnc_filterString;
+		private _vehName = [getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "displayName"),_stringFilter] call BIS_fnc_filterString;
 		private _vehIcon = getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "icon");
 		private _vehCrewIn = count fullCrew [_x, "commander", FALSE] + count fullCrew [_x, "driver", FALSE] + count fullCrew [_x, "gunner", FALSE];
 		private _vehCrew = count fullCrew [_x, "commander", TRUE] + count fullCrew [_x, "driver", TRUE] + count fullCrew [_x, "gunner", TRUE];
@@ -169,9 +169,9 @@ if (count _vehArray > 0) then {
 			_orbatText = _orbatText + format ["<font color='#777777'>(%1/%2 Crew%3)</font>", _vehCrewIn, _vehCrew, if (_vehPass > 0) then { format[" %1/%2 Seat%3", _vehPassIn, _vehPass, if (_vehPass > 1) then { "s" } else { "" }] } else { "" }];
 		};
 		
-		// Object must be named in 3DEN (server needs vehicle a ID)
-		if ((vehicleVarName _x != "" || driver _x == player || gunner _x == player) && { count getPylonMagazines _x > 1 }) then {
-			_orbatText = _orbatText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; [%3] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _x, _vehName, vehicleVarName _x];
+		// Object must be named in 3DEN
+		if (count getPylonMagazines _x > 1) then {
+			_orbatText = _orbatText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; ['%1'] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _x, _vehName];
 		};
 		
 		// Add lists of weapons and ammo
@@ -244,9 +244,8 @@ if (count _vehArray > 0) then {
 				if (_vehPass > 0) then { format[" %1 Seat%2", _vehPass, if (_vehPass > 1) then { "s" } else { "" }] } else { "" }
 			];
 			
-			// Object must be named in 3DEN (server needs vehicle a ID)
-			if ((vehicleVarName _x != "" || driver _x == player || gunner _x == player) && { count getPylonMagazines _x > 1 }) then {
-				_vehText = _vehText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; [%3] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _x, _vehName, vehicleVarName _x];
+			if (count getPylonMagazines _vehObj > 1) then {
+				_vehText = _vehText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; ['%1'] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _vehObj, _vehName];
 			};
 			
 			_vehText = _vehText + "<br/>";
