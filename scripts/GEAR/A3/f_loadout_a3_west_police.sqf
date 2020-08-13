@@ -11,8 +11,8 @@ _silencer2 = ["muzzle_snds_M"]; // MG
 
 _scope1 = ["optic_ACO","optic_ACO_grn","optic_Holosight_blk_F"]; // CQB
 _scope2 = ["optic_Hamr","optic_ERCO_blk_F","optic_MRCO","optic_Arco_blk_F"]; // Low
-_scope3 = ["optic_DMS","optic_SOS","optic_AMS"]; // Medium
-_scope4 = ["optic_LRPS","optic_AMS"]; // High
+_scope3 = ["optic_DMS","optic_SOS","optic_AMS","optic_NVS"]; // Medium
+_scope4 = ["optic_LRPS","optic_AMS","optic_Nightstalker"]; // High
 
 _bipod1 = "bipod_01_F_blk";
 

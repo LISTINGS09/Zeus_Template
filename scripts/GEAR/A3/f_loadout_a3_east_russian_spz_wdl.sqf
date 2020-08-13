@@ -12,8 +12,8 @@ _silencer2 = ["muzzle_snds_B"]; // MG
 
 _scope1 = ["optic_Holosight_lush_F"]; // CQB
 _scope2 = ["optic_Arco_AK_lush_F"]; // Low
-_scope3 = ["optic_DMS","optic_SOS"]; // Medium
-_scope4 = ["optic_LRPS","optic_KHS_blk"]; // High
+_scope3 = ["optic_DMS","optic_SOS","optic_NVS"]; // Medium
+_scope4 = ["optic_LRPS","optic_KHS_blk","optic_Nightstalker"]; // High
 
 _bipod1 = ["bipod_02_F_blk"];
 
