@@ -1,11 +1,14 @@
 // F3 - Folk Group Markers
-// Credits: Please see the F3 online manual http://www.ferstaberinde.com/f3/en/
-// ====================================================================================
+// f_param_groupMarkers = -1;
+// 0 = Disable | 1 = On Map | 2 = On Map + Screen | 3 = Map + Squad Stats (Non-ACE Default) | 4 = Commander Map Only (ACE Default) | 5 = Commander Map + Squad Stats
 if (!hasInterface || playerSide == sideLogic) exitWith {};
 
 waitUntil{!isNil "f_var_setGroupsIDs"};
 
-if (missionNamespace getVariable["f_param_groupMarkers",0] == 0) exitWith {}; // If 0 do nothing.
+if (missionNamespace getVariable["f_param_groupMarkers", -1] == 0) exitWith {}; // If 0 do nothing.
+
+// If -1 automatically pick the correct value (see top)
+if (missionNamespace getVariable["f_param_groupMarkers", -1] < 0) then { f_param_groupMarkers = [3, 1] select isClass(configFile >> "CfgPatches" >> "ace_main") };
 
 f_fnc_localGroupMarker = compileFinal preprocessFileLineNumbers "f\groupMarkers\fn_localGroupMarker.sqf";
 
@@ -13,9 +16,7 @@ f_fnc_localGroupMarker = compileFinal preprocessFileLineNumbers "f\groupMarkers\
 if ((rank player) in ["PRIVATE", "CORPORAL", "SERGEANT"] && f_param_groupMarkers in [4,5]) exitWith {};
 
 // Process list
-{
-	_x spawn f_fnc_localGroupMarker;
-} forEach (missionNamespace getVariable [format["f_var_groups%1",side group player],[]]);
+{ _x spawn f_fnc_localGroupMarker } forEach (missionNamespace getVariable [format["f_var_groups%1",side group player],[]]);
 
 // Set icons to show in-game also if chosen
 if (f_param_groupMarkers == 2) then { 
@@ -65,7 +66,7 @@ F_EH_GroupEnter = addMissionEventHandler ["GroupIconOverEnter", {
 		_unitCol2 = "FFFFFF";
 		_unitCol3 = "888888";
 		
-		if (missionNamespace getVariable ["f_var_ShowInjured",true]) then {
+		if (missionNamespace getVariable ["f_var_ShowInjured",false]) then {
 			if ((_x getVariable["ACE_isUnconscious",false]) || lifeState _x == "INCAPACITATED") then {
 				_unitIco = ["\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa", "\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa"] select (_x getVariable ["FAR_var_isStable", false]);
 				_unitCol1 = ["990000","FF0080"] select (_x getVariable ["FAR_var_isStable",false]);
@@ -90,17 +91,19 @@ F_EH_GroupEnter = addMissionEventHandler ["GroupIconOverEnter", {
 	
 	_text = _text + "</t><br/><br/>";
 	
-	// Add group score, casualties and sdr
-	_pts = 0;
+	if (missionNamespace getVariable ["f_var_ShowScore", false]) then {	
+		// Add group score, casualties and sdr
+		_pts = 0;
 
-	units _group apply { _pts = _pts + score _x };
-	_cas = _group getVariable ["f_var_casualtyCount", 0];
+		units _group apply { _pts = _pts + score _x };
+		_cas = _group getVariable ["f_var_casualtyCount", 0];
 
-	_text = _text + format["Score: <t color='#46FF46'>%1</t><br/>Casualties: <t color='#FF0000'>%2</t><br/>Ratio: <t color='#FFFF46'>%3</t><br/><br/>",
-		_pts,
-		_cas,
-		if (_cas > 0) then { (_pts / _cas) toFixed 1 } else { _pts }
-	];
+		_text = _text + format["Score: <t color='#46FF46'>%1</t><br/>Casualties: <t color='#FF0000'>%2</t><br/>Ratio: <t color='#FFFF46'>%3</t><br/><br/>",
+			_pts,
+			_cas,
+			if (_cas > 0) then { (_pts / _cas) toFixed 1 } else { _pts }
+		];
+	};
 	
 	hintSilent parseText _text;
 }];

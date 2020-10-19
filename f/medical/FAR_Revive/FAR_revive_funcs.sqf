@@ -5,13 +5,14 @@ FAR_fnc_unitInit = {
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
 	_unit setVariable ["FAR_var_isDragging", false, true];
+	_unit setVariable ["FAR_var_isStable", false, true];
 	_unit setVariable ["FAR_var_markerName", profileName, true];
 	if (getMarkerType format["FAR_MKR_%1", profileName] != "") then { deleteMarker format["FAR_MKR_%1", profileName] };
 	FAR_var_timer = FAR_var_BleedOut;
 	
 	if !(isPlayer _unit) exitWith {};
 	
-	FAR_EHID_Respawn = _unit addEventHandler ["Respawn", { params ["_unit", "_corpse"]; [_unit] spawn FAR_fnc_unitInit; if (captive _unit) then { _unit setCaptive false }; if (FAR_var_SpawnInMedical) then { [_unit] spawn FAR_fnc_TeleportNearestVehicle }; }];
+	FAR_EHID_Respawn = _unit addEventHandler ["Respawn", { [] spawn FAR_fnc_unitInit; if (captive player) then { player setCaptive false }; if (FAR_var_SpawnInMedical) then { [] spawn FAR_fnc_TeleportNearestVehicle }; }];
 	
 	[_unit] spawn FAR_fnc_PlayerActions;
 };
@@ -102,11 +103,50 @@ FAR_fnc_DeathMessage = {
 			((isPlayer _killed && isPlayer _killer) || !isMultiPlayer)
 		) then {
 			if (vehicle _killer != _killer) then {
-				format["<TeamKill> %1 was %4 by %2 (%3)", name _killed, name _killer, getText(configFile >> "CfgVehicles" >> typeOf vehicle _killer >> "displayName"), _type] remoteExec ["systemChat"];
+				format["<TeamKill> %1 was %4 by %2 (%3)", name _killed, name _killer, getText(configFile >> "CfgVehicles" >> typeOf vehicle _killer >> "displayName"), _type] remoteExecCall ["systemChat"];
 			} else {
-				format["<TeamKill> %1 was %3 by %2", name _killed, name _killer, _type] remoteExec ["systemChat"];
+				format["<TeamKill> %1 was %3 by %2", name _killed, name _killer, _type] remoteExecCall ["systemChat"];
 			};
 		};
+	};
+};
+
+FAR_fnc_FixRagdoll = {
+	private _view = cameraView;
+	private _oldMan = player;
+	
+	if (vehicle _oldMan != _oldMan) exitWith { systemChat "[REVIVE] Cannot be in vehicle!"};
+	if (lifeState _oldMan != "HEALTHY") exitWith { systemChat "[REVIVE] Cannot be injured!"};
+	
+	private _newMan = (group _oldMan) createUnit [typeOf _oldMan, [0,0,0], [], 0, "NONE"];
+	
+	if (!isNull _newMan) then {
+		_newMan setDir getDir _oldMan;
+				
+		{ _x params ["_varId","_varVal"]; _newMan setVariable [_varId, _varVal] } forEach (allVariables _oldMan);
+		
+		_newMan assignTeam (assignedTeam _oldMan);
+		
+		[_oldMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory;
+		[_newMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory;
+		
+		_oldMan hideObjectGlobal true;
+		_newMan setposASL getPosASL _oldMan;
+		
+		selectPlayer _newMan;
+
+		waitUntil { _newMan == player };
+		
+		_newMan switchCamera _view;
+
+		[_newMan, animationState _oldMan] remoteExec ["switchMove"];
+		[_newMan, name _oldMan] remoteExec ["setName"];	
+		
+		if (leader _oldMan == _oldMan) then { group _newMan selectLeader _newMan };
+
+		_oldMan setDamage 1;
+		
+		deleteVehicle _oldMan;
 	};
 };
 
@@ -121,6 +161,7 @@ FAR_fnc_HandleDamage = {
 		// If not instant death check allowed values, otherwise just make them unconscious
 		if ((random 100 < FAR_var_DeathChance  && (_damage < FAR_var_DeathDmgHead && _selection in ["head", "face_hub"] || _damage < FAR_var_DeathDmgBody && _selection == "")) || { !FAR_var_InstantDeath }) then {
 			_unit allowDamage false;
+			_unit setUnconscious true;
 			[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
 			0
 		};
@@ -135,22 +176,11 @@ FAR_fnc_HandleDeath = {
 	// Player EH won't fire for AI so increase casualty counter.
 	if !(isPlayer _unit) then {
 		_unit spawn {
-			{
-				_x params ["_side","_marker"];
-				if (side group _this == _side) exitWith {
-					_cas = missionNamespace getVariable [format["f_var_casualtyCount_%1",_side],0];
-					// Change the respawn marker to reflect # of casualties.
-					missionNamespace setVariable [format["f_var_casualtyCount_%1",_side],_cas + 1,true];
-					_marker setMarkerText format["Casualties: %1",(_cas + 1)];
-					// Increase the groups own casualty value.
-					(group _this) setVariable ["f_var_casualtyCount", ((group _this) getVariable ["f_var_casualtyCount",0]) + 1, true];
-				};
-			} forEach [
-				[west,"respawn_west"],
-				[east,"respawn_east"],
-				[resistance,"respawn_guerrila"],
-				[civilian,"respawn_civilian"]
-			];
+			if (time < 30) exitWith {};
+	
+			sleep random 5;
+			
+			[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 		};
 	};
 	
@@ -163,7 +193,6 @@ FAR_fnc_SetUnconscious = {
 	_rand = (floor random 18) + 1;
 	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	
-	_unit setUnconscious true;
 	_unit setCaptive true;
 	_unit setDamage 0.35;
 		
@@ -171,13 +200,15 @@ FAR_fnc_SetUnconscious = {
 	if (FAR_var_InstantDeath) then { _unit allowDamage true } else { _unit allowDamage false };
 	
 	// Allow unit time to rag-doll.
-	sleep 5;
+	uiSleep 5;
 	
 	// Eject unit if inside vehicle and is destroyed
 	if (vehicle _unit != _unit && !alive vehicle _unit) then {
 		moveOut _unit;
 		_unit action ["getOut", vehicle _unit];
-		sleep 0.5;
+		uiSleep 0.5;
+	} else {
+		[_unit, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"];
 	};
 	
 	// If the unit was killed (instant death) exit.
@@ -187,26 +218,11 @@ FAR_fnc_SetUnconscious = {
 	
 	// Casualty Count Update.
 	_unit spawn {
-		// Random sleep to allow network sync if multiple casualties.
-		sleep random 15;
-		{
-			_x params ["_side","_marker"];
-			if (side group _this == _side) exitWith {
-				_cas = missionNamespace getVariable [format["f_var_casualtyCount_%1",_side],0];
-				// Change the respawn marker to reflect # of casualties.
-				missionNamespace setVariable [format["f_var_casualtyCount_%1",_side],_cas + 1,true];
-				_marker setMarkerText format["Casualties: %1",(_cas + 1)];
-				// Increase the groups own casualty value.
-				(group _this) setVariable ["f_var_casualtyCount", ((group _this) getVariable ["f_var_casualtyCount",0]) + 1, true];
-			};
-		} forEach [
-			[west,"respawn_west"],
-			[east,"respawn_east"],
-			[resistance,"respawn_guerrila"],
-			[civilian,"respawn_civilian"]
-		];
-		
-		[side group _this, 1, false] call BIS_fnc_respawnTickets;
+		if (time < 30) exitWith {};
+	
+		sleep random 5;
+			
+		[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 	};
 	
 	// Apply visual effects.
@@ -290,7 +306,7 @@ FAR_fnc_SetUnconscious = {
 			!alive (attachedTo _unit)
 		) then {
 			detach _unit;
-			[_unit, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
+			[_unit, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"];
 			_unit setVariable ["FAR_var_isDragged", false, true];
 		};
 		
@@ -298,15 +314,16 @@ FAR_fnc_SetUnconscious = {
 		if ((animationState _unit) select [0,3] != "unc" && 
 			(animationState _unit) != "amovppnemstpsnonwnondnon_amovppnemstpsraswrfldnon" &&
 			!(_unit getVariable ["FAR_var_isDragged", false]) &&
-			isNull (attachedTo _unit)
+			isNull (attachedTo _unit) && 
+			_tick > 10
 		) then {
 			systemChat format["[ERROR] animationState incorrect!", animationState _unit];
 			diag_log text format["[ERROR] animationState was incorrect: %1", animationState _unit];
-			[_unit, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
+			[_unit, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"];
 		};
 		
 		_tick = _tick + 0.5;
-		sleep 0.5;
+		uiSleep 0.5;
 	};
 	
 	//Unit has been stabilized. Disregard bleedout timer.
@@ -323,11 +340,11 @@ FAR_fnc_SetUnconscious = {
 				!alive (attachedTo _unit)
 			) then { 
 				detach _unit;
-				[_unit, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
+				[_unit, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"];
 				_unit setVariable ["FAR_var_isDragged", false, true];
 			};
 			
-			sleep 0.5;
+			uiSleep 0.5;
 		};
 	};
 	
@@ -344,11 +361,11 @@ FAR_fnc_SetUnconscious = {
 		["Terminate"] call BIS_fnc_EGSpectator;
 		
 		if (FAR_var_RespawnBagTime > 0) then {
-			[[format["FAR_MKR_%1", profileName], [0,0,0]]] remoteExec ["createMarkerLocal", side group _unit];
-			[format["FAR_MKR_%1", profileName], position _unit] remoteExec ["setMarkerPosLocal", side group _unit];
-			[format["FAR_MKR_%1", profileName], "KIA"] remoteExec ["setMarkerTypeLocal", side group _unit];
-			[format["FAR_MKR_%1", profileName], "ColorYellow"] remoteExec ["setMarkerColorLocal", side group _unit];
-			[format["FAR_MKR_%1", profileName], [0.3,0.3]] remoteExec ["setMarkerSizeLocal", side group _unit];
+			[[format["FAR_MKR_%1", profileName], [0,0,0]]] remoteExecCall ["createMarkerLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], position _unit] remoteExecCall ["setMarkerPosLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], "KIA"] remoteExecCall ["setMarkerTypeLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], "ColorYellow"] remoteExecCall ["setMarkerColorLocal", side group _unit];
+			[format["FAR_MKR_%1", profileName], [0.3,0.3]] remoteExecCall ["setMarkerSizeLocal", side group _unit];
 		};
 		
 		_unit setCaptive false;
@@ -357,7 +374,7 @@ FAR_fnc_SetUnconscious = {
 	} else {	
 		// Player got revived		
 		["Terminate"] call BIS_fnc_EGSpectator;
-		sleep 3;
+		uiSleep 3;
 		
 		// Clear the "medic nearby" hint
 		hintSilent "";
@@ -367,19 +384,48 @@ FAR_fnc_SetUnconscious = {
 		_unit setUnconscious false;
 		_unit playAction "Stop";
 		
-		if ((primaryWeapon _unit == "" && secondaryWeapon _unit == "") || currentWeapon _unit == binocular _unit) then { 
+		if ({ currentWeapon _unit == _x } count ["", binocular _unit] > 0) then { 
 			_unit playAction "Civil"
 		} else {
 			_unit action ["SwitchWeapon", _unit, _unit, 0]
 		};
-		
-		//sleep 3; 
-		//[_unit,animationState _unit] remoteExec ["switchMove"];
 	};
 	
 	// Reset variables
 	_unit setVariable ["FAR_var_isStable", false, true];
 	_unit setVariable ["FAR_var_isDragged", false, true];
+};
+
+FAR_fnc_ReviveUnit = {
+	params["_unit"];
+	
+	if (isPlayer _unit) then { _unit = player };
+	
+	_unit setDamage 0;
+	_unit allowDamage true;
+	_unit setCaptive false;
+	_unit playAction "Stop";
+	_unit setUnconscious false;
+	
+	[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
+
+	if (currentWeapon _unit == secondaryWeapon _unit && {currentWeapon _unit != ""}) then {
+		[_unit, "AmovPknlMstpSrasWlnrDnon"] remoteExec ["switchMove"];
+	};
+	
+	_unit spawn {
+		params ["_unit"];
+		
+		sleep 0.5;
+		
+		if (!alive _unit) exitWith {};
+
+		private _animation = animationState _unit;
+		
+		if ((_animation == "unconscious" || {_animation == "deadstate" || {_animation find "unconscious_" != -1}}) && {lifeState _unit != "INCAPACITATED"}) then {
+			[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
+		};
+	};
 };
 
 FAR_fnc_CheckRevive = {
@@ -419,9 +465,17 @@ FAR_fnc_Revive = {
 	if (!_underwater) then {
 		_caller playMove format["AinvP%1MstpSlayW%2Dnon_medicOther", ["knl","pne"] select (stance _caller == "PRONE"), [["rfl","pst"] select (currentWeapon _caller isEqualTo handgunWeapon _caller), "non"] select (currentWeapon _caller isEqualTo "")];
 	};
-	_cursorTarget setVariable ["FAR_var_isDragged", false, true]; 
+	_cursorTarget setVariable ["FAR_var_isDragged", false, true];
+	
+	/*
+	// Play sound
+	if (isArray (_config >> "sounds")) then {
+		selectRandom getArray (_config >> "sounds") params ["_sound", ["_volume", 1], ["_pitch", 1], ["_distance", 10]];
+		playSound3D [_sound, objNull, false, getPosASL _caller, _volume, _pitch, _distance];
+	};
+	*/
 			
-	sleep 4;
+	uiSleep 4;
 			
 	if (lifeState _cursorTarget == "INCAPACITATED") then {
 		if (!_underwater) then {
@@ -432,9 +486,9 @@ FAR_fnc_Revive = {
 		
 		if !("Medikit" in (items _caller)) then { _caller removeItem "FirstAidKit" };
 		
-		[_cursorTarget, false] remoteExec ["setUnconscious", _cursorTarget];
-		sleep 1;
-		[[format["<t color='#FF0080' size='1.5'>Revived</t><t size='1.5'> by %1</t>", name player], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
+		[_cursorTarget, false] remoteExecCall ["setUnconscious", _cursorTarget];
+		uiSleep 1;
+		[[format["<t color='#FF0080' size='1.5'>Revived</t><t size='1.5'> by %1</t>", name player], "PLAIN DOWN", -1, true, true]] remoteExecCall ["TitleText", _cursorTarget];
 		_cursorTarget forceWalk false;
 	};
 };
@@ -490,7 +544,7 @@ FAR_fnc_Stabilize = {
 		if !("Medikit" in (items _caller)) then {
 			if !("FirstAidKit" in (items _caller)) then {
 				_cursorTarget removeItem "FirstAidKit";
-				[[format["<t color='#FF0080' size='1.5'>Stabilised</t><t size='1.5'> by %1 using a FAK from your inventory</t>", name _caller], "PLAIN DOWN", -1, true, true]] remoteExec ["TitleText", _cursorTarget];
+				[[format["<t color='#FF0080' size='1.5'>Stabilised</t><t size='1.5'> by %1 using a FAK from your inventory</t>", name _caller], "PLAIN DOWN", -1, true, true]] remoteExecCall ["TitleText", _cursorTarget];
 			} else {
 				_caller removeItem "FirstAidKit";
 			};
@@ -533,7 +587,7 @@ FAR_fnc_CheckBag = {
 		!(_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] && !(isObjectHidden _x) } isEqualTo []) && 
 		{"Medikit" in (items _caller)}) 
 	exitWith { 
-		_caller setUserActionText [FAR_act_Bag , format["<t color='#FF0000'>Bag Body%1</t>", if (name _cursorTarget != "Error: No unit") then { format[" (%1)", name _cursorTarget] } else {""}], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa'/>"];
+		_caller setUserActionText [FAR_act_Bag , format["<t color='#FF0000'>Bag Body%1</t>", if (name _cursorTarget != "Error: No unit" && lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN']) then { format[" (%1)", name _cursorTarget] } else {""}], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa'/>"];
 		true 
 	};
 	
@@ -568,10 +622,10 @@ FAR_fnc_Bag = {
 				[format["Respawn in %1 Minutes",round FAR_var_RespawnBagTime / 60], 0] call BIS_fnc_respawnCounter;
 				titleText [format["<t size='2'>Your body was recovered. Respawn in %1 Minutes<br/>", round FAR_var_RespawnBagTime / 60],"PLAIN DOWN", 2, true, true];
 			};
-		} remoteExec ["BIS_fnc_spawn", _cursorTarget];
+		} remoteExecCall ["BIS_fnc_spawn", _cursorTarget];
 	};
 
-	[_cursorTarget, true] remoteExec ["hideObjectGlobal", 2];
+	[_cursorTarget, true] remoteExecCall ["hideObjectGlobal", 2];
 };
 
 FAR_fnc_IsFriendlyMedic = {
@@ -664,7 +718,7 @@ FAR_fnc_getMedicalVehicles = {
 };
 
 FAR_fnc_TeleportNearestVehicle = {
-	params ["_unit", ["_foundVehs",([] call FAR_fnc_getMedicalVehicles)]];
+	params [["_unit", player], ["_foundVehs",([] call FAR_fnc_getMedicalVehicles)]];
 		
 	if !(isPlayer _unit) exitWith {};
 	
@@ -678,11 +732,11 @@ FAR_fnc_TeleportNearestVehicle = {
 	
 	[0, "BLACK", 3, 1] call BIS_fnc_fadeEffect;
 	
-	sleep random 4;
+	uiSleep random 4;
 	
-	_result = _unit moveInCargo _target;
+	_unit moveInCargo _target;
 	
-	if !_result then { _unit setVehiclePosition [_target, [], 5, "NONE"] };
+	if (_unit distance2D _target > 50) then { _unit setVehiclePosition [_target, [], 5, "NONE"] };
 	
 	[1, "BLACK", 3, 1] call BIS_fnc_fadeEffect; 
 };
@@ -716,7 +770,7 @@ FAR_fnc_AIHeal = {
 			_drone allowDamage false;
 			_drone flyInHeight 20;
 			
-			[_unit, format["Medical UAV En-route to %1 (%2)", name _unit, mapGridPosition _unit]] remoteExec ["GroupChat", side group _unit];
+			[_unit, format["Medical UAV En-route to %1 (%2)", name _unit, mapGridPosition _unit]] remoteExecCall ["GroupChat", side group _unit];
 			
 			_wp = (group _drone) addWaypoint [_unit, 0];
 			_wp setWaypointType "SCRIPTED";
@@ -724,8 +778,8 @@ FAR_fnc_AIHeal = {
 			_wp setWaypointStatements ["true", "
 				_injured = (vehicle this) getVariable ['var_target',objNull];
 				if (alive _injured) then {
-					[_injured, format['Medical UAV located %1 (%2)', name _injured, mapGridPosition _injured]] remoteExec ['GroupChat', side group _injured];
-					[_injured, false] remoteExec ['setUnconscious', _injured];
+					[_injured, format['Medical UAV located %1 (%2)', name _injured, mapGridPosition _injured]] remoteExecCall ['GroupChat', side group _injured];
+					[_injured, false] remoteExecCall ['setUnconscious', _injured];
 					_tempSmoke = SmokeShell' createVehicle _injured;
 				};
 				vehicle this flyInHeight 100;
@@ -735,7 +789,7 @@ FAR_fnc_AIHeal = {
 			_wp setWaypointType "MOVE";
 			_wp setWaypointStatements ["true", "deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList; deleteGroup (group this);"];
 		} else {
-			[_unit, format["Man Down! No available units near %1", mapGridPosition _unit]] remoteExec ["SideChat", side group _unit];
+			[_unit, format["Man Down! No available units near %1", mapGridPosition _unit]] remoteExecCall ["SideChat", side group _unit];
 		};
 	};
 	
@@ -743,7 +797,7 @@ FAR_fnc_AIHeal = {
 		params ["_medic","_target"];
 		
 		//BIS_fnc_showSubtitle
-		[_medic, format["Man down! Attending to %1 (%2m)", name _target, round (_medic distance2D _target)]] remoteExec ["GroupChat", side group _target];
+		[_medic, format["Man down! Attending to %1 (%2m)", name _target, round (_medic distance2D _target)]] remoteExecCall ["GroupChat", side group _target];
 		
 		_medic allowDamage false;
 		
@@ -752,21 +806,21 @@ FAR_fnc_AIHeal = {
 		if (_medic distance2D _target < 25) then { _medic setUnitPos "MIDDLE" };
 		
 		doStop _medic;
-		waitUntil { sleep 1; _medic doMove (getPos _target); (_medic distance2D _target < 3 || lifeState _target != "INCAPACITATED"); };
+		waitUntil { uiSleep 1; _medic doMove (getPos _target); (_medic distance2D _target < 3 || lifeState _target != "INCAPACITATED"); };
 		
 		if (lifeState _target == "INCAPACITATED") then {
 			_medic playMove format["AinvP%1MstpSlayW%2Dnon_medicOther", ["knl","pne"] select (stance _medic == "PRONE"), [["rfl","pst"] select (currentWeapon _medic isEqualTo handgunWeapon _medic), "non"] select (currentWeapon _medic isEqualTo "")];
 			_medic lookAt _target;
 			
-			sleep 1;
+			uiSleep 1;
 			
 			private _simpleObj = createSimpleObject [selectRandom [ "MedicalGarbage_01_1x1_v1_F", "MedicalGarbage_01_1x1_v2_F", "MedicalGarbage_01_1x1_v3_F" ], getPosWorld _medic];
 			_simpleObj setDir random 360;
 			_simpleObj setVectorUp surfaceNormal getPosWorld _medic;
 			
-			sleep 3;
+			uiSleep 3;
 			
-			[_target, false] remoteExec ["setUnconscious", _target];
+			[_target, false] remoteExecCall ["setUnconscious", _target];
 		};
 
 		{ _medic enableAI _x } forEach ["AUTOCOMBAT", "AUTOTARGET", "TARGET", "SUPPRESSION"];
@@ -775,7 +829,7 @@ FAR_fnc_AIHeal = {
 		_medic allowDamage true;	
 		//doStop _medic;
 		_medic doFollow (leader group _medic);
-	}] remoteExec ["BIS_fnc_spawn", _ai];	
+	}] remoteExecCall ["BIS_fnc_spawn", _ai];	
 };
 
 FAR_fnc_isUnderwater = {
@@ -834,13 +888,13 @@ FAR_fnc_UnitLoad = {
 	
 	_veh = _nearVehs # 0;
 	
-	[[format["Loaded %1 into %2 (%3m)", name _cursorTarget, getText (configFile >> "CfgVehicles" >> (typeOf _veh) >> "displayName"), round (_cursorTarget distance _veh)], "PLAIN DOWN", 2]] remoteExec ["TitleText", [_caller, _cursorTarget]];
+	[[format["Loaded %1 into %2 (%3m)", name _cursorTarget, getText (configFile >> "CfgVehicles" >> (typeOf _veh) >> "displayName"), round (_cursorTarget distance _veh)], "PLAIN DOWN", 2]] remoteExecCall ["TitleText", [_caller, _cursorTarget]];
 	
-	[_cursorTarget, _veh] remoteExec ["moveInCargo",_cursorTarget];	
+	[_cursorTarget, _veh] remoteExecCall ["moveInCargo",_cursorTarget];	
 	
 	_cursorTarget setVariable ["FAR_var_isDragged", false, true];
 	
-	[_cursorTarget, "Unconscious"] remoteExec ["playActionNow", _cursorTarget];
+	[_cursorTarget, "Unconscious"] remoteExecCall ["playActionNow", _cursorTarget];
 };
 
 FAR_fnc_UnitMove = {
@@ -849,49 +903,55 @@ FAR_fnc_UnitMove = {
 	_arguments params [["_type","drag"]];
 		
 	private _cursorTarget = cursorTarget;
-		
+	private _animList = ["acinpercmstpsnonwnondnon", "acinpknlmstpsraswrfldnon", "acinpknlmstpsnonwpstdnon", "acinpknlmstpsnonwnondnon", "acinpknlmwlksraswrfldb", "acinpknlmwlksnonwnondb"];
+	
 	_caller selectWeapon primaryWeapon _caller;	
 	_caller setVariable ["FAR_var_isDragging", true, false];
-	
 	_cursorTarget setVariable ["FAR_var_isDragged", true, true];
-	
-	_animList = ["acinpercmstpsnonwnondnon", "acinpknlmstpsraswrfldnon", "acinpknlmstpsnonwpstdnon", "acinpknlmstpsnonwnondnon", "acinpknlmwlksraswrfldb", "acinpknlmwlksnonwnondb"];
 	
 	if (_type == "drag") then {
 		_caller forceWalk true;
-		[_caller, "grabDrag"] remoteExec ["playActionNow", _caller];
+		_caller playActionNow "CROUCH";
+		uiSleep 0.5;
+		[_caller, "grabDrag"] remoteExecCall ["playActionNow", _caller];
 		
 		_cursorTarget attachTo [_caller, [0, 1.1, 0.092]];
-		[_cursorTarget,180] remoteExec ["setDir",_cursorTarget];
+		[_cursorTarget,180] remoteExecCall ["setDir",_cursorTarget];
 		
-		[_cursorTarget, "AinjPpneMrunSnonWnonDb_still"] remoteExec ["switchMove"];
+		[_cursorTarget, "AinjPpneMrunSnonWnonDb_still"] remoteExecCall ["switchMove"];
 	} else {
-		[_caller, "AcinPknlMstpSnonWnonDnon_AcinPercMrunSnonWnonDnon"] remoteExec ["switchMove"];
+		[_caller, 1.5] remoteExecCall ["setAnimSpeedCoef"];
+		[_cursorTarget, 1.5] remoteExecCall ["setAnimSpeedCoef"];
+		[_caller, "AcinPknlMstpSnonWnonDnon_AcinPercMrunSnonWnonDnon"] remoteExecCall ["switchMove"];
+		[_cursorTarget, "AinjPfalMstpSnonWrflDnon_carried_Up"] remoteExecCall ["switchMove"];
 		_caller forceWalk true;
-		
 		_caller setDir (getDir _cursorTarget + 180);
 		_caller setPosASL (getPosASL _cursorTarget vectorAdd (vectorDir _cursorTarget));
-
-		[_cursorTarget, "AinjPfalMstpSnonWrflDnon_carried_Up"] remoteExec ["switchMove"];
 	};
 	
-	_time = time + 14;
-	waitUntil { sleep 0.5; (!(lifeState _caller in ["HEALTHY","INJURED"]) || time > _time || (((animationState _caller) select [1, 3]) != "cin" && ((animationState _caller) select [26, 3]) != "cin") || animationState _caller in _animList) };
+	private _time = time + 10;
+	waitUntil { uiSleep 0.5; (!(lifeState _caller in ["HEALTHY","INJURED"]) || time > _time || (((animationState _caller) select [1, 3]) != "cin" && ((animationState _caller) select [26, 3]) != "cin") || animationState _caller in _animList) };
+	
+	// Reset anim speed
+	if (_type != "drag") then {
+		[_caller, 1] remoteExecCall ["setAnimSpeedCoef"];
+		[_cursorTarget, 1] remoteExecCall ["setAnimSpeedCoef"];
+	};
 	
 	// Unit was injured before completing animation so exit
 	if ((!(lifeState _caller in ["HEALTHY","INJURED"])) || lifeState _cursorTarget != "INCAPACITATED" || (((animationState _caller) select [1, 3]) != "cin" && ((animationState _caller) select [26, 3]) != "cin")) exitWith {
 		detach _cursorTarget;
-		if (lifeState _caller in ["HEALTHY","INJURED"]) then { [_caller, ""] remoteExec ["switchMove"]; };
-		[_cursorTarget, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
+		if (lifeState _caller in ["HEALTHY","INJURED"]) then { [_caller, ""] remoteExecCall ["switchMove"]; };
+		[_cursorTarget, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"];
 		_cursorTarget setVariable ["FAR_var_isDragged", false, true];
 		_caller setVariable ["FAR_var_isDragging", false, false];
 		_caller forceWalk false;
 	};
 
 	if (_type != "drag") then { 
-		[_cursorTarget, "AinjPfalMstpSnonWnonDf_carried_dead"] remoteExec ["switchMove"];
+		[_cursorTarget, "AinjPfalMstpSnonWnonDf_carried_dead"] remoteExecCall ["switchMove"];
 		_cursorTarget attachTo [_caller, [0.4, -0.1, -1.25], "LeftShoulder"];
-		[_cursorTarget, 180] remoteExec ["setDir", _cursorTarget];
+		[_cursorTarget, 180] remoteExecCall ["setDir", _cursorTarget];
 	};
 			
 	// Add release action for carrier
@@ -899,8 +959,8 @@ FAR_fnc_UnitMove = {
 		params ["_target", "_caller", "_actionId", "_arguments"];
 		_injured = (attachedObjects _caller) select { _x getVariable ["FAR_var_isDragged", false] };		
 		_caller setVariable ["FAR_var_isDragging", false, false];
-		if (count _injured > 0) then { [(_injured#0), "UnconsciousReviveDefault"] remoteExec ["switchMove"] };
-		[_caller, ""] remoteExec ["switchMove"];
+		if (count _injured > 0) then { [(_injured#0), "UnconsciousReviveDefault"] remoteExecCall ["switchMove"] };
+		[_caller, ""] remoteExecCall ["switchMove"];
 		_caller removeAction _actionId;
 	}, [], 10, true, true, "", "true"];
 	
@@ -908,7 +968,7 @@ FAR_fnc_UnitMove = {
 		
 	// Wait until anim changes
 	waitUntil { 
-		sleep 0.5;
+		uiSleep 0.5;
 		(((animationState _caller) select [1, 3]) != "cin" && ((animationState _caller) select [26, 3]) != "cin") ||
 		_caller distance _cursorTarget > 5 ||
 		!(lifeState _caller in ["HEALTHY","INJURED"]) ||
@@ -923,8 +983,8 @@ FAR_fnc_UnitMove = {
 
 	// Target was dropped by other means, so cancel the dragging animation
 	if (_caller getVariable ["FAR_var_isDragging", false]) then {
-		if (lifeState _caller in ["HEALTHY","INJURED"]) then { [_caller,""] remoteExec ["switchMove"] };
-		if (vehicle _cursorTarget == _cursorTarget && alive _cursorTarget) then { [_cursorTarget, "UnconsciousReviveDefault"] remoteExec ["switchMove"] };
+		if (lifeState _caller in ["HEALTHY","INJURED"]) then { [_caller,""] remoteExecCall ["switchMove"] };
+		if (vehicle _cursorTarget == _cursorTarget && alive _cursorTarget) then { [_cursorTarget, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"] };
 	};
 
 	_cursorTarget setVariable ["FAR_var_isDragged", false, true];

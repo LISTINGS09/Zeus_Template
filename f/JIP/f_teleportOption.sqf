@@ -8,14 +8,19 @@
 // 	Example:
 // 		[true, false] execVM "f\JIP\f_teleportOption.sqf";
 //
-//  To allow teleport action after respawning, set: f_param_jipRespawn = true
-//	
-// ====================================================================================
+// 	0 = Disable, 1 = AddAction Only, 2 = FlagPole Only, 3 = Both
+//	f_param_jipTeleport = 3; 		
 // Give player time to get in-game.
 sleep 5;
 
 // Exit if player is dead, non-player or not enabled.
 if (!alive player || !hasInterface || playerSide == sideLogic) exitWith {};
+
+// Is the variable set?
+if (isNil "f_param_jipTeleport") then { f_param_jipTeleport = 3 };
+
+// Exit if disabled
+if (missionNamespace getVariable["f_param_jipTeleport", 0] == 0) exitWith {};
 
 // Set defaults.
 params [
@@ -34,34 +39,32 @@ if (isNil "f_fnc_teleportPlayer") then { f_fnc_teleportPlayer = compileFinal pre
 // Create JIP Flag
 if _spawnFlag then {
 	{ 
-		_x params ["_flagMarker","_flagType"];
+		_x params ["_side", "_flagMarker","_flagType"];
 		
-		if (_flagMarker in allMapMarkers) then {
-			if (isNil "f_obj_BaseFlag") then {
-				_mrkPos = getMarkerPos _flagMarker;
-				_mrkPos set [2,0];
-				f_obj_BaseFlag = _flagType createVehicleLocal _mrkPos;
-				sleep 0.5;
-				
-				// Don't spawn on seabed.
-				if (underwater f_obj_BaseFlag) then {
-					_flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];
-					_flagStone setPosASL [_mrkPos#0,_mrkPos#1,-1];
-					f_obj_BaseFlag setPosASL (lineIntersectsSurfaces [_mrkPos vectorAdd [0,0,1000], AGLToASL _mrkPos] #0 #0);
-				};
+		if (_flagMarker in allMapMarkers && side group player == _side) then {
+			_mrkPos = getMarkerPos _flagMarker;
+			_mrkPos set [2,0];
+			private _obj = _flagType createVehicleLocal _mrkPos;
+			sleep 0.5;
+			
+			// Don't spawn on seabed.
+			if (underwater _obj) then {
+				_flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];
+				_flagStone setPosASL [_mrkPos#0,_mrkPos#1,-1];
+				_obj setPosASL (lineIntersectsSurfaces [_mrkPos vectorAdd [0,0,1000], AGLToASL _mrkPos] #0 #0);
 			};
 				
-			f_obj_BaseFlag addAction ["<t color='#80FF00'>Spawn on Team</t>",f_fnc_teleportPlayer];
+			_obj addAction ["<t color='#80FF00'>Spawn on Team</t>",f_fnc_teleportPlayer];
 		} else {
 			if (format["respawn_%1", side group player] == _flagMarker) then {
 				["f_teleportOption.sqf",format["No respawn marker found for %1.",side (group player)]] call f_fnc_logIssue;
 			};
 		};
 	} forEach [
-		["respawn_west","Flag_Blue_F"],
-		["respawn_east","Flag_Red_F"],
-		["respawn_guerrila","Flag_Green_F"],
-		["respawn","Flag_White_F"]
+		[west, "respawn_west","Flag_Blue_F"],
+		[east, "respawn_east","Flag_Red_F"],
+		[independent, "respawn_guerrila","Flag_Green_F"],
+		[civilian, "respawn","Flag_White_F"]
 	];
 };
 

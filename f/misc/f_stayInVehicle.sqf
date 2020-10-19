@@ -1,5 +1,5 @@
 // Stubborn Crew
-// v1 02.02.2016
+// v2
 // Thanks to the gorgeous Wolfenswan @FA for initial code, modified by 2600K.
 //
 // FEATURE
@@ -48,7 +48,7 @@ if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log tex
 				 if (getDammage _unit > 0.8 || !(canFire _unit)) then {
 					_unit allowCrewInImmobile false;
 					{_x action ["eject", _unit];} forEach crew _unit;
-					_unit removeEventHandler ["Hit",0];
+					_unit removeEventHandler ["Hit", _thisEventhandler];
 				};
 			}
 		];

@@ -8,7 +8,7 @@ class EditorData
 	toggles=37;
 	class ItemIDProvider
 	{
-		nextID=4527;
+		nextID=4537;
 	};
 	class MarkerIDProvider
 	{
@@ -20,10 +20,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={3008.2,65.007698,7053.6104};
-		dir[]={0.021633569,-0.54302329,0.83945626};
-		up[]={0.013989232,0.83970976,0.54284942};
-		aside[]={0.99968177,-6.2274012e-008,-0.025760602};
+		pos[]={2536.6377,42.3545,936.2146};
+		dir[]={0.063824408,-0.36325091,0.92951071};
+		up[]={0.024884112,0.93168807,0.36240146};
+		aside[]={0.99765545,-5.4104021e-008,-0.068503559};
 	};
 };
 binarizationWanted=0;
@@ -356,7 +356,7 @@ class AddonsMetaData
 		class Item35
 		{
 			className="A3_Props_F_Enoch";
-			name="Arma 3 Enoch - Decorative and Mission Objects";
+			name="Arma 3 Contact Platform - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -554,7 +554,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=592;
+		items=596;
 		class Item0
 		{
 			dataType="Marker";
@@ -1584,6 +1584,7 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_ASL_SL";
 						description="Alpha - Squad Leader@Alpha";
+						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -4248,7 +4249,6 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_ASL_SL";
 						description="Alpha - Squad Leader@Alpha";
-						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -31208,7 +31208,7 @@ class Mission
 					flags=3;
 					class Attributes
 					{
-						init="_nul = this spawn { while {alive _this} do {{ _this lookAt (_this getRelPos [100, _x]); sleep 2} forEach [0, 90, 180, 270]}};";
+						init="_nul = this spawn { while {alive _this && isServer} do {{ _this lookAt (_this getRelPos [100, _x]); sleep 2} forEach [0, 90, 180, 270]}};";
 					};
 					id=3860;
 					type="B_Survivor_F";
@@ -37926,6 +37926,333 @@ class Mission
 			};
 			id=4517;
 			type="O_APC_Tracked_02_AA_F";
+		};
+		class Item592
+		{
+			dataType="Group";
+			side="Civilian";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2528,5.0014391,992.04999};
+					};
+					side="Civilian";
+					flags=6;
+					class Attributes
+					{
+						init="if local this then { " \n " this disableAI ""PATH""; " \n " this addEventHandler [""killed"", {   " \n "  private _killer = if (isNull (_this#2)) then {(_this#0) getVariable [""ace_medical_lastDamageSource"", (_this#1)]} else {(_this#2)};   " \n "  if (isPlayer _killer) then { format[""%1 (%2) killed %3"",name _killer, groupId group _killer, name (_this#0)] remoteExec [""systemChat""];};   " \n " }]; " \n " this addEventHandler [""HandleDamage"", { " \n "  params [""_unit""]; " \n "  if (lifeState _unit != 'INCAPACITATED') then { _unit setVariable ['lastHit', diag_tickTime]; removeAllWeapons _unit; [_unit, true] remoteExecCall [""setUnconscious""]; _unit setVariable [""FAR_var_isStable"", true, true]; [_unit, _thisEventhandler] spawn { sleep 5; (_this#0) removeEventHandler [""HandleDamage"", _this#1] }; 0 }; " \n "  if (diag_tickTime - (_unit getVariable ['lastHit', diag_tickTime]) < 5) then { 0 }; " \n " }];   " \n "}; " \n "[this,   " \n "format [""Drug %1"", name this],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa"",     " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa"",     " \n """lifeState _target != 'INCAPACITATED' && alive _target && _this distance _target < 3"",     " \n """_caller distance _target < 3"",     " \n "{},     " \n "{},     " \n "{     " \n " [ _target, _actionID ] remoteExec [""BIS_fnc_holdActionRemove""];  " \n " removeAllWeapons _target;  " \n " [_target, true] remoteExecCall [""setUnconscious""];  " \n " _target setVariable [""FAR_var_isStable"", true, true]; " \n "},   " \n "{},      " \n "[],      " \n "1,      " \n "10] call bis_fnc_holdActionAdd;";
+						name="PRISONER_1";
+					};
+					id=4528;
+					type="C_man_polo_5_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male06GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.99000001;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4527;
+		};
+		class Item593
+		{
+			dataType="Group";
+			side="East";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2544,5.0014391,992.04999};
+					};
+					side="East";
+					flags=7;
+					class Attributes
+					{
+						init="if local this then { " \n " this disableAI ""PATH""; " \n " this addEventHandler [""killed"", {   " \n "  private _killer = if (isNull (_this#2)) then {(_this#0) getVariable [""ace_medical_lastDamageSource"", (_this#1)]} else {(_this#2)};   " \n "  if (isPlayer _killer) then { format[""%1 (%2) killed %3"",name _killer, groupId group _killer, name (_this#0)] remoteExec [""systemChat""];};   " \n " }]; " \n " this addEventHandler [""HandleDamage"", { " \n "  params [""_unit""]; " \n "  if (lifeState _unit != 'INCAPACITATED') then { _unit setVariable ['lastHit', diag_tickTime]; removeAllWeapons _unit; [_unit, true] remoteExecCall [""setUnconscious""]; _unit setVariable [""FAR_var_isStable"", true, true]; [_unit, _thisEventhandler] spawn { sleep 5; (_this#0) removeEventHandler [""HandleDamage"", _this#1] }; 0 }; " \n "  if (diag_tickTime - (_unit getVariable ['lastHit', diag_tickTime]) < 5) then { 0 }; " \n " }];   " \n "}; " \n "[this,   " \n "format [""Drug %1"", name this],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa"",     " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa"",     " \n """lifeState _target != 'INCAPACITATED' && alive _target && _this distance _target < 3"",     " \n """_caller distance _target < 3"",     " \n "{},     " \n "{},     " \n "{     " \n " [ _target, _actionID ] remoteExec [""BIS_fnc_holdActionRemove""];  " \n " removeAllWeapons _target;  " \n " [_target, true] remoteExecCall [""setUnconscious""];  " \n " _target setVariable [""FAR_var_isStable"", true, true]; " \n "},   " \n "{},      " \n "[],      " \n "1,      " \n "10] call bis_fnc_holdActionAdd;";
+					};
+					id=4532;
+					type="O_officer_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4531;
+		};
+		class Item594
+		{
+			dataType="Group";
+			side="Civilian";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2544,5.0014391,976.04999};
+					};
+					side="Civilian";
+					flags=7;
+					class Attributes
+					{
+						class Inventory
+						{
+							class primaryWeapon
+							{
+								name="SMG_03C_black";
+								class primaryMuzzleMag
+								{
+									name="50Rnd_570x28_SMG_03";
+									ammoLeft=50;
+								};
+							};
+							class uniform
+							{
+								typeName="U_C_Poor_1";
+								isBackpack=0;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="50Rnd_570x28_SMG_03";
+										count=2;
+										ammoLeft=50;
+									};
+								};
+							};
+							class vest
+							{
+								typeName="V_LegStrapBag_coyote_F";
+								isBackpack=0;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="50Rnd_570x28_SMG_03";
+										count=1;
+										ammoLeft=50;
+									};
+								};
+							};
+							class backpack
+							{
+								typeName="B_Messenger_Coyote_F";
+								isBackpack=1;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="50Rnd_570x28_SMG_03";
+										count=5;
+										ammoLeft=50;
+									};
+								};
+							};
+							map="ItemMap";
+							compass="ItemCompass";
+							watch="ItemWatch";
+							gps="ItemGPS";
+							headgear="H_Cap_tan";
+						};
+					};
+					id=4534;
+					type="C_Man_Messenger_01_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.02;
+								};
+							};
+						};
+						nAttributes=1;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4533;
+		};
+		class Item595
+		{
+			dataType="Group";
+			side="East";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2560,5.0014391,992.04999};
+					};
+					side="East";
+					flags=7;
+					class Attributes
+					{
+						init="if local this then { " \n " this disableAI ""PATH""; " \n " this addEventHandler [""killed"", {   " \n "  private _killer = if (isNull (_this#2)) then {(_this#0) getVariable [""ace_medical_lastDamageSource"", (_this#1)]} else {(_this#2)};   " \n "  if (isPlayer _killer) then { format[""%1 (%2) killed %3"",name _killer, groupId group _killer, name (_this#0)] remoteExec [""systemChat""];};   " \n " }]; " \n " this addEventHandler [""HandleDamage"", { " \n "  params [""_unit""]; " \n "  if (lifeState _unit != 'INCAPACITATED') then { _unit setVariable ['lastHit', diag_tickTime]; removeAllWeapons _unit; [_unit, true] remoteExecCall [""setUnconscious""]; _unit setVariable [""FAR_var_isStable"", true, true]; [_unit, _thisEventhandler] spawn { sleep 5; (_this#0) removeEventHandler [""HandleDamage"", _this#1] }; 0 }; " \n "  if (diag_tickTime - (_unit getVariable ['lastHit', diag_tickTime]) < 5) then { 0 }; " \n " }];   " \n "}; " \n "[this,   " \n "format [""Drug %1"", name this],  " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa"",     " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_secure_ca.paa"",     " \n """lifeState _target != 'INCAPACITATED' && alive _target && _this distance _target < 3"",     " \n """_caller distance _target < 3"",     " \n "{},     " \n "{},     " \n "{     " \n " [ _target, _actionID ] remoteExec [""BIS_fnc_holdActionRemove""];  " \n " removeAllWeapons _target;  " \n " [_target, true] remoteExecCall [""setUnconscious""];  " \n " _target setVariable [""FAR_var_isStable"", true, true]; " \n "},   " \n "{},      " \n "[],      " \n "1,      " \n "10] call bis_fnc_holdActionAdd;";
+					};
+					id=4536;
+					type="O_officer_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=4535;
 		};
 	};
 	class Connections

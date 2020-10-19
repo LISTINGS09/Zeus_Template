@@ -1,4 +1,5 @@
 // No Third Person
+// f_param_thirdPerson = 0;
 // 0 = Disable, 1 = In Vehicles Only, 2 = Not Allowed (TvT)
 if (!hasInterface || (difficultyOption "ThirdPersonView" == 0) || !isMultiplayer) exitWith {};
 

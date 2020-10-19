@@ -1,14 +1,8 @@
 // F3 - Casualties Cap
 // Credits: Please see the F3 online manual http://www.ferstaberinde.com/f3/en/
-// Up to 5 variables are passed to the function:
-// 0: = Side (e.g. BLUFOR), or group name(s) as string array (e.g. ["mrGroup1","myGroup2"])
-// 1: = Ending or code to be executed on limit being hit.
-// 2: = OPTIONAL - Percentage of casualties, if not used the global parameter will be taken instead.
-// 3: = OPTIONAL - If only groups with a playable leader slot will be included (default is true)
-// 4: = OPTIONAL - What faction(s) to filter for if the first variable is a side  (e.g. ["blu_f"])
-// ====================================================================================
-// SERVER CHECK
-// Ensure this script only executes on the server:
+//
+// [nil, 2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
+// [west, {f_var_casualtyLimitHit = true;}] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf"; // Alternative use with trigger.
 if !isServer exitWith {};
 
 sleep 1;
@@ -16,11 +10,13 @@ sleep 1;
 if (isNil "f_param_CasualtiesCap") then { f_param_CasualtiesCap = 80 }; // Percentage of casualties.
 if (isNil "f_param_CasMinToStart") then { f_param_CasMinToStart = 16 };	// Minimum players needed to start checking.
 
-params["_grpstemp",
-		"_end",
-       ["_pc", f_param_CasualtiesCap],
-       ["_onlyPlayers",true],
-       ["_faction",[]]];  
+params["_grpstemp",						// Side (e.g. BLUFOR), or group name(s) as string array (e.g. ["mrGroup1","myGroup2"])
+		"_end",							// Ending or code to be executed on limit being hit.
+       ["_pc", f_param_CasualtiesCap],	// Percentage of casualties, if not used the global parameter will be taken instead.
+       ["_onlyPlayers",true],			// If only groups with a playable leader slot will be included (default is true)
+       ["_faction",[]]];  				// What faction(s) to filter for if the first variable is a side  (e.g. ["blu_f"])
+	   
+if (isNil "f_fnc_updateCas") then { f_fnc_updateCas = compileFinal preprocessFileLineNumbers "f\casualtiesCap\fn_UpdateCasualties.sqf"; };
 	   
 sleep 10;
 

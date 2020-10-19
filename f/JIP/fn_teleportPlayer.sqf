@@ -32,7 +32,9 @@ private _removeAction = true;
 // If the JIP unit's team member is in a vehicle, put him in too
 // The code has fail-safe logic in case the vehicle is full
 if (vehicle _refUnit != _refUnit) then {	// Member is in vehicle	
-	if !(player moveInAny (vehicle _refUnit)) then {	// We failed to move JIP to vehicle!
+	_result = player moveInAny (vehicle _refUnit);
+	
+	if !_result then {	// We failed to move JIP to vehicle!
 		systemChat format["[JIP] Failed - Cannot Join on %1 - Insufficient space in vehicle! Try later.",name _refUnit];
 		_removeAction = false;
 	} else {

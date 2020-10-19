@@ -6,26 +6,9 @@ params ["_killed","_killer","_respawn","_respawnDelay"];
 _killed spawn {
 	if (time < 30) exitWith {};
 	
-	_group = group _this;
+	sleep random 5;
 	
-	// Random sleep to allow network sync if multiple casualties.
-	sleep random 25;
-	{
-		_x params ["_sideVar","_markerVar"];
-		if (side _group == _sideVar) exitWith {
-			_casVar = missionNamespace getVariable [format["f_var_casualtyCount_%1",_sideVar],0];
-			// Change the respawn marker to reflect # of casualties.
-			missionNamespace setVariable [format["f_var_casualtyCount_%1",_sideVar],_casVar + 1,true];
-			_markerVar setMarkerText format["Casualties: %1",(_casVar + 1)];
-			// Increase the groups own casualty value.
-			_group setVariable ["f_var_casualtyCount", (_group getVariable ["f_var_casualtyCount",0]) + 1, true];
-		};
-	} forEach [
-		[west,"respawn_west"],
-		[east,"respawn_east"],
-		[resistance,"respawn_guerrila"],
-		[civilian,"respawn_civilian"]
-	];
+	[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 };
 
 // Save players dying gear

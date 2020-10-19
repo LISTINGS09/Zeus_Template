@@ -40,13 +40,14 @@ if !(_sunsetSunrise in [[-1,0],[0,-1]]) then {
 	_sunsetMin = floor (((_sunsetSunrise select 1) % 1) * 60);
 };
 
-_diaryText = _diaryText + format["<br/>Start Time: <font color='#00FFFF'>%1:%2</font><br/>Sunrise: <font color='#FF0080'>%3:%4</font><br/>Sunset: <font color='#FF0080'>%5:%6</font><br/>",
+_diaryText = _diaryText + format["<br/>Start Time: <font color='#00FFFF'>%1:%2</font>%7<br/>Sunrise: <font color='#FF0080'>%3:%4</font><br/>Sunset: <font color='#FF0080'>%5:%6</font><br/>",
 		if (floor _startTime < 10) then { format["0%1", floor _startTime] } else { floor _startTime },
 		if (floor ((_startTime - (floor _startTime)) * 60) < 10) then { format["0%1", floor ((_startTime - (floor _startTime)) * 60)] } else { floor ((_startTime - (floor _startTime)) * 60) },
 		if (_sunriseHr < 10) then { format["0%1", _sunriseHr] } else { _sunriseHr },
 		if (_sunriseMin < 10) then { format["0%1", _sunriseMin] } else { _sunriseMin },
 		if (_sunsetHr < 10) then { format["0%1", _sunsetHr] } else { _sunsetHr },
-		if (_sunsetMin < 10) then { format["0%1", _sunsetMin] } else { _sunsetMin }
+		if (_sunsetMin < 10) then { format["0%1", _sunsetMin] } else { _sunsetMin },
+		if (missionNamespace getVariable ["f_param_timeMultiplier", 1] > 1) then { format[" - Accelerated: 1 Day is %1 Hour(s)", round (24 / f_param_timeMultiplier)] } else { "" }
 	];
 
 _diaryText = _diaryText + format["<br/>Fog Density: <font color='#00FFFF'>%1</font> Baseline: <font color='#FF0080'>%2 Meters</font>",
@@ -81,16 +82,14 @@ _diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font>
 		overcast
 	];
 
-if ((player getVariable ["f_var_assignGear","r"]) in ["sn","sp","vc","vg","vd","pp","ppc","pc","uav"]) then {
-	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
-			[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance ((getObjectViewDistance#0) + 500); systemChat ('Distance increased to ' + str viewDistance + 'm and ' + str (getObjectViewDistance#0) + 'm');"">Increase</execute>]
-			[<execute expression=""setViewDistance (viewDistance - 500); setObjectViewDistance ((getObjectViewDistance#0) - 500); systemChat ('Distance decreased to ' + str viewDistance + 'm and ' + str (getObjectViewDistance#0) + 'm');"">Decrease</execute>]<br/>", 
-			viewDistance
-		];
+_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
+		[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance ((getObjectViewDistance#0) + 500); systemChat ('Distance increased to ' + str viewDistance + 'm and ' + str (getObjectViewDistance#0) + 'm');"">Increase</execute>]
+		[<execute expression=""setViewDistance (viewDistance - 500); setObjectViewDistance ((getObjectViewDistance#0) - 500); systemChat ('Distance decreased to ' + str viewDistance + 'm and ' + str (getObjectViewDistance#0) + 'm');"">Decrease</execute>]<br/>", 
+		viewDistance
+	];
 		
-	if ((player getVariable ["f_var_assignGear","r"]) in ["pp","ppc","pc","uav"]) then {
-		_diaryText = _diaryText + "Map Cover: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0.1 } } forEach allMapMarkers;"">Hide</execute><br/>";
-	};
+if ((player getVariable ["f_var_assignGear","r"]) in ["pp","ppc","pc","uav"]) then {
+	_diaryText = _diaryText + "Map Cover: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0.1 } } forEach allMapMarkers;"">Hide</execute><br/>";
 } else {
 	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font><br/>", viewDistance ];
 };
@@ -152,7 +151,7 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 		case 1: { // FAROOQ
 			waitUntil{!isNil "FAR_var_ReviveMode"};
 			
-			_diaryText = _diaryText + "<br/>Medical Level: <font color='#00FFFF'><b>Revive</b></font><br/>";
+			_diaryText = _diaryText + "<br/>Medical Level: <font color='#00FFFF'><b>Zeus Revive</b></font><br/>";
 			_diaryText = _diaryText + format["<br/><font color='#80FF00'>Settings</font>
 			<br/>Medic Training: <font color='#00FFFF'>%1</font>
 			<br/>Bleedout Timer: <font color='#00FFFF'>%2 Seconds</font>
@@ -167,6 +166,8 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			["","Any critical hit will result in instant death for the player. "] select FAR_var_InstantDeath,
 			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
+			
+			_diaryText = _diaryText + "<br/>If other players cannot see you, use <execute expression=""if (time > 0) then { call FAR_fnc_FixRagdoll };"">Fix Ragdoll</execute> to correct the issue.<br/>";
 		};
 		
 		case 2: { // ACE
@@ -210,9 +211,6 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 } else {
 	_diaryText = _diaryText + format["<br/>Medical Level: <font color='#00FFFF'>Vanilla (%1)</font><br/>", (["No Revive", "Revive Enabled", "Custom Revive"] select (getMissionConfigValue ["ReviveMode",0]))];
 };
-
-_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 AND player == vehicle player) then { [] spawn { private _pos = getPosATL player; private _dir = getDir player; titleCut ['', 'BLACK']; private _temp = 'C_Quadbike_01_F' createVehicle [0,0,0]; _temp allowDamage false; player moveInAny _temp; sleep 0.1; unassignVehicle player; moveOut player; player setDir _dir; player setPosATL _pos; sleep 0.5; deleteVehicle _temp; titleCut ['', 'PLAIN']; }; };"">Fix Ragdoll</execute><br/>";
-
 
 // RETURN
 _diaryText;

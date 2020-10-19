@@ -26,6 +26,7 @@ if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] =
 
 player setVariable ["ACE_hasEarPlugsIn", true, true];
 player removeItem "ACE_EarPlugs";
+player addEventHandler ["Respawn", { player setVariable ["ACE_hasEarPlugsIn", true] }];
 
 if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 	player setVariable ["ACE_IsMedic",1];

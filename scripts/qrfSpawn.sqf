@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek v1.1
+	Author: 2600K / Josef Zemanek v1.3
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -407,28 +407,29 @@ _CAS = [];
 */
 
 // Functions.
-ZRF_fnc_CreateReinforcements = {
+zmm_fnc_spawnUnit = {
 	params [
-		"_targetPos",
-		"_posArray",
+		["_targetPos", []],
+		["_posArray", []],
 		"_side",
-		["_unitClass", ""]
+		["_unitClass", ""],
+		["_tries", 1]
 	];
 
 	if (_unitClass isEqualTo "") exitWith { systemChat format["SpawnUnit - Empty Unit Passed: %1 (%2)", _unitClass, _side] };
+	if (_tries > 10) exitWith {};
 
-	//systemChat format["SpawnUnit - Passed %1: %2 [%3]", _targetPos, _unitClass, _side];
+	systemChat format["SpawnUnit - Passed %1: %2 [%3] Try:%4", _targetPos, _unitClass, _side, _tries];
 
 	private _reinfGrp = grpNull;
 	private _grpVeh = objNull;
 	private _vehType = "";
-	private _sleep = TRUE;
-	private _tooClose = FALSE;
+	private _sleep = true;
 	private _dir = 0;
 	private _customInit = "";
 
 	// No positions to use
-	if (count _posArray == 0) exitWith {};
+	if (count _posArray == 0 || count _targetPos == 0) exitWith {};
 
 	// Fix any positions are not in array format
 	{
@@ -447,47 +448,47 @@ ZRF_fnc_CreateReinforcements = {
 	if (_unitClass isEqualType []) then { _customInit = _unitClass # 1; _unitClass = _unitClass # 0 };
 
 	// Check if _unitClass is an air vehicle.
-	_isAir = FALSE;
+	_isAir = false;
 	if (_unitClass isEqualType "") then {
-		if ("Air" in ([(configFile >> "CfgVehicles" >> _unitClass), TRUE] call BIS_fnc_returnParents)) then { _isAir = TRUE };
+		if ("Air" in ([(configFile >> "CfgVehicles" >> _unitClass), true] call BIS_fnc_returnParents)) then { _isAir = true; _startingPos set [2, 500]; };
 	};
 
 	// Don't spawn object if too close to any players.
-	private _maxDist = if _isAir then {1000} else {500};
-	{
-		if (alive _x && _x distance2D _startingPos < _maxDist) exitWith { _tooClose = true};
-	} forEach (playableUnits + switchableUnits);
-
-	if _tooClose exitWith { [_targetPos, _posArray, _side, _unitClass] call zmm_fnc_spawnUnit };
+	if ({ alive _x && _x distance2D _startingPos < (if _isAir then {1000} else {500})} count allPlayers > 0 && isMultiplayer) exitWith { 
+		sleep 30;
+		[_targetPos, _posArray, _side, _unitClass, _tries + 1] call zmm_fnc_spawnUnit;
+	};
 
 	if (_unitClass isEqualType "") then {
 		_vehType = toLower getText (configFile >> "CfgVehicles" >> _unitClass >> "vehicleClass");
-		_grpVeh = createVehicle [_unitClass, _startingPos, [], 0, if _isAir then {"FLY"} else {"NONE"}];
+		_vehName = toLower getText (configFile >> "CfgVehicles" >> _unitClass >> "displayName");
+		_grpVeh = createVehicle [_unitClass, _startingPos, [], 15, if _isAir then {"FLY"} else {"NONE"}];
 		_grpVeh setVehicleLock "LOCKEDPLAYER"; 
 
 		if _isAir then {
-			_sleep = FALSE;
+			_sleep = false;
 			_grpVeh setDir (_grpVeh getDir _targetPos);
+			_grpVeh setVelocity [100 * (sin (_grpVeh getDir _targetPos)), 100 * (cos (_grpVeh getDir _targetPos)), 0];
 		} else {
 			_grpVeh setDir _dir;
 		};
+		
+		_startingPos set [2,0]; // Reset Starting Pos
 		
 		if (_vehType == "car" || (!canFire _grpVeh && !_isAir)) then {
 			_vehType = "car";
 			_soldierArr = [];
 		
-			for [{_i = 1}, {_i < count (fullCrew [_grpVeh, "", true])}, {_i = _i + 1}] do {
-				_soldierArr pushBack (selectRandom _manArray);
-			};
+			for "_i" from 1 to (count (fullCrew [_grpVeh, "", true])) do { _soldierArr pushBack (selectRandom _manArray) };
 		
 			_reinfGrp = [_grpVeh getPos [15, random 360], _side, _soldierArr] call BIS_fnc_spawnGroup;
 			_reinfGrp addVehicle _grpVeh;
-			_wp = _reinfGrp addWaypoint [position _grpVeh, 0];
-			_wp setWaypointType "GETIN NEAREST";
+			
+			{ if !(_x moveInAny _grpVeh) then { /* deleteVehicle _x */ }; uiSleep 0.1; } forEach (units _reinfGrp select { vehicle _x == _x });
 			
 			uiSleep 0.5;
 			
-			{ _x moveInAny _grpVeh } forEach (units _reinfGrp select { vehicle _x == _x });
+			_reinfGrp selectLeader effectiveCommander _grpVeh;
 		} else {
 			createVehicleCrew _grpVeh;
 			
@@ -508,12 +509,11 @@ ZRF_fnc_CreateReinforcements = {
 			_grpVeh = (_vehArray arrayIntersect _vehArray)#0;
 			_vehType = "car";
 			
-			_wp = _reinfGrp addWaypoint [position _grpVeh, 0];
-			_wp setWaypointType "GETIN NEAREST";
-			
 			uiSleep 0.5;
 			
-			{ _x moveInAny _grpVeh } forEach (units _reinfGrp select { vehicle _x == _x });
+			{ if !(_x moveInAny _grpVeh) then { deleteVehicle _x }; uiSleep 0.1; } forEach (units _reinfGrp select { vehicle _x == _x });
+			
+			_reinfGrp selectLeader effectiveCommander _grpVeh;
 		};
 	};
 
@@ -521,8 +521,10 @@ ZRF_fnc_CreateReinforcements = {
 	if !(_customInit isEqualTo "") then { call compile _customInit; };
 
 	if !_isAir then {
-		_newWP = _reinfGrp addWaypoint [_targetPos, 100];
-		_newWP setWaypointType "SAD";
+		if (random 1 > 0.3) then {
+			_newWP = _reinfGrp addWaypoint [_targetPos, 100];
+			_newWP setWaypointType "SAD";
+		};
 
 		_newWP = _reinfGrp addWaypoint [_targetPos, 100];
 		_newWP setWaypointType "GUARD";
@@ -531,71 +533,63 @@ ZRF_fnc_CreateReinforcements = {
 			_null = [_reinfGrp, _startingPos, _grpVeh, _targetPos] spawn {
 				params ["_selGrp", "_startPos", "_selVeh", "_destPos"];
 
-				private _leader = leader _selGrp;
+				private _leader = effectiveCommander _selVeh;
 							
-				waitUntil{sleep 15; if (_leader distance2D _destPos < 400 || !alive _leader || !canMove _selVeh) exitWith {true}; false; };
+				waitUntil{ uiSleep 10; if (_leader distance2D _destPos < (400 + random 200) || !alive _leader || !canMove _selVeh) exitWith {true}; false; };
 				
 				if (!alive _leader || !canMove _selVeh) exitWith {};
 				
-				[_leader] joinSilent grpNull;
-				_newGrp = group _leader;
-				
-				[commander _selVeh] joinSilent (group _leader);
-				[gunner _selVeh] joinSilent (group _leader);
-				
-				_selGrp leaveVehicle _selVeh;
-				{unassignVehicle _x; [_x] orderGetIn FALSE; _x allowFleeing 0} forEach units _selGrp;
-				
-				waitUntil{sleep 1; if ({vehicle _x == _selVeh} count units _selGrp == 0 || !alive _leader || !canMove _selVeh) exitWith {true}; false; };
-				
-				if (!alive _leader || !canMove _selVeh) exitWith {};
-				
-				_leader assignAsDriver _selVeh;
-				[_leader] orderGetIn TRUE;
-				
-				if (vehicle _leader == _selVeh) then {
-					_leader setPos position _selVeh;
-					_leader moveInDriver _selVeh;
+				// Leave team in if it can fire
+				if (canFire _selVeh) then {
+					_vehGrp = createGroup [side group _leader, true];
+					[_leader, driver _selVeh, gunner _selVeh] joinSilent _vehGrp;
 				};
 				
-				sleep 20;
+				_selGrp leaveVehicle _selVeh;
+				{unassignVehicle _x; [_x] orderGetIn false; _x allowFleeing 0} forEach units _selGrp;
+				
+				waitUntil{ uiSleep 1; if ({vehicle _x == _selVeh} count units _selGrp == 0 || !alive _leader || !canMove _selVeh) exitWith {true}; false; };
+				
+				if (!alive _leader || !canMove _selVeh) exitWith {};
+								
+				uiSleep 5;
 				
 				if (canFire _selVeh) then {
-					_newWP = _newGrp addWaypoint [_destPos, 100];
+					if (random 1 > 0.7) then {
+						_newWP = group _leader addWaypoint [_destPos, 100];
+						_newWP setWaypointType "SAD";
+					};
+					
+					_newWP = group _leader addWaypoint [_destPos, 100];
 					_newWP setWaypointType "GUARD";
 				} else {
-					_newWP = _newGrp addWaypoint [_startPos, 0];
-					waitUntil{sleep 0.5; if (_selVeh distance2D _startPos < 50 || !alive _leader || !canMove _selVeh) exitWith {true}; false; };
+					_newWP = group _leader addWaypoint [_startPos, 0];
+					waitUntil{ uiSleep 0.5; if (_selVeh distance2D _startPos < 50 || !alive _leader || !canMove _selVeh) exitWith {true}; false; };
 					if (!alive _leader || !canMove _selVeh) exitWith {};
 					_selVeh deleteVehicleCrew driver _selVeh;
-					deleteGroup _newGrp;
+					deleteGroup group _leader;
 					deleteVehicle _selVeh;
 				};
 			};
 		};
 	} else {
 		private _paraGrp = grpNull;
+		private _cargoNo = (count fullCrew [_grpVeh, "", true]) - (count fullCrew [_grpVeh, "", false]);
 		
 		// No cargo seats so assume its CAS
-		if (count fullCrew [_grpVeh, "cargo", true] > 0) then {
+		if (_cargoNo > 1) then {
 			_reinfGrp setBehaviour "CARELESS";
 			_soldierArr = [];
 			
-			for [{_i = 1}, {_i < (([_unitClass, true] call BIS_fnc_crewCount) - ([_unitClass, false] call BIS_fnc_crewCount))}, {_i = _i + 1}] do {
-				_soldierArr pushBack (selectRandom _manArray);
-			};
+			for "_i" from 1 to _cargoNo do { _soldierArr pushBack (selectRandom _manArray) };
 
 			_paraGrp = [[0,0,0], _side, _soldierArr] call BIS_fnc_spawnGroup;
-			{
-				_x assignAsCargo _grpVeh;
-				[_x] orderGetIn TRUE;
-				_x moveInCargo _grpVeh;
-				_x allowFleeing 0;
-			} forEach units _paraGrp;
+			
+			{ if !(_x moveInAny _grpVeh) then { deleteVehicle _x }; uiSleep 0.1; } forEach (units _paraGrp select { vehicle _x == _x });
 			
 			_landPos = [_targetPos, 300, random 360] call BIS_fnc_relPos;		
 			_unloadWP = _reinfGrp addWaypoint [_landPos, 100];
-			_unloadWP setWaypointStatements ["TRUE", "(vehicle this) land 'GET OUT'; {unassignVehicle _x; [_x] orderGetIn FALSE} forEach ((crew vehicle this) select {group _x != group this})"];
+			_unloadWP setWaypointStatements ["true", "(vehicle this) land 'GET OUT'; {unassignVehicle _x; [_x] orderGetIn false} forEach ((crew vehicle this) select {group _x != group this})"];
 			_newWP = _reinfGrp addWaypoint [waypointPosition _unloadWP, 0];
 			_newWP setWaypointStatements ["{group _x != group this && alive _x} count crew vehicle this == 0", ""];
 		};
@@ -627,21 +621,21 @@ ZRF_fnc_CreateReinforcements = {
 			_newWP setWaypointCompletionRadius 500;
 			
 			_null = [_reinfGrp, _startingPos, _targetPos] spawn {
-					params ["_rGrp","_sPos","_tPos"];
-									
-					private _time = time + 600;
-					while {	alive (vehicle leader _rGrp) && time < _time } do {
-						sleep 10; 
-						{ _rGrp reveal [_x, 4] } forEach ((_targetPos nearEntities 600) select { side _x != side _rGrp && vehicle _x == _x && stance _x == "STAND" });
-					};
+				params ["_rGrp","_sPos","_tPos"];
+								
+				private _time = time + 600;
+				while {	alive (vehicle leader _rGrp) && time < _time } do {
+					uiSleep 30;
+					{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select {_x distance2D leader _rGrp < 1200 && vehicle _x == _x && stance _x == "STAND" });
 				};
+			};
 		} else {
 			_newWP = _reinfGrp addWaypoint [_startingPos, 0];
 			_null = [_reinfGrp, _startingPos] spawn {
 				params ["_reinfGrp","_startingPos"];
 				_heli = vehicle leader _reinfGrp;
-				waitUntil{sleep 5; if ((leader _reinfGrp) distance2D _startingPos > 200 || !alive (leader _reinfGrp) || !canMove _heli) exitWith {true}; false; };
-				waitUntil{sleep 0.5; if ((leader _reinfGrp) distance2D _startingPos < 200 || !alive (leader _reinfGrp) || !canMove _heli) exitWith {true}; false; };
+				waitUntil{ uiSleep 5; if ((leader _reinfGrp) distance2D _startingPos > 200 || !alive (leader _reinfGrp) || !canMove _heli) exitWith {true}; false; };
+				waitUntil{ uiSleep 0.5; if ((leader _reinfGrp) distance2D _startingPos < 200 || !alive (leader _reinfGrp) || !canMove _heli) exitWith {true}; false; };
 				if (!alive (leader _reinfGrp) || !canMove _heli) exitWith {};
 				{_heli deleteVehicleCrew _x} forEach crew _heli;
 				deleteGroup _reinfGrp;
@@ -649,13 +643,9 @@ ZRF_fnc_CreateReinforcements = {
 			};
 		};
 		
-		if (count units _paraGrp > 0) then { 
-			_paraGrp deleteGroupWhenEmpty true;
-		
-			for [{_i = 0}, {_i < 3}, {_i = _i + 1}] do {
-				_newWP = _paraGrp addWaypoint [_targetPos, 100];
-				_newWP setWaypointType "SAD";
-			};
+		if (count units _paraGrp > 0) then {
+			_newWP = _paraGrp addWaypoint [_targetPos, 100];
+			_newWP setWaypointType "SAD";
 			_newWP = _paraGrp addWaypoint [_targetPos, 100];
 			_newWP setWaypointType "GUARD";
 			_reinfGrp = _paraGrp;
@@ -664,7 +654,7 @@ ZRF_fnc_CreateReinforcements = {
 
 	if (!isNull _reinfGrp) then { _reinfGrp deleteGroupWhenEmpty true };
 
-	{ _x addCuratorEditableObjects [(units _reinfGrp) + [_grpVeh], TRUE] } forEach allCurators;
+	{ _x addCuratorEditableObjects [(units _reinfGrp) + [_grpVeh], true] } forEach allCurators;
 
 	if (_sleep) then { sleep random 20 };
 };
@@ -673,7 +663,7 @@ ZRF_fnc_CreateReinforcements = {
 _safePositions = [];
 _spawns = [];
 
-missionNamespace setVariable [format["ZRF_%1Soldier", _side], _Soldier]; // Variable array for function reference.
+if (!isNil "_Soldier") then { missionNamespace setVariable [format["ZMM_%1Man", _side], _Soldier]; }; // Variable array for function reference.
 
 // Create safe-zones around spawn.
 {
@@ -732,29 +722,29 @@ for [{_wave = 1}, {_wave < _waveMax}, {_wave = _wave + 1}] do {
 	
 	switch (_wave) do {
 		case 1: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Light + _Air)] call ZRF_fnc_CreateReinforcements;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Light + _Air)] call zmm_fnc_spawnUnit;
 		};
 		case 2: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Air + _Medium)] call ZRF_fnc_CreateReinforcements;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Air + _Medium)] call zmm_fnc_spawnUnit;
 		};
 		case 3: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Truck + _Medium)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Medium + _CAS)] call ZRF_fnc_CreateReinforcements;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Medium + _CAS)] call zmm_fnc_spawnUnit;
 		};
 		case 4: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Truck + _Medium)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Heavy + _Air)] call ZRF_fnc_CreateReinforcements;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Heavy + _Air)] call zmm_fnc_spawnUnit;
 		};
 		default {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Heavy + _Medium)] call ZRF_fnc_CreateReinforcements;
-			[_location, _spawns, _side, selectRandom (_Heavy + _CAS)] call ZRF_fnc_CreateReinforcements;
+			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Heavy + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawns, _side, selectRandom (_Heavy + _CAS)] call zmm_fnc_spawnUnit;
 		};
 	};
 

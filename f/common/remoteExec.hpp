@@ -34,7 +34,7 @@ class Functions {
 	class f_fnc_zeusAddObjects { allowedTargets=2; }; 			// f_breifing_admin.sqf
 	class f_fnc_safety { allowedTargets=0; jip=1; };			// f_safeStartLoop.sqf
 	class f_fnc_assignGear { allowedTargets=0; };				// f_assignGear_AI.sqf
+	class f_fnc_updateCas { allowedTargets=2; }; 				// fn_casualtiesCapCheck.sqf
 	class f_fnc_mapClickTeleportGroup { allowedTargets=0; };	// fn_mapClickTeleportUnit.sqf
 	class f_fnc_radioSwitchChannel { allowedTargets=0; };		// restricted_radios.sqf
-	
 };
