@@ -1,21 +1,21 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.5
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.6
 // [] execVM "scripts\civPopulation.sqf";
 
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
 // The following constants may be used to tweak behaviour
-ZCS_var_WaitTime = 60; // Maximum standing still time in seconds
-ZCS_var_RunChance = 0.25; // Chance of running instead of walking
-ZCS_var_UnitsPerBuilding = 0.1;
-ZCS_var_MaxGrpCount = 15;
-ZCS_var_MinDist = 100;
-ZCS_var_MaxDist = 300;
-ZCS_var_EnemyChance = 0.05; // Chance of a hostile civilian appearing
-ZCS_var_BomberChance = 0.005; // Chance of hostile civilian being a bomber
-ZCS_var_BlackList = [];
-ZCS_var_HideMrk = true;
-ZCS_var_LOWTasks = true;
-ZCS_var_Debug = false;
+if (isNil "ZCS_var_WaitTime") then { ZCS_var_WaitTime = 60 }; // Maximum standing still time in seconds
+if (isNil "ZCS_var_RunChance") then { ZCS_var_RunChance = 0.25 }; // Chance of running instead of walking
+if (isNil "ZCS_var_UnitsPerBuilding") then { ZCS_var_UnitsPerBuilding = 0.1 };
+if (isNil "ZCS_var_MaxGrpCount") then { ZCS_var_MaxGrpCount = 15 };
+if (isNil "ZCS_var_MinDist") then { ZCS_var_MinDist = 100 };
+if (isNil "ZCS_var_MaxDist") then { ZCS_var_MaxDist = 300 };
+if (isNil "ZCS_var_EnemyChance") then { ZCS_var_EnemyChance = 0.05 }; // Chance of a hostile civilian appearing
+if (isNil "ZCS_var_BomberChance") then { ZCS_var_BomberChance = 0.005 }; // Chance of hostile civilian being a bomber
+if (isNil "ZCS_var_BlackList") then { ZCS_var_BlackList = [] };
+if (isNil "ZCS_var_HideMrk") then { ZCS_var_HideMrk = true };
+if (isNil "ZCS_var_LOWTasks") then { ZCS_var_LOWTasks = true };
+if (isNil "ZCS_var_Debug") then { ZCS_var_Debug = false };
 
 if !isServer exitWith {};
 
