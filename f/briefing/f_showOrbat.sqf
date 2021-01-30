@@ -171,7 +171,7 @@ if (count _vehArray > 0) then {
 		
 		// Object must be named in 3DEN
 		if (count getPylonMagazines _x > 1) then {
-			_orbatText = _orbatText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; ['%1'] execVM 'f\misc\f_pylons.sqf' }"">Pylon Template</execute>", typeOf _x, _vehName];
+			_orbatText = _orbatText + format[" <execute expression=""if !(missionNamespace getVariable ['diary_%1', false]) then { systemChat '[%2] Added ''Pylons (%2)'' Diary'; ['%1'] execVM 'f\misc\f_pylons.sqf' }"">Pylons</execute>", typeOf _x, _vehName];
 		};
 		
 		// Add lists of weapons and ammo
@@ -273,6 +273,8 @@ if (count _vehArray > 0) then {
 		_orbatText = _orbatText + format["%1%2%3", _tempArr#0, if (_x#2 > 1) then { format[" x%1",_x#2] } else {""}, _tempArr#1];
 	} forEach _vehSorted;
 };
+
+_orbatText = _orbatText + "<br/><br/>Add a Pylon Template for any vehicle while inside it:<br/><execute expression=""if (vehicle player != player AND count getPylonMagazines vehicle player > 1 AND isNil format['diary_%1', typeOf vehicle player]) then { [typeOf vehicle player] execVM 'f\misc\f_pylons.sqf' }"">Create Pylon Template</execute><br/><br/>";
 
 // Insert final result into subsection ORBAT of section Notes
 //player removeDiaryRecord ["Diary", "ORBAT"];

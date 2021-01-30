@@ -66,7 +66,7 @@ if(!f_radios_settings_disableAllRadios) then {
     uiSleep 1;
 
     waitUntil{[] call acre_api_fnc_isInitialized};
-    {player removeItem _x;} forEach ([] call acre_api_fnc_getCurrentRadioList);
+    {player removeItem _x} forEach ([] call acre_api_fnc_getCurrentRadioList);
 	
 	// Depending on the loadout used in the assignGear component, each unit is assigned a set of radios.
 	
@@ -92,7 +92,7 @@ if(!f_radios_settings_disableAllRadios) then {
 	params ["_SRChIndx","_LRChIndx"];
     private ["_radioSR","_radioLR","_hasSR","_hasLR","_hasExtra"];
 
-    waitUntil {sleep 0.1; [] call acre_api_fnc_isInitialized};
+    waitUntil {uiSleep 0.1; [] call acre_api_fnc_isInitialized};
 	
     _radioSR = [f_radios_settings_acre2_standardSRRadio] call acre_api_fnc_getRadioByType;
     _radioLR = [f_radios_settings_acre2_standardLRRadio] call acre_api_fnc_getRadioByType;

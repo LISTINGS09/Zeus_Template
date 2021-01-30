@@ -62,7 +62,7 @@ _carbinemag = "30Rnd_545x39_Mag_Green_F";
 _carbinemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = ["rhs_weap_aks74un_folded","rhs_weap_aks74u_folded"];
+_smg = ["rhs_weap_aks74un","rhs_weap_aks74u"];
 _smgmag = "30Rnd_545x39_Mag_Green_F";
 _smgmag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 

@@ -1,6 +1,5 @@
 // F3 - ACE Advanced Clientside Initialisation
 // Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
-// ====================================================================================
 if (missionNamespace getVariable["f_param_debugMode",0] == 1) then { 
 	["ace_clientInit.sqf",format["Starting for %1",player],"INFO"] call f_fnc_logIssue;
 };
@@ -18,11 +17,11 @@ _typeofUnit = player getVariable ["f_var_assignGear", "r"];
 {player removeItems _x} forEach ["FirstAidKit","Medikit","ACE_tourniquet","ACE_fieldDressing","ACE_morphine","ACE_epinephrine","ACE_packingBandage","ACE_salineIV_250"];
 
 // Add basic items to all units
-{player addItem "ACE_CableTie"} forEach [1,2,3,4];
-{player addItem "ACE_fieldDressing"} forEach [1,2,3,4,5,6,7,8];
-{player addItem "ACE_morphine"} forEach [1,2];
-player addItem "ACE_tourniquet";
-if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1) then { {player addItem "ACE_elasticBandage"} forEach [1,2,3,4,5,6,7,8] };
+(uniformContainer player) addItemCargoGlobal ["ACE_CableTie",4];
+(uniformContainer player) addItemCargoGlobal ["ACE_fieldDressing",8];
+(uniformContainer player) addItemCargoGlobal ["ACE_morphine",2];
+(uniformContainer player) addItemCargoGlobal ["ACE_tourniquet",1];
+if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1) then { (uniformContainer player) addItemCargoGlobal ["ACE_elasticBandage",8]; };
 
 player setVariable ["ACE_hasEarPlugsIn", true, true];
 player removeItem "ACE_EarPlugs";
@@ -58,6 +57,7 @@ if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 
 if ("ACE_Vector" in (items player + assignedItems player)) then {
 	player addItem "ACE_microDAGR";
+	(unitBackpack player) addItemCargoGlobal ["ACE_fieldDressing", 10];
 };
 
 if (_typeofUnit in ["vc","vd","vg","pp","pc"]) then {
@@ -66,35 +66,35 @@ if (_typeofUnit in ["vc","vd","vg","pp","pc"]) then {
 
 if (_typeofUnit == "eng" || (player getUnitTrait "engineer")) then {
 	player setVariable ["ACE_IsEngineer",1];
-	player addItem "ACE_clacker";
-	player addItem "ACE_M26_Clacker";
+	(vestContainer player) addItemCargoGlobal ["ACE_clacker",1];
+	(vestContainer player) addItemCargoGlobal ["ACE_M26_Clacker",1];
 };
 
 if (_typeofUnit == "engm" || (player getUnitTrait "explosiveSpecialist")) then {	
 	player setVariable ["ACE_isEOD",1];
-	player addItem "ACE_DefusalKit";
+	(vestContainer player) addItemCargoGlobal ["ACE_DefusalKit",1];
 	player addWeapon "ACE_VMH3";
 };
 
 if (_typeofUnit == "eng" || _typeofUnit == "engm") then {
-	player addItem "ACE_wirecutter";
-	player addItem "ACE_EntrenchingTool";
+	(unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1];
+	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
 };
 
 if (_typeofUnit in ["sn","sp"]) then {
-	player addItem "ACE_ATragMX";
-	player addItem "ACE_Kestrel4500";
-	player addItem "ACE_RangeCard";
+	(vestContainer player) addItemCargoGlobal ["ACE_ATragMX",1];
+	(vestContainer player) addItemCargoGlobal ["ACE_Kestrel4500",1];
+	(vestContainer player) addItemCargoGlobal ["ACE_RangeCard",1];
 };
 
 if (_typeofUnit in ["ar","mmgg"] && playerSide == west) then {
-	player addItem "ACE_SpareBarrel";
+	(unitBackpack player) addItemCargoGlobal ["ACE_SpareBarrel", 1];
 };
 
 if (_typeofUnit in ["mtrg","mtrag"]) then {
-	player addItem "ACE_RangeTable_82mm";
-	player addItem "ACE_MapTools";
-	player addItem "ACE_RangeCard";
+	(uniformContainer player) addItemCargoGlobal ["ACE_RangeTable_82mm",1];
+	(uniformContainer player) addItemCargoGlobal ["ACE_MapTools",1];
+	(uniformContainer player) addItemCargoGlobal ["ACE_RangeCard",1];
 	private _box = createVehicle ["ACE_Box_82mm_Mo_Combo", position player, [], 0, "NONE"];
 };
 

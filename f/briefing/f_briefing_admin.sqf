@@ -203,7 +203,7 @@ player createDiaryRecord ["ZeuAdmin", ["Safe Start",_missionSafe]];
 
 // DEBUG SECTION
 _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
-<execute expression=""(findDisplay 12) createDisplay 'RscDisplayDebugPublic';hintSilent 'Displaying Debug Window';"">Show Debug Window</execute><br/>
+<execute expression=""systemChat 'Dead Units Deleted'; { if (_x distance player < 300) then { deleteVehicle _x }; } forEach allDead;"">Remove Dead Units (300m)</execute><br/>
 <br/>
 <execute expression=""systemChat 'Click on Map to teleport'; player onMapSingleClick {player setPos _pos; openMap false; onMapSingleClick ''; true;};"">Map Click Teleport</execute><br/>
 <br/>

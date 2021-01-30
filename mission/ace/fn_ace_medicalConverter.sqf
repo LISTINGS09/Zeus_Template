@@ -46,14 +46,14 @@ _unit addItemCargoGlobal ["ACE_fieldDressing", (_cntFAK * 2)];
 if (_unit getVariable ["ace_medical_medicclass", getNumber (configFile >> "CfgVehicles" >> typeOf _unit >> "attendant")] > 0) then {	
 	{	
 		if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 3] };
-	} forEach ["ACE_morphine", "ACE_epinephrine", "ACE_fieldDressing", "ACE_bloodIV_250", "ACE_bloodIV_500", "ACE_bloodIV"];
+	} forEach ["ACE_morphine", "ACE_epinephrine", "ACE_fieldDressing", "ACE_bloodIV_250", "ACE_bloodIV_500", "ACE_bloodIV", "ACE_bodyBag"];
 	
 	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { _unit addItemCargoGlobal ["ACE_splint", 10]; };	
 	
 	if (_advMedical) then {
 		{	
 			if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 2] };
-		} forEach ["ACE_tourniquet", "ACE_elasticBandage", "ACE_packingBandage", "ACE_quikclot", "ACE_bodyBag"];
+		} forEach ["ACE_tourniquet", "ACE_elasticBandage", "ACE_packingBandage", "ACE_quikclot"];
 		
 		{	
 			if (isClass (configFile >> "CfgWeapons" >> _x )) then { _unit addItemCargoGlobal [_x, _cntFAK * 2] };

@@ -77,7 +77,7 @@ f_var_mapClickTeleport_textAction = format["<t color='#80FF00'>%1</t>",_string];
 // If the player dies we wait until he is alive again and re-add the action.
 
 if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
-		[_string] spawn { sleep 8; player groupChat format["Use ACE Team Management to begin %1.",_this select 0]; };
+		[_string] spawn { sleep 4; player groupChat format["Use ACE Team Management to begin %1.",_this select 0]; };
 		ace_par_action = ['PAR',format["%1",_string],['\a3\ui_f\data\IGUI\Cfg\simpleTasks\types\run_ca.paa','\A3\ui_f_orange\data\cfgTaskTypes\airdrop_ca.paa'] select (f_var_mapClickTeleport_Height > 0),{[] spawn f_fnc_mapClickTeleportUnit},{true}] call ace_interact_menu_fnc_createAction;
 		[player, 1, ["ACE_SelfActions","ACE_TeamManagement"], ace_par_action] call ace_interact_menu_fnc_addActionToObject;
 		if (_timeLimit > 0) then {
@@ -85,7 +85,7 @@ if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
 			[player, 1, ["ACE_SelfActions","ACE_TeamManagement","PAR"]] call ace_interact_menu_fnc_removeActionFromObject;
 		};
 } else {
-	[_string] spawn { sleep 8; player groupChat format["Use Action Menu to begin %1.",_this select 0]; };
+	[_string] spawn { sleep 4; player groupChat format["Use Action Menu to begin %1.",_this select 0]; };
 	f_mapClickTeleportAction = player addAction [f_var_mapClickTeleport_textAction,{[] spawn f_fnc_mapClickTeleportUnit},"", 0, false,true,"","_this == player"];	
 	if (_timeLimit > 0) then {
 		sleep _timeLimit;

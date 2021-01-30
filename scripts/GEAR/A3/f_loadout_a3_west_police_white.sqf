@@ -50,13 +50,13 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_MX_Black_F","arifle_SPAR_01_blk_F"];
-_riflemag = "30Rnd_65x39_caseless_mag";
-_riflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_riflemag = "30Rnd_65x39_caseless_black_mag";
+_riflemag_tr = "30Rnd_65x39_caseless_black_mag_Tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["arifle_MXC_Black_F","arifle_SPAR_01_blk_F"];
-_carbinemag = "30Rnd_65x39_caseless_mag";
-_carbinemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_carbinemag = "30Rnd_65x39_caseless_black_mag";
+_carbinemag_tr = "30Rnd_65x39_caseless_black_mag_Tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = "SMG_01_F";
@@ -70,8 +70,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["arifle_MX_GL_Black_F","arifle_SPAR_01_GL_blk_F"];
-_glriflemag = "30Rnd_65x39_caseless_mag";
-_glriflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_glriflemag = "30Rnd_65x39_caseless_black_mag";
+_glriflemag_tr = "30Rnd_65x39_caseless_black_mag_Tracer";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -132,8 +132,8 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["arifle_MX_SW_Black_F","arifle_SPAR_02_blk_F","LMG_Mk200_F","LMG_03_F"];
-_ARmag = "100Rnd_65x39_caseless_mag";
-_ARmag_tr = "100Rnd_65x39_caseless_mag_Tracer";
+_ARmag = "100Rnd_65x39_caseless_black_mag";
+_ARmag_tr = "100Rnd_65x39_caseless_black_mag_Tracer";
 
 // Medium MG
 _MMG = "MMG_02_black_F";
@@ -142,7 +142,7 @@ _MMGmag_tr = "130Rnd_338_Mag";
 
 // Marksman rifle
 _DMrifle = ["arifle_MXM_Black_F","arifle_SPAR_03_blk_F","srifle_DMR_03_F","srifle_DMR_07_blk_F"];
-_DMriflemag = "30Rnd_65x39_caseless_mag";
+_DMriflemag = "30Rnd_65x39_caseless_black_mag";
 
 // Rifleman AT
 _RAT = "launch_NLAW_F";

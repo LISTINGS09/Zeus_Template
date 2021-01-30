@@ -57,12 +57,12 @@ _riflemag = "rhs_30Rnd_762x39mm";
 _riflemag_tr = "rhs_30Rnd_762x39mm_tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["rhs_weap_akm","rhs_weap_akms","rhs_weap_ak103","rhs_weap_ak74m_folded"];
+_carbine = ["rhs_weap_akm","rhs_weap_akms","rhs_weap_ak103","rhs_weap_ak74m"];
 _carbinemag = "rhs_30Rnd_762x39mm";
 _carbinemag_tr = "rhs_30Rnd_762x39mm_tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = "rhs_weap_ak74m_folded";
+_smg = "rhs_weap_ak74m";
 _smgmag = "30Rnd_545x39_Mag_Green_F";
 _smgmag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
 

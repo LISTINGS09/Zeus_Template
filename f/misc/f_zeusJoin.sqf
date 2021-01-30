@@ -34,7 +34,9 @@ f_fnc_displayZeusButtons = {
 
 if (time > 1) exitWith {};
 
-// Wait until we're in-game to create IDD 12 EH
-waitUntil { sleep 0.5; !isNull findDisplay 12 };
+[] spawn { 
+	// Wait until we're in-game to create IDD 12 EH
+	waitUntil { uiSleep 0.5; !isNull findDisplay 12 };
 
-((uiNamespace getVariable "RscDiary") displayCtrl 1001) ctrlAddEventHandler [ "LBSelChanged", "_this call f_fnc_displayZeusButtons"];
+	((uiNamespace getVariable "RscDiary") displayCtrl 1001) ctrlAddEventHandler [ "LBSelChanged", "_this call f_fnc_displayZeusButtons"];
+};

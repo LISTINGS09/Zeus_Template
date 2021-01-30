@@ -45,13 +45,12 @@ force STHud_Settings_Occlusion = TRUE;
 // ACE
 // http://www.29th.org/a3/index.php?title=ACE_3_Settings
 force ace_advanced_fatigue_loadFactor = 0.8;
-force ace_advanced_fatigue_performanceFactor = 1.25;
-force ace_advanced_fatigue_recoveryFactor = 2;
+force ace_advanced_fatigue_performanceFactor = 1.3;
+force ace_advanced_fatigue_recoveryFactor = 1.6;
 force ace_advanced_fatigue_terrainGradientFactor = 0.9;
 
-force ace_medical_AIDamageThreshold = 0.3;
-force ace_medical_playerDamageThreshold = 3;
-force ace_medical_spontaneousWakeUpChance = 0.8;
+force ace_medical_AIDamageThreshold = 0.8;
+force ace_medical_playerDamageThreshold = 2;
 force ace_medical_spontaneousWakeUpEpinephrineBoost = 20;
 force ace_medical_ivFlowRate = 10;
 

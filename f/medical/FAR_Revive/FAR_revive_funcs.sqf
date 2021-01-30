@@ -314,8 +314,7 @@ FAR_fnc_SetUnconscious = {
 		if ((animationState _unit) select [0,3] != "unc" && 
 			(animationState _unit) != "amovppnemstpsnonwnondnon_amovppnemstpsraswrfldnon" &&
 			!(_unit getVariable ["FAR_var_isDragged", false]) &&
-			isNull (attachedTo _unit) && 
-			_tick > 10
+			isNull (attachedTo _unit)
 		) then {
 			systemChat format["[ERROR] animationState incorrect!", animationState _unit];
 			diag_log text format["[ERROR] animationState was incorrect: %1", animationState _unit];
@@ -619,7 +618,12 @@ FAR_fnc_Bag = {
 		{ 
 			if (!alive player && (playerRespawnTime > FAR_var_RespawnBagTime || playerRespawnTime < 0)) then { 
 				setPlayerRespawnTime FAR_var_RespawnBagTime;
-				[format["Respawn in %1 Minutes",round FAR_var_RespawnBagTime / 60], 0] call BIS_fnc_respawnCounter;
+				
+				private _layer = "BIS_fnc_respawnCounter" call bis_fnc_rscLayer; 
+				RscRespawnCounter_Custom = FAR_var_RespawnBagTime; 
+				RscRespawnCounter_description = "";
+				_layer cutRsc ["RscRespawnCounter","PLAIN"];
+				
 				titleText [format["<t size='2'>Your body was recovered. Respawn in %1 Minutes<br/>", round FAR_var_RespawnBagTime / 60],"PLAIN DOWN", 2, true, true];
 			};
 		} remoteExecCall ["BIS_fnc_spawn", _cursorTarget];

@@ -38,34 +38,37 @@ if (isNil "f_fnc_teleportPlayer") then { f_fnc_teleportPlayer = compileFinal pre
 
 // Create JIP Flag
 if _spawnFlag then {
-	{ 
-		_x params ["_side", "_flagMarker","_flagType"];
-		
-		if (_flagMarker in allMapMarkers && side group player == _side) then {
-			_mrkPos = getMarkerPos _flagMarker;
+	private _flagType = "Flag_White_F";
+	private _flagMarker = "respawn_civilian";
+
+	switch (side group player) do {
+		case west		: { _flagType = "Flag_Blue_F"; 	_flagMarker = "respawn_west"; };
+		case east		: { _flagType = "Flag_Red_F"; 	_flagMarker = "respawn_east"; };
+		case resistance	: { _flagType = "Flag_Green_F"; _flagMarker = "respawn_guerrila"; };
+	};
+
+	if (_flagMarker in allMapMarkers) then {
+		if (isNil "f_obj_spawnFlag") then {
+			private _mrkPos = getMarkerPos _flagMarker;
 			_mrkPos set [2,0];
-			private _obj = _flagType createVehicleLocal _mrkPos;
-			sleep 0.5;
+			
+			f_obj_spawnFlag = _flagType createVehicleLocal _mrkPos;
+			sleep 0.1;
 			
 			// Don't spawn on seabed.
-			if (underwater _obj) then {
-				_flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];
+			if (underwater f_obj_spawnFlag) then {
+				_flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];		
 				_flagStone setPosASL [_mrkPos#0,_mrkPos#1,-1];
-				_obj setPosASL (lineIntersectsSurfaces [_mrkPos vectorAdd [0,0,1000], AGLToASL _mrkPos] #0 #0);
-			};
-				
-			_obj addAction ["<t color='#80FF00'>Spawn on Team</t>",f_fnc_teleportPlayer];
-		} else {
-			if (format["respawn_%1", side group player] == _flagMarker) then {
-				["f_teleportOption.sqf",format["No respawn marker found for %1.",side (group player)]] call f_fnc_logIssue;
+				f_obj_spawnFlag setPosASL (lineIntersectsSurfaces [_mrkPos vectorAdd [0,0,1000], AGLToASL _mrkPos] #0 #0);
 			};
 		};
-	} forEach [
-		[west, "respawn_west","Flag_Blue_F"],
-		[east, "respawn_east","Flag_Red_F"],
-		[independent, "respawn_guerrila","Flag_Green_F"],
-		[civilian, "respawn","Flag_White_F"]
-	];
+
+		f_obj_spawnFlag addAction ["<t color='#80FF00'>Spawn on Team</t>",f_fnc_teleportPlayer];
+	} else {
+		if (_flagMarker != "respawn_civilian") then {
+			["f_teleportOption.sqf",format["No respawn marker found for %1.",side (group player)]] call f_fnc_logIssue;
+		};
+	};
 };
 
 // ====================================================================================

@@ -2,7 +2,8 @@
 player addRating 100000;
 [player, "NoVoice"] remoteExec ["setSpeaker", -2, format["NoVoice_%1", netId player]]; // No player voice
 showSubtitles false; // No radio calls
-"Group" setDynamicSimulationDistance 800;
+"Group" setDynamicSimulationDistance 1200;
+"Vehicle" setDynamicSimulationDistance 2500;
 enableEngineArtillery false; 	// Disable Artillery Computer
 //onMapSingleClick "_shift";	// Disable Map Clicking
 f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus features in MP.
@@ -12,7 +13,6 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 // ====================================================================================
 // F3 - Casualty Cap - Sides: west | east | resistance - Format: [SIDE,ENDING,<PERCENT>]
 [nil, 2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
-//[west, {f_var_casualtyLimitHit = true;}] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf"; // Alternative use with trigger.
 // ====================================================================================
 // F3 - Map Click Teleport
 // [1,600,true,[],3000] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";	// Set for HALO (3000m Height)

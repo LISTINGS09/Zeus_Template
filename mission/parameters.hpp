@@ -77,8 +77,8 @@ class f_param_respawn
 };
 class f_param_medical
 {
-		title = "System - Medical";
-		values[] = {-1,0,1};
-		texts[] = {"Automatic","Vanilla","Farooq Revive"};
-		default = -1;
+	title = "System - Medical";
+	values[] = {-1,0,1};
+	texts[] = {"Automatic","Vanilla","Farooq Revive"};
+	default = -1;
 };
