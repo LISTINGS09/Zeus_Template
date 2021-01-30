@@ -1,4 +1,4 @@
-// Zeus Hunter Seeker Script
+// Zeus Hunter Seeker Script v1.0
 // Spawns defined group(s) using BIS_fnc_Stalk. Will respawn when killed - Endless pursuit.
 // Can change the allPlayers filter to only include certain groups etc...
 //
@@ -28,26 +28,9 @@ switch (typeName _location) do {
 	case "OBJECT": {_location = getPos _location};
 };
 
-_ZHS_fnc_findLocation = {
-	// Find a suitable location far from players and not in the water.
-	params ["_centre", ["_minDist", ZHS_SpawnDist]];
-	private _foundPos = _centre getPos [_minDist + random _minDist, random 360];
-	
-	private _tries = 0;
-	
-	// Loop until the position isn't near any player.
-	while { !surfaceIsWater _foundPos && ((allPlayers select { alive _x && isTouchingGround _x }) findIf { _x distance2D _foundPos < _minDist }) >= 0 } do {
-		_foundPos = _centre getPos [_minDist + random _minDist, random 360];
-		_tries = _tries + 1;
-		sleep 0.5;
-	};
-	
-	_foundPos
-};
-
 _ZHS_fnc_spawnTeam = {
 	// Spawns a team and adds an EH to spawn a new team when all dead.
-	params ["_pos", ["_side", ZHS_Side], ["_configEntry", ZHS_Config]];
+	params [["_pos",[0,0,0]], ["_side", ZHS_Side], ["_configEntry", ZHS_Config]];
 	
 	private _grp = [_pos, _side, selectRandom _configEntry] call BIS_fnc_spawnGroup;
 	
@@ -76,7 +59,8 @@ _ZHS_fnc_spawnTeam = {
 for "_i" from 0 to _number do {
 	if (count _units == 0) exitWith {};
 
-	_spawnPos = [_location] call _ZHS_fnc_findLocation;
+	_spawnPos = [_location, ZHS_SpawnDist, ZHS_SpawnDist + 200, 1] call BIS_fnc_findSafePos
+	_spawnPos set [2,0];
 	_spawnGrp = [_spawnPos] call _ZHS_fnc_spawnTeam;
 
 	[_spawnGrp, group (selectRandom _units)] spawn BIS_fnc_Stalk;
