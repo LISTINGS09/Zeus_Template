@@ -146,7 +146,7 @@ _DMrifle = ["arifle_MXM_Black_F","arifle_MXM_khk_F","srifle_DMR_03_khaki_F","sri
 _DMriflemag = "30Rnd_65x39_caseless_mag";
 
 // Rifleman AT
-_RAT = ["launch_MRAWS_green_F","launch_NLAW_F"];
+_RAT = ["launch_MRAWS_olive_F","launch_NLAW_F"];
 _RATmag = "MRAWS_HEAT_F";
 _RATmag2 = "MRAWS_HE_F";
 

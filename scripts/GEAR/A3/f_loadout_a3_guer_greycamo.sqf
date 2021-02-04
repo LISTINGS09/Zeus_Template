@@ -146,7 +146,7 @@ _DMrifle = ["arifle_SPAR_03_blk_F","arifle_SPAR_03_khk_F","srifle_DMR_02_camo_F"
 _DMriflemag = "20Rnd_762x51_Mag";
 
 // Rifleman AT
-_RAT = ["launch_MRAWS_green_F","launch_NLAW_F"];
+_RAT = ["launch_MRAWS_green_rail_F","launch_NLAW_F"];
 _RATmag = "MRAWS_HEAT_F";
 _RATmag2 = "MRAWS_HE_F";
 

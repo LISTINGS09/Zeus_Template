@@ -8,7 +8,12 @@ private _isMissile = _weaponNew isKindOf ["Launcher", configFile >> "CfgWeapons"
 if (isNil "_unit") exitWith { ["fn_magazineCheck.sqf",format["Invalid Unit passed: '%1'",_unit], "ERROR"] call f_fnc_logIssue };
 if (!(isClass (configFile >> "CfgWeapons" >> _weaponNew)) || !(isClass (configFile >> "CfgWeapons" >> _weaponOld))) exitWith { ["fn_magazineCheck.sqf",format["Invalid Weapon (%1 to %2)",_weaponOld, _weaponNew], "ERROR"] call f_fnc_logIssue };
 
-private _magsOld = [_weaponOld] call BIS_fnc_compatibleMagazines;
+private _oldGLMags = [];
+private _oldMuzzle = getArray (configFile >> "CfgWeapons" >> _weaponOld >> "muzzles");
+
+if (count _oldMuzzle > 1) then { _oldGLMags = (getArray (configFile >> "CfgWeapons" >> _weaponOld >> _oldMuzzle#1 >> "magazines")) apply { toLower _x } };
+
+private _magsOld = ([_weaponOld] call BIS_fnc_compatibleMagazines) - _oldGLMags;
 private _magsNew = (getArray(configFile >> "CfgWeapons" >> _weaponNew >> "magazines")) apply { toLower _x };
 
 //diag_log format["[F3] MAGCHECK: _magsOld: %1",_magsOld];

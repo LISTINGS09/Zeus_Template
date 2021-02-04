@@ -152,7 +152,7 @@ _RATmag = "RPG7_F";
 _RATmag2 = "RPG7_F";
 
 // Medium AT
-_MAT = ["launch_RPG32_F","launch_MRAWS_olive_rail_F"];
+_MAT = ["launch_RPG32_F","launch_MRAWS_sand_rail_F"];
 _MATmag1 = "RPG32_F";
 _MATmag2 = "RPG32_HE_F";
 

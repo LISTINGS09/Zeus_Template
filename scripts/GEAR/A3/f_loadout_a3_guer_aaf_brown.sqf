@@ -148,7 +148,7 @@ _DMrifle = ["srifle_DMR_05_tan_f","srifle_DMR_07_blk_F","srifle_DMR_03_tan_F","s
 _DMriflemag = "10Rnd_93x64_DMR_05_Mag";
 
 // Rifleman AT
-_RAT = ["launch_MRAWS_sand_F","launch_NLAW_F"];
+_RAT = ["launch_MRAWS_sand_rail_F","launch_NLAW_F"];
 _RATmag = "MRAWS_HEAT_F";
 _RATmag2 = "MRAWS_HE_F";
 
