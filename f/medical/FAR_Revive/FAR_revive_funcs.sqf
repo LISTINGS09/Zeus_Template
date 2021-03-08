@@ -1,6 +1,7 @@
 FAR_fnc_unitInit = {
 	params [["_unit", player]];
 	
+	if (!isNil "FAR_EHID_HandleDeath") then { _unit removeEventHandler ["Killed", FAR_EHID_HandleDeath] };
 	FAR_EHID_HandleDeath = _unit addEventHandler ["Killed", FAR_fnc_HandleDeath]; // Used in instant death
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
@@ -12,6 +13,7 @@ FAR_fnc_unitInit = {
 	
 	if !(isPlayer _unit) exitWith {};
 	
+	if (!isNil "FAR_EHID_Respawn") then { _unit removeEventHandler ["Respawn", FAR_EHID_Respawn] };
 	FAR_EHID_Respawn = _unit addEventHandler ["Respawn", { [] spawn FAR_fnc_unitInit; if (captive player) then { player setCaptive false }; if (FAR_var_SpawnInMedical) then { [] spawn FAR_fnc_TeleportNearestVehicle }; }];
 	
 	[_unit] spawn FAR_fnc_PlayerActions;
@@ -44,7 +46,7 @@ FAR_fnc_unitRemove = {
 };
 
 FAR_fnc_PlayerActions = {
-	params ["_unit","_newUnit"];
+	params ["_unit", "_newUnit"];
 	
 	// SP Team Switch Fix
 	if (!isNil "_newUnit") then {
@@ -87,6 +89,49 @@ FAR_fnc_PlayerActions = {
 	};
 };
 
+FAR_fnc_RagDoll = {
+	params[["_unit", player]];
+	
+	if ((eyePos _unit)#2 <= 0.4 || isPlayer _unit || vehicle _unit != _unit) exitWith { _unit setUnconscious true  };
+	
+	[_unit, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory;
+	
+	private _tempMan = (createGroup [side group _unit, true]) createUnit ["C_man_1", [0,0,0], [], 0, "NONE"];
+	
+	_unit hideObjectGlobal true;
+	
+	if (!isNull _tempMan) then {
+		[_tempMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory;
+		[_tempMan, animationState _unit] remoteExec ["switchMove"];
+		_tempMan setposASL getPosASL _unit;
+		_tempMan setDir getDir _unit;
+		_tempMan setVelocity velocity _unit;
+		_tempMan setUnconscious true;
+		
+		_unit setUnconscious true;
+		[_unit, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
+		
+		if (_unit isEqualTo player) then { _tempMan switchCamera cameraView };
+		
+		for "_i" from 1 to 50 do {
+			if (((_tempMan selectionPosition "Neck")#2) < 0.2) exitWith {};
+			sleep 0.1;
+		};
+		
+		uiSleep 4;
+		
+		_unit setVelocity [0,0,0];
+		_unit setposASL getPosASL _tempMan;
+		_unit setDir getDir _tempMan;
+		_unit hideObjectGlobal false;
+		
+		if (_unit isEqualTo player) then { player switchCamera cameraView };
+		
+		_tempMan setPos [0,0,0];
+		deleteVehicle _tempMan;
+	};
+};
+
 FAR_fnc_DeathMessage = {
 	params ["_killed", ["_killer", objNull], ["_type", "killed"]];
 	
@@ -115,8 +160,8 @@ FAR_fnc_FixRagdoll = {
 	private _view = cameraView;
 	private _oldMan = player;
 	
-	if (vehicle _oldMan != _oldMan) exitWith { systemChat "[REVIVE] Cannot be in vehicle!"};
-	if (lifeState _oldMan != "HEALTHY") exitWith { systemChat "[REVIVE] Cannot be injured!"};
+	if (vehicle _oldMan != _oldMan) exitWith { systemChat "[REVIVE] Error - Cannot fix while in vehicle!" };
+	if (lifeState _oldMan != "HEALTHY") exitWith { systemChat "[REVIVE] Error - Cannot fix while injured!" };
 	
 	private _newMan = (group _oldMan) createUnit [typeOf _oldMan, [0,0,0], [], 0, "NONE"];
 	
@@ -129,7 +174,11 @@ FAR_fnc_FixRagdoll = {
 		
 		[_oldMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory;
 		[_newMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory;
-		
+
+		{ 
+			if !(((getObjectTextures _newMan) select _forEachIndex) isEqualTo _x) then { _newMan setObjectTextureGlobal [_forEachIndex, _x] };
+		} forEach (getObjectTextures _oldMan);
+				
 		_oldMan hideObjectGlobal true;
 		_newMan setposASL getPosASL _oldMan;
 		
@@ -147,13 +196,16 @@ FAR_fnc_FixRagdoll = {
 		_oldMan setDamage 1;
 		
 		deleteVehicle _oldMan;
+		
+		systemChat format["[REVIVE] Ragdoll - Migrated %1 to a new unit", name player];
 	};
 };
 
 FAR_fnc_HandleDamage = {
 	params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint"];
+
 	if (alive _unit && 
-		_damage >= 0.9 && 
+		_damage >= 1 && 
 		!(lifeState _unit == "INCAPACITATED") && 
 		_selection in ["","head","face_hub","neck","spine1","spine2","spine3","pelvis","body"]
 	) then {
@@ -161,7 +213,6 @@ FAR_fnc_HandleDamage = {
 		// If not instant death check allowed values, otherwise just make them unconscious
 		if ((random 100 < FAR_var_DeathChance  && (_damage < FAR_var_DeathDmgHead && _selection in ["head", "face_hub"] || _damage < FAR_var_DeathDmgBody && _selection == "")) || { !FAR_var_InstantDeath }) then {
 			_unit allowDamage false;
-			_unit setUnconscious true;
 			[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
 			0
 		};
@@ -195,12 +246,16 @@ FAR_fnc_SetUnconscious = {
 	
 	_unit setCaptive true;
 	_unit setDamage 0.35;
+	
+	if (missionNamespace getVariable ["FAR_var_safeRagDoll", false]) then { 
+		[_unit] call FAR_fnc_RagDoll;
+	} else {
+		_unit setUnconscious true;
+		uiSleep 6;
+	};
 		
 	// Allow the downed unit to be damaged?
 	if (FAR_var_InstantDeath) then { _unit allowDamage true } else { _unit allowDamage false };
-	
-	// Allow unit time to rag-doll.
-	uiSleep 5;
 	
 	// Eject unit if inside vehicle and is destroyed
 	if (vehicle _unit != _unit && !alive vehicle _unit) then {
@@ -311,7 +366,8 @@ FAR_fnc_SetUnconscious = {
 		};
 		
 		// Check unit is in correct animation.
-		if ((animationState _unit) select [0,3] != "unc" && 
+		if (objectParent _unit isEqualTo _unit && 
+			(animationState _unit) select [0,3] != "unc" && 
 			(animationState _unit) != "amovppnemstpsnonwnondnon_amovppnemstpsraswrfldnon" &&
 			!(_unit getVariable ["FAR_var_isDragged", false]) &&
 			isNull (attachedTo _unit)
@@ -396,34 +452,53 @@ FAR_fnc_SetUnconscious = {
 };
 
 FAR_fnc_ReviveUnit = {
-	params["_unit"];
+	params[["_unit", player]];
 	
-	if (isPlayer _unit) then { _unit = player };
+	//if (!isPlayer _unit) exitWith { _unit setUnconscious false };
+		
+	private _view = cameraView;
+	private _oldMan = _unit;
+	private _newMan = (group _oldMan) createUnit [typeOf _oldMan, [0,0,0], [], 0, "NONE"];
 	
-	_unit setDamage 0;
-	_unit allowDamage true;
-	_unit setCaptive false;
-	_unit playAction "Stop";
-	_unit setUnconscious false;
+	_newMan disableAI "ALL";
+		
+	_newMan setUnconscious true;
+	_newMan switchMove "UnconsciousReviveDefault";
+	_newMan setDir getDir _oldMan;
+	
+	// Migrate Info
+	{ _x params ["_varId", "_varVal"]; if (!isNil "_varVal") then { _newMan setVariable [_varId, _varVal] } } forEach (allVariables _oldMan);  // Variables
+	{ _newMan setUnitTrait [_x#0, _x#1] } forEach (getAllUnitTraits _oldMan);  // Traits
+	_newMan assignTeam (assignedTeam _oldMan); // Team Colour
+		
+	_oldMan hideObjectGlobal true;
+	_newMan setposASL getPosASL _oldMan;
+	
+	[_oldMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory; // Gear
+		
+	selectPlayer _newMan;
+
+	waitUntil { _newMan == player };
+	
+	[_newMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory; // Gear
+		
+	_newMan switchCamera _view;
+	_newMan setUnconscious false;
+	[_newMan, name _oldMan] remoteExec ["setName"];	
+		
+	if (leader _oldMan == _oldMan) then { group _newMan selectLeader _newMan };
+	
+	deleteVehicle _oldMan;
+		
+	_newMan setCaptive false;
+	_newMan setUnconscious false;
+	
+	[] call FAR_fnc_unitInit;
 	
 	[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
 
 	if (currentWeapon _unit == secondaryWeapon _unit && {currentWeapon _unit != ""}) then {
 		[_unit, "AmovPknlMstpSrasWlnrDnon"] remoteExec ["switchMove"];
-	};
-	
-	_unit spawn {
-		params ["_unit"];
-		
-		sleep 0.5;
-		
-		if (!alive _unit) exitWith {};
-
-		private _animation = animationState _unit;
-		
-		if ((_animation == "unconscious" || {_animation == "deadstate" || {_animation find "unconscious_" != -1}}) && {lifeState _unit != "INCAPACITATED"}) then {
-			[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
-		};
 	};
 };
 

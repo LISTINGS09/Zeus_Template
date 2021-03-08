@@ -165,7 +165,7 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
 			
-			_diaryText = _diaryText + "<br/>If other players cannot see you, use <execute expression=""if (time > 0) then { call FAR_fnc_FixRagdoll };"">Fix Ragdoll</execute> to correct the issue.<br/>";
+			_diaryText = _diaryText + "<br/>Medical System <execute expression=""if (time > 0) then { call FAR_fnc_unitInit };"">Reinitialise</execute><br/><execute expression=""if (time > 0) then { call FAR_fnc_FixRagdoll };"">Ragdoll Fix</execute><br/>";
 		};
 		
 		case 2: { // ACE

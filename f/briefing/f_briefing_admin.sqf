@@ -216,7 +216,7 @@ Reveal Players to AI:
 		sleep 60; 
 		{ 
 			private _rGrp = _x; 
-			{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select { side _x != side _rGrp AND vehicle _x == _x AND stance _x == 'STAND' });
+			{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select { side _x != side _rGrp AND objectParent _x == _x AND stance _x == 'STAND' });
 			sleep 0.5;
 		} forEach (allGroups select { side _x != side group (selectRandom allPlayers) });
 	}; 

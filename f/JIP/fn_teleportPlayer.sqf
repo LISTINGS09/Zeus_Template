@@ -45,6 +45,11 @@ if (vehicle _refUnit != _refUnit) then {	// Member is in vehicle
 	if (isTouchingGround _refUnit) then {
 		player setPos (_refUnit modelToWorld [0,-0.1,0]); 
 		systemChat format["[JIP] Moved behind %1 (%2)",name _refUnit, groupId (group _refUnit), round (player distance2D _refUnit)];
+		
+		switch (stance _refUnit) do {
+			case "PRONE": { player playAction "PlayerProne" };
+			case "CROUCH": { player playAction "PlayerCrouch" };
+		};
 	} else {
 		// Find a safe pos at ground level in case of HALO.
 		private _pos = [getPos _refUnit select 0, getPos _refUnit select 1, 0] findEmptyPosition [0,50];

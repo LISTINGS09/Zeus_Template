@@ -1,4 +1,4 @@
-// Dog Tag Respawn - v1.1 by 2600K
+// Dog Tag Respawn - v1.2 by 2600K
 // Players must bring ACE Dog Tags back to any medical vehicle in order to respawn dead players.
 // Set 'f_param_dogTagRespawn = true' in scritps.sqf to enable.
 
@@ -28,7 +28,7 @@ zeu_dog_check = {
 	if (isNull _unit) exitWith {};
 	
 	// Are we near a medical building/vehicle?
-	private _inReviveArea = count (_unit nearObjects 25 select { ((_x getVariable ["ace_medical_isMedicalVehicle", false]) || (_x getVariable ["ace_medical_isMedicalFacility", false]) || (getNumber (configFile >> "CfgVehicles" >> typeOf _x >> "attendant")]) > 0) && !(_x isKindOf "Man") }) > 0;
+	private _inReviveArea = count (_unit nearObjects 25 select { ((_x getVariable ["ace_medical_isMedicalVehicle", false]) || (_x getVariable ["ace_medical_isMedicalFacility", false]) || (getNumber (configFile >> "CfgVehicles" >> typeOf _x >> "attendant")) > 0) && !(_x isKindOf "Man") }) > 0;
 
 	// Check we're not at spawn, which allows up to 150m
 	if !_inReviveArea then {
@@ -63,13 +63,6 @@ zeu_dog_check = {
 					(owner _target) publicVariableClient "f_var_dogTagRespawnPos";
 					[5 + random 5] remoteExec ["setPlayerRespawnTime", _target]; 
 					[_target] remoteExec ["hideBody", _target];
-					
-					/*
-					private _layer = "BIS_fnc_respawnCounter" call bis_fnc_rscLayer; 
-					RscRespawnCounter_Custom = 60; 
-					RscRespawnCounter_description = "";
-					_layer cutRsc ["RscRespawnCounter","PLAIN"];
-					*/
 					
 					[[format["<t size='2'>Your Dog Tag was recovered by %1</t>",name _unit],"PLAIN DOWN", 2, true, true]] remoteExec ["TitleText", _target];
 					_tagCount = _tagCount + 1;

@@ -34,7 +34,7 @@ if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log tex
 		private _unit = _x;
 		
 		// Enable ACE Cooking
-		if (vehicleVarName _unit == "" && random 1 > 0.6) then { _unit setVariable ["ace_cookoff_enable", true, true] };
+		if (vehicleVarName _unit == "" && random 1 > 0.3) then { _unit setVariable ["ace_cookoff_enable", true, true] };
 		
 		if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {diag_log text format["[F3] DEBUG (fn_stayInVehicle.sqf): Processing vehicle: %1 (%2)",_unit,typeOf _unit];};
 		

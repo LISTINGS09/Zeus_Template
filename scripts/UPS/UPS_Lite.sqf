@@ -30,7 +30,7 @@ _alertTime = 300; 	// AI Alert after spotting enemy
 _artyTime = 300;	// Arty delay between firing
 _artyRural = 100;	// Arty dispersion in rural areas
 _artyUrban = 50;	// Arty dispersion in urban areas
-_unitSkill = [['aimingAccuracy',0.25],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',0.85],['spotTime',0.85]]; // Average AI
+_unitSkill = [['aimingAccuracy',0.25],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',1],['spotTime',0.85]]; // Average AI
 
 if (isNil "ZAI_Debug") then { ZAI_Debug = false }; // Disable debug mode if not set
 

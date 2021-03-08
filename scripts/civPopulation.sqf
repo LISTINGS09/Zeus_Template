@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.6
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.7
 // [] execVM "scripts\civPopulation.sqf";
 
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
@@ -246,8 +246,8 @@ ZCS_fnc_SpawnHunter = {
 	private _huntPlayer = selectRandom (allPlayers select { alive _x && vehicle _x == _x });
 	 
 	if(isNil "_huntPlayer") exitWith { objNull };
-	
-	private _enemyGroup = createGroup [if (side group _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side group _huntPlayer getFriend EAST < 0.6 && { side _x == EAST } count allGroups > 0) then { EAST } else { INDEPENDENT }; }, true];
+
+	private _enemyGroup = createGroup [if (side group _huntPlayer getFriend WEST < 0.6 && WEST countSide allGroups > 0) then { WEST } else { if (side group _huntPlayer getFriend EAST < 0.6 && EAST countSide allGroups > 0) then { EAST } else { INDEPENDENT }; }, true];
 	
 	private _hunter = (createGroup [civilian, true]) createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
 	[_hunter] joinSilent _enemyGroup; // BugFix - createUnit group is ignored?
@@ -283,7 +283,7 @@ ZCS_fnc_SpawnBomber = {
 	 
 	if(isNil "_huntPlayer") exitWith { objNull };
 	
-	private _enemyGroup = createGroup [if (side group _huntPlayer getFriend WEST < 0.6) then { WEST } else { if (side group _huntPlayer getFriend EAST < 0.6 && { side _x == EAST } count allGroups > 0) then { EAST } else { INDEPENDENT }; }, true];
+	private _enemyGroup = createGroup [if (side group _huntPlayer getFriend WEST < 0.6 && WEST countSide allGroups > 0) then { WEST } else { if (side group _huntPlayer getFriend EAST < 0.6 && EAST countSide allGroups > 0) then { EAST } else { INDEPENDENT }; }, true];
 	
 	private _bomber = ( createGroup [civilian, true]) createUnit [selectRandom ZCS_var_UnitClass, [0,0,0], [], 0, "FORM"];
 	[_bomber] joinSilent _enemyGroup; // BugFix - createUnit group is ignored?

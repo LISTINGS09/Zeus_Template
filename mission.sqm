@@ -1,4 +1,4 @@
-version=53;
+version=54;
 class EditorData
 {
 	moveGridStep=32;
@@ -8,7 +8,7 @@ class EditorData
 	toggles=37;
 	class ItemIDProvider
 	{
-		nextID=4549;
+		nextID=4551;
 	};
 	class MarkerIDProvider
 	{
@@ -20,13 +20,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={1601.7041,60.059216,859.82715};
-		dir[]={-0.28469232,-0.45273221,0.8449831};
-		up[]={-0.14455225,0.89164096,0.4290407};
-		aside[]={0.94766486,-2.2133463e-008,0.31928739};
+		pos[]={1472.5229,161.12926,1751.6893};
+		dir[]={0.098621145,-0.31072304,0.94537044};
+		up[]={0.032239713,0.95050049,0.309046};
+		aside[]={0.9946028,-1.8626451e-009,-0.10375707};
 	};
 };
 binarizationWanted=0;
+sourceName="Zeus_Template";
 addons[]=
 {
 	"A3_Ui_F",
@@ -1480,7 +1481,6 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_ASL_SL";
 						description="Alpha - Squad Leader@Alpha";
-						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -4165,6 +4165,7 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_A2_FTL";
 						description="Grenadier";
+						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};

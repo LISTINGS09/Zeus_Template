@@ -30,9 +30,8 @@ FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage",
     waitUntil { !isNull player };
 	
 	// Persistent after respawn - Don't add it again if present
-	if (isNil "FAR_EHID_HandleDamage") then { 
-		FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
-	};
+	if !(isNil "FAR_EHID_HandleDamage") then { player removeEventHandler ["HandleDamage", FAR_EHID_HandleDamage] };
+	FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
 	
 	[player] spawn FAR_fnc_unitInit;
 	
