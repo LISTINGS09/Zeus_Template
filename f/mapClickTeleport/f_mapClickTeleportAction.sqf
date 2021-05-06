@@ -10,8 +10,6 @@ f_fnc_mapClickTeleportGroup = compileFinal preprocessFileLineNumbers "f\mapClick
 f_fnc_mapClickTeleportUnit = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportUnit.sqf";
 f_fnc_mapClickHaloEffect = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickHaloEffect.sqf";
 
-
-
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
 if (!isDedicated && (isNull player)) then {
     waitUntil {sleep 0.1; !isNull player};

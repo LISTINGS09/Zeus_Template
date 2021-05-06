@@ -82,3 +82,10 @@ class f_param_medical
 	texts[] = {"Automatic","Vanilla","Farooq Revive"};
 	default = -1;
 };
+class f_param_thirdPerson
+{
+	title = "System - Third Person";
+	values[] = {0,1,2};
+	texts[] = {"No Restriction","In Vehicles Only","First Person Only"};
+	default = 0;
+};

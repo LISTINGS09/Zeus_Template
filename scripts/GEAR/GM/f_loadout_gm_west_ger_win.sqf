@@ -7,7 +7,7 @@ _attach1 = "";
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ""; // Rifleman
+_silencer1 = "muzzle_snds_B"; // Rifleman
 _silencer2 = ""; // MG
 
 _scope1 = []; // CQB
@@ -115,7 +115,7 @@ _chemalt = "SmokeShellOrange";
 // Backpacks
 _bagsmall = "gm_ge_backpack_satchel_80_blk";
 _bagmedium = "gm_ge_army_backpack_80_oli";
-_baglarge =  "gm_ge_army_backpack_80_oli";
+_baglarge =  "gm_ge_army_backpack_90_cover_win";
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "B_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "B_HMG_01_weapon_F";				// used by Heavy MG gunner
@@ -196,9 +196,9 @@ _baseHelmet = "gm_ge_headgear_m62_cover_win";
 _baseGlasses = ["","G_Bandanna_khk"];
 
 // Vests
-_lightRig = "gm_ge_army_vest_80_crew";
-_mediumRig = "gm_ge_army_vest_80_rifleman"; 	// default for all infantry classes
-_heavyRig = "gm_ge_army_vest_80_machinegunner";
+_lightRig = "gm_dk_army_vest_m00_win";
+_mediumRig = "gm_dk_army_vest_m00_win_rifleman"; 	// default for all infantry classes
+_heavyRig = "gm_dk_army_vest_m00_win_rifleman";
 
 // Diver
 _diverUniform =  "U_B_Wetsuit";

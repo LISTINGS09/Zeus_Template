@@ -83,8 +83,8 @@ _glsmokealt1 = "1Rnd_SmokeGreen_Grenade_shell";
 _glsmokealt2 = "1Rnd_SmokeRed_Grenade_shell";
 
 // Flares for FTLs, Squad Leaders, etc
-_glflare = "3Rnd_UGL_FlareWhite_F";
-_glflarealt = "3Rnd_UGL_FlareGreen_F";
+_glflare = "UGL_FlareWhite_F";
+_glflarealt = "UGL_FlareGreen_F";
 
 // Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
 _pistol = "hgun_Pistol_heavy_01_F";

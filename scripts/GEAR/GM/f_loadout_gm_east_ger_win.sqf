@@ -50,19 +50,19 @@ _defMags = 3;
 _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["gm_mpiak74n_prp","gm_mpiak74n_brn"];
-_riflemag = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
-_riflemag_tr = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
+_rifle = "arifle_AKM_F";
+_riflemag = "30Rnd_762x39_AK12_Mag_F";
+_riflemag_tr = "30Rnd_762x39_AK12_Mag_Tracer_F";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["gm_mpiaks74n_prp","gm_mpiaks74n_brn"];
-_carbinemag = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
-_carbinemag_tr = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
+_carbine = ["arifle_AKS_F"];
+_carbinemag = "30Rnd_545x39_Mag_F";
+_carbinemag_tr = "30Rnd_545x39_Mag_Tracer_F";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = ["gm_mpiaks74nk_prp","gm_mpiaks74nk_brn"];
-_smgmag = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
-_smgmag_tr = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
+_smg = ["gm_mp2a1_blk"];
+_smgmag = "gm_32Rnd_9x19mm_B_DM51_mp2_blk";
+_smgmag_tr = "gm_32Rnd_9x19mm_AP_DM91_mp2_blk";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -70,19 +70,19 @@ _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = ["gm_mpiak74n_prp","gm_mpiak74n_brn"];
-_glriflemag = "gm_30Rnd_545x39mm_B_7N6_ak74_prp";
-_glriflemag_tr = "gm_30Rnd_545x39mm_B_T_7T3_ak74_prp";
-_glmag = "SmokeShell";
+_glrifle = ["gm_akm_pallad_wud"];
+_glriflemag = "30Rnd_762x39_Mag_F";
+_glriflemag_tr = "30Rnd_762x39_Mag_Tracer_F";
+_glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
-_glsmoke = "gm_1Rnd_265mm_smoke_single_yel_gc";
-_glsmokealt1 = "gm_1Rnd_265mm_smoke_single_blu_gc";
-_glsmokealt2 = "gm_1Rnd_265mm_smoke_single_blk_gc";
+_glsmoke = "1Rnd_Smoke_Grenade_shell";
+_glsmokealt1 = "1Rnd_SmokeGreen_Grenade_shell";
+_glsmokealt2 = "1Rnd_SmokeRed_Grenade_shell";
 
 // Flares for FTLs, Squad Leaders, etc
-_glflare = "gm_1Rnd_265mm_flare_multi_wht_DM25";
-_glflarealt = "gm_1Rnd_265mm_flare_multi_grn_DM21";
+_glflare = "UGL_FlareWhite_F";
+_glflarealt = "UGL_FlareRed_F";
 
 // Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
 _pistol = "gm_lp1_blk";

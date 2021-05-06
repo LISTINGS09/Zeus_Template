@@ -1,6 +1,6 @@
 //
 //  Urban Patrol Script Zeus Edition
-//  Version: 1.7
+//  Version: 1.8
 //  Author: 2600K & Kronzky (www.kronzky.info / kronzky@gmail.com)
 //  BIS Forum: http://forums.bistudio.com/showthread.php?147904-Urban-Patrol-Script&highlight=Urban+Patrol+Script
 //
@@ -160,6 +160,7 @@ if (_holdMove) then { [_grp, "Task", "HOLD"] call _ZAI_fnc_setGroupVariable; };
 
 if (!_holdMove && !("NOSLOW" in _params)) then {
 	_grp setBehaviour "SAFE"; 
+	_grp setCombatBehaviour "SAFE";
 	_grp setSpeedMode "LIMITED";
 	_grp setCombatMode "YELLOW";
 	{ _x setUnitPos "AUTO" } forEach units _grp;
@@ -600,8 +601,9 @@ while {TRUE} do {
 			if ("Man" in _grpType) then { _grpLeader commandMove _newGrpPos; { doStop _x; _x doFollow _grpLeader } forEach units _grp; }; // Regroup
 		} else {
 			// Go alert if unit wanders into a hot area.
-			if (_combatArea && behaviour leader _grp == "SAFE") then {
+			if (_combatArea && combatBehaviour _grp == "SAFE") then {
 				_grp setBehaviour "AWARE";
+				_grp setCombatBehaviour "AWARE";
 				_grp setSpeedMode "NORMAL";
 			};
 		};

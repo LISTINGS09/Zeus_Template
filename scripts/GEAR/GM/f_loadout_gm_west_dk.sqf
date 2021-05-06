@@ -7,7 +7,7 @@ _attach1 = "";
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ""; // Rifleman
+_silencer1 = "muzzle_snds_B"; // Rifleman
 _silencer2 = ""; // MG
 
 _scope1 = []; // CQB
@@ -52,12 +52,12 @@ _defMags_tr = 3;
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["gm_g3a3_oli","gm_g3a3_blk","gm_g3a3_grn"];
 _riflemag = "gm_20Rnd_762x51mm_B_DM41_g3_blk";
-_riflemag_tr = "gm_20Rnd_762x51mm_B_DM41_g3_blk";
+_riflemag_tr = "gm_20Rnd_762x51mm_B_T_DM21A1_g3_blk";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["gm_g3a4_oli","gm_g3a4_blk","gm_g3a4_grn"];
 _carbinemag = "gm_20Rnd_762x51mm_B_DM41_g3_blk";
-_carbinemag_tr = "gm_20Rnd_762x51mm_B_DM41_g3_blk";
+_carbinemag_tr = "gm_20Rnd_762x51mm_B_T_DM21A1_g3_blk";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = ["gm_mp2a1_blk"];
@@ -196,9 +196,9 @@ _baseHelmet = ["gm_dk_headgear_m52_net_oli"];
 _baseGlasses = [""];
 
 // Vests
-_lightRig = "gm_dk_army_vest_54_crew";
-_mediumRig = "gm_dk_army_vest_54_rifleman"; 	// default for all infantry classes
-_heavyRig = "gm_dk_army_vest_54_machinegunner";
+_lightRig = "gm_dk_army_vest_m00_m84";
+_mediumRig = "gm_dk_army_vest_m00_m84_rifleman"; 	// default for all infantry classes
+_heavyRig = "gm_dk_army_vest_m00_m84_rifleman";
 
 // Diver
 _diverUniform =  "U_B_Wetsuit";
@@ -254,6 +254,7 @@ if (_isMan) then {
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
 	_unit addItem "gm_ge_facewear_m65";
+	_unit addItem "gm_ge_headgear_hat_beanie_blk";
 };
 
 // SETUP BACKPACKS

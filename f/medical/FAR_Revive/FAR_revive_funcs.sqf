@@ -197,6 +197,9 @@ FAR_fnc_FixRagdoll = {
 		
 		deleteVehicle _oldMan;
 		
+		f_sqf_brief = execVM "f\briefing\briefing.sqf";
+		[player] spawn FAR_fnc_unitInit;
+				
 		systemChat format["[REVIVE] Ragdoll - Migrated %1 to a new unit", name player];
 	};
 };

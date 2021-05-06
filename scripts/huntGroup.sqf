@@ -1,4 +1,4 @@
-// Zeus Hunter Seeker Script v1.0
+// Zeus Hunter Seeker Script v1.1
 // Spawns defined group(s) using BIS_fnc_Stalk. Will respawn when killed - Endless pursuit.
 // Can change the allPlayers filter to only include certain groups etc...
 //
@@ -64,4 +64,12 @@ for "_i" from 0 to _number do {
 	_spawnGrp = [_spawnPos] call _ZHS_fnc_spawnTeam;
 
 	[_spawnGrp, group (selectRandom _units)] spawn BIS_fnc_Stalk;
+	
+	{	
+		_x disableAI "COVER";
+		_x disableAI "FSM";
+		_x disableAI "SUPPRESSION";
+		_x setSpeedMode "FULL";
+		_x setUnitPos "UP";
+	} forEach units _spawnGrp;
 };

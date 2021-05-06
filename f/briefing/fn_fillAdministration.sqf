@@ -19,7 +19,10 @@ params [["_diaryText", "", [""]]];
 
 if (_diaryText == "") then { _diaryText = _diaryText + "<br/><font size='18' color='#80FF00'>ADMINISTRATION</font><br/>The following text has been auto-generated from the mission modules and parameters.<br/>" };
 
-_diaryText = _diaryText + format["<br/>Framework Version: <font color='#00FFFF'>v%1</font><br/><br/>", missionNamespace getVariable ["f_var_version","0.00"]];
+_diaryText = _diaryText + format["<br/>Framework Version: <font color='#00FFFF'>v%1</font><br/>%2<br/>",
+	missionNamespace getVariable ["f_var_version","0.00"],
+	if (!isNil "ZMM_Version") then { format["ZMM Version: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZMM_Version","0.00"]] } else { "" }
+];
 
 // ENVIRONMENT
 _diaryText = _diaryText + "<br/><font size='18' color='#80FF00'>ENVIRONMENT</font>";

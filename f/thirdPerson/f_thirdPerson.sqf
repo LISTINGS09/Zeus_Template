@@ -10,7 +10,7 @@ if (missionNamespace getVariable["f_param_thirdPerson",0] == 0) exitWith {};
 
 // 3rd in Vehicles Only
 if (f_param_thirdPerson == 1) exitWith { 
-	(FindDisplay 46) displayAddEventHandler ["keydown",{if (inputAction "personView" > 0 && vehicle player == player && lifeState player != "INCAPACITATED") then { true }}];
+	(FindDisplay 46) displayAddEventHandler ["keydown",{if (inputAction "personView" > 0 && vehicle player == player && lifeState player != "INCAPACITATED") then { player switchCamera "INTERNAL"; true }}];
 };
 
 // 3rd Disabled Everywhere

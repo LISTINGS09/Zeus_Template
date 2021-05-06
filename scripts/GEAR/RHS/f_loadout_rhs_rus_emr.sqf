@@ -115,9 +115,9 @@ _chem =  "rhs_mag_nspn_green";
 _chemalt = "rhs_mag_nspn_red";
 
 // Backpacks
-_bagsmall = "rhs_assault_umbts";			// carries 120, weighs 20
-_bagmedium = "rhs_assault_umbts";			// carries 200, weighs 30
-_baglarge =  "B_Carryall_oli"; 				// carries 320, weighs 40
+_bagsmall = "rhs_rk_sht_30_emr";					// carries 120, weighs 20
+_bagmedium = "rhs_rk_sht_30_emr";			// carries 200, weighs 30
+_baglarge =  "rhs_tortila_emr"; 			// carries 320, weighs 40
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "O_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "I_HMG_01_weapon_F";				// used by Heavy MG gunner

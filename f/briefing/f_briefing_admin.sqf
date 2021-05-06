@@ -231,9 +231,6 @@ Uses diag_activeSQFScripts to list all running SQF Scripts to your LOCAL report.
 <execute expression=""[[true],'f\misc\f_debug.sqf'] remoteExec ['BIS_fnc_execVM',2];hintSilent 'Starting Debug';"">Checking Script</execute><br/>
 This performs a basic check for any mission related logic issues and problems. It is automatically called at the start of the mission in single player.<br/>
 <br/>
-<execute expression=""[true] call f_fnc_spectateInit;"">Spectator Start</execute> - Initialises the BIS Spectator Script.<br/>
-<execute expression=""[false] call f_fnc_spectateInit;"">Spectator Stop</execute> - Terminates the BIS Spectator Script if it is running.<br/>
-<br/>
 Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0 } } forEach allMapMarkers;"">Hide</execute> |
 <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 1 } } forEach allMapMarkers;"">Show</execute> |
 <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlpha 0 } } forEach allMapMarkers;"">Hide (Global)</execute> | 
@@ -243,13 +240,63 @@ Map Border: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then 
 
 player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
 
-// ACRE
+// GEAR
+private _missionGear = "<font size='16' color='#80FF00'>Gear</font><br/>If you are NOT in a vehicle, the vehicle or box you are looking at will attempt to be used. Otherwise, a crate will be spawned according to the spawn mode.<br/><br/>";
+
+_missionGear = _missionGear + "
+Spawn Mode: <execute expression=""missionNamespace setVariable ['var_dropAmmo',false]; systemChat 'Spawn Mode: At Feet';"">At Feet</execute> | <execute expression=""missionNamespace setVariable ['var_dropAmmo',true]; systemChat 'Spawn Mode: Air Drop';"">Air Dropped</execute><br/><br/>
+<execute expression=""
+	private _gearType = 'v_car';
+	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
+	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
+"">Car Inventory</execute><br/>
+<execute expression=""
+	private _gearType = 'v_tr';
+	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
+	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
+"">Truck Inventory</execute><br/>
+<execute expression="" 
+	private _gearType = 'v_ifv';
+	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
+	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
+"">IFV Inventory</execute><br/>
+Supply Inventory <execute expression="" 
+	private _gearType = 'crate_small';
+	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_NATO_Support_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
+	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
+"">Small Box</execute> | 
+<execute expression="" 
+	private _gearType = 'crate_med';
+	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+	if (isNull _gearTarget) then { _gearTarget = createVehicle ['B_supplyCrate_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
+	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
+"">Medium Crate</execute> | 
+<execute expression="" 
+	private _gearType = 'crate_large';
+	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+	if (isNull _gearTarget) then { _gearTarget = createVehicle ['B_CargoNet_01_ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
+	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
+"">Large Cargo Net</execute><br/>
+<br/>
+";
+
 if ("acre_main" in activatedAddons) then {
-	private _missionAcre = "<font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
-	
+
+	private _missionGear = "<font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
+
 	{ 
 		if (isClass (configFile >> "CfgWeapons" >> _x)) then {
-			_missionAcre = _missionAcre + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargo ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
+			_missionGear = _missionGear + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargo ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
 				_x,
 				getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
 				getText (configFile >> "CfgWeapons" >> _x >> "descriptionShort"),
@@ -257,9 +304,9 @@ if ("acre_main" in activatedAddons) then {
 			];
 		};
 	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F"];
-	
-	player createDiaryRecord ["ZeuAdmin", ["ACRE",_missionAcre]];
 };
+
+player createDiaryRecord ["ZeuAdmin", ["Gear",_missionGear]];
 
 // ====================================================================================
 
