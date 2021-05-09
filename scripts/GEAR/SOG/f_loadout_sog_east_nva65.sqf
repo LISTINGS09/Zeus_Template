@@ -3,6 +3,8 @@
 // ================================
 // GENERAL EQUIPMENT USED BY MULTIPLE CLASSES
 // ATTACHMENTS - PRIMARY
+f_radios_backpack = "vn_o_pack_t884_01";
+
 _attach1 = "vn_b_type56";
 _attach2 = "vn_b_sks";
 
@@ -113,9 +115,9 @@ _chem =  "vn_rgd33_grenade_mag";
 _chemalt = "vn_rkg3_grenade_mag";
 
 // Backpacks
-_bagsmall = ["vn_o_pack_01","vn_o_pack_02"];
-_bagmedium = ["vn_o_pack_01","vn_o_pack_02","vn_o_pack_04","vn_o_pack_04_sks_pl"];
-_baglarge =  "vn_o_pack_02_eng_ppsh_pl";
+_bagsmall = "vn_o_pack_01";
+_bagmedium = ["vn_o_pack_01","vn_o_pack_02","vn_o_pack_04","vn_o_pack_06"];
+_baglarge =  "vn_o_pack_05";
 _bagmediumdiver =  "B_AssaultPack_blk";			// used by divers
 _baguav = "O_UAV_01_backpack_F";				// used by UAV operator
 _baghmgg = "vn_o_pack_static_dshkm_high_01";	// used by Heavy MG gunner
@@ -214,8 +216,8 @@ _pilotGlasses = "";
 
 // Crewman
 _crewUniform = "vn_o_uniform_nva_army_02_01";
-_crewHelmet = "vn_o_helmet_tsh3_02";
-_crewRig = "vn_o_vest_07";
+_crewHelmet = ["vn_o_helmet_tsh3_01","vn_o_helmet_tsh3_02"];
+_crewRig = ["vn_o_vest_06","vn_o_vest_07"];
 _crewGlasses = "vn_o_acc_goggles_01";
 
 // Ghillie
@@ -253,6 +255,7 @@ if (_isMan) then {
 	_unit linkItem "ItemCompass";	// Add and equip a compass
 	_unit linkItem "vn_o_item_radio_m252";		// Add and equip A3's default radio
 	_unit linkItem "vn_b_item_watch";		// Add and equip a watch
+	_unit addItem "vn_o_poncho_01_01";
 };
 
 // SETUP BACKPACKS
@@ -311,7 +314,6 @@ switch (_typeOfUnit) do
 	// LOADOUT: MEDIC
 	case "m":
 	{
-		_bagmedium = "vn_o_pack_02_medic_ppsh_pl";
 		[_typeOfUnit] call _backpack;
 		_unit setUnitTrait ["medic",1];
 		_unit addMagazines [_carbinemag,_defMags];
@@ -366,6 +368,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: RIFLEMAN (AT)
 	case "rat":
 	{
+		_bagmedium = "vn_o_pack_03";
 		[_typeOfUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
@@ -439,18 +442,19 @@ switch (_typeOfUnit) do
 	// LOADOUT: MEDIUM AT GUNNER
 	case "matg":
 	{
+		_baglarge = selectRandom ["vn_o_pack_03","vn_o_pack_07"];
 		[_typeOfUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		_unit addMagazines [_smokegrenade,2];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _MAT] call f_fnc_addWeapon;
-		_unit addSecondaryWeaponItem "gm_feroz2x17_pzf84_blk";
 	};
 
 	// LOADOUT: MEDIUM AT ASSISTANT GUNNER
 	case "matag":
 	{
+		_baglarge = selectRandom ["vn_o_pack_03","vn_o_pack_07"];
 		[_typeOfUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
