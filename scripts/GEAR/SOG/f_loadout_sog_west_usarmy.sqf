@@ -333,7 +333,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_glmag,3];
 		[_unit, _glrifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
-		_pistol = "vn_m72";
+		_pistol = "vn_m79_p";
 		_pistolmag = "vn_40mm_m381_he_mag";
 		[_unit, _pistol] call f_fnc_addWeapon;
 		_unit addMagazines [_pistolmag,4];
