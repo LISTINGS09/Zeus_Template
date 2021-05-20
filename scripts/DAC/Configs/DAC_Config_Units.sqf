@@ -335,13 +335,22 @@ switch (_TypNumber) do
 		_Unit_Pool_A = [ "vn_o_air_mi2_03_03","vn_o_air_mi2_03_04" ]; 
 	};
 
-	// SOG - VC
+	// SOG - ARVN
 	case 55:
 	{
 		_Unit_Pool_S = [ "vn_i_men_army_12","vn_i_men_army_05","vn_i_men_army_04","vn_i_men_army_07","vn_i_men_army_06","vn_i_men_army_10","vn_i_men_army_15","vn_i_men_army_16","vn_i_men_army_18","vn_i_men_army_19","vn_i_men_army_20","vn_i_men_army_21","vn_i_men_army_02" ];
 		_Unit_Pool_V = [ "vn_i_wheeled_m151_mg_01","vn_b_wheeled_m54_mg_01","vn_b_wheeled_m54_mg_03","vn_o_wheeled_btr40_mg_02_nva65" ];     
 		_Unit_Pool_T = [ "vn_i_armor_m41_01","vn_i_armor_type63_01" ];
 		_Unit_Pool_A = [ "vn_i_air_uh1c_02_01","vn_i_air_uh1c_01_01" ]; 
+	};
+	
+	// SOG - VC
+	case 56:
+	{
+		_Unit_Pool_S = [ "vn_o_men_vc_local_28","vn_o_men_vc_local_07","vn_o_men_vc_local_11","vn_o_men_vc_local_10","vn_o_men_vc_local_08","vn_o_men_vc_local_01","vn_o_men_vc_local_16","vn_o_men_vc_local_02","vn_o_men_vc_local_06","vn_o_men_vc_local_18","vn_o_men_vc_local_03","vn_o_men_vc_local_05","","vn_o_men_vc_local_13","vn_o_men_vc_local_23","vn_o_men_vc_local_12" ];
+		_Unit_Pool_V = [ "vn_o_wheeled_z157_mg_01_nva65","vn_o_wheeled_btr40_mg_02_nva65","vn_o_wheeled_btr40_mg_01_nva65","vn_o_wheeled_btr40_mg_03_nva65" ];     
+		_Unit_Pool_T = [ "vn_o_armor_type63_01_nva65" ];
+		_Unit_Pool_A = [ "vn_o_air_mi2_03_03","vn_o_air_mi2_03_04" ]; 
 	};
 	
   
