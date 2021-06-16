@@ -310,7 +310,7 @@ _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_motoriz
 _Light = ["gm_gc_army_brdm2_olw"];
 _Medium = ["gm_gc_army_bmp1sp2_olw","gm_gc_army_btr60pa_olw"];
 _Heavy = ["2gm_gc_army_t55a_olw","gm_gc_army_zsu234v1_olw"];
-_Air = [];
+_Air = [["gm_gc_airforce_mi2p","[_grpVeh,['gm_gc_un',1]] call BIS_fnc_initVehicle;"]];
 _CAS = [];
 
 // East Germany - Summer
@@ -323,7 +323,7 @@ _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_motorizedin
 _Light = ["gm_gc_army_brdm2"];
 _Medium = ["gm_gc_army_bmp1sp2","gm_gc_army_btr60pa"];
 _Heavy = ["2gm_gc_army_t55a","gm_gc_army_zsu234v1"];
-_Air = [];
+_Air = ["gm_gc_airforce_mi2p"];
 _CAS = [];
 
 // West Germany - Summer

@@ -9,13 +9,13 @@ f_radios_settings_disableAllRadios = false;
 // e.g: ["co","dc","pp","pc","pcc","vc","vd","vg"] would give the CO, FTLs and all medics long-range
 f_radios_settings_longRangeUnits = ["leaders"]; // ["co","ftl","vc","pp"];
 
-// Set the list of units that get a personal/short-range radio e.g. "co","dc","ftl","p"
+// Set the list of units that get a personal/short-range radio e.g. "co","dc","ftl","pp"
 // Undefined will assign to ALL by default, below gives any leader a PR
-f_radios_settings_personalRadio = ["leaders"];
+f_radios_settings_personalRadio = ["leaders","co","dc","ftl","pp","vc"];
 
 // Set the list of units that get a rifleman's/basic radio
 // Undefined will assign to all by default or leave empty array for no radios.
-//f_radios_settings_riflemanRadio = [];
+f_radios_settings_riflemanRadio = [];
 
 // Set custom LR Nets if required (LR otherwise determined by 'groups.sqf').
 f_radios_settings_longRangeGroups = ["Company", "Platoon 1", "Platoon 2", "Air", "Support"]; // "NEUTRAL" is shared in ACRE.

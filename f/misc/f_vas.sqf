@@ -40,7 +40,13 @@ if (_flagMarker in allMapMarkers) then {
 		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Lock Virtual Arsenal (Admin)</t>", { missionNamespace setVariable ['f_param_virtualArsenal', 0, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0"];
 		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock Virtual Arsenal (Admin)</t>", { missionNamespace setVariable ['f_param_virtualArsenal', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] == 0"];
 	};
-		
+	
+	if (missionNamespace getVariable ['f_param_virtualGarage',0] == 0 && (serverCommandAvailable "#kick" || _incAdmin || !isMultiplayer)) then {
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Lock Virtual Garage (Admin)</t>", { missionNamespace setVariable ['f_param_virtualGarage', 0, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_virtualGarage',0] != 0"];
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock Virtual Garage (Admin)</t>", { missionNamespace setVariable ['f_param_virtualGarage', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_virtualGarage',0] == 0"];
+	};
+	
+	f_obj_spawnFlag addAction ["<t color='#0080FF'>Virtual Garage</t>", { if (!isNil "ZEU_fnc_StartVirtualGarage") then { [] spawn ZEU_fnc_StartVirtualGarage } else { systemChat "[VG] Check the briefing to set Virtual Garage spawn point"; [] execVM "f\misc\f_virtualGarage.sqf"; }}, nil, 1.4, true, true, "", "missionNamespace getVariable ['f_param_virtualGarage',0] != 0 OR serverCommandAvailable '#kick'"];	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Virtual Arsenal</t>", {["Open",true] spawn BIS_fnc_arsenal}, nil, 1.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0 OR serverCommandAvailable '#kick'"];
 	
 	f_obj_spawnFlag addAction ["<t color='#007F00'>Copy Leaders Uniform</t>",{ 		

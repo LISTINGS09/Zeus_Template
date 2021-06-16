@@ -199,6 +199,8 @@ FAR_fnc_FixRagdoll = {
 		
 		f_sqf_brief = execVM "f\briefing\briefing.sqf";
 		[player] spawn FAR_fnc_unitInit;
+		_oldMan removeEventHandler ["HandleDamage", FAR_EHID_HandleDamage];
+		FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
 				
 		systemChat format["[REVIVE] Ragdoll - Migrated %1 to a new unit", name player];
 	};
@@ -561,7 +563,7 @@ FAR_fnc_Revive = {
 			_simpleObj setVectorUp surfaceNormal getPosWorld _caller;
 		};
 		
-		if !("Medikit" in (items _caller)) then { _caller removeItem "FirstAidKit" };
+		if (count (FAR_var_Medkit arrayIntersect (items _caller)) == 0) then { _caller removeItem "FirstAidKit" };
 		
 		[_cursorTarget, false] remoteExecCall ["setUnconscious", _cursorTarget];
 		uiSleep 1;
@@ -583,7 +585,7 @@ FAR_fnc_CheckStabilize = {
 		!([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy) && 
 		!( _cursorTarget getVariable ["FAR_var_isDragged",false]) && 
 		!(_cursorTarget getVariable ['FAR_var_isStable',false]) && 
-		('FirstAidKit' in (items _caller) || 'Medikit' in (items _caller) || 'FirstAidKit' in (items _cursorTarget)) &&
+		((count (FAR_var_FAK arrayIntersect (items _caller + items _cursorTarget))) > 0 || ((count (FAR_var_Medkit arrayIntersect (items _caller))) > 0)) &&
 		{lifeState _cursorTarget == 'INCAPACITATED'}) 
 	exitWith { 
 		_caller setUserActionText [FAR_act_Stabilise, format["<t color='#FF0000'>Stabilize<img image='%2'/>(%1)</t>", name _cursorTarget, (getText (configFile >> "CfgVehicles" >> (typeOf _cursorTarget) >> "icon") call bis_fnc_textureVehicleIcon)], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa'/>"];
@@ -617,9 +619,10 @@ FAR_fnc_Stabilize = {
 			_simpleObj setDir random 360;
 			_simpleObj setVectorUp surfaceNormal getPosWorld _caller;
 		};
-		
-		if !("Medikit" in (items _caller)) then {
-			if !("FirstAidKit" in (items _caller)) then {
+
+
+		if (count (FAR_var_Medkit arrayIntersect (items _caller)) == 0) then {
+			if (count (FAR_var_FAK arrayIntersect (items _caller)) == 0) then {
 				_cursorTarget removeItem "FirstAidKit";
 				[[format["<t color='#FF0080' size='1.5'>Stabilised</t><t size='1.5'> by %1 using a FAK from your inventory</t>", name _caller], "PLAIN DOWN", -1, true, true]] remoteExecCall ["TitleText", _cursorTarget];
 			} else {
@@ -662,7 +665,7 @@ FAR_fnc_CheckBag = {
 	if (!(_caller getVariable ["FAR_var_isDragging", false]) && 
 		!([_caller] call FAR_fnc_isUnderwater) &&
 		!(_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] && !(isObjectHidden _x) } isEqualTo []) && 
-		{"Medikit" in (items _caller)}) 
+		{count (FAR_var_Medkit arrayIntersect (items _caller)) > 0}) 
 	exitWith { 
 		_caller setUserActionText [FAR_act_Bag , format["<t color='#FF0000'>Bag Body%1</t>", if (name _cursorTarget != "Error: No unit" && lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN']) then { format[" (%1)", name _cursorTarget] } else {""}], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa'/>"];
 		true 
