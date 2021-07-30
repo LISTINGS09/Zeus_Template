@@ -404,6 +404,18 @@ _Heavy = ["gm_pl_army_zsu234v1","gm_pl_army_pt76b","gm_pl_army_t55"];
 _Air = [];
 _CAS = [];
 
+// VC
+_side = EAST;
+ZMM_EASTMan = ["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_12","vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_12","vn_o_men_nva_dc_01","vn_o_men_nva_dc_02","vn_o_men_nva_dc_03","vn_o_men_nva_dc_04","vn_o_men_nva_dc_05","vn_o_men_nva_dc_06","vn_o_men_nva_dc_07","vn_o_men_nva_dc_08","vn_o_men_nva_dc_09","vn_o_men_nva_dc_10","vn_o_men_nva_dc_11","vn_o_men_nva_dc_12"];
+_Sentry = [[["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_12"]]];
+_Team = [[["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_14","vn_o_men_nva_dc_11","vn_o_men_nva_dc_05"]]];
+_Squad = [[["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_14","vn_o_men_nva_dc_11","vn_o_men_nva_dc_05","vn_o_men_nva_dc_08","vn_o_men_nva_dc_01","vn_o_men_nva_dc_09","vn_o_men_nva_dc_10","vn_o_men_nva_dc_07"]]];
+_Truck = ["vn_o_wheeled_z157_02_nva65"];
+_Light = ["vn_o_wheeled_z157_mg_01_nva65"];
+_Medium = ["vn_o_wheeled_btr40_mg_02_nva65","vn_o_wheeled_btr40_mg_01_nva65"];
+_Heavy = ["vn_o_armor_type63_01_nva65","vn_o_wheeled_btr40_mg_03_nva65"];
+_Air = ["vn_o_air_mi2_01_01","vn_o_air_mi2_01_03"];;
+_CAS = ["vn_o_air_mi2_03_03","vn_o_air_mi2_03_04"];
 */
 
 // Functions.
