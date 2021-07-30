@@ -68,6 +68,12 @@ _fSel = switch (_faction) do {
 	case "USAW": 	{ ["rhs_faction_usmc_wd","rhs_EdSubcat_infantry"] };
 	case "GER": 	{ ["gm_fc_ge","gm_esc_men_80_autumn"] };
 	case "GERW": 	{ ["gm_fc_ge","gm_esc_men_80_winter"] };
+	// SOG(WEST)
+	case "CIDG": 	{ ["B_MACV","vn_b_men_cidg"] };
+	case "LRRP": 	{ ["B_MACV","vn_b_men_lrrp"] };
+	case "MACV": 	{ ["B_MACV","vn_b_men_sog"] };
+	case "SF": 		{ ["B_MACV","vn_b_men_sf"] };
+	case "USA": 	{ ["B_MACV","vn_b_men_army"] };
 
 	// GUER
 	case "AAF": 	{ ["IND_F","EdSubcat_Personnel"] };
@@ -81,6 +87,10 @@ _fSel = switch (_faction) do {
 	case "SAF": 	{ ["rhssaf_faction_army","rhssaf_EdSubcat_army_infantry_oakleaf"] };
 	case "BAN": 	{ ["IND_C_F","EdSubcat_Personnel_Bandits"] };
 	case "SYND": 	{ ["IND_C_F","EdSubcat_Personnel_Paramilitary"] };
+	// SOG(GUER)
+	case "ARVN": 	{ ["I_ARVN","vn_i_men_arvn"] };
+	case "ARVNSF": 	{ ["I_ARVN","vn_i_men_arvn_sf"] };
+	case "RANGER": 	{ ["I_ARVN","vn_i_men_arvn_ranger"] };
 
 	// EAST
 	case "CHDKZE": 	{ ["rhsgref_faction_chdkz","rhsgref_EdSubcat_infantry"] };
@@ -100,6 +110,15 @@ _fSel = switch (_faction) do {
 	case "TLA": 	{ ["rhsgref_faction_tla","rhsgref_EdSubcat_infantry"] };
 	case "EGER": 	{ ["gm_fc_gc","gm_esc_men_80"] };
 	case "EGERW": 	{ ["gm_fc_gc","gm_esc_men_80_winter"] };
+	// SOG(EAST)
+	case "VCMAIN": 		{ ["O_VC","vn_o_men_vc_mainforce"] };
+	case "VCLOCAL": 	{ ["O_VC","vn_o_men_vc_local"] };
+	case "VCREGIONAL":	{ ["O_VC","vn_o_men_vc_regional"] };
+	case "PAVNFIELD65": { ["O_PAVN","vn_o_men_nva_65_d"] };
+	case "PAVNFIELD": 	{ ["O_PAVN","vn_o_men_nva_d"] };
+	case "PAVN": 		{ ["O_PAVN","vn_o_men_nva"] };
+	case "PAVN65": 		{ ["O_PAVN","vn_o_men_nva_65"] };
+	case "PAVNDACONG": 	{ ["O_PAVN","vn_o_men_nva_dac_cong"] };
 	
 	// CIV
 	case "ZOM": 	{ ["ZOMBIE_Faction","EdSubcat_Personnel"] };
@@ -131,7 +150,51 @@ _fnc_notInString = {
 	private _notInString = TRUE;
 	{
 		if (toLower _type find _x >= 0) exitWith { _notInString = FALSE };
-	} forEach [ "_story", "_vr", "competitor", "ghillie", "miller", "survivor", "crew", "diver", "pilot", "rangemaster", "uav", "unarmed", "officer", "ugv" ];
+	} forEach [ 
+		"_story", 
+		"_vr", 
+		"competitor", 
+		"ghillie", 
+		"miller", 
+		"survivor", 
+		"crew", 
+		"diver", 
+		"pilot", 
+		"rangemaster", 
+		"uav", 
+		"unarmed", 
+		"officer", 
+		"ugv", 
+		"vn_o_men_nva_65_35",
+		"vn_o_men_nva_65_36",
+		"vn_o_men_nva_65_37",
+		"vn_o_men_nva_65_38",
+		"vn_o_men_nva_65_39",
+		"vn_o_men_nva_65_40",
+		"vn_o_men_nva_37",
+		"vn_o_men_nva_38",
+		"vn_o_men_nva_39",
+		"vn_o_men_nva_40",
+		"vn_o_men_nva_41",
+		"vn_o_men_nva_42",
+		"vn_b_men_army_13",
+		"vn_b_men_army_14",
+		"vn_b_men_army_23",
+		"vn_b_men_army_24",
+		"vn_b_men_army_25",
+		"vn_b_men_army_26",
+		"vn_b_men_army_28",
+		"vn_b_men_army_29",
+		"vn_i_men_army_13",
+		"vn_i_men_army_14",
+		"vn_i_men_army_23",
+		"vn_i_men_army_24",
+		"vn_i_men_army_25",
+		"vn_i_men_army_26",
+		"vn_i_men_ranger_13",
+		"vn_i_men_ranger_14",
+		"vn_i_men_ranger_22"
+		 ];
 	
 	_notInString
 };
