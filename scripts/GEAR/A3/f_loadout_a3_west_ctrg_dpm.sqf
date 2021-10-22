@@ -191,14 +191,14 @@ _specOp = [];
 
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
-_baseUniform = ["U_B_CombatUniform_mcam"];
-_baseHelmet = ["H_HelmetB_snakeskin"];
+_baseUniform = ["U_B_CTRG_Soldier_F","U_B_CTRG_Soldier_3_F"];
+_baseHelmet = ["H_HelmetB_plain_wdl"];
 _baseGlasses = ["G_Bandanna_oli",""];
 
 // Vests
-_lightRig = "V_TacVest_camo";
-_mediumRig = "V_PlateCarrier1_rgr_noflag_F"; 	// default for all infantry classes
-_heavyRig = "V_PlateCarrier2_rgr_noflag_F";
+_lightRig = "V_CarrierRigKBT_01_Olive_F";
+_mediumRig = "V_CarrierRigKBT_01_light_Olive_F"; 	// default for all infantry classes
+_heavyRig = "V_CarrierRigKBT_01_heavy_Olive_F";
 
 // Diver
 _diverUniform =  "U_B_Wetsuit";
@@ -207,13 +207,13 @@ _diverRig = "V_RebreatherB";
 _diverGlasses = "G_Diving";
 
 // Pilot
-_pilotUniform = _baseUniform;
+_pilotUniform = "U_B_CTRG_Soldier_2_F";
 _pilotHelmet = "H_PilotHelmetHeli_B";
 _pilotRig = "V_TacVest_camo";
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = _baseUniform;
+_crewUniform = "U_B_CTRG_Soldier_2_F";
 _crewHelmet = "H_HelmetCrew_B";
 _crewRig = "V_TacVest_camo";
 _crewGlasses = [];
@@ -244,13 +244,6 @@ if (_isMan) then {
 	// HANDLE CLOTHES
 	// Handle clothes and helmets and such using the include file called next.
 	#include "..\..\f\assignGear\f_assignGear_clothes.sqf";
-	
-	// Add the Woodland re-texture.
-	_unit spawn {
-		sleep 0.1;
-		_this setObjectTextureGlobal [0, "\a3\characters_f\BLUFOR\Data\clothing_wdl_co.paa"];
-		_this addEventHandler [ "Respawn", { [] spawn { sleep 1; player setObjectTextureGlobal [0, "\a3\characters_f\BLUFOR\Data\clothing_wdl_co.paa"] } } ];
-	};
 
 	// ADD UNIVERSAL ITEMS
 	// Add items universal to all units of this faction

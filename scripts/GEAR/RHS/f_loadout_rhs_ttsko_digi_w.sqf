@@ -52,19 +52,19 @@ _defMags = 4;
 _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["rhs_weap_ak74m","rhs_weap_ak74m_camo"];
-_riflemag = "30Rnd_545x39_Mag_Green_F";
-_riflemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_rifle = ["rhs_weap_m21a"];
+_riflemag = "rhsgref_30rnd_556x45_m21";
+_riflemag_tr = "rhsgref_30rnd_556x45_m21_t";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["rhs_weap_ak74m","rhs_weap_ak74m_camo"];
-_carbinemag = "30Rnd_545x39_Mag_Green_F";
-_carbinemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_carbine = ["rhs_weap_m21s"];
+_carbinemag = "rhsgref_30rnd_556x45_m21";
+_carbinemag_tr = "rhsgref_30rnd_556x45_m21_t";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = ["rhs_weap_ak74m","rhs_weap_ak74m_camo"];
-_smgmag = "30Rnd_545x39_Mag_Green_F";
-_smgmag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_smg = ["rhs_weap_m21s"];
+_smgmag = "rhsgref_30rnd_556x45_m21";
+_smgmag_tr = "rhsgref_30rnd_556x45_m21_t";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -72,9 +72,9 @@ _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = "rhs_weap_ak74m_gp25";
-_glriflemag = "30Rnd_545x39_Mag_Green_F";
-_glriflemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_glrifle = "rhs_weap_m21a_pbg40";
+_glriflemag = "rhsgref_30rnd_556x45_m21";
+_glriflemag_tr = "rhsgref_30rnd_556x45_m21_t";
 _glmag = "rhs_VOG25P";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -115,9 +115,9 @@ _chem =  "rhs_mag_nspn_green";
 _chemalt = "rhs_mag_nspn_red";
 
 // Backpacks
-_bagsmall = "rhs_rk_sht_30_emr";					// carries 120, weighs 20
-_bagmedium = "rhs_rk_sht_30_emr";			// carries 200, weighs 30
-_baglarge =  "rhs_tortila_emr"; 			// carries 320, weighs 40
+_bagsmall = "rhssaf_kitbag_digital";					// carries 120, weighs 20
+_bagmedium = "rhssaf_kitbag_digital";					// carries 200, weighs 30
+_baglarge =  "rhssaf_kitbag_digital"; 			// carries 320, weighs 40
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "O_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "I_HMG_01_weapon_F";				// used by Heavy MG gunner
@@ -134,12 +134,12 @@ _baghsamag = "I_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = "rhs_weap_pkm";
+_AR = "rhs_weap_m84";
 _ARmag = "rhs_100Rnd_762x54mmR";
 _ARmag_tr = "rhs_100Rnd_762x54mmR_green";
 
 // Medium MG
-_MMG = "rhs_weap_pkp";
+_MMG = "rhs_weap_pkm";
 _MMGmag = "rhs_100Rnd_762x54mmR";
 _MMGmag_tr = "rhs_100Rnd_762x54mmR_green";
 
@@ -194,8 +194,8 @@ _specOp = [];
 // The outfit-piece is randomly selected from the array for each unit
 
 // Woodland-Hex
-_baseUniform = ["rhs_uniform_emr_patchless"];
-_baseHelmet = ["rhs_6b28_green_bala","rhs_6b28_green"];
+_baseUniform = ["rhssaf_uniform_m10_digital"];
+_baseHelmet = ["rhssaf_helmet_m97_digital","rhssaf_helmet_m97_veil_digital","rhssaf_helmet_m97_digital"];
 _baseGlasses = [""];
 
 // Urban
@@ -203,9 +203,9 @@ _baseGlasses = [""];
 //_baseHelmet = ["H_HelmetO_oucamo"];
 
 // Vests
-_lightRig = ["rhs_6b23_digi"];
-_mediumRig = ["rhs_6b23_digi_6sh92","rhs_6b23_digi_rifleman"]; 	// default for all infantry classes
-_heavyRig = ["rhs_6b13_EMR"];
+_lightRig = ["rhssaf_vest_md98_digital"];
+_mediumRig = ["rhssaf_vest_md12_digital"]; 	// default for all infantry classes
+_heavyRig = ["rhssaf_vest_md12_digital"];
 
 // Diver
 _diverUniform =  ["U_O_Wetsuit"];
@@ -214,26 +214,26 @@ _diverRig = ["V_RebreatherIR"];
 _diverGlasses = ["G_Diving"];
 
 // Pilot
-_pilotUniform = ["rhs_uniform_df15"];
+_pilotUniform = _baseUniform;
 _pilotHelmet = ["rhs_zsh7a_mike"];
 _pilotRig = ["V_TacVest_blk"];
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = ["rhs_uniform_vdv_emr"];
+_crewUniform = _baseUniform;
 _crewHelmet = ["rhs_tsh4","rhs_tsh4_ess","rhs_tsh4_bala","rhs_tsh4_ess_bala"];
 _crewRig = ["rhs_vydra_3m"];
 _crewGlasses = [];
 
 // Ghillie
-_ghillieUniform = ["U_O_FullGhillie_lsh"]; //DLC alternatives: ["U_O_FullGhillie_lsh","U_O_FullGhillie_ard","U_O_FullGhillie_sard"];
+_ghillieUniform = _baseUniform; //DLC alternatives: ["U_O_FullGhillie_lsh","U_O_FullGhillie_ard","U_O_FullGhillie_sard"];
 _ghillieHelmet = [];
-_ghillieRig = ["rhs_6b23_digi"];
+_ghillieRig = ["rhssaf_vest_md98_digital"];
 _ghillieGlasses = [];
 
 // Spec Op
-_sfuniform = ["rhs_uniform_emr_patchless"];
-_sfhelmet = ["H_Bandanna_camo"];
+_sfuniform = _baseUniform;
+_sfhelmet = ["rhsgref_ssh68_ttsko_digi"];
 _sfRig = ["rhs_6b23_digi_6sh92"];
 _sfGlasses = [];
 
@@ -272,7 +272,7 @@ if (_isMan) then {
 	
 	_unit addItem "ACE_IR_Strobe_Item";	// Add IR Strobe
 	_unit addItem "ACE_Flashlight_KSF1"; 	// Add ACE Flash lights
-	//_unit addItem "rhs_Booniehat_digi";	// Free Hat!
+	//_unit addItem "rhssaf_booniehat_digital";	// Free Hat!
 	//_unit addItem "ACE_MapTools"; 		// Add Map Tools
 };
 // ====================================================================================
@@ -300,7 +300,7 @@ switch (_typeofUnit) do
 	// LOADOUT: COMMANDER
 	case "co":
 	{
-		_unit addHeadGear "rhs_fieldcap_digi";
+		_unit addHeadGear "rhssaf_booniehat_digital";
 		["g"] call _backpack;
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
@@ -333,7 +333,6 @@ switch (_typeofUnit) do
 	// LOADOUT: MEDIC
 	case "m":
 	{
-		_bagmedium = "rhs_medic_bag";
 		[_typeofUnit] call _backpack;
 		_unit setUnitTrait ["medic",1];
 		_unit addMagazines [_carbinemag,_defMags];
@@ -356,6 +355,7 @@ switch (_typeofUnit) do
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_smokegrenadealt,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit linkItem "ItemGPS";
 		_attachments = _attach_fl;
 	};
 
@@ -647,7 +647,6 @@ switch (_typeofUnit) do
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
 		_unit linkItem "ItemGPS";
-		_unit linkItem _nvg;
 	};
 
 	// LOADOUT: AIR VEHICLE CREW CHIEF
@@ -658,7 +657,6 @@ switch (_typeofUnit) do
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
-		_unit linkItem _nvg;
 	};
 
 	// LOADOUT: AIR VEHICLE CREW
@@ -668,7 +666,6 @@ switch (_typeofUnit) do
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
-		_unit linkItem _nvg;
 	};
 
 	// LOADOUT: ENGINEER (DEMO)

@@ -334,6 +334,7 @@ switch (_typeofUnit) do
 	// LOADOUT: MEDIC
 	case "m":
 	{
+		_bagmedium = "rhs_medic_bag";
 		[_typeofUnit] call _backpack;
 		_unit setUnitTrait ["medic",1];
 		_unit addMagazines [_carbinemag,_defMags];

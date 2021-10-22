@@ -333,6 +333,7 @@ switch (_typeofUnit) do
 	// LOADOUT: MEDIC
 	case "m":
 	{
+		_bagmedium = "rhs_medic_bag";
 		_unit addHeadgear "rhs_beanie_green";
 		[_typeofUnit] call _backpack;
 		_unit setUnitTrait ["medic",1];

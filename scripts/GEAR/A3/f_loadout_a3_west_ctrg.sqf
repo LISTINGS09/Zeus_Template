@@ -103,7 +103,7 @@ _binos1 = "Binocular";
 _binos2 = "Rangefinder";
 
 // Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles";
+_nvg = "NVGogglesB_grn_F";
 
 // UAV Terminal
 _uavterminal = "B_UavTerminal";	  // BLUFOR - FIA
@@ -197,7 +197,7 @@ _baseHelmet = ["H_HelmetB_snakeskin"];
 _baseGlasses = [""];
 
 // Vests
-_lightRig = ["V_BandollierB_cbr","V_BandollierB_khk"];
+_lightRig = ["V_TacVest_oli"];
 _mediumRig = "V_PlateCarrierL_CTRG"; 	// default for all infantry classes
 _heavyRig = "V_PlateCarrierH_CTRG";
 

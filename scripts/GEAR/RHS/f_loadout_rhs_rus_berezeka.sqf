@@ -3,7 +3,7 @@
 // ====================================================================================
 // GENERAL EQUIPMENT USED BY MULTIPLE CLASSES
 // ATTACHMENTS - PRIMARY
-_attach1 = ["rhs_acc_2dpZenit","rhs_acc_perst1ik"];
+_attach1 = ["rhs_acc_2dpZenit"];
 _attach2 = "";
 
 _flashHider = "rhs_acc_dtk1";
@@ -18,7 +18,7 @@ _scope4 = "rhs_acc_pso1m2"; // SNP
 _bipod1 = "bipod_01_f_blk"; // Bipod
 
 // Default setup
-_attachments = [_flashHider,_attach1]; // The default attachment set for most units, overwritten in the individual unitType
+_attachments = [_flashHider,_attach1,_scope1]; // The default attachment set for most units, overwritten in the individual unitType
 
 // Predefined Class Attachment Setup
 _attach_co = [_flashHider,_scope2,_attach1];
@@ -52,19 +52,19 @@ _defMags = 4;
 _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["rhs_weap_ak74m","rhs_weap_ak74m_camo"];
-_riflemag = "30Rnd_545x39_Mag_Green_F";
-_riflemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_rifle = "rhs_weap_ak103";
+_riflemag = "rhs_30Rnd_762x39mm";
+_riflemag_tr = "rhs_30Rnd_762x39mm_tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["rhs_weap_ak74m","rhs_weap_ak74m_camo"];
-_carbinemag = "30Rnd_545x39_Mag_Green_F";
-_carbinemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_carbine = "rhs_weap_ak104";
+_carbinemag = "rhs_30Rnd_762x39mm";
+_carbinemag_tr = "rhs_30Rnd_762x39mm_tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = ["rhs_weap_ak74m","rhs_weap_ak74m_camo"];
-_smgmag = "30Rnd_545x39_Mag_Green_F";
-_smgmag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_smg = "rhs_weap_ak104";
+_smgmag = "rhs_30Rnd_762x39mm";
+_smgmag_tr = "rhs_30Rnd_762x39mm_tracer";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -72,9 +72,9 @@ _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = "rhs_weap_ak74m_gp25";
-_glriflemag = "30Rnd_545x39_Mag_Green_F";
-_glriflemag_tr = "30Rnd_545x39_Mag_Tracer_Green_F";
+_glrifle = "rhs_weap_ak103_gp25";
+_glriflemag = "rhs_30Rnd_762x39mm";
+_glriflemag_tr = "rhs_30Rnd_762x39mm_tracer";
 _glmag = "rhs_VOG25P";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -115,10 +115,10 @@ _chem =  "rhs_mag_nspn_green";
 _chemalt = "rhs_mag_nspn_red";
 
 // Backpacks
-_bagsmall = "rhs_rk_sht_30_emr";					// carries 120, weighs 20
-_bagmedium = "rhs_rk_sht_30_emr";			// carries 200, weighs 30
-_baglarge =  "rhs_tortila_emr"; 			// carries 320, weighs 40
-_bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
+_bagsmall = "rhs_rd54_vest";
+_bagmedium = "rhs_rd54_vest";
+_baglarge = "rhs_rd54_vest";
+_bagmediumdiver = "B_AssaultPack_blk";		// used by divers
 _baguav = "O_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "I_HMG_01_weapon_F";				// used by Heavy MG gunner
 _baghmgag = "I_HMG_01_support_F";			// used by Heavy MG assistant gunner
@@ -134,7 +134,7 @@ _baghsamag = "I_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = "rhs_weap_pkm";
+_AR = "rhs_weap_pkp";
 _ARmag = "rhs_100Rnd_762x54mmR";
 _ARmag_tr = "rhs_100Rnd_762x54mmR_green";
 
@@ -144,12 +144,12 @@ _MMGmag = "rhs_100Rnd_762x54mmR";
 _MMGmag_tr = "rhs_100Rnd_762x54mmR_green";
 
 // Marksman rifle
-_DMrifle = "rhs_weap_svdp";
+_DMrifle = ["rhs_weap_svds","rhs_weap_svdp"];
 _DMriflemag = "rhs_10Rnd_762x54mmR_7N1";
 
 // Rifleman AT
-_RAT = "rhs_weap_rpg7_pgo"; // ["rhs_weap_rpg26","rhs_weap_rshg2"];
-_RATmag = "rhs_rpg7_PG7VL_mag";
+_RAT = ["rhs_weap_rpg26","rhs_weap_rshg2"];
+//_RATmag = "rhs_rpg7_PG7VL_mag";
 
 // Medium AT
 _MAT = "rhs_weap_rpg7_pgo";
@@ -166,7 +166,7 @@ _HATmag1 = "rhs_rpg7_PG7VR_mag";
 _HATmag2 = "rhs_rpg7_PG7V_mag";
 
 // Sniper
-_SNrifle = "rhs_weap_svdp_wd";
+_SNrifle = ["rhs_weap_svdp","rhs_weap_svds"];
 _SNrifleMag = "rhs_10Rnd_762x54mmR_7N1";
 
 // Engineer items
@@ -194,18 +194,18 @@ _specOp = [];
 // The outfit-piece is randomly selected from the array for each unit
 
 // Woodland-Hex
-_baseUniform = ["rhs_uniform_emr_patchless"];
-_baseHelmet = ["rhs_6b28_green_bala","rhs_6b28_green"];
-_baseGlasses = [""];
+_baseUniform = ["rhs_uniform_gorka_1_b"];
+_baseHelmet = ["H_Booniehat_oli"];
+_baseGlasses = ["rhs_scarf","G_Bandanna_oli",""];
 
 // Urban
 //_baseUniform = ["U_O_CombatUniform_oucamo"];
 //_baseHelmet = ["H_HelmetO_oucamo"];
 
 // Vests
-_lightRig = ["rhs_6b23_digi"];
-_mediumRig = ["rhs_6b23_digi_6sh92","rhs_6b23_digi_rifleman"]; 	// default for all infantry classes
-_heavyRig = ["rhs_6b13_EMR"];
+_lightRig = ["rhs_6b5_spetsodezhda"];
+_mediumRig = ["rhs_6b5_rifleman_spetsodezhda","rhs_6b5_sniper_spetsodezhda"]; 	// default for all infantry classes
+_heavyRig = _mediumRig;
 
 // Diver
 _diverUniform =  ["U_O_Wetsuit"];
@@ -220,21 +220,21 @@ _pilotRig = ["V_TacVest_blk"];
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = ["rhs_uniform_vdv_emr"];
+_crewUniform = _baseUniform;
 _crewHelmet = ["rhs_tsh4","rhs_tsh4_ess","rhs_tsh4_bala","rhs_tsh4_ess_bala"];
 _crewRig = ["rhs_vydra_3m"];
 _crewGlasses = [];
 
 // Ghillie
-_ghillieUniform = ["U_O_FullGhillie_lsh"]; //DLC alternatives: ["U_O_FullGhillie_lsh","U_O_FullGhillie_ard","U_O_FullGhillie_sard"];
+_ghillieUniform = _baseUniform; //DLC alternatives: ["U_O_FullGhillie_lsh","U_O_FullGhillie_ard","U_O_FullGhillie_sard"];
 _ghillieHelmet = [];
-_ghillieRig = ["rhs_6b23_digi"];
+_ghillieRig = ["rhs_6b5_sniper_spetsodezhda"];
 _ghillieGlasses = [];
 
 // Spec Op
-_sfuniform = ["rhs_uniform_emr_patchless"];
+_sfuniform = ["rhs_uniform_flora_patchless_alt"];
 _sfhelmet = ["H_Bandanna_camo"];
-_sfRig = ["rhs_6b23_digi_6sh92"];
+_sfRig = ["rhs_6b23_6sh92"];
 _sfGlasses = [];
 
 
@@ -262,17 +262,17 @@ if (_isMan) then {
 	// ADD UNIVERSAL ITEMS
 	// Add items universal to all units of this faction
 
-	_unit linkItem _nvg;
+	//_unit linkItem _nvg;
 	_unit addItem _firstaid;		// Add a single first aid kit (FAK)
 	_unit linkItem "ItemMap";		// Add and equip the map
 	_unit linkItem "ItemCompass";	// Add and equip a compass
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
-	_unit linkItem "ItemGPS"; 	// Add and equip a GPS
+	_unit linkItem "ItemGPS"; 		// Add and equip a GPS
 	
-	_unit addItem "ACE_IR_Strobe_Item";	// Add IR Strobe
+	//_unit addItem "ACE_IR_Strobe_Item";	// Add IR Strobe
 	_unit addItem "ACE_Flashlight_KSF1"; 	// Add ACE Flash lights
-	//_unit addItem "rhs_Booniehat_digi";	// Free Hat!
+	//_unit addItem "rhs_Booniehat_flora";	// Free Hat!
 	//_unit addItem "ACE_MapTools"; 		// Add Map Tools
 };
 // ====================================================================================
@@ -300,7 +300,7 @@ switch (_typeofUnit) do
 	// LOADOUT: COMMANDER
 	case "co":
 	{
-		_unit addHeadGear "rhs_fieldcap_digi";
+		_unit addHeadGear "rhs_beanie_green";
 		["g"] call _backpack;
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
@@ -389,7 +389,7 @@ switch (_typeofUnit) do
 	// LOADOUT: RIFLEMAN (AT)
 	case "rat":
 	{
-		["rpg"] call _backpack;
+		[_typeofUnit] call _backpack;
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
@@ -783,7 +783,7 @@ switch (_typeofUnit) do
 
 		_unit selectWeapon primaryWeapon _unit;
 
-		if (true) exitWith {diag_log text format ["[F3] DEBUG (f\assignGear\f_loadout_rhs_rus_emr.sqf): Unit = %1. Gear template %2 does not exist, used Rifleman instead.",_unit,_typeofUnit]};
+		if (true) exitWith {diag_log text format ["[F3] DEBUG (f\assignGear\f_loadout_rhs_rus_flora.sqf): Unit = %1. Gear template %2 does not exist, used Rifleman instead.",_unit,_typeofUnit]};
    };
 
 // ====================================================================================

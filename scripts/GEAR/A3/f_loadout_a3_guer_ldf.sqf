@@ -7,11 +7,11 @@ _attach1 = ["acc_pointer_IR","acc_flashlight"];
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ""; // Rifleman
-_silencer2 = ""; // MG
+_silencer1 = ["muzzle_snds_H_khk_F","muzzle_snds_65_TI_blk_F"]; // Rifleman
+_silencer2 = "muzzle_snds_H"; // MG
 
 _scope1 = ["optic_ACO","optic_ACO_grn","optic_Holosight_khk_F","optic_Holosight_blk_F"]; // CQB
-_scope2 = ["optic_ico_01_f","optic_ico_01_black_f","optic_ico_01_camo_f"]; // Low
+_scope2 = ["optic_ico_01_f","optic_ico_01_black_f","optic_ico_01_camo_f","optic_MRCO","optic_Hamr_khk_F","optic_Hamr"]; // Low
 _scope3 = ["optic_SOS","optic_NVS"]; // Medium
 _scope4 = ["optic_LRPS","optic_AMS_khk","optic_AMS","optic_Nightstalker"]; // High
 
