@@ -51,6 +51,7 @@ force ace_advanced_fatigue_terrainGradientFactor = 0.9;
 
 force ace_medical_AIDamageThreshold = 0.8;
 force ace_medical_playerDamageThreshold = 2;
+//force ace_medical_preventInstaDeath = TRUE;
 force ace_medical_spontaneousWakeUpEpinephrineBoost = 20;
 force ace_medical_ivFlowRate = 10;
 
@@ -64,3 +65,6 @@ force ace_repair_fullRepairLocation = 0;
 force ace_weather_enableServerController = FALSE;
 force ace_weather_enabled = FALSE;
 force ace_weather_useACEWeather = FALSE;
+
+force ace_overheating_cookoffCoef = 4;
+force ace_overheating_heatCoef = 0.7;

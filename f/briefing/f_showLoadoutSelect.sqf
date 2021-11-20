@@ -287,7 +287,7 @@ if (f_var_signalHMax > 0) then {
 			default {switch (side group player) do { case west: {"B_IR_Grenade"}; case east: {"O_IR_Grenade"}; default {"I_IR_Grenade"};};};
 		};
 		
-	if (_irGrenade != "") then {(_handVar select 1) pushBackUnique _irGrenade};
+	if (_irGrenade != "" && hmd player != "") then {(_handVar select 1) pushBackUnique _irGrenade};
 
 	{
 		if (count _x > 0) then {

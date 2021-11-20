@@ -7,8 +7,6 @@ if (isNil "f_param_bodybagRespawn") then { f_param_bodybagRespawn = false };	// 
 // Exit if you're not one of the chosen.
 if (!f_param_bodybagRespawn || !(isClass(configFile >> "CfgPatches" >> "ace_main"))) exitWith {};
 
-["ace_placedInBodyBag", zeu_bag_check] call CBA_fnc_addEventHandler;
- 
 zeu_bag_check = {
  	params ["_target", "_bodyBag"];
 	
@@ -27,6 +25,8 @@ zeu_bag_check = {
 		titleText [format["<t size='2'>Your body was recovered. Respawn in %1 Minutes<br/>", round _resTime / 60], "PLAIN DOWN", 2, true, true];
 	};
 };
+
+["ace_placedInBodyBag", zeu_bag_check] call CBA_fnc_addEventHandler;
 
 player createDiaryRecord ["Diary", ["Body Bag", 
 	format["<br/><font size='18' color='#80FF00'>Body Recovery</font><br/>Body Bag respawn is active - Any bagged player will respawn in <font color='#00FFFF'>%1 Seconds</font color>.",

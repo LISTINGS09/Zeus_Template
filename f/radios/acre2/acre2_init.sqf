@@ -1,6 +1,8 @@
 // F3 - ACRE2 Init
 // Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
 
+if !(isClass(configFile >> "cfgPatches" >> "acre_main")) exitWith { ["acre2_init.sqf",["ACRE: Addon is not running!","ERROR"]] call f_fnc_logIssue; }; 
+
 // Pre-compile functions
 if (isNil "f_acre2_reinitRadio") then {f_acre2_reinitRadio = compile preprocessFileLineNumbers "f\radios\acre2\acre2_reinitRadio.sqf";};
 

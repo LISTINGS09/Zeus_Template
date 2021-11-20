@@ -63,28 +63,28 @@ class f_ParamSpacer_title2
 };
 class f_param_CasualtiesCap		// F3 - Casualty Limit - Can override by calling f_fnc_CasualtiesCapCheck.
 {
-	title = "System - Casualty Counter - count and % of dead units";
+	title = "Casualty Counter - count and % of dead units";
 	values[] = {0,40,50,60,70,80,90};
 	texts[] = {"Disabled","40","50","60","70","80","90"};
 	default = 60;
 };	
 class f_param_respawn
 {
-	title = "System - Respawn";
+	title = "Respawn";
 	values[] = {0,30,60,300,600,900,1200,1,2,5,10};
 	texts[] = {"Disabled","Timer 30 Seconds","Timer 1 Minute","Wave 5 Minutes","Wave 10 Minutes","Wave 15 Minutes","Wave 20 Minutes","2 Tickets","3 Tickets","5 Tickets","10 Tickets"};
 	default = 0;
 };
 class f_param_medical
 {
-	title = "System - Medical";
+	title = "Medical";
 	values[] = {-1,0,1};
 	texts[] = {"Automatic","Vanilla","Farooq Revive"};
 	default = -1;
 };
 class f_param_thirdPerson
 {
-	title = "System - Third Person";
+	title = "Third Person";
 	values[] = {0,1,2};
 	texts[] = {"No Restriction","In Vehicles Only","First Person Only"};
 	default = 0;

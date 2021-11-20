@@ -12,6 +12,8 @@ private _fRadiosExtraRadio = missionNamespace getVariable ["f_radios_settings_ac
 private _exRadio = getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_extraRadio >> "displayName");
 
 private _languages = [];
+private _unitMap = createHashMapFromArray [ ["leaders","Leaders"],["vc","Vehicle Crew"], ["pp","Pilots"], ["dc","SL"]
+];
 
 // Iterate languages.
 {
@@ -38,7 +40,7 @@ if ("all" in _fRadiosShortRange) then {
 	_radioText = _radioText + format["<br/>Standard equipment for all units is a short-range %1 hand-held radio.",_srRadio];
 } else {
 	if (count _fRadiosShortRange > 0) then {
-		_radioText = _radioText + format["<br/>Certain soldiers are provided with a short-range %1 hand-held radio.<br/>All other units carry <font color='#FF0000'>NO RADIO</font>.", _srRadio, _fRadiosShortRange];
+		_radioText = _radioText + format["<br/>Certain soldiers (%2) are provided with a short-range %1 hand-held radio.<br/>All other units carry <font color='#FF0000'>NO RADIO</font>.", _srRadio, (_fRadiosShortRange apply { _unitMap getOrDefault [_x, toUpper _x] }) joinString ", "];
 	} else {
 		_radioText = _radioText + "<br/>Short-range radios are <font color='#FF0000'>NOT PROVIDED</font>.";
 	};
@@ -49,7 +51,7 @@ if ("leaders" in _fRadiosLongRange) then {
 	_radioText = _radioText + format["<br/><br/>All leaders carry a long-range %1 radio.",_lrRadio]; 
 } else {
 	if (count _fRadiosLongRange > 0) then {
-		_radioText = _radioText + format["<br/><br/>Only selected soldiers carry a long-range %1 radio.",_lrRadio,_fRadiosLongRange]; 
+		_radioText = _radioText + format["<br/><br/>Only selected soldiers (%2) carry a long-range %1 radio.",_lrRadio, (_fRadiosLongRange apply { _unitMap getOrDefault [_x, toUpper _x] }) joinString ", "]; 
 	} else {
 		_radioText = _radioText + "<br/>Long-range radios are <font color='#FF0000'>NOT PROVIDED</font>.";
 	};
@@ -60,7 +62,7 @@ if ("leaders" in _fRadiosExtraRadio) then {
 	_radioText = _radioText + format["<br/><br/>All leaders carry an extra long-range %1 radio.",_exRadio]; 
 } else {
 	if (count _fRadiosExtraRadio > 0) then {
-		_radioText = _radioText + format["<br/><br/>Only selected soldiers carry an extra long-range %1 radio.",_exRadio,_fRadiosExtraRadio]; 
+		_radioText = _radioText + format["<br/><br/>Only selected soldiers (%2) carry an extra long-range %1 radio.",_exRadio, (_fRadiosExtraRadio apply { _unitMap getOrDefault [_x, toUpper _x] }) joinString ", "]; 
 	};
 };
 
@@ -98,7 +100,7 @@ _radioText = _radioText + format["<br/><font size='18' color='#80FF00'>Long Rang
 } forEach _presetLRArray;
 
 _radioText = _radioText + format["<br/><br/><br/>Problem? Re-run the <execute expression='[] call f_acre2_reinitRadio;'>Radio Setup</execute> script to attempt to re-add any radios.", _groupFreqIndex, _groupLRFreqIndex];
-_radioText = _radioText + "<br/>Toggle <execute expression=""if (missionNamespace getVariable ['acre_sys_signal_showSignalHint',false]) then { acre_sys_signal_showSignalHint = true } else { acre_sys_signal_showSignalHint = false };"">Signal Strength</execute> display.";
+_radioText = _radioText + format["<br/>Give Radio <execute expression=""uniformContainer player addItemCargoGlobal ['%2', 1]; systemChat 'Added %1';"">%1</execute> | <execute expression=""uniformContainer player addItemCargoGlobal ['%4', 1]; systemChat 'Added %3';"">%3</execute>",_lrRadio,f_radios_settings_acre2_standardLRRadio,_srRadio,f_radios_settings_acre2_standardSRRadio];
 
 //player removeDiaryRecord ["Diary", "Signal"];
 player createDiaryRecord ["Diary", ["Signal",_radioText]];

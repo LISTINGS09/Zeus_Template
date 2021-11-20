@@ -296,7 +296,7 @@ if ("acre_main" in activatedAddons) then {
 
 	{ 
 		if (isClass (configFile >> "CfgWeapons" >> _x)) then {
-			_missionGear = _missionGear + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargo ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
+			_missionGear = _missionGear + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargoGlobal ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
 				_x,
 				getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
 				getText (configFile >> "CfgWeapons" >> _x >> "descriptionShort"),
@@ -435,7 +435,7 @@ _missionWeather = "<font size='18' color='#80FF00'>TIME / WEATHER / VIEW</font><
 <execute expression=""publicVariable 'f_var_trans'; [-1, f_var_trans, [0.2,0,0]] remoteExec ['f_fnc_setFog',2]; hintSilent format['Fog: Light (%1 secs)', f_var_trans];"">Light</execute> | 
 <execute expression=""publicVariable 'f_var_trans'; [-1, f_var_trans, [0.4,0,0]] remoteExec ['f_fnc_setFog',2]; hintSilent format['Fog: Medium (%1 secs)', f_var_trans];"">Medium</execute> | 
 <execute expression=""publicVariable 'f_var_trans'; [-1, f_var_trans, [0.6,0,0]] remoteExec ['f_fnc_setFog',2]; hintSilent format['Fog: Thick (%1 secs)', f_var_trans];"">Thick</execute> | 
-<execute expression=""publicVariable 'f_var_trans'; [-1, f_var_trans, [0.8,0,0]] remoteExec ['f_fnc_setFog',2]; hintSilent format['Fog: Very Thick (%1 secs)', f_var_trans];"">Very Thick</execute>
+<execute expression=""publicVariable 'f_var_trans'; [-1, f_var_trans, [0.8,0,0]] remoteExec ['f_fnc_setFog',2]; hintSilent format['Fog: Very Thick (%1 secs)', f_var_trans];"">Very Thick</execute> | 
 <execute expression=""publicVariable 'f_var_trans'; [-1, f_var_trans, [1,0,0]] remoteExec ['f_fnc_setFog',2]; hintSilent format['Fog: Full (%1 secs)', f_var_trans];"">Full</execute>
 <br/>
 <br/><execute expression=""hintSilent format['Fog is: %1',fog];"">Check Fog Setting</execute>
