@@ -1,6 +1,6 @@
 //
 //  Urban Patrol Script Zeus Edition
-//  Version: 1.8
+//  Version: 1.9
 //  Author: 2600K & Kronzky (www.kronzky.info / kronzky@gmail.com)
 //  BIS Forum: http://forums.bistudio.com/showthread.php?147904-Urban-Patrol-Script&highlight=Urban+Patrol+Script
 //
@@ -48,6 +48,7 @@ _ZAI_fnc_setGroupVariable = {
 	params ["_grp","_type","_tsk"];
 	_grpID = _grp getVariable ["ZAI_ID", -1];
 	_grp setVariable [format["ZAI_%1", toUpper _type], _tsk];
+	if (_type == "Task") then { _grp setGroupIdGlobal [format["ZAI_%1_%2_%3", _grpID, _tsk, waypointBehaviour [_grp, currentWaypoint _grp]]]};
 	//["DEBUG", format["[%1] Set Variable %2: %3", _grpIDx, _type, _tsk]] call _ZAI_fnc_LogMsg;
 };
 
@@ -596,7 +597,8 @@ while {TRUE} do {
 			_wp setWaypointSpeed (["LIMITED", "NORMAL"] select (!isNull _foundEnemy || _combatArea ));
 			
 			_grp setCurrentWaypoint _wp;
-			[_grp, "Task", "PATROL"] call _ZAI_fnc_setGroupVariable;
+			
+			if (isNull _foundEnemy || !_combatArea) then { [_grp, "Task", "PATROL"] call _ZAI_fnc_setGroupVariable };
 			
 			if ("Man" in _grpType) then { _grpLeader commandMove _newGrpPos; { doStop _x; _x doFollow _grpLeader } forEach units _grp; }; // Regroup
 		} else {
