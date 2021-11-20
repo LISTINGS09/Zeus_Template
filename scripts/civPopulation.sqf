@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V1.7
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.0
 // [] execVM "scripts\civPopulation.sqf";
 
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
@@ -13,45 +13,44 @@ if (isNil "ZCS_var_MaxDist") then { ZCS_var_MaxDist = 300 };
 if (isNil "ZCS_var_EnemyChance") then { ZCS_var_EnemyChance = 0.05 }; // Chance of a hostile civilian appearing
 if (isNil "ZCS_var_BomberChance") then { ZCS_var_BomberChance = 0.005 }; // Chance of hostile civilian being a bomber
 if (isNil "ZCS_var_BlackList") then { ZCS_var_BlackList = [] };
-if (isNil "ZCS_var_HideMrk") then { ZCS_var_HideMrk = true };
+if (isNil "ZCS_var_HideMrk") then { ZCS_var_HideMrk = false };
 if (isNil "ZCS_var_LOWTasks") then { ZCS_var_LOWTasks = true };
 if (isNil "ZCS_var_Debug") then { ZCS_var_Debug = false };
 
 if !isServer exitWith {};
 
+// Vanilla Civilians
 ZCS_var_UnitClass = [ "C_man_1","C_man_p_fugitive_F_asia","C_man_p_beggar_F_afro","C_man_p_beggar_F_euro"]; // Basic Unit Classes - Gear is applied below
 ZCS_var_UnitGear = [
-	[
-		// Headgear
-		"H_Booniehat_khk","H_Cap_red","H_Cap_blu","H_Cap_tan","H_Cap_blk","H_Bandanna_surfer","H_Bandanna_surfer_blk","H_Bandanna_surfer_grn","H_Bandanna_blu","H_StrawHat","H_Hat_checker","H_Hat_Safari_sand_F","H_Hat_Safari_olive_F","H_HeadBandage_clean_F","H_WirelessEarpiece_F","","","","","","","","","","","","","","","","","","","","","","","","",""
-	], 
-	[
-		// Glasses
-		"G_Bandanna_aviator","G_Aviator","G_Spectacles","G_Spectacles_Tinted","G_Squares","G_Shades_Black","G_Shades_Blue","G_Sport_Blackred","G_Sport_Checkered","G_Sport_Greenblack","G_Lady_Mirror","","","","","","","","","","","","","","","","","","","","","","","","",""
-	],
-	[
-		// Uniforms - Shorts
-		"U_C_Poloshirt_blue","U_C_Poloshirt_burgundy","U_C_Poloshirt_stripped","U_C_Poloshirt_tricolour","U_C_Poloshirt_salmon","U_C_Poloshirt_redwhite","U_I_C_Soldier_Bandit_5_F","U_I_C_Soldier_Bandit_1_F","U_I_C_Soldier_Bandit_4_F","U_C_IDAP_Man_shorts_F","U_C_Man_casual_6_F","U_C_Man_casual_4_F","U_C_Man_casual_5_F",
-
-		// Uniforms - Trousers
-		"U_IG_Guerilla2_1","U_IG_Guerilla2_2","U_IG_Guerilla2_3","U_C_Poor_1","U_C_WorkerCoveralls","U_C_Mechanic_01_F","U_Marshal","U_C_ConstructionCoverall_Black_F","U_C_Man_casual_1_F","U_C_Man_casual_2_F","U_C_Man_casual_3_F","U_I_C_Soldier_Bandit_3_F","U_I_C_Soldier_Bandit_2_F","U_C_IDAP_Man_cargo_F","U_C_IDAP_Man_casual_F"
-	],
-	[
-		// Vests
-	],
-	[
-		// Backpack
-	], 
-	[
-		// Items
-		"FirstAidKit"
-	] 
+	[ "H_Booniehat_khk","H_Cap_red","H_Cap_blu","H_Cap_tan","H_Cap_blk","H_Bandanna_surfer","H_Bandanna_surfer_blk","H_Bandanna_surfer_grn","H_Bandanna_blu","H_StrawHat","H_Hat_checker","H_Hat_Safari_sand_F","H_Hat_Safari_olive_F","H_HeadBandage_clean_F","H_WirelessEarpiece_F","","","","","","","","","","","","","","","","","","","","","","","","","" ], // Headgear
+	[ "G_Bandanna_aviator","G_Aviator","G_Spectacles","G_Spectacles_Tinted","G_Squares","G_Shades_Black","G_Shades_Blue","G_Sport_Blackred","G_Sport_Checkered","G_Sport_Greenblack","G_Lady_Mirror","","","","","","","","","","","","","","","","","","","","","","","","","" ], // Glasses
+	[ "U_C_Poloshirt_blue","U_C_Poloshirt_burgundy","U_C_Poloshirt_stripped","U_C_Poloshirt_tricolour","U_C_Poloshirt_salmon","U_C_Poloshirt_redwhite","U_I_C_Soldier_Bandit_5_F","U_I_C_Soldier_Bandit_1_F","U_I_C_Soldier_Bandit_4_F","U_C_IDAP_Man_shorts_F","U_C_Man_casual_6_F","U_C_Man_casual_4_F","U_C_Man_casual_5_F", // Uniforms - Shorts
+	  "U_IG_Guerilla2_1","U_IG_Guerilla2_2","U_IG_Guerilla2_3","U_C_Poor_1","U_C_WorkerCoveralls","U_C_Mechanic_01_F","U_Marshal","U_C_ConstructionCoverall_Black_F","U_C_Man_casual_1_F","U_C_Man_casual_2_F","U_C_Man_casual_3_F","U_I_C_Soldier_Bandit_3_F","U_I_C_Soldier_Bandit_2_F","U_C_IDAP_Man_cargo_F","U_C_IDAP_Man_casual_F" ],  // Uniforms - Trousers
+	[ ], // Vests
+	[ ], // Backpack
+	[ "FirstAidKit" ] // Items
 ];
 
+/* 
+// WS Civilians
+ZCS_var_UnitClass = [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"];
+ZCS_var_UnitGear = [
+	[ "lxWS_H_cloth_5_C","lxWS_H_turban_01_red","lxWS_H_turban_04_yellow","lxWS_H_turban_03_green","lxWS_H_turban_02_gray","lxWS_H_cloth_5_B","lxWS_H_cloth_5_A","lxWS_H_turban_01_gray","H_ShemagOpen_khk","lxWS_H_turban_01_blue","lxWS_H_turban_04_blue","lxWS_H_turban_02_orange","lxWS_H_turban_03_sand","H_StrawHat_dark","lxWS_H_turban_02_red","lxWS_H_turban_04_black","","","","","","","","" ], // Headgear
+	[ "G_Shades_Black","G_Sport_Blackyellow","G_Spectacles","G_Shades_Blue","G_Sport_Blackred","G_Sport_Red","","","","","","","","","","","","","","","","","","","","","","","","","" ], // Glasses
+	[ "U_lxWS_C_Djella_01","U_lxWS_C_Djella_02","U_lxWS_C_Djella_03","U_lxWS_C_Djella_04","U_lxWS_C_Djella_05","U_lxWS_Tak_02_A","U_lxWS_Tak_02_B","U_lxWS_Tak_02_C","U_lxWS_Tak_03_A","U_lxWS_Tak_03_B","U_lxWS_Tak_03_C","U_lxWS_Tak_01_A","U_lxWS_Tak_01_A","U_lxWS_Tak_01_C","U_lxWS_ION_Casual3","U_C_Mechanic_01_F"],  // Uniforms
+	[ ], // Vests
+	[ ], // Backpack
+	[ "FirstAidKit" ] // Items
+];*/
+
+
+/*
+// VC Civilians
+ZCS_var_UnitClass = [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"];
+ZCS_var_UnitGear = [ ];
+*/
 
 // Do not edit anything beneath this line!
-
-if !isServer exitWith {};
 
 // Parse markers list.
 {
@@ -200,11 +199,11 @@ ZCS_fnc_SpawnUnit = {
 		
 		if (isPlayer _killer) then { 
 			missionNamespace setVariable ["ZCS_var_deadCivCount", (missionNamespace getVariable ["ZCS_var_deadCivCount",0])+1,true]; 
-			format["%1 (%2) killed Civilian (%3)",name _killer,groupId group _killer,name (_this select 0)] remoteExec ["systemChat",0];
+			missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.1, true];
+			missionNamespace setVariable ["ZCS_var_BomberChance", (missionNamespace getVariable ["ZCS_var_BomberChance",0.01])+0.05, true];
 			
 			if (ZCS_var_LOWTasks) then {
-				missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.1, true];
-				missionNamespace setVariable ["ZCS_var_BomberChance", (missionNamespace getVariable ["ZCS_var_BomberChance",0.01])+0.05, true];
+				format["%1 (%2) killed Civilian (%3)",name _killer,groupId group _killer,name (_this select 0)] remoteExec ["systemChat",0];
 				
 				// Create Parent Task
 				if !(["ZCS_TSK_PARENT"] call BIS_fnc_taskExists) then {
@@ -340,19 +339,22 @@ while { ZCS_var_Running } do {
 
 	if (count ZCS_CivList < _unitsCount) then {
 		private _pos = [_playerBuildings] call ZCS_fnc_FindSpawnPos;
+		private _newUnit = objNull;
 		
 		if (_pos isEqualTo []) exitWith {}; // No valid position
 		
 		private _spawnClose = ["respawn_east","respawn_west","respawn_guerrila","respawn_civilian"] findIf { getMarkerPos _x distance _pos < 1000 } > 0;
 		
-		_newUnit = if (random 1 <= ZCS_var_EnemyChance && !_spawnClose) then {
-			if ( random 1 <= ZCS_var_BomberChance) then {
-				[_pos] call ZCS_fnc_SpawnBomber;
+		if !(_spawnClose) then {
+			_newUnit = if (random 1 <= ZCS_var_EnemyChance) then {
+				if ( random 1 <= ZCS_var_BomberChance) then {
+					[_pos] call ZCS_fnc_SpawnBomber;
+				} else {
+					[_pos] call ZCS_fnc_SpawnHunter;
+				}
 			} else {
-				[_pos] call ZCS_fnc_SpawnHunter;
-			}
-		} else {
-			[_pos] call ZCS_fnc_SpawnUnit;
+				[_pos] call ZCS_fnc_SpawnUnit;
+			};
 		};
 		
 		if (!isNull _newUnit) then {
