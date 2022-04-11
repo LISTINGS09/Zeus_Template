@@ -48,7 +48,7 @@ _fnc_itemPicture = {
 
 	if (isNil "_pictureCfg") exitWith {""};	
 	if (_pictureCfg find "." > 1) exitWith { format["<img image='%1' width='%2'/>",_pictureCfg,_wide]; };
-	if (count _pictureCfg > 6) then { format["<img image='%1' width='%2'/>",_pictureCfg + ".paa",_wide]; };
+	if (count _pictureCfg > 6) exitWith { format["<img image='%1' width='%2'/>",_pictureCfg + ".paa",_wide]; };
 	""
 };
 
