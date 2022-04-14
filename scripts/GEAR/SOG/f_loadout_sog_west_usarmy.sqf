@@ -87,7 +87,7 @@ _glflare = "vn_40mm_m583_flare_w_mag";
 _glflarealt = "vn_40mm_m661_flare_g_mag";
 
 // Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
-_pistol = "vn_mx991_m1911";
+_pistol = ["vn_m1911","vn_mx991_m1911"];
 _pistolmag = "vn_m1911_mag";
 
 // Grenades
@@ -328,15 +328,14 @@ switch (_typeOfUnit) do
 	case "ftl":
 	{
 		["g"] call _backpack;
-		_unit addMagazines [_glriflemag,_defMags];
-		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glmag,3];
-		[_unit, _glrifle] call f_fnc_addWeapon;
+		_unit addMagazines [_glmag,24];
+		_unit addMagazines ["vn_40mm_m433_hedp_mag",6];
+		[_unit, "vn_m79"] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
-		_pistol = "vn_m79_p";
-		_pistolmag = "vn_40mm_m381_he_mag";
+		_pistol = ["vn_m1911","vn_mx991_m1911"];
+		_pistolmag = "vn_m1911_mag";
 		[_unit, _pistol] call f_fnc_addWeapon;
-		_unit addMagazines [_pistolmag,4];
+		_unit addMagazines [_pistolmag,6];
 		[_unit, _binos1] call f_fnc_addWeapon;
 		_attachments = _attach_fl;
 	};
