@@ -1,4 +1,4 @@
-// Farooq's Revive 2.33 (2600K Edit)
+// Farooq's Revive 2.35 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.
@@ -6,6 +6,7 @@ if (isNil "FAR_var_DeathChance") 	then { FAR_var_DeathChance = 	15 };		// Percen
 if (isNil "FAR_var_DeathDmgHead") 	then { FAR_var_DeathDmgHead = 	1.2 };		// Kill when damage to the head is over this value.
 if (isNil "FAR_var_DeathDmgBody") 	then { FAR_var_DeathDmgBody = 	2 };		// Kill when damage to the body is over this value.
 if (isNil "FAR_var_BleedOut") 		then { FAR_var_BleedOut = 		180 };		// Seconds until unconscious unit bleeds out and dies. Set to 0 to disable.
+if (isNil "FAR_var_reduceBleedOut")	then { FAR_var_reduceBleedOut = 30 };		// When you die, decrease the bleed out time by this much.
 if (isNil "FAR_var_RespawnBagTime") then { FAR_var_RespawnBagTime = 180 };		// Time for player to respawn (if allowed). Set to 0 or less to disable.
 if (isNil "FAR_var_ReviveMode") 	then { FAR_var_ReviveMode = 	2 };		// 0 = Only medics can revive  1 = All units can revive (Uses 1 FAK)  2 = Same as 1 but a medikit is required to revive
 if (isNil "FAR_var_DeathMessages")	then { FAR_var_DeathMessages = 	TRUE };		// Enable Team Kill notifications
@@ -16,7 +17,7 @@ if (isNil "FAR_var_SkipSide")		then { FAR_var_SkipSide = [sideLogic] };	// Don't
 call compile preprocessFileLineNumbers "f\medical\FAR_revive\FAR_revive_funcs.sqf";
 
 if !hasInterface exitWith {};
-if (FAR_var_SkipSide isEqualType sideLogic) then { FAR_var_SkipSide = [FAR_var_SkipSide] };
+if !(FAR_var_SkipSide isEqualType []) then { FAR_var_SkipSide = [FAR_var_SkipSide] };
 if (side group player in FAR_var_SkipSide) exitWith {};
 
 // Create PP effects

@@ -209,7 +209,13 @@ _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
 <br/>
 <execute expression=""[] call fnc_AdminTasking;"">Show Task Control</execute><br/>
 <br/>
-Reveal Players to AI: 
+Set Unit Skill 
+<execute expression=""{ _x setSkill 1 } forEach allUnits"">Ultra</execute> | 
+<execute expression=""{ _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits"">Unit Rank</execute> | 
+<execute expression=""{ _x setSkill 0.4 } forEach allUnits"">Default</execute>
+<br/>
+<br/>
+Reveal Players to AI (Fair): 
 <execute expression=""systemChat 'Starting Reveal'; 
 { f_var_doReveal = true;
 	while {	f_var_doReveal } do { 
@@ -222,6 +228,19 @@ Reveal Players to AI:
 	}; 
 } remoteExec ['BIS_fnc_spawn', 0];"">Start</execute>
  | <execute expression=""systemChat 'Stopping Reveal'; missionNamespace setVariable ['f_var_doReveal', false, true];"">Stop</execute><br/>
+Reveal Players to AI (Everyone): 
+<execute expression=""systemChat 'Starting Reveal'; 
+{ f_var_doRevealAll = true;
+	diag_log '';
+	while {	f_var_doRevealAll } do { 
+		sleep 120; 
+		{ 
+			private _rGrp = _x; 
+			{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach allPlayers;
+		} forEach (allGroups select { !isPlayer leader _x });
+	}; 
+} remoteExec ['BIS_fnc_spawn', 0];"">Start</execute>
+ | <execute expression=""systemChat 'Stopping Reveal'; missionNamespace setVariable ['f_var_doRevealAll', false, true];"">Stop</execute><br/>
 <br/>
 <execute expression=""[player, { if (count (missionNamespace getVariable ['f_var_missionLog',[]]) > 0) then { [_this,['Diary', ['** ISSUES (Server) **', format['%1<br/>', f_var_missionLog joinString '<br/>']]]] remoteExec ['createDiaryRecord',_this]; } else { 'Server Issue log has no entries!' remoteExec ['systemChat',_this]; } }] remoteExec ['bis_fnc_spawn', 0];"">Server Issues List</execute><br/>
 <br/>
@@ -330,9 +349,9 @@ _encodeText = {
 {	// Trigger Check
 	//diag_log text format["[F3] INFO (fn_moduleCheck.sqf): Checking Trigger %1 - %2",_x,typeOf _x];
 	_missionTrigger = _missionTrigger + format["<br/><font size='16' color='#FF0080'>%1</font> - 
-	<font color='#80FF00'><execute expression=""if !(triggerActivated %1) then { { if (!isNil '%1') then { %1 setTriggerStatements ['true',(triggerStatements %1)#1, (triggerStatements %1)#2] };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 already Activated'; } else { hintSilent 'Trigger %1 is already enabled' };"">Activate</execute></font> 
-	| <font color='#CF142B'><execute expression=""if (simulationEnabled %1) then {{ if (!isNil '%1') then { %1 enableSimulationGlobal false };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Disabled'} else { hintSilent 'Trigger %1 is already Disabled' };"">Disable</execute></font> 
-	| <font color='#808800'><execute expression=""if !(simulationEnabled %1) then { if (!isNil '%1') then { %1 enableSimulationGlobal true };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Enabled' } else { hintSilent 'Trigger %1 is already Enabled' };"">Enable</execute></font>:<br/>", vehicleVarName _x];
+	<font color='#80FF00'><execute expression=""if !(triggerActivated %1) then { { if (!isNil '%1') then { %1 setTriggerStatements ['true',(triggerStatements %1)#1, (triggerStatements %1)#2] };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Activated'; } else { hintSilent 'Trigger %1 already Activated' };"">Activate</execute></font> 
+	| <font color='#CF142B'><execute expression=""if (simulationEnabled %1) then {{ if (!isNil '%1') then { %1 enableSimulationGlobal false };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Disabled'} else { hintSilent 'Trigger %1 already Disabled' };"">Disable</execute></font> 
+	| <font color='#808800'><execute expression=""if !(simulationEnabled %1) then { if (!isNil '%1') then { %1 enableSimulationGlobal true };} remoteExec ['BIS_fnc_spawn',2]; hintSilent 'Trigger %1 Enabled' } else { hintSilent 'Trigger %1 already Enabled' };"">Enable</execute></font>:<br/>", vehicleVarName _x];
 	if (triggerType _x != "NONE") then { _missionTrigger = _missionTrigger + format["Type: <font color='#888888'>%1</font>", triggerType _x] };
 	if !(triggerActivation _x isEqualTo ["NONE","PRESENT",false]) then { _missionTrigger = _missionTrigger + format["Activation: <font color='#888888'>%1</font><br/>", triggerActivation _x] };
 	if ((triggerStatements _x)#0 != "true") then { _missionTrigger = _missionTrigger + format["Condition: <font color='#8888BB'>%1</font><br/>", [(triggerStatements _x)#0] call _encodeText] };

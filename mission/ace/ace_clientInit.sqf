@@ -5,7 +5,7 @@ if (missionNamespace getVariable["f_param_debugMode",0] == 1) then {
 };
 
 // Wait for gear assignation to take place.
-_timeUntil = time + 5;
+_timeUntil = time + 1;
 waitUntil{(player getVariable ["f_var_assignGear_done", false]) || time > _timeUntil};
 
 // Wait for ACE to finish setting up.
@@ -33,6 +33,7 @@ if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 	(unitBackpack player) addItemCargoGlobal ["ACE_morphine", 16];
 	(unitBackpack player) addItemCargoGlobal ["ACE_epinephrine", 10];
 	(unitBackpack player) addItemCargoGlobal ["ACE_tourniquet", 4];
+	(unitBackpack player) addItemCargoGlobal ["ACE_WaterBottle", 2];
 	
 	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 6]; };	// Fractures
 	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { (unitBackpack player) addItemCargoGlobal ["ACE_personalAidKit", 2]; }; // PAKs
@@ -68,15 +69,14 @@ if (_typeofUnit == "eng" || (player getUnitTrait "engineer")) then {
 	player setVariable ["ACE_IsEngineer",1];
 	(vestContainer player) addItemCargoGlobal ["ACE_clacker",1];
 	(vestContainer player) addItemCargoGlobal ["ACE_M26_Clacker",1];
+	(unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1];
+	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
 };
 
 if (_typeofUnit == "engm" || (player getUnitTrait "explosiveSpecialist")) then {	
 	player setVariable ["ACE_isEOD",1];
 	(vestContainer player) addItemCargoGlobal ["ACE_DefusalKit",1];
 	player addWeapon "ACE_VMH3";
-};
-
-if (_typeofUnit == "eng" || _typeofUnit == "engm") then {
 	(unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1];
 	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
 };
@@ -87,8 +87,13 @@ if (_typeofUnit in ["sn","sp"]) then {
 	(vestContainer player) addItemCargoGlobal ["ACE_RangeCard",1];
 };
 
-if (_typeofUnit in ["ar","mmgg"] && playerSide == west) then {
-	(unitBackpack player) addItemCargoGlobal ["ACE_SpareBarrel", 1];
+if (_typeofUnit in ["ar","mmgg"]) then {
+	if (playerSide == west) then { (unitBackpack player) addItemCargoGlobal ["ACE_SpareBarrel", 1] };
+	(unitBackpack player) addItemCargoGlobal ["ACE_WaterBottle", 2];
+};
+
+if (_typeofUnit in ["aar","mmgag","matag","msamag"]) then {
+	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
 };
 
 if (_typeofUnit in ["mtrg","mtrag"]) then {

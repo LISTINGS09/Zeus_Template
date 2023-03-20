@@ -4,7 +4,7 @@ player addRating 100000;
 showSubtitles false; // No radio calls
 "Group" setDynamicSimulationDistance 1200;
 "Vehicle" setDynamicSimulationDistance 2500;
-enableEngineArtillery false; 	// Disable Artillery Computer
+//enableEngineArtillery false; 	// Disable Artillery Computer
 //onMapSingleClick "_shift";	// Disable Map Clicking
 f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus features in MP.
 //f_var_fogOverride = [[0,0,0],[0.1,0.005,100],[0.1,0.04,100],[0.1,random 0.02,100]]; // Override default fog settings [[none],[Light],[heavy],[rand]].

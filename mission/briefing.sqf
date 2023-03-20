@@ -61,3 +61,35 @@ if (side group player != CIVILIAN) then {
 	_mkr setMarkerSizeLocal [0.1,0.1];
 } forEach ((allGroups select { side _x getFriend side group player < 0.6 && count units _x >= 2 } apply { getPos leader _x select [0,2] apply { _x - _x % 100 + 50 } }) call BIS_fnc_consolidateArray);
 */
+
+/*
+// Unit (Enemy Markers)
+{
+	private _icon = "o_unknown";
+	private _veh = _x;
+	
+	switch true do {
+		case (_veh isKindOf "staticWeapon" || _veh isKindOf "static" ): { if ("Artillery" in getArray (configFile >> "CfgVehicles" >> typeOf _veh >> "availableForSupportTypes")) then { _icon = "o_mortar" } else { _icon = "o_installation" } };
+		case (_veh isKindOf "Tank"): { _icon = "o_armor" };
+		case (_veh isKindOf "Truck" || _veh isKindOf "Car"): { if (canFire _veh && getNumber (configFile >> "CfgVehicles" >> typeOf _veh >> "numberPhysicalWheels") > 4) then { _icon = "o_mech_inf" } else { _icon = "o_motor_inf" } };
+		case (_veh isKindOf "Plane_Base_F"): { _icon = "o_plane" };
+		case (_veh isKindOf "UAV_02_base_F"): { _icon = "o_uav" };
+		case (_veh isKindOf "Helicopter"): { _icon = "o_air" };
+		case (_veh isKindOf "Boat_F"): { _icon = "o_naval" };
+		case (_veh isKindOf "Man"): { _icon = "o_inf" };
+	};
+	
+	if (_icon != "" && count (allMapMarkers select { (getPos _veh distance2D getMarkerPos _x) < 50 }) == 0) then {
+		private _mkr = createMarkerLocal [format["veh_mkr_%1",_forEachIndex], getPos _veh];
+		_mkr setMarkerTypeLocal _icon;
+		_mkr setMarkerColorLocal "ColorEast";
+		
+		// Grey Marker when Destroyed
+		private _trg = createTrigger ["EmptyDetector", getPos _veh, false];
+		_trg setTriggerActivation ["NONE", "PRESENT", false];
+		_trg setVariable ["monitorUnit", _veh];
+		_trg setTriggerStatements ["!alive (thisTrigger getVariable ['monitorUnit', objNull]);",format["'%1' setMarkerColor 'ColorGrey';", _mkr],""];
+		_trg setTriggerTimeout [5, 5, 5, true];
+	};
+} forEach (vehicles select { side _x getFriend side group player < 0.6 && count crew _x > 0});
+*/

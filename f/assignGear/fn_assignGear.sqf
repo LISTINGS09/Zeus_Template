@@ -158,6 +158,7 @@ if (isNil format["f_var_%1_gear_smokeTH",_side]) then { [format["f_var_%1_gear_s
 if (isNil format["f_var_%1_gear_flareTH",_side]) then { [format["f_var_%1_gear_flareTH",_side],["_chem","_chem1","_chem2","_chem3","_chemAlt","_chemAlt1","_chemAlt2"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_smokeGL",_side]) then { [format["f_var_%1_gear_smokeGL",_side],["_glsmoke","_glsmoke1","_glsmoke2","_glsmoke3","_glsmokealt","_glsmokealt1","_glsmokealt2"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_flareGL",_side]) then { [format["f_var_%1_gear_flareGL",_side],["_glflare","_glflare1","_glflare2","_glflare3","_glflarealt","_glflarealt1","_glflarealt2"]] call _f_fnc_parseGear; };	
+if (isNil format["f_var_%1_gear_grenaGL",_side]) then { [format["f_var_%1_gear_grenaGL",_side],["_glmag"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_grenade",_side]) then { [format["f_var_%1_gear_grenade",_side],["_grenade","_grenade1","_grenade2","_grenade3","_grenadealt","_grenadealt1","_grenadealt2"]] call _f_fnc_parseGear; };	
 if (isNil format["f_var_%1_gear_glasses",_side]) then { [format["f_var_%1_gear_glasses",_side],"_baseGlasses","CfgGlasses"] call _f_fnc_parseGear; };
 

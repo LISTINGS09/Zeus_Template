@@ -15,7 +15,7 @@ f_radios_settings_personalRadio = ["leaders","co","dc","ftl","pp","vc"];
 
 // Set the list of units that get a rifleman's/basic radio
 // Undefined will assign to all by default or leave empty array for no radios.
-f_radios_settings_riflemanRadio = [];
+//f_radios_settings_riflemanRadio = [];
 
 // Set custom LR Nets if required (LR otherwise determined by 'groups.sqf').
 f_radios_settings_longRangeGroups = ["Company", "Platoon 1", "Platoon 2", "Air", "Support"]; // "NEUTRAL" is shared in ACRE.

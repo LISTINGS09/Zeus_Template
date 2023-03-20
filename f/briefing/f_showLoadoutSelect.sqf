@@ -5,7 +5,7 @@
 if (!hasInterface || isNil "f_sqf_orbat" || missionNamespace getVariable ["f_param_virtualArsenal",0] == 1) exitWith {};
 if (!isDedicated && (isNull player)) then {waitUntil {sleep 0.1; !isNull player};};
 
-_timeUntil = time + 5;
+_timeUntil = time + 1;
 
 if ("ace_main" in activatedAddons) then {
 	waitUntil{((player getVariable ["f_var_assignGear_done", FALSE]) && (player getVariable ["f_var_ACEclientInitDone", FALSE])) || time > _timeUntil};
@@ -29,9 +29,6 @@ if (isNil "f_fnc_magazineCheck") then { f_fnc_magazineCheck = compileFinal prepr
 if (isNil "f_fnc_tidyGear") then { f_fnc_tidyGear = compileFinal preprocessFileLineNumbers "f\assignGear\fn_tidyGear.sqf"; };
 
 private _gearVar = format["f_var_%1_%2_gear",side player, player getVariable ["f_var_assignGear","r"]];
-private _handVar = [missionNamespace getVariable [format["f_var_%1_gear_smokeTH",side player],[]], missionNamespace getVariable [format["f_var_%1_gear_flareTH",side player],[]]];
-private _launcherVar = [missionNamespace getVariable [format["f_var_%1_gear_smokeGL",side player],[]], missionNamespace getVariable [format["f_var_%1_gear_flareGL",side player],[]]];
-private _grenadeVar = [missionNamespace getVariable [format["f_var_%1_gear_grenade",side player],[]]];
 private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,/[]()";
 
 // Gets the picture from the relevant config
@@ -248,21 +245,17 @@ f_fnc_matchingItem = {
 // ========================
 // Grenades
 private _textGR = "";
-f_var_signalGType = (_grenadeVar select 0);
+f_var_signalGType = (missionNamespace getVariable [format["f_var_%1_gear_grenade",side player],[]]) - [""];
 f_var_signalGMax = {_x in f_var_signalGType } count (magazines player);
 
-if (f_var_signalGMax > 0) then {
+if (f_var_signalGMax > 0 && count f_var_signalGType > 0) then {
 	{
-		if (count _x > 0) then {
-			{
-					_textGR = _textGR + format["%3<br/><font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalGMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalGMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/><font color='#777777'>%4</font><br/><br/>",
-					_x,
-					[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
-					[_x,30] call _fnc_itemPicture,
-					getText (configFile >> "CfgMagazines" >> _x >> "descriptionShort")];
-			} forEach _x;
-		};
-	} forEach _grenadeVar;
+		_textGR = _textGR + format["%3<br/><font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalGMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalGMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/><font color='#777777'>%4</font><br/><br/>",
+		_x,
+		[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
+		[_x,30] call _fnc_itemPicture,
+		getText (configFile >> "CfgMagazines" >> _x >> "descriptionShort")];
+	} forEach f_var_signalGType;
 };
 
 if (_textGR != "") then {
@@ -275,10 +268,10 @@ if (_textGR != "") then {
 // Thrown Signal Items
 private _textTS = "";
 
-f_var_signalHType = (_handVar select 0) + (_handVar select 1);
+f_var_signalHType = ((missionNamespace getVariable [format["f_var_%1_gear_smokeTH",side player],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareTH",side player],[]])) - [""];
 f_var_signalHMax = {_x in f_var_signalHType } count (magazines player);
 
-if (f_var_signalHMax > 0) then {
+if (f_var_signalHMax > 0 && count f_var_signalHType > 0) then {
 	private _irGrenade = switch (TRUE) do {
 			case ("B_IR_Grenade" in magazines player): {"B_IR_Grenade"};
 			case ("O_IR_Grenade" in magazines player): {"O_IR_Grenade"};
@@ -287,19 +280,15 @@ if (f_var_signalHMax > 0) then {
 			default {switch (side group player) do { case west: {"B_IR_Grenade"}; case east: {"O_IR_Grenade"}; default {"I_IR_Grenade"};};};
 		};
 		
-	if (_irGrenade != "" && hmd player != "") then {(_handVar select 1) pushBackUnique _irGrenade};
+	if (_irGrenade != "" && hmd player != "") then { f_var_signalHType pushBackUnique _irGrenade };
 
 	{
-		if (count _x > 0) then {
-			{
-					_textTS = _textTS + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalHMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalHMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
-					_x,
-					[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
-					[_x,30] call _fnc_itemPicture,
-					getText (configFile >> "CfgMagazines" >> _x >> "descriptionShort")];
-			} forEach _x;
-		};
-	} forEach _handVar;
+		_textTS = _textTS + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalHMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalHMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
+		_x,
+		[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
+		[_x,30] call _fnc_itemPicture,
+		getText (configFile >> "CfgMagazines" >> _x >> "descriptionShort")];
+	} forEach f_var_signalHType;
 };
 
 if (_textTS != "") then {
@@ -310,22 +299,19 @@ if (_textTS != "") then {
 // ========================
 // GL Items
 private _textGL = "";
-f_var_signalLType = (_launcherVar select 0) + (_launcherVar select 1);
+
+f_var_signalLType = ((missionNamespace getVariable [format["f_var_%1_gear_grenaGL",side player],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_smokeGL",side player],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareGL",side player],[]])) - [""];
 f_var_signalLMax = {_x in f_var_signalLType } count (magazines player);
 	
 // Skip if the player doesn't have GLs
-if (f_var_signalLMax > 0) then {
+if (f_var_signalLMax > 0 && count f_var_signalLType > 0) then {
 	{
-		if (count _x > 0) then {
-			{
-					_textGL = _textGL + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalLMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalLMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
-					_x,
-					[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
-					[_x,30] call _fnc_itemPicture,
-					getText (configFile >> "CfgMagazines" >> _x >> "descriptionShort")];
-			} forEach _x;
-		};
-	} forEach _launcherVar;
+		_textGL = _textGL + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalLMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalLMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
+		_x,
+		[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
+		[_x,30] call _fnc_itemPicture,
+		getText (configFile >> "CfgMagazines" >> _x >> "descriptionShort")];
+	} forEach f_var_signalLType;
 };
 
 if (_textGL != "") then {
@@ -342,18 +328,21 @@ private _textTmp = "";
 // Glasses
 _text = _text + "<br/><font size='16' color='#80FF00'>Goggles</font><br/>";
 
-private _gogglesList = missionNamespace getVariable [format["%1_goggles",_gearVar],[]];
+private _gogglesList = (missionNamespace getVariable [format["%1_goggles",_gearVar],[]]) - [""];
 
 if (count _gogglesList > 1) then {	
 	{
-		_textTmp = _textTmp + format["%3 [<font><execute expression=""if (headgear player != '%1') then {systemChat '[GEAR] Equipped %2'; player addHeadgear '%1';} else {systemChat '[GEAR] Already Equipped';};"">Add</execute></font>] %2%4<br/>",
+		_textTmp = _textTmp + format["%3 [<font><execute expression=""if (goggles player != '%1') then {systemChat '[GEAR] Equipped %2'; player addGoggles '%1';} else {systemChat '[GEAR] Already Equipped';};"">Add</execute></font>] %2%4<br/>",
 		_x,
 		[getText (configFile >> "CfgGlasses" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
 		[_x,15] call _fnc_itemPicture,
-		if (headgear player == _x) then {" <font color='#00FFFF'>* Default *</font>"} else { "" }];
+		if (goggles player == _x) then {" <font color='#00FFFF'>* Default *</font>"} else { "" }];
 	} forEach _gogglesList;
 	
-	_text = _text + _textTmp + "<br/><br/>";
+	_textTmp = _textTmp + format["%3 [<font><execute expression=""if (goggles player != '') then {systemChat '[GEAR] Equipped No Goggles'; removeGoggles player;} else {systemChat '[GEAR] Already Equipped';};"">Add</execute></font>] None%1<br/>",
+	if (goggles player == "") then {" <font color='#00FFFF'>* Default *</font>"} else { "" }];
+	
+	_text = _text + _textTmp;
 } else {
 	if (goggles player != "") then {
 		_text = _text + format["%3 <font size='16'>[</font><font size='16'><execute expression=""if ([] call f_fnc_inStartLocation) then {if (goggles player != '%1') then {systemChat '[GEAR] Equipped %2'; player addGoggles '%1';} else {systemChat '[GEAR] Already Equipped %2';};};"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""if ([] call f_fnc_inStartLocation) then {if (goggles player != '') then {systemChat '[GEAR] Removed %2'; removeGoggles player;};};"">Remove</execute></font><font size='16'>] %2</font><br/>",
@@ -368,7 +357,7 @@ if (count _gogglesList > 1) then {
 // Headgear
 _text = _text + "<br/><font size='16' color='#80FF00'>Headgear</font><br/>";
 
-private _headgearList = missionNamespace getVariable [format["%1_headgear",_gearVar],[]];
+private _headgearList = (missionNamespace getVariable [format["%1_headgear",_gearVar],[]]) - [""];
 
 if (count _headgearList > 1) then {
 	{
@@ -391,14 +380,14 @@ if (count _headgearList > 1) then {
 // Uniform
 _text = _text + "<br/><font size='16' color='#80FF00'>Uniform (%FULL)</font><br/>";
 
-private _uniformList = missionNamespace getVariable [format["%1_uniform",_gearVar],[]];
+private _uniformList = (missionNamespace getVariable [format["%1_uniform",_gearVar],[]]) - [""];
 
 if (uniform player != "") then { _text = _text + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgWeapons" >> (uniform player) >> "displayName"),round (100*loadUniform player),[uniform player,15] call _fnc_itemPicture]; };
 
 // Vest
 _text = _text + "<br/><font size='16' color='#80FF00'>Vest (%FULL)</font><br/>";
 
-private _vestList = missionNamespace getVariable [format["%1_vest",_gearVar],[]];
+private _vestList = (missionNamespace getVariable [format["%1_vest",_gearVar],[]]) - [""];
 
 if (vest player != "") then { _text = _text + format["%3 %1 <font size='16' color='#777777'>(%2&#37;)</font><br/>",getText (configFile >> "CfgWeapons" >> (vest player) >> "displayName"), round (100*loadVest player),[vest player,15] call _fnc_itemPicture]; };
 

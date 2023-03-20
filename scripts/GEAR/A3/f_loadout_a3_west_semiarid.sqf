@@ -254,6 +254,7 @@ if (_isMan) then {
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
 	_unit linkItem "ItemGPS"; 		// Add and equip a GPS
+	_unit addItem "H_Booniehat_mcamo"; // Free Hat!
 };
 
 // SETUP BACKPACKS

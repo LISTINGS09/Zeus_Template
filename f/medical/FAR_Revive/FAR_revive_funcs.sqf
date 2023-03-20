@@ -218,6 +218,7 @@ FAR_fnc_HandleDamage = {
 		// If not instant death check allowed values, otherwise just make them unconscious
 		if ((random 100 < FAR_var_DeathChance  && (_damage < FAR_var_DeathDmgHead && _selection in ["head", "face_hub"] || _damage < FAR_var_DeathDmgBody && _selection == "")) || { !FAR_var_InstantDeath }) then {
 			_unit allowDamage false;
+			_unit setUnconscious true;
 			[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
 			0
 		};
@@ -250,26 +251,22 @@ FAR_fnc_SetUnconscious = {
 	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	
 	_unit setCaptive true;
-	_unit setDamage 0.35;
-	
-	if (missionNamespace getVariable ["FAR_var_safeRagDoll", false]) then { 
-		[_unit] call FAR_fnc_RagDoll;
-	} else {
-		_unit setUnconscious true;
-		uiSleep 6;
-	};
-		
+	_unit setDamage 0;
+			
 	// Allow the downed unit to be damaged?
 	if (FAR_var_InstantDeath) then { _unit allowDamage true } else { _unit allowDamage false };
 	
 	// Eject unit if inside vehicle and is destroyed
-	if (vehicle _unit != _unit && !alive vehicle _unit) then {
-		moveOut _unit;
-		_unit action ["getOut", vehicle _unit];
-		uiSleep 0.5;
-	} else {
-		[_unit, "UnconsciousReviveDefault"] remoteExecCall ["switchMove"];
+	if (vehicle _unit != _unit) then {
+		if (!alive vehicle _unit || (vehicle _unit) isKindOf "StaticWeapon") then {
+			moveOut _unit;
+			_unit action ["getOut", vehicle _unit];
+		} else {
+			[_unit, "unconscious"] remoteExecCall ["playActionNow"];
+		};
 	};
+	
+	sleep 5;
 	
 	// If the unit was killed (instant death) exit.
 	if (!alive _unit) exitWith {};
@@ -278,15 +275,14 @@ FAR_fnc_SetUnconscious = {
 	
 	// Casualty Count Update.
 	_unit spawn {
-		if (time < 30) exitWith {};
-	
+		if (time < 60) exitWith {};
 		sleep random 5;
-			
 		[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 	};
 	
 	// Apply visual effects.
 	if (isPlayer _unit) then {
+		// closeDialog 2;
 		disableUserInput true;
 		titleText ["", "BLACK FADED"];
 		disableUserInput false;
@@ -325,11 +321,11 @@ FAR_fnc_SetUnconscious = {
 	_bleedOut = time + FAR_var_timer;
 	
 	// Deduct 1m from bleed-out timer.
-	if (FAR_var_timer > 60) then {
-		if (FAR_var_timer <= 600) then { FAR_var_timer = FAR_var_timer - 60 };
+	if (FAR_var_timer > FAR_var_reduceBleedOut) then {
+		if (FAR_var_timer <= 600) then { FAR_var_timer = FAR_var_timer - FAR_var_reduceBleedOut };
 		// Do nothing if we're over 600 (fixed respawn values)
 	} else {
-		FAR_var_timer = 60;
+		FAR_var_timer = FAR_var_reduceBleedOut;
 	};
 	
 	private _tick = 0;

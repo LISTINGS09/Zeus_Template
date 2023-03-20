@@ -28,6 +28,7 @@ case "v_car":
 	_unit addMagazineCargoGlobal [_glsmoke, 4];
 	_unit addMagazineCargoGlobal [_glflare, 8];
 	_unit addItemCargoGlobal [_firstaid,4];
+	if (isClass (configFile >> "CfgWeapons" >> "ACE_EntrenchingTool")) then { _unit addItemCargoGlobal ["ACE_EntrenchingTool",1] };
 };
 
 // CARGO: TRUCK - room for 50 weapons and 200 cargo items
@@ -63,6 +64,7 @@ case "v_tr":
 	_unit addMagazineCargoGlobal [_glsmoke, 8];
 	_unit addMagazineCargoGlobal [_glflare, 16];
 	_unit addItemCargoGlobal [_firstaid,8];
+	if (isClass (configFile >> "CfgWeapons" >> "ACE_EntrenchingTool")) then { _unit addItemCargoGlobal ["ACE_EntrenchingTool",2] };
 };
 
 // CARGO: IFV - room for 10 weapons and 100 cargo items
@@ -98,6 +100,7 @@ case "v_ifv":
 	_unit addMagazineCargoGlobal [_glsmoke, 6];
 	_unit addMagazineCargoGlobal [_glflare, 12];
 	_unit addItemCargoGlobal [_firstaid,6];
+	if (isClass (configFile >> "CfgWeapons" >> "ACE_EntrenchingTool")) then { _unit addItemCargoGlobal ["ACE_EntrenchingTool",4] };
 };
 
 // CRATE: Small, ammo for 1 fireteam
@@ -122,6 +125,7 @@ case "crate_small":
 	_unit addMagazineCargoGlobal [_glflare,10];
 	_unit addMagazineCargoGlobal [_chem, 8];
 	_unit addItemCargoGlobal [_firstaid, 6];
+	if (isClass (configFile >> "CfgWeapons" >> "ACE_EntrenchingTool")) then { _unit addItemCargoGlobal ["ACE_EntrenchingTool",4] };
 };
 
 // CRATE: Medium, ammo for 1 squad

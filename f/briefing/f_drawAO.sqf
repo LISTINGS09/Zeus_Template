@@ -4,7 +4,7 @@ params [["_baseMarker","AOmarker",[""]], ["_coverSize",100,[0]], ["_colorBack","
 
 { if (toLower _x == toLower _baseMarker) exitWith { _baseMarker = _x } } forEach allMapMarkers;
 
-if (!hasInterface || getMarkerType _baseMarker == "") exitWith {};
+if (!hasInterface || getMarkerSize _baseMarker isEqualTo [0,0]) exitWith {};
 
 private _baseMarkerDir = markerDir _baseMarker;
 if (_baseMarkerDir > 360) then {_baseMarkerDir = (_baseMarkerDir mod 360)};

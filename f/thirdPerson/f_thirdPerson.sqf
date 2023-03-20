@@ -8,9 +8,12 @@ sleep 5;
 // Default to off
 if (missionNamespace getVariable["f_param_thirdPerson",0] == 0) exitWith {};
 
+player switchCamera "INTERNAL";
+
 // 3rd in Vehicles Only
 if (f_param_thirdPerson == 1) exitWith { 
 	(FindDisplay 46) displayAddEventHandler ["keydown",{if (inputAction "personView" > 0 && vehicle player == player && lifeState player != "INCAPACITATED") then { player switchCamera "INTERNAL"; true }}];
+	player addEventHandler ["GetOutMan", { params ["_unit", "_role", "_vehicle", "_turret"]; if (inputAction "personView" > 0 && vehicle player == player && alive player) then { player switchCamera "INTERNAL" } }];
 };
 
 // 3rd Disabled Everywhere

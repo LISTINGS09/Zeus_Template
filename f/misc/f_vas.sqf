@@ -1,5 +1,5 @@
 // 	Zeus - VAS Option
-//  Description: Allows players to quickly teleport to their team.
+//  Description: Allows players to quickly teleport to their team and adds virtual arsenal and garage.
 // ====================================================================================
 if !hasInterface exitWith {};
 
@@ -50,7 +50,23 @@ if (_flagMarker in allMapMarkers) then {
 	f_obj_spawnFlag addAction ["<t color='#0080FF'>Virtual Garage</t>", { if (!isNil "ZEU_fnc_StartVirtualGarage") then { [] spawn ZEU_fnc_StartVirtualGarage } else { systemChat "[VG] Check the briefing to set Virtual Garage spawn point"; [] execVM "f\misc\f_virtualGarage.sqf"; }}, nil, 1.4, true, true, "", "missionNamespace getVariable ['f_param_virtualGarage',0] != 0 OR serverCommandAvailable '#kick'"];	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Virtual Arsenal</t>", {["Open",true] spawn BIS_fnc_arsenal}, nil, 1.6, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0 OR serverCommandAvailable '#kick'"];
 	
+	if (missionNamespace getVariable ['f_param_fastTravel',0] == 0 && (serverCommandAvailable "#kick" || _incAdmin || !isMultiplayer)) then {
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Lock Fast Travel (Admin)</t>", { missionNamespace setVariable ['f_param_fastTravel', 0, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0"];
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock Fast Travel (Admin)</t>", { missionNamespace setVariable ['f_param_fastTravel', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] == 0"];
+	};
+	
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Fast Travel</t>", {
+		[[1,0,false,[],0], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
+		systemChat format["Use the %1 to select individual Fast Travel Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0"];
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>HALO Travel</t>", {
+		[[1,0,false,[],2000], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
+		systemChat format["Use the %1 to select individual HALO Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0"];
+
 	// TODO: Add ability to choose traits
+	
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [(player getVariable 'f_var_assignGear'),player] call f_fnc_assignGear; }, nil, 0.5, true, true, "", "true"];
 	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Create Gear Guide</t>", {
 		private _create = false;
