@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek v1.31
+	Author: 2600K / Josef Zemanek v1.32
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -59,6 +59,18 @@ _Medium = [["B_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',
 _Heavy = [["B_APC_Tracked_01_AA_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_MBT_01_TUSK_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"]];
 _Air = ["B_Heli_Light_01_F","B_Heli_Transport_01_F",["B_Heli_Transport_03_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
 _CAS = ["B_Heli_Light_01_dynamicLoadout_F",["B_Heli_Attack_01_dynamicLoadout_F","_grpVeh setPylonLoadout [3,'PylonRack_12Rnd_missiles'];_grpVeh setPylonLoadout [4,'PylonRack_12Rnd_missiles'];"],["B_Plane_CAS_01_dynamicLoadout_F","_grpVeh setPylonLoadout [3,'PylonRack_7Rnd_Rocket_04_HE_F'];_grpVeh setPylonLoadout [4,'PylonMissile_1Rnd_Mk82_F'];_grpVeh setPylonLoadout [5,'PylonMissile_1Rnd_BombCluster_03_F'];_grpVeh setPylonLoadout [6,'PylonMissile_1Rnd_BombCluster_03_F'];_grpVeh setPylonLoadout [7,'PylonMissile_1Rnd_Mk82_F'];_grpVeh setPylonLoadout [8,'PylonRack_7Rnd_Rocket_04_AP_F'];"]];
+
+// WEST - NATO (WOODLAND)
+ZMM_WESTMan = ["B_W_Soldier_F","B_W_soldier_LAT_F","B_W_Soldier_F","B_W_soldier_AR_F","B_W_Soldier_F","B_W_Soldier_TL_F","B_W_Soldier_F","B_W_Soldier_AA_F","B_W_Soldier_F","B_W_Soldier_LAT2_F"];
+_Sentry = [configFile >> "CfgGroups" >> "West" >> "BLU_W_F" >> "Infantry" >> "B_W_InfSentry"];
+_Team = [configFile >> "CfgGroups" >> "West" >> "BLU_W_F" >> "Infantry" >> "B_W_InfTeam"];
+_Squad = [configFile >> "CfgGroups" >> "West" >> "BLU_W_F" >> "Infantry" >> "B_W_InfSquad"];
+_Truck = ["B_T_Truck_01_covered_F"];
+_Light = ["B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
+_Medium = [["B_T_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_T_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["B_T_APC_Tracked_01_AA_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_MBT_01_TUSK_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"]];
+_Air = ["B_Heli_Light_01_F",["B_Heli_Transport_01_F","[_grpVeh,['Green',1]] call BIS_fnc_initVehicle;"],"B_Heli_Transport_03_F"];
+_CAS = ["B_Heli_Light_01_dynamicLoadout_F","B_Heli_Attack_01_dynamicLoadout_F"];
 
 // WEST - FIA (VANILLA)
 _side = WEST;
@@ -404,18 +416,6 @@ _Heavy = ["gm_pl_army_zsu234v1","gm_pl_army_pt76b","gm_pl_army_t55"];
 _Air = [];
 _CAS = [];
 
-// VC
-_side = EAST;
-ZMM_EASTMan = ["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_12","vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_12","vn_o_men_nva_dc_01","vn_o_men_nva_dc_02","vn_o_men_nva_dc_03","vn_o_men_nva_dc_04","vn_o_men_nva_dc_05","vn_o_men_nva_dc_06","vn_o_men_nva_dc_07","vn_o_men_nva_dc_08","vn_o_men_nva_dc_09","vn_o_men_nva_dc_10","vn_o_men_nva_dc_11","vn_o_men_nva_dc_12"];
-_Sentry = [[["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_12"]]];
-_Team = [[["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_14","vn_o_men_nva_dc_11","vn_o_men_nva_dc_05"]]];
-_Squad = [[["vn_o_men_nva_dc_04","vn_o_men_nva_dc_06","vn_o_men_nva_dc_14","vn_o_men_nva_dc_11","vn_o_men_nva_dc_05","vn_o_men_nva_dc_08","vn_o_men_nva_dc_01","vn_o_men_nva_dc_09","vn_o_men_nva_dc_10","vn_o_men_nva_dc_07"]]];
-_Truck = ["vn_o_wheeled_z157_02_nva65"];
-_Light = ["vn_o_wheeled_z157_mg_01_nva65"];
-_Medium = ["vn_o_wheeled_btr40_mg_02_nva65","vn_o_wheeled_btr40_mg_01_nva65"];
-_Heavy = ["vn_o_armor_type63_01_nva65","vn_o_wheeled_btr40_mg_03_nva65"];
-_Air = ["vn_o_air_mi2_01_01","vn_o_air_mi2_01_03"];;
-_CAS = ["vn_o_air_mi2_03_03","vn_o_air_mi2_03_04"];
 */
 
 // Functions.
@@ -428,7 +428,7 @@ zmm_fnc_spawnUnit = {
 		["_tries", 1]
 	];
 
-	if (_unitClass isEqualTo "") exitWith { systemChat format["SpawnUnit - Empty Unit Passed: %1 (%2)", _unitClass, _side] };
+	if (_unitClass isEqualTo "") exitWith { diag_log format["SpawnUnit - Empty Unit Passed: %1 (%2)", _unitClass, _side] };
 	if (_tries > 10) exitWith {};
 
 	systemChat format["SpawnUnit - Passed %1: %2 [%3] Try:%4", _targetPos, _unitClass, _side, _tries];
@@ -476,7 +476,7 @@ zmm_fnc_spawnUnit = {
 		_vehName = toLower getText (configFile >> "CfgVehicles" >> _unitClass >> "displayName");
 		_grpVeh = createVehicle [_unitClass, _startingPos, [], 15, if _isAir then {"FLY"} else {"NONE"}];
 		_grpVeh setVehicleLock "LOCKEDPLAYER";
-		_grpVeh setVehicleTIPars [1, 0.5, 0.5];
+		[_grpVeh,[1, 0.5, 0.5]] remoteExec ["setVehicleTIPars"];
 
 		if _isAir then {
 			_sleep = false;
@@ -639,7 +639,7 @@ zmm_fnc_spawnUnit = {
 				private _time = time + 600;
 				while {	alive (vehicle leader _rGrp) && time < _time } do {
 					uiSleep 30;
-					{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select {_x distance2D leader _rGrp < 1200 && vehicle _x == _x && stance _x == "STAND" });
+					{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select {_x distance2D leader _rGrp < 2500 && vehicle _x == _x && stance _x != "PRONE" });
 				};
 			};
 		} else {
@@ -673,8 +673,9 @@ zmm_fnc_spawnUnit = {
 };
 
 // PREPERATION
-_safePositions = [];
-_spawns = [];
+private _safePositions = [];
+private _spawnRoad = [];
+private _spawnLand = [];
 
 if (!isNil "_Soldier") then { missionNamespace setVariable [format["ZMM_%1Man", _side], _Soldier]; }; // Variable array for function reference.
 
@@ -692,38 +693,49 @@ if (!isNil "_Soldier") then { missionNamespace setVariable [format["ZMM_%1Man", 
 	if (["safezone_", toLower _x] call BIS_fnc_inString) then { _safePositions pushBack _x; };
 } forEach allMapMarkers;
 
-// White list custom spawns.
+// White list custom spawns - Change this marker if needed!
 {	
-	if (["qrf_", toLower _x] call BIS_fnc_inString) then { _spawns pushBack getMarkerPos _x; };
+	if (["qrf_", toLower _x] call BIS_fnc_inString) then { _spawnLand pushBack getMarkerPos _x; };
 } forEach allMapMarkers;
 
 // Collect all roads 2km around the location that are not in a safe location.
 for [{_i = 0}, {_i <= 360}, {_i = _i + 1}] do {
-	_pos = [_location, _spawnDist, _i] call BIS_fnc_relPos;
-	_roads = (_pos nearRoads 50) select {((boundingBoxReal _x) select 0) distance2D ((boundingBoxReal _x) select 1) >= 25};
-	_exclude = false;
+	private _posR = _location getPos [_spawnDist, _i];
+	_roads = (_posR nearRoads 50) select {((boundingBoxReal _x) select 0) distance2D ((boundingBoxReal _x) select 1) >= 25};
 	
-	{
-		if (_pos inArea _x) exitWith {_exclude = true};
-	} forEach _safePositions;
-	
-	if (count _roads > 0 && !_exclude) then {
+	if (count _roads > 0 && { _posR inArea _x } count _safePositions == 0) then {
 		_road = _roads select 0;
-		if ({_x distance2D _road < 100} count _spawns == 0) then {
+		if ({_x distance2D _road < 100} count _spawnRoad == 0) then {
 			_connected = roadsConnectedTo _road;
 			_nearestRoad = objNull;
 			{if ((_x distance _location) < (_nearestRoad distance _location)) then {_nearestRoad = _x}} forEach _connected;
-			_spawns pushBackUnique position _nearestRoad;
+			_spawnRoad pushBackUnique position _nearestRoad;
 		};
 	};
+	
+	private _posL = _location getPos [(_spawnDist / 2), _i];
+	
+	if (!surfaceIsWater _posL && { _posL inArea _x } count _safePositions == 0) then {
+		if ({_x distance2D _posL < 400} count _spawnLand == 0) then {
+			_spawnLand pushBack _posL;
+		};
+	};	
 };
 
 // DEBUG: Show Spawn Markers in local
 {
-	_mrkr = createMarkerLocal [format ["spawnMkr_%1", _forEachIndex], _x];
-	(format ["spawnMkr_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
-	(format ["spawnMkr_%1", _forEachIndex]) setMarkerTextLocal str _forEachIndex;
-} forEach _spawns;
+	_mrkr = createMarkerLocal [format ["mkr_road_%1", _forEachIndex], _x];
+	(format ["mkr_road_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
+	(format ["mkr_road_%1", _forEachIndex]) setMarkerColorLocal "ColorYellow";
+	(format ["mkr_road_%1", _forEachIndex]) setMarkerTextLocal format["R%1",_forEachIndex];
+} forEach _spawnRoad;
+
+{
+	_mrkr = createMarkerLocal [format ["mkr_land_%1", _forEachIndex], _x];
+	(format ["mkr_land_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
+	(format ["mkr_land_%1", _forEachIndex]) setMarkerColorLocal "ColorOrange";
+	(format ["mkr_land_%1", _forEachIndex]) setMarkerTextLocal format["L%1",_forEachIndex];
+} forEach _spawnLand;
 
 // MAIN
 // Spawn waves.
@@ -735,29 +747,34 @@ for [{_wave = 1}, {_wave < _waveMax}, {_wave = _wave + 1}] do {
 	
 	switch (_wave) do {
 		case 1: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Light + _Air)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Air)] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, selectRandom _Team] call zmm_fnc_spawnUnit;
 		};
 		case 2: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Air + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Air + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, selectRandom _Team] call zmm_fnc_spawnUnit;
 		};
 		case 3: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Medium + _CAS)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Medium + _CAS)] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, selectRandom _Team] call zmm_fnc_spawnUnit;
 		};
 		case 4: {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Heavy + _Air)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Heavy + _Air)] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, selectRandom _Squad] call zmm_fnc_spawnUnit;
 		};
 		default {
-			[_location, _spawns, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Heavy + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawns, _side, selectRandom (_Heavy + _CAS)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Heavy + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Heavy + _CAS)] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, selectRandom _Squad] call zmm_fnc_spawnUnit;
 		};
 	};
 
