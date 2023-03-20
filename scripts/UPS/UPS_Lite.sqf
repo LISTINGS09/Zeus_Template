@@ -1,6 +1,6 @@
 //
 //  Urban Patrol Script Zeus Edition
-//  Version: 1.9
+//  Version: 2.31
 //  Author: 2600K & Kronzky (www.kronzky.info / kronzky@gmail.com)
 //  BIS Forum: http://forums.bistudio.com/showthread.php?147904-Urban-Patrol-Script&highlight=Urban+Patrol+Script
 //
@@ -27,12 +27,12 @@ _safeDist = 200; 	// How far to move when under attack in meters
 _closeEnough = 50; 	// WP Completion Radius
 _shareDist = 400; 	// AI Comms Range in meters
 _alertTime = 300; 	// AI Alert after spotting enemy
-_artyTime = 300;	// Arty delay between firing
+_artyTime = 500;	// Arty delay between firing
 _artyRural = 100;	// Arty dispersion in rural areas
 _artyUrban = 50;	// Arty dispersion in urban areas
-_unitSkill = [['aimingAccuracy',0.25],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',1],['spotTime',0.85]]; // Average AI
+_unitSkill = [['aimingAccuracy',0.2],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',1],['spotTime',0.85]]; // Average AI
 
-if (isNil "ZAI_Debug") then { ZAI_Debug = false }; // Disable debug mode if not set
+if (isNil "ZAI_Debug") then { ZAI_Debug = !isMultiplayer }; // Disable debug mode if not set
 
 // Message Logging Function
 _ZAI_fnc_LogMsg = {
@@ -115,7 +115,7 @@ _isBoat = _grpVehicle isKindOf "ship";
 _isCar = _grpVehicle isKindOf "car";
 _isTank = _grpVehicle isKindOf "tank" || _grpVehicle isKindOf "armored";
 _isArty = if (!isNull _grpVehicle) then { "Artillery" in getArray (configFile >> "CfgVehicles" >> typeOf _grpVehicle >> "availableForSupportTypes") } else { FALSE }; 
-_isStatic = _grpVehicle isKindOf "staticWeapon" || _grpVehicle isKindOf "static";
+_isStatic = _grpVehicle isKindOf "staticWeapon" || _grpVehicle isKindOf "static" || (!isNull _grpVehicle && isNull driver _grpVehicle);
 _isMan = !_isAir && !_isBoat && !_isCar && !_isTank && !_isStatic && !_isArty;
 
 if (!isNull _grpVehicle && _isMan) then { ["WARNING", format["[%1] was an unknown vehicle type", typeOf _grpVehicle]] call _ZAI_fnc_LogMsg; };
@@ -124,7 +124,7 @@ if (!isNull _grpVehicle) then { _grp selectLeader driver _grpVehicle; [leader _g
 _grpType = ([(["","Man"] select _isMan), (["","Air"] select _isAir), (["","Ship"] select _isBoat), (["","Vehicle"] select _isCar), (["","Armoured"] select _isTank), (["","Static"] select _isStatic), (["","Artillery"] select _isArty) ] - [""]);
 _grp setVariable ["ZAI_Type", _grpType apply { toUpper _x }];
 _grp setVariable ["ZAI_Vehicle", _grpVehicle];
-["DEBUG", format["[%1] was detected as %2", groupID _grp, _grpType  joinString ", "]] call _ZAI_fnc_LogMsg;
+["DEBUG", format["[%1] was detected as %2 %3", groupID _grp, _grpType  joinString ", ", if (!isNull _grpVehicle) then { format["(%1)", typeOf _grpVehicle] } else {  format["(%1)", typeOf leader _grp] }]] call _ZAI_fnc_LogMsg;
 
 if _isAir then { _closeEnough = 1000 }; // Tolerance high for choppers & planes
 //if _isStatic then { [_grp, "Task", "STATIC"] call _ZAI_fnc_setGroupVariable; }; // Statics won't be tasked.
@@ -233,7 +233,20 @@ if ("RANDOM" in _params) then {
 // track unit
 _trackGrp = ("TRACK" in _params || ZAI_Debug);
 if (_trackGrp) then {
-	_grp addGroupIcon ["o_inf"];
+	private _icon = "o_unknown";
+	
+	switch true do {
+		case (_grpVehicle isKindOf "staticWeapon"): { if ("Artillery" in getArray (configFile >> "CfgVehicles" >> typeOf _grpVehicle >> "availableForSupportTypes")) then { _icon = "o_mortar" } else { _icon = "o_installation" } };
+		case (_grpVehicle isKindOf "Truck" || _grpVehicle isKindOf "Car"): { _icon = "o_mech_inf" };
+		case (_grpVehicle isKindOf "Tank"): { _icon = "o_armor" };
+		case (_grpVehicle isKindOf "Plane_Base_F"): { _icon = "o_plane" };
+		case (_grpVehicle isKindOf "UAV_02_base_F"): { _icon = "o_uav" };
+		case (_grpVehicle isKindOf "Helicopter"): { _icon = "o_air" };
+		case (_grpVehicle isKindOf "Boat_F"): { _icon = "o_naval" };
+		case (isNull _grpVehicle || _grpVehicle isKindOf "Man"): { _icon = "o_inf" };
+	};
+
+	_grp addGroupIcon [_icon];
 	_grp setgroupIconParams [[side _grp, false] call BIS_fnc_sideColor,_grpIDx,0.8,TRUE];
 	
 	if !ZAI_Debug exitWith {};
@@ -325,7 +338,6 @@ if (_trackGrp) then {
 // UPS Loop Common Variables
 _lastDamage = 0;
 _lastCount = 0;
-_lastTime = 0;
 _lastPos = _unitPos;
 
 _grp deleteGroupWhenEmpty TRUE; // Don't keep the group when empty.
@@ -339,12 +351,13 @@ while {TRUE} do {
 	if (units _grp select { alive _x } isEqualTo []) exitWith { ["DEBUG", format["[%1] Exiting - All Dead!", _grpIDx]] call _ZAI_fnc_LogMsg; }; // No-one is alive.
 	if ({isPlayer _x} count units _grp > 0) exitWith { _grp selectLeader ((units _grp select { isPlayer _x })#0); }; // Player is in the group, make them lead and exit.
 
-	_wasHit = FALSE;
-	
-	_grpLeader = leader _grp;
+	private _wasHit = FALSE;
+	private _taskType = "PATROL";
+	private _grpLeader = leader _grp;
+	private _lastTime = _grp getVariable ["WaitTime", 0];
 	
 	// Check for damage to group
-	_newDamage = 0; 
+	private _newDamage = 0; 
 	{
 		if (damage _x > 0.2) then {
 			_newDamage = _newDamage + (damage _x); 
@@ -505,22 +518,12 @@ while {TRUE} do {
 			// ATTACK - Directly attack.
 			// ASSAULT - Flank and then move on enemy.
 			_taskType = selectRandom ["EVADE","EVADE","FLANK","ATTACK","ASSAULT"];
+			[_grp,"Task",_taskType] call _ZAI_fnc_setGroupVariable;
 			switch (_taskType) do {
-				case "EVADE": {
-					[_grp,"Task",_taskType] call _ZAI_fnc_setGroupVariable;
-					_evadeWPs = [_movePos];
-				};
-				case "FLANK": {
-					[_grp,"Task",_taskType] call _ZAI_fnc_setGroupVariable;
-					_evadeWPs = _evadeWPs - [_attackPos];
-				};
-				case "ATTACK": {
-					[_grp,"Task",_taskType] call _ZAI_fnc_setGroupVariable;
-					_evadeWPs = _evadeWPs - [_avoidPos] - [_flankPos];
-				};
-				default {
-					[_grp,"Task",_taskType] call _ZAI_fnc_setGroupVariable;
-				};
+				case "EVADE": { _evadeWPs = [_movePos] };
+				case "FLANK": { _evadeWPs = _evadeWPs - [_attackPos] };
+				case "ATTACK": { _evadeWPs = _evadeWPs - [_avoidPos] - [_flankPos] };
+				default {};
 			};
 	
 			// Issue each WP from array
@@ -585,7 +588,7 @@ while {TRUE} do {
 			
 			_newGrpPos set [2,0];
 			
-			["DEBUG", format["[%1] Found WP %2 %3m after %4 tries (Combat: %5)",_grpIDx, _newGrpPos, round (_unitPos distance2D _newGrpPos), _tries, (!isNull _foundEnemy || _combatArea )]] call _ZAI_fnc_LogMsg;
+			//["DEBUG", format["[%1] Found WP %2 %3m after %4 tries (Combat: %5)",_grpIDx, _newGrpPos, round (_unitPos distance2D _newGrpPos), _tries, (!isNull _foundEnemy || _combatArea )]] call _ZAI_fnc_LogMsg;
 
 			_wp = _grp addWaypoint [_newGrpPos, 25];
 			_wp setWaypointType (["MOVE","SAD"] select _isAir);
@@ -661,8 +664,19 @@ while {TRUE} do {
 		};
 
 		["DEBUG", format["[%1] Artillery Mission Started %2", _grpIDx, _artyTarget]] call _ZAI_fnc_LogMsg;
+		_lastTime = time + _artyTime + (random _artyTime);
 		
-		_tempSmoke = "SmokeShellRed" createVehicle (_artyTarget getPos [random 5, random 360]); 
+		if (sunOrMoon > 0.9) then {
+			private _tempSmoke = "SmokeShellRed" createVehicle (_artyTarget getPos [random 5, random 360]); 
+		} else {
+			for "_i" from 1 to 3 do {
+				private _rPos = _artyTarget getPos [25, random 360];
+				_rPos set [2,150];
+				private _tempFlare = "F_20mm_Red" createVehicle _rPos;
+				_tempFlare setVelocity [0,0,-15];
+				sleep 3;
+			};
+		};
 		
 		sleep 30;
 		
@@ -674,7 +688,7 @@ while {TRUE} do {
 		
 		(vehicle _grpLeader) setVehicleAmmo 1;
 		missionNamespace setVariable [format["ZAI_%1_ArtyRequest", side _grp], []];
-		_lastTime = time + _artyTime;
+		
 	};
 
 	// Check for any AI Issues!
@@ -691,7 +705,6 @@ while {TRUE} do {
 				};
 				if (_lastCount == 20) exitWith {
 					vehicle _grpLeader setDamage 0;
-					_grp leaveVehicle vehicle _grpLeader;
 					["WARNING", format["[%1] Vehicle held for %2 cycles - Repairing", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 				if (_lastCount == 30) exitWith {
