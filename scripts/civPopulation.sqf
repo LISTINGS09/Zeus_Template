@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.0
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.2
 // [] execVM "scripts\civPopulation.sqf";
 
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
@@ -19,42 +19,33 @@ if (isNil "ZCS_var_Debug") then { ZCS_var_Debug = false };
 
 if !isServer exitWith {};
 
-// Vanilla Civilians
-ZCS_var_UnitClass = [ "C_man_1","C_man_p_fugitive_F_asia","C_man_p_beggar_F_afro","C_man_p_beggar_F_euro"]; // Basic Unit Classes - Gear is applied below
+// Define custom gear if needed here - Empty array below will not override class gear, use [""] to force remove gear.
 ZCS_var_UnitGear = [
-	[ "H_Booniehat_khk","H_Cap_red","H_Cap_blu","H_Cap_tan","H_Cap_blk","H_Bandanna_surfer","H_Bandanna_surfer_blk","H_Bandanna_surfer_grn","H_Bandanna_blu","H_StrawHat","H_Hat_checker","H_Hat_Safari_sand_F","H_Hat_Safari_olive_F","H_HeadBandage_clean_F","H_WirelessEarpiece_F","","","","","","","","","","","","","","","","","","","","","","","","","" ], // Headgear
-	[ "G_Bandanna_aviator","G_Aviator","G_Spectacles","G_Spectacles_Tinted","G_Squares","G_Shades_Black","G_Shades_Blue","G_Sport_Blackred","G_Sport_Checkered","G_Sport_Greenblack","G_Lady_Mirror","","","","","","","","","","","","","","","","","","","","","","","","","" ], // Glasses
-	[ "U_C_Poloshirt_blue","U_C_Poloshirt_burgundy","U_C_Poloshirt_stripped","U_C_Poloshirt_tricolour","U_C_Poloshirt_salmon","U_C_Poloshirt_redwhite","U_I_C_Soldier_Bandit_5_F","U_I_C_Soldier_Bandit_1_F","U_I_C_Soldier_Bandit_4_F","U_C_IDAP_Man_shorts_F","U_C_Man_casual_6_F","U_C_Man_casual_4_F","U_C_Man_casual_5_F", // Uniforms - Shorts
-	  "U_IG_Guerilla2_1","U_IG_Guerilla2_2","U_IG_Guerilla2_3","U_C_Poor_1","U_C_WorkerCoveralls","U_C_Mechanic_01_F","U_Marshal","U_C_ConstructionCoverall_Black_F","U_C_Man_casual_1_F","U_C_Man_casual_2_F","U_C_Man_casual_3_F","U_I_C_Soldier_Bandit_3_F","U_I_C_Soldier_Bandit_2_F","U_C_IDAP_Man_cargo_F","U_C_IDAP_Man_casual_F" ],  // Uniforms - Trousers
-	[ ], // Vests
-	[ ], // Backpack
-	[ "FirstAidKit" ] // Items
+	[], // Headgear
+	[], // Glasses
+	[],  // Uniforms
+	[], // Vests
+	[], // Backpack
+	[] // Items
 ];
 
-/* 
-// WS Civilians
-ZCS_var_UnitClass = [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"];
-ZCS_var_UnitGear = [
-	[ "lxWS_H_cloth_5_C","lxWS_H_turban_01_red","lxWS_H_turban_04_yellow","lxWS_H_turban_03_green","lxWS_H_turban_02_gray","lxWS_H_cloth_5_B","lxWS_H_cloth_5_A","lxWS_H_turban_01_gray","H_ShemagOpen_khk","lxWS_H_turban_01_blue","lxWS_H_turban_04_blue","lxWS_H_turban_02_orange","lxWS_H_turban_03_sand","H_StrawHat_dark","lxWS_H_turban_02_red","lxWS_H_turban_04_black","","","","","","","","" ], // Headgear
-	[ "G_Shades_Black","G_Sport_Blackyellow","G_Spectacles","G_Shades_Blue","G_Sport_Blackred","G_Sport_Red","","","","","","","","","","","","","","","","","","","","","","","","","" ], // Glasses
-	[ "U_lxWS_C_Djella_01","U_lxWS_C_Djella_02","U_lxWS_C_Djella_03","U_lxWS_C_Djella_04","U_lxWS_C_Djella_05","U_lxWS_Tak_02_A","U_lxWS_Tak_02_B","U_lxWS_Tak_02_C","U_lxWS_Tak_03_A","U_lxWS_Tak_03_B","U_lxWS_Tak_03_C","U_lxWS_Tak_01_A","U_lxWS_Tak_01_A","U_lxWS_Tak_01_C","U_lxWS_ION_Casual3","U_C_Mechanic_01_F"],  // Uniforms
-	[ ], // Vests
-	[ ], // Backpack
-	[ "FirstAidKit" ] // Items
-];*/
-
-
-/*
-// VC Civilians
-ZCS_var_UnitClass = [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"];
-ZCS_var_UnitGear = [ ];
-*/
+ZCS_var_UnitClass = switch (toLower worldName) do {
+	case "tanoa": { [ "C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan","C_Man_casual_6_F_tanoan","C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_v2_F_tanoan","C_Man_casual_5_v2_F_tanoan","C_Man_casual_6_v2_F_tanoan","C_Man_casual_7_F_tanoan","C_Man_casual_8_F_tanoan","C_Man_casual_9_F_tanoan" ] };
+	case "enoch": { [ "C_Man_1_enoch_F","C_Man_2_enoch_F","C_Man_3_enoch_F","C_Man_4_enoch_F","C_Farmer_01_enoch_F","C_Man_5_enoch_F","C_Man_6_enoch_F" ] }; // Livonia
+	case "cam_lao_nam";
+	case "vn_khe_sanh";
+	case "vn_the_bra": { [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"] };
+	case "gm_weferlingen_winter";
+	case "gm_weferlingen_summer": { [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
+	case "sefrouramal": { [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"] };
+	default { [ "C_man_1","C_man_p_fugitive_F_asia","C_man_p_beggar_F_afro","C_man_p_beggar_F_euro"]; }; // Vanilla
+};
 
 // Do not edit anything beneath this line!
 
 // Parse markers list.
 {
-	if (getMarkerType _x == "") then { 
+	if (getMarkerColor _x == "") then { 
 		ZCS_var_BlackList deleteAt _forEachIndex;
 		diag_log text format["[ZCS] WARNING - Marker not found '%1'", _x];
 	} else {
@@ -153,10 +144,12 @@ ZCS_fnc_DressUnit = {
 	// Assigns a unit a random selection of items from ZCS_var_UnitGear.
 	params ["_unit"];
 	
-	ZCS_var_UnitGear params [["_head",[],[]], ["_glasses",[],[]], ["_uniform",[],[]], ["_vest",[],[]], ["_backpack",[],[]], ["_items",[],[]]];
+	ZCS_var_UnitGear params [["_head",[],[[]]], ["_glasses",[],[[]]], ["_uniform",[],[[]]], ["_vest",[],[[]]], ["_backpack",[],[[]]], ["_items",[],[[]]]];
 	
 	{
 		_x params [["_classes",[]],["_classTree","CfgWeapons"]];
+		
+		if (count _classes == 0) exitWith {};
 		
 		private _item = selectRandom _classes;
 		
