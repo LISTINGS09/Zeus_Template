@@ -17,7 +17,7 @@ if (playerSide in [west, east, independent] && {f_radios_settings_acre2_SplitFre
 
 // BABEL
 // Check and set languages for customized unit (ex. translator)
-_spokenLanguages = player getVariable ["f_var_acreLanguages", []];
+private _spokenLanguages = player getVariable ["f_var_acreLanguages", []];
 
 // If no predefined side is found, default to independent side.
 if (_spokenLanguages isEqualTo []) then {

@@ -82,7 +82,8 @@ if (side group player != CIVILIAN) then {
 	if (_icon != "" && count (allMapMarkers select { (getPos _veh distance2D getMarkerPos _x) < 50 }) == 0) then {
 		private _mkr = createMarkerLocal [format["veh_mkr_%1",_forEachIndex], getPos _veh];
 		_mkr setMarkerTypeLocal _icon;
-		_mkr setMarkerColorLocal "ColorEast";
+		_mkr setMarkerColorLocal ([side _x, true] call BIS_fnc_sideColor);
+		//_mkr setMarkerTextLocal getText (configFile >> "CfgVehicles" >> typeOf _x >> "displayName");
 		
 		// Grey Marker when Destroyed
 		private _trg = createTrigger ["EmptyDetector", getPos _veh, false];

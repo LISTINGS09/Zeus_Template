@@ -191,7 +191,7 @@ _specOp = [];
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
 _baseUniform = ["U_B_CombatUniform_vest_mcam_wdl_f"];
-_baseHelmet = ["H_PASGT_basic_black_F"];
+_baseHelmet = ["H_HelmetB_plain_wdl"];
 _baseGlasses = [""];
 
 // Vests
@@ -300,7 +300,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: DEPUTY COMMANDER AND SQUAD LEADER
 	case "dc":
 	{
-		_unit addHeadGear "H_PASGT_basic_olive_F";
+		_unit addHeadGear "H_HelmetB";
 		["g"] call _backpack;
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
@@ -318,7 +318,6 @@ switch (_typeOfUnit) do
 	// LOADOUT: MEDIC
 	case "m":
 	{
-		_unit addHeadGear "H_PASGT_basic_white_F";
 		[_typeOfUnit] call _backpack;
 		_unit setUnitTrait ["medic",1];
 		_unit addMagazines [_carbinemag,_defMags];

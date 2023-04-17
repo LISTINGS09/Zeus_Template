@@ -264,9 +264,9 @@ FAR_fnc_SetUnconscious = {
 		} else {
 			[_unit, "unconscious"] remoteExecCall ["playActionNow"];
 		};
+	} else {
+		sleep 5;
 	};
-	
-	sleep 5;
 	
 	// If the unit was killed (instant death) exit.
 	if (!alive _unit) exitWith {};

@@ -112,7 +112,7 @@ _binos2 = "Rangefinder";
 _nvg = "o_NVGoggles_grn_F";
 
 // UAV Terminal
-_uavterminal = "B_UavTerminal";	  // BLUFOR - FIA
+_uavterminal = "I_UavTerminal";	  // INDFOR
 
 // Chemlights
 _chem =  "Chemlight_blue";

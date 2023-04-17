@@ -16,6 +16,6 @@ waitUntil {!isNil "f_var_setParams"};
 // Only run if TOD parameter has not been set.
 if (isNil "f_var_timeOfDay") then {
 	[missionNamespace getVariable ["f_param_timeOfDay",0]] call f_fnc_setTime;
-	[missionNamespace getVariable ["f_param_fog",0]] spawn f_fnc_setFog;
 	[missionNamespace getVariable ["f_param_weather",0]] call f_fnc_setWeather;
+	[missionNamespace getVariable ["f_param_fog",0]] spawn f_fnc_setFog;
 };

@@ -14,9 +14,9 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 // F3 - Casualty Cap - Sides: west | east | resistance - Format: [SIDE,ENDING,<PERCENT>]
 [nil, 2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 // ====================================================================================
-// F3 - Map Click Teleport
-// [1,600,true,[],3000] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";	// Set for HALO (3000m Height)
-// [] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf"; 					// Use Defaults (Land Teleport, Leaders Only)
+// F3 - Map Click Teleport - [NoOfUses,ActionTimeOut,["UnitsToGiveAction"],TeleportHeight]
+// [1,600,true,[],3000] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";	// Teleport Group, Leaders Only, Set for HALO (3000m Height)
+// [] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";						// Use Defaults (Teleport Group, Leaders Only, Land Teleport)
 // ====================================================================================
 // [RESISTANCE,"acc_flashlight"] execVM "scripts\flashLight.sqf";			// AI Flashlights
 // DAC_Basic_Value = 0; execVM "scripts\DAC\DAC_Config_Creator.sqf";		// DAC

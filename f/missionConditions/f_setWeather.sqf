@@ -85,4 +85,8 @@ switch (_weather) do {
 
 ["f_setWeather.sqf",format["Weather %1 in %2s", _weather, _delay],"INFO"] call f_fnc_logIssue;
 
-if (_delay == 0) then { forceWeatherChange };
+if (_delay == 0) then { 
+	private _fog = fogParams;
+	forceWeatherChange;
+	0 setFog _fog;
+};
