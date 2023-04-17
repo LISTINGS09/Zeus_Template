@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.2
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.3
 // [] execVM "scripts\civPopulation.sqf";
 
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
@@ -30,15 +30,15 @@ ZCS_var_UnitGear = [
 ];
 
 ZCS_var_UnitClass = switch (toLower worldName) do {
-	case "tanoa": { [ "C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan","C_Man_casual_6_F_tanoan","C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_v2_F_tanoan","C_Man_casual_5_v2_F_tanoan","C_Man_casual_6_v2_F_tanoan","C_Man_casual_7_F_tanoan","C_Man_casual_8_F_tanoan","C_Man_casual_9_F_tanoan" ] };
-	case "enoch": { [ "C_Man_1_enoch_F","C_Man_2_enoch_F","C_Man_3_enoch_F","C_Man_4_enoch_F","C_Farmer_01_enoch_F","C_Man_5_enoch_F","C_Man_6_enoch_F" ] }; // Livonia
+	case "tanoa": { [ "C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_v2_F_tanoan","C_Man_casual_5_v2_F_tanoan","C_Man_casual_6_v2_F_tanoan","C_Man_casual_7_F_tanoan","C_Man_casual_8_F_tanoan","C_Man_casual_9_F_tanoan","C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan","C_Man_casual_6_F_tanoan","C_Man_smart_casual_1_F_tanoan","C_Man_smart_casual_2_F_tanoan" ] };
+	case "enoch": { [ "C_Man_1_enoch_F","C_Man_2_enoch_F","C_Man_3_enoch_F","C_Man_4_enoch_F","C_Man_5_enoch_F","C_Man_6_enoch_F","C_Farmer_01_enoch_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro" ] }; // Livonia
 	case "cam_lao_nam";
 	case "vn_khe_sanh";
 	case "vn_the_bra": { [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"] };
 	case "gm_weferlingen_winter";
 	case "gm_weferlingen_summer": { [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
 	case "sefrouramal": { [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"] };
-	default { [ "C_man_1","C_man_p_fugitive_F_asia","C_man_p_beggar_F_afro","C_man_p_beggar_F_euro"]; }; // Vanilla
+	default { [ "C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F","C_man_polo_6_F","C_journalist_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro","C_Man_casual_4_v2_F_asia","C_Man_casual_3_F_asia","C_Man_casual_4_F_euro","C_Man_casual_5_F_euro","C_Man_casual_6_F_euro"]; }; // Vanilla
 };
 
 // Do not edit anything beneath this line!
