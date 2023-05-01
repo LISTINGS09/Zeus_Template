@@ -7,7 +7,7 @@ _attach1 = ["acc_pointer_IR","acc_flashlight"];
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ["muzzle_snds_H","muzzle_snds_M"]; // Rifleman
+_silencer1 = ["muzzle_snds_H","muzzle_snds_M","gm_suppressor_atec150_556mm_blk"]; // Rifleman
 _silencer2 = "muzzle_snds_H_MG"; // MG
 
 _scope1 = ["optic_Holosight_blk_F","optic_ACO","optic_ACO_grn"]; // CQB
@@ -100,7 +100,7 @@ _medkit = "Medikit";
 
 // Binoculars
 _binos1 = "Binocular";
-_binos2 = "Rangefinder";
+_binos2 = "gm_lp7_oli";
 
 // Night Vision Goggles (NVGoggles)
 _nvg = "NVGoggles_OPFOR";

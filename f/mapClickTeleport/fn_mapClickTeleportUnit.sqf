@@ -2,18 +2,13 @@
 // Credits: Please see the F3 online manual http://www.ferstaberinde.com/f3/en/
 // ====================================================================================
 
-// DECLARE VARIABLES AND FUNCTIONS
-
-private ["_textSelect","_textDone"];
-
-// ====================================================================================
-
 // SET KEY VARIABLES
-
 f_telePositionSelected = false;
 if (isNil "f_var_mapClickTeleport_Used") then {f_var_mapClickTeleport_Used = 0};
+if (isNil "f_var_mapClickTeleport_Uses") then {f_var_mapClickTeleport_Uses = 1};
 
-// ====================================================================================
+f_fnc_mapClickHaloEffect = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickHaloEffect.sqf";
+f_fnc_mapClickTeleportGroup = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportGroup.sqf";
 
 // TELEPORT FUNCTIONALITY
 // Open the map for the player and display a notification, then set either the player's vehicle
@@ -21,9 +16,16 @@ if (isNil "f_var_mapClickTeleport_Used") then {f_var_mapClickTeleport_Used = 0};
 // as well.
 
 player groupChat format["Click a location on the map to %1.", (if (f_var_mapClickTeleport_Height == 0) then {"Fast Travel"} else {"HALO Drop"})];
-openMap [true, false];
+
+openMap [true, true];
+
 onMapSingleClick "f_var_mapClickTeleport_telePos = _pos; f_telePositionSelected = true";
+
 waitUntil {sleep 0.1;f_telePositionSelected;};
+
+onMapSingleClick "";
+
+openMap [true, false];
 
 // HALO - set height
 if (f_var_mapClickTeleport_Height > 0) then {
@@ -51,7 +53,7 @@ if (f_var_mapClickTeleport_GroupTeleport) then {
 	sleep 0.1;
 	{
 		if (_x distance2D player > 50) then {
-			[_x,f_var_mapClickTeleport_telePos] remoteExec ["f_fnc_mapClickTeleportGroup",_x];
+			[_x, f_var_mapClickTeleport_telePos, name player] remoteExec ["f_fnc_mapClickTeleportGroup",_x];
 		};
 	} forEach ((units group player) - [player]);
 };
@@ -71,7 +73,7 @@ if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
 
 f_var_mapClickTeleport_Used = f_var_mapClickTeleport_Used + 1;
 
-if (f_var_mapClickTeleport_Uses == 0 || f_var_mapClickTeleport_Used < f_var_mapClickTeleport_Uses) then {
+if (f_var_mapClickTeleport_Used < f_var_mapClickTeleport_Uses) then {
 	if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
 		[player, 1, ["ACE_SelfActions","ACE_TeamManagement"], ace_par_action] call ace_interact_menu_fnc_addActionToObject;
 	} else {

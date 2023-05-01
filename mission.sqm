@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=392;
+		nextID=400;
 	};
 	class Camera
 	{
-		pos[]={3208.4683,23.081228,1877.2821};
-		dir[]={-0.098355539,-0.51352137,0.85245395};
-		up[]={-0.05886168,0.85806578,0.5101549};
-		aside[]={0.99343747,8.1163307e-008,0.11462081};
+		pos[]={3202.1809,111.75691,1819.9325};
+		dir[]={0.257723,-0.80042195,0.5412057};
+		up[]={0.34413478,0.59943688,0.72266626};
+		aside[]={0.90285659,1.4901161e-008,-0.42994171};
 	};
 };
 binarizationWanted=0;
@@ -720,6 +720,7 @@ class Mission
 			position[]={4993,5,7211};
 			name="respawn_east";
 			type="b_hq";
+			colorName="ColorEAST";
 			id=1;
 		};
 		class Item2
@@ -728,6 +729,7 @@ class Mission
 			position[]={1700,0,7200};
 			name="respawn_guerrila";
 			type="b_hq";
+			colorName="ColorGUER";
 			id=2;
 			atlOffset=-5;
 		};
@@ -3643,6 +3645,7 @@ class Mission
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_ASL_SL";
 						description="Alpha - Squad Leader@Alpha";
+						isPlayer=1;
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};

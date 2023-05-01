@@ -49,7 +49,7 @@ F_EH_GroupEnter = addMissionEventHandler ["GroupIconOverEnter", {
 		"_shift", "_control", "_alt"
 	];
 	
-	if ((missionNamespace getVariable ["f_param_groupMarkers",0]) in [1,2,4]) exitWith {};
+	if ((missionNamespace getVariable ["f_param_groupMarkers",0]) in [0,1,2,4]) exitWith {};
 		
 	_iconParams = getGroupIconParams _group;	
 		
@@ -91,7 +91,7 @@ F_EH_GroupEnter = addMissionEventHandler ["GroupIconOverEnter", {
 	
 	_text = _text + "</t><br/><br/>";
 	
-	if (missionNamespace getVariable ["f_var_ShowScore", false]) then {	
+	if (profileNamespace getVariable ["f_var_ShowScore", false]) then {	
 		// Add group score, casualties and sdr
 		_pts = 0;
 

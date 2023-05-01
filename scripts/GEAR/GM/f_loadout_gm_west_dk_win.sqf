@@ -7,7 +7,7 @@ _attach1 = "";
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ""; // Rifleman
+_silencer1 = "gm_suppressor_atec150_556mm_blk"; // Rifleman
 _silencer2 = ""; // MG
 
 _scope1 = []; // CQB
@@ -100,7 +100,7 @@ _medkit = "Medikit";
 
 // Binoculars
 _binos1 = "gm_ferod16_win";
-_binos2 = "gm_ferod16_win";
+_binos2 = "gm_lp7_oli";
 
 // Night Vision Goggles (NVGoggles)
 _nvg = "NVGoggles_tna_F";
@@ -289,7 +289,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenade,2];
 		[_unit, _pistol] call f_fnc_addWeapon;
 		_unit addMagazines [_pistolmag,4];
-		[_unit, _binos1] call f_fnc_addWeapon;
+		[_unit, _binos2] call f_fnc_addWeapon;
 		_attachments = _attach_co;
 	};
 
@@ -306,7 +306,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenade,2];
 		[_unit, _pistol] call f_fnc_addWeapon;
 		_unit addMagazines [_pistolmag,4];
-		[_unit, _binos1] call f_fnc_addWeapon;
+		[_unit, _binos2] call f_fnc_addWeapon;
 		_attachments = _attach_dc;
 	};
 

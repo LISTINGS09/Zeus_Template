@@ -27,10 +27,10 @@ respawnOnStart = -1;
 corpseManagerMode = 1; // All
 corpseRemovalMaxTime = 600; // 10m
 wreckManagerMode = 1; // All
-wreckLimit = 5;
-wreckRemovalMinTime = 60;
+wreckLimit = 25;
+wreckRemovalMinTime = 300;
 wreckRemovalMaxTime = 900; // 15m
-minPlayerDistance = 50; // 50m
+minPlayerDistance = 250; // 50m
 
 // CBA
 cba_settings_hasSettingsFile = 1;

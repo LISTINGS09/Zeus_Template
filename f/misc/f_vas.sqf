@@ -55,6 +55,11 @@ if (_flagMarker in allMapMarkers) then {
 		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock Fast Travel (Admin)</t>", { missionNamespace setVariable ['f_param_fastTravel', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] == 0"];
 	};
 	
+	if (missionNamespace getVariable ['f_param_haloTravel',0] == 0 && (serverCommandAvailable "#kick" || _incAdmin || !isMultiplayer)) then {
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Lock HALO Travel (Admin)</t>", { missionNamespace setVariable ['f_param_haloTravel', 0, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0"];
+		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock HALO Travel (Admin)</t>", { missionNamespace setVariable ['f_param_haloTravel', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] == 0"];
+	};
+	
 	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Fast Travel</t>", {
 		[[1,0,false,[],0], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
 		systemChat format["Use the %1 to select individual Fast Travel Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
@@ -62,11 +67,10 @@ if (_flagMarker in allMapMarkers) then {
 	f_obj_spawnFlag addAction ["<t color='#35BAF6'>HALO Travel</t>", {
 		[[1,0,false,[],2000], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
 		systemChat format["Use the %1 to select individual HALO Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
-	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0"];
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0"];
 
-	// TODO: Add ability to choose traits
-	
-	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [(player getVariable 'f_var_assignGear'),player] call f_fnc_assignGear; }, nil, 0.5, true, true, "", "true"];
+	// TODO: Add ability to choose traits	
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [player getVariable ["f_var_assignGear","r"],player] spawn f_fnc_assignGear }, nil, 0.5, true, true, "", "true"];
 	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Create Gear Guide</t>", {
 		private _create = false;
@@ -81,7 +85,7 @@ if (_flagMarker in allMapMarkers) then {
 			private _agent = createAgent ["C_Soldier_VR_F", getPosATL f_obj_spawnFlag, [], 2, "NONE"];
 			_agent allowDamage false;
 			_agent disableAI "ALL";
-			missionNamespace setVariable ["f_obj_gearGuide", _agent, true];
+			missionNamespace setVariable ["f_obj_gearGuide", _agent, true];		
 		};
 		
 		removeAllWeapons f_obj_gearGuide;
@@ -132,7 +136,6 @@ if (_flagMarker in allMapMarkers) then {
 		systemChat "Copied Uniform from Guide";
 	}, nil, 1.5, true, true, "", "!isNil 'f_obj_gearGuide' && alive f_obj_gearGuide"];
 	
-	
 	f_obj_spawnFlag addAction ["<t color='#007F00'>Copy Leaders Uniform</t>",{ 		
 		if (uniform leader player != uniform player  && uniform leader player != "") then {
 			private _mag = magazineCargo uniformContainer player;
@@ -165,6 +168,25 @@ if (_flagMarker in allMapMarkers) then {
 		
 		systemChat format["Copied Uniform from %1", name leader player];
 	}, nil, 1.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0"];
+
+	addMissionEventHandler ["Draw3D", {
+		if (isNull (missionNamespace getVariable ["f_obj_gearGuide",objNull])) exitWith {};
+		if (f_obj_gearGuide distance player > 10) exitWith {};
+		
+		drawIcon3D [
+			"",
+			[1,1,1,1],
+			visiblePosition f_obj_gearGuide vectorAdd [0,0,2],
+			2,
+			-1.40,
+			0,
+			"Current Loadout",
+			2,
+			0.04,
+			"PuristaBold",
+			"Center"
+		];
+	}];	
 } else {
 	if (_flagMarker != "respawn_civilian") then { ["f_VAS.sqf",format["No respawn marker found for VAS (%1).",side (group player)]] call f_fnc_logIssue };
 };

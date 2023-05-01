@@ -73,7 +73,7 @@ class f_param_respawn
 	title = "Respawn";
 	values[] = {0,30,60,300,600,900,1200,1,2,5,10};
 	texts[] = {"Disabled","Timer 30 Seconds","Timer 1 Minute","Wave 5 Minutes","Wave 10 Minutes","Wave 15 Minutes","Wave 20 Minutes","2 Tickets","3 Tickets","5 Tickets","10 Tickets"};
-	default = 0;
+	default = 600;
 };
 class f_param_medical
 {
@@ -88,4 +88,11 @@ class f_param_thirdPerson
 	values[] = {0,1,2};
 	texts[] = {"No Restriction","In Vehicles Only","First Person Only"};
 	default = 0;
+};
+class f_param_ZMMDiff
+{
+	title = "AI Difficulty";
+	values[] = {0,0.5,0.7,1,1.5,2};
+	texts[] = {"Disabled", "Which Part Is The Trigger","Walk In The Park","Lean Mean Killing Machine","Reaper Man","Freight Train O' Death"};
+	default = 1;
 };

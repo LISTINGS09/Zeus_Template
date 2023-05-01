@@ -6,9 +6,7 @@
 // Only run this for players
 if (!hasInterface) exitWith {};
 
-f_fnc_mapClickTeleportGroup = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportGroup.sqf";
 f_fnc_mapClickTeleportUnit = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickTeleportUnit.sqf";
-f_fnc_mapClickHaloEffect = compileFinal preprocessFileLineNumbers "f\mapClickTeleport\fn_mapClickHaloEffect.sqf";
 
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
 if (!isDedicated && (isNull player)) then {

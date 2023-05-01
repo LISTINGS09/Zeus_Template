@@ -266,6 +266,8 @@ FAR_fnc_SetUnconscious = {
 		};
 	} else {
 		sleep 5;
+		player playActionNow "unconsciousrevivedefault";
+		player switchMove "unconsciousrevivedefault";
 	};
 	
 	// If the unit was killed (instant death) exit.

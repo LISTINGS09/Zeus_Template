@@ -7,24 +7,24 @@ _attach1 = "";
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ""; // Rifleman
-_silencer2 = ""; // MG
+_silencer1 = "gm_suppressor_pbs4_545mm_blk"; // Rifleman
+_silencer2 = "gm_suppressor_pbs1_762mm_blk"; // MG
 
-_scope1 = []; // CQB
-_scope2 = []; // Low
+_scope1 = ["gm_zvn64_ak"]; // CQB
+_scope2 = ["gm_pka_dovetail_blk"]; // Low
 _scope3 = []; // Medium
 _scope4 = ["gm_feroz24_blk"]; // High
 
 _bipod1 = [];
 
 // Default setup
-_attachments = []; // The default attachment set for most units, overwritten in the individual unitType
+_attachments = [_scope1,_silencer2]; // The default attachment set for most units, overwritten in the individual unitType
 
 // Predefined Class Attachment Setup
-_attach_co = [];
-_attach_dc = []; // Also SL!
-_attach_fl = [];
-_attach_mg = [];
+_attach_co = [_scope1,_silencer2];
+_attach_dc = [_scope1,_silencer2]; // Also SL!
+_attach_fl = [_scope1,_silencer2];
+_attach_mg = [_silencer2];
 _attach_dm = [];
 _attach_sn = [];
 
@@ -51,16 +51,16 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = "gm_akmn_wud";
-_riflemag = "30Rnd_762x39_Mag_F";
-_riflemag_tr = "30Rnd_762x39_Mag_Tracer_F";
+_riflemag = "gm_30Rnd_762x39mm_B_57N231_ak47_blk";
+_riflemag_tr = "gm_30Rnd_762x39mm_B_T_57N231P_ak47_blk";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = "gm_akm_wud";
-_carbinemag = "30Rnd_762x39_Mag_F";
-_carbinemag_tr = "30Rnd_762x39_Mag_Tracer_F";
+_carbine = ["gm_akmsn_wud"];
+_carbinemag = "gm_30Rnd_762x39mm_B_57N231_ak47_blk";
+_carbinemag_tr = "gm_30Rnd_762x39mm_B_T_57N231P_ak47_blk";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = "gm_mp2a1_blk";
+_smg = ["gm_mp2a1_blk"];
 _smgmag = "gm_32Rnd_9x19mm_B_DM51_mp2_blk";
 _smgmag_tr = "gm_32Rnd_9x19mm_AP_DM91_mp2_blk";
 
@@ -71,8 +71,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["gm_akm_pallad_wud"];
-_glriflemag = "30Rnd_762x39_Mag_F";
-_glriflemag_tr = "30Rnd_762x39_Mag_Tracer_F";
+_glriflemag = "gm_30Rnd_762x39mm_B_57N231_ak47_blk";
+_glriflemag_tr = "gm_30Rnd_762x39mm_B_T_57N231P_ak47_blk";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -100,7 +100,7 @@ _medkit = "Medikit";
 
 // Binoculars
 _binos1 = "gm_df7x40_blk";
-_binos2 = "gm_df7x40_blk";
+_binos2 = "gm_lp7_oli";
 
 // Night Vision Goggles (NVGoggles)
 _nvg = "NVGoggles_OPFOR";
@@ -133,8 +133,8 @@ _baghsamag = "O_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["gm_lmgrpk_prp","gm_lmgrpk_brn"];
-_ARmag = "gm_75Rnd_762x39mm_B_M43_ak47_blk";
-_ARmag_tr = "gm_75Rnd_762x39mm_B_T_M43_ak47_blk";
+_ARmag = "gm_75rnd_762x39mm_b_57n231_ak47_blk";
+_ARmag_tr = "gm_75rnd_762x39mm_b_t_57n231p_ak47_blk";
 
 // Medium MG
 _MMG = "gm_hmgpkm_prp";
@@ -290,7 +290,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenade,2];
 		[_unit, _pistol] call f_fnc_addWeapon;
 		_unit addMagazines [_pistolmag,4];
-		[_unit, _binos1] call f_fnc_addWeapon;
+		[_unit, _binos2] call f_fnc_addWeapon;
 		_attachments = _attach_co;
 	};
 
@@ -307,7 +307,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenade,2];
 		[_unit, _pistol] call f_fnc_addWeapon;
 		_unit addMagazines [_pistolmag,4];
-		[_unit, _binos1] call f_fnc_addWeapon;
+		[_unit, _binos2] call f_fnc_addWeapon;
 		_attachments = _attach_dc;
 	};
 

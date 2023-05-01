@@ -99,8 +99,8 @@ _firstaid = "FirstAidKit";
 _medkit = "Medikit";
 
 // Binoculars
-_binos1 = "Binocular";
-_binos2 = "Rangefinder";
+_binos1 = "Rangefinder";
+_binos2 = "Laserdesignator_03";
 
 // Night Vision Goggles (NVGoggles)
 _nvg = "O_NVGoggles_grn_F"; //"NVGoggles_OPFOR";
@@ -296,6 +296,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenadealt,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 		_unit linkItem "ItemGPS";
 		_attachments = _attach_co;
 	};
@@ -315,6 +316,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenadealt,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 		_attachments = _attach_dc;
 	};
 
@@ -345,6 +347,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenadealt,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 		_unit linkItem "ItemGPS";
 		_attachments = _attach_fl;
 	};
@@ -477,6 +480,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
@@ -528,6 +532,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 	};
 
 	// LOADOUT: MEDIUM SAM GUNNER
@@ -552,6 +557,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,1];
 		_unit addMagazines [_chem,1];
@@ -577,6 +583,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
 		[_unit, _carbine] call f_fnc_addWeapon;
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,1];
 		_unit addMagazines [_chem,1];
@@ -607,6 +614,7 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenade,1];
 		_unit addMagazines [_chem,1];
 		[_unit, _binos2] call f_fnc_addWeapon;
+		_unit addMagazines ["Laserbatteries",2];
 	};
 
 	// LOADOUT: VEHICLE COMMANDER
