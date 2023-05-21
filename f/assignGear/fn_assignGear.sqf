@@ -150,7 +150,7 @@ _f_fnc_parseGear = {
 		};
 	} forEach _gearArray;
 	
-	missionNamespace setVariable [_varName,_foundGear];
+	missionNamespace setVariable [_varName,_foundGear, true];
 };
 
 // Store item classes for selection later

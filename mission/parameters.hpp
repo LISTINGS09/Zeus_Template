@@ -50,8 +50,8 @@ class f_param_timeOfDay
 class f_param_timeMultiplier
 {
 	title = "Time Multiplier";
-	values[] = {1,6,12,24};
-	texts[] = {"Normal","1 Day = 4 Hours","1 Day = 2 Hours","1 Day = 1 Hour"};
+	values[] = {0.5,1,6,12,24};
+	texts[] = {"Half Time","Normal","1 Day = 4 Hours","1 Day = 2 Hours","1 Day = 1 Hour"};
 	default = 1;
 };
 class f_ParamSpacer_title2
@@ -73,7 +73,7 @@ class f_param_respawn
 	title = "Respawn";
 	values[] = {0,30,60,300,600,900,1200,1,2,5,10};
 	texts[] = {"Disabled","Timer 30 Seconds","Timer 1 Minute","Wave 5 Minutes","Wave 10 Minutes","Wave 15 Minutes","Wave 20 Minutes","2 Tickets","3 Tickets","5 Tickets","10 Tickets"};
-	default = 600;
+	default = 300;
 };
 class f_param_medical
 {

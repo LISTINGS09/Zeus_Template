@@ -104,7 +104,7 @@ if (_flagMarker in allMapMarkers) then {
 		f_obj_gearGuide addWeapon primaryWeapon player;
 	}, nil, 1.5, true, true, "", "missionNamespace getVariable ['f_param_virtualArsenal',0] != 0 OR serverCommandAvailable '#kick'"];
 	
-	f_obj_spawnFlag addAction ["<t color='#007F00'>Copy Guide Uniform</t>",{ 		
+	f_obj_spawnFlag addAction ["<t color='#50E0FF'>Copy Guide Uniform</t>",{ 		
 		if (uniform f_obj_gearGuide != uniform player && uniform f_obj_gearGuide != "") then {
 			private _mag = magazineCargo uniformContainer player;
 			private _itm = itemCargo uniformContainer player;
@@ -136,7 +136,7 @@ if (_flagMarker in allMapMarkers) then {
 		systemChat "Copied Uniform from Guide";
 	}, nil, 1.5, true, true, "", "!isNil 'f_obj_gearGuide' && alive f_obj_gearGuide"];
 	
-	f_obj_spawnFlag addAction ["<t color='#007F00'>Copy Leaders Uniform</t>",{ 		
+	f_obj_spawnFlag addAction ["<t color='#50E0FF'>Copy Leaders Uniform</t>",{ 		
 		if (uniform leader player != uniform player  && uniform leader player != "") then {
 			private _mag = magazineCargo uniformContainer player;
 			private _itm = itemCargo uniformContainer player;

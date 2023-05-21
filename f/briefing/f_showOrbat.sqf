@@ -214,10 +214,10 @@ _vehArray = [];
 	private _veh = _x;
 	{
 		{
-			if (_veh distance2D _x < 100) exitWith { _vehArray pushBackUnique _veh };
+			if (_veh distance2D _x < 500) exitWith { _vehArray pushBackUnique _veh };
 		} forEach units _x;
 	} forEach _groups;
-} forEach (vehicles select { count (crew _x) == 0 && locked _x <= 1 && fuel _x > 0 && _x isKindOf "AllVehicles" && typeOf _x != "ACE_friesAnchorBar" });
+} forEach (vehicles select { count (crew _x) == 0 && _x emptyPositions "" > 0 && locked _x <= 1 && fuel _x > 0 && _x isKindOf "AllVehicles" && typeOf _x != "ACE_friesAnchorBar" });
 
 if (count _vehArray > 0) then {
 	_orbatText = _orbatText + "<br/><br/><font size='18' color='#80FF00'>OTHER VEHICLES</font><br/>All empty vehicles available near units:<br/><br/>";

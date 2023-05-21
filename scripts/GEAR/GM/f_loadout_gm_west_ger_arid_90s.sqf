@@ -50,14 +50,14 @@ _defMags = 4;
 _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["arifle_SPAR_01_blk_F"];
-_riflemag = "30Rnd_556x45_Stanag";
-_riflemag_tr = "30Rnd_556x45_Stanag_Tracer_Red";
+_rifle = ["gm_sg551_ris_oli"];
+_riflemag = "gm_30Rnd_556x45mm_B_DM11_sg550_brn";
+_riflemag_tr = "gm_30Rnd_556x45mm_B_T_DM21_sg550_brn";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["arifle_SPAR_01_blk_F"];
-_carbinemag = "30Rnd_556x45_Stanag";
-_carbinemag_tr = "30Rnd_556x45_Stanag_Tracer_Red";
+_carbine = ["gm_sg551_ris_oli"];
+_carbinemag = "gm_30Rnd_556x45mm_B_DM11_sg550_brn";
+_carbinemag_tr = "gm_30Rnd_556x45mm_B_T_DM21_sg550_brn";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = ["gm_mp5a2_blk"];
@@ -69,10 +69,10 @@ _diverWep = "arifle_SDAR_F";
 _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
-// Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = ["arifle_SPAR_01_GL_blk_F"];
-_glriflemag = "30Rnd_556x45_Stanag";
-_glriflemag_tr = "30Rnd_556x45_Stanag_Tracer_Red";
+// Rifle with GL and HE grenades (FTLs Only)
+_glrifle = ["gm_hk69a1_blk"];
+_glriflemag = "1Rnd_HE_Grenade_shell";
+_glriflemag_tr = "1Rnd_HE_Grenade_shell";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -85,8 +85,8 @@ _glflare = "UGL_FlareWhite_F";
 _glflarealt = "UGL_FlareGreen_F";
 
 // Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
-_pistol = "hgun_Pistol_heavy_01_F";
-_pistolmag = "11Rnd_45ACP_Mag";
+_pistol = "gm_lp1_blk";
+_pistolmag = "gm_1Rnd_265mm_flare_multi_wht_DM25";
 
 // Grenades
 _grenade = "HandGrenade";
@@ -132,14 +132,14 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_SPAR_02_blk_F"];
-_ARmag = "150Rnd_556x45_Drum_Mag_F";
-_ARmag_tr = "150Rnd_556x45_Drum_Mag_Tracer_F";
+_AR = ["gm_mg8a2_blk"];
+_ARmag = "gm_100Rnd_762x51mm_B_T_DM21_mg8_oli";
+_ARmag_tr = "gm_100Rnd_762x51mm_B_T_DM21A1_mg8_oli";
 
 // Medium MG
-_MMG = "MMG_02_black_F";
-_MMGmag = "130Rnd_338_Mag";
-_MMGmag_tr = "130Rnd_338_Mag";
+_MMG = "gm_mg8a2_blk";
+_MMGmag = "gm_100Rnd_762x51mm_B_T_DM21_mg8_oli";
+_MMGmag_tr = "gm_100Rnd_762x51mm_B_T_DM21A1_mg8_oli";
 
 // Marksman rifle
 _DMrifle = ["srifle_DMR_03_F","arifle_SPAR_03_blk_F","srifle_DMR_02_camo_F","srifle_DMR_06_camo_F","srifle_DMR_03_khaki_F"];
@@ -192,13 +192,13 @@ _specOp = [];
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
 _baseUniform = ["gm_ge_uniform_soldier_rolled_90_trp"];
-_baseHelmet = ["gm_ge_headgear_beret_blk_armorrecon"];
+_baseHelmet = ["gm_ge_headgear_m92_glasses_trp","gm_ge_headgear_m92_trp"];
 _baseGlasses = ["","G_Bandanna_tan","","G_Bandanna_oli",""];
 
 // Vests
-_lightRig = "V_TacVest_oli";
-_mediumRig = "V_PlateCarrier1_rgr_noflag_F"; 	// default for all infantry classes
-_heavyRig = "V_PlateCarrier2_rgr_noflag_F";
+_lightRig = "gm_dk_army_vest_m00_wdl";
+_mediumRig = "gm_dk_army_vest_m00_wdl_rifleman"; 	// default for all infantry classes
+_heavyRig = "gm_ge_army_vest_type18_dpm";
 
 // Diver
 _diverUniform =  "U_B_Wetsuit";
@@ -207,15 +207,15 @@ _diverRig = "V_RebreatherB";
 _diverGlasses = "G_Diving";
 
 // Pilot
-_pilotUniform = _baseUniform;
-_pilotHelmet = "gm_ge_headgear_headset_crew_oli";
-_pilotRig = "V_TacVest_oli";
+_pilotUniform = "gm_ge_uniform_soldier_tshirt_90_trp";
+_pilotHelmet = "gm_xx_headgear_headwrap_crew_01_trp";
+_pilotRig = "gm_dk_army_vest_m00_wdl";
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = _baseUniform;
-_crewHelmet = "H_HelmetCrew_I";
-_crewRig = "V_TacVest_oli";
+_crewUniform = "gm_ge_uniform_soldier_tshirt_90_trp";
+_crewHelmet = "gm_ge_headgear_m92_glasses_trp";
+_crewRig = "gm_dk_army_vest_m00_wdl";
 _crewGlasses = ["gm_gc_army_facewear_dustglasses"];
 
 // Ghillie
@@ -254,8 +254,8 @@ if (_isMan) then {
 	_unit linkItem "ItemCompass";	// Add and equip a compass
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
-	_unit linkItem "ItemGPS"; 		// Add and equip a GPS
-	//_unit addItem "H_Booniehat_khk";// Free Hat!
+	//_unit linkItem "ItemGPS"; 		// Add and equip a GPS
+	_unit addItem "gm_ge_headgear_hat_boonie_trp";// Free Hat!
 };
 
 // SETUP BACKPACKS
@@ -281,31 +281,28 @@ switch (_typeOfUnit) do
 	// LOADOUT: COMMANDER
 	case "co":
 	{
-		["g"] call _backpack;
+		_unit addHeadgear "gm_ge_headgear_beret_blk_armorrecon";
+		["r"] call _backpack;
 		_unit setUnitTrait ["engineer",1];
-		_unit addMagazines [_glriflemag,_defMags];
-		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
-		[_unit, _glrifle] call f_fnc_addWeapon;
+		_unit addMagazines [_riflemag,_defMags];
+		_unit addMagazines [_riflemag_tr,_defMags_tr];
+		[_unit, _rifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_smokegrenadealt,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
-		_unit linkItem "ItemGPS";
 		_attachments = _attach_co;
 	};
 
 	// LOADOUT: DEPUTY COMMANDER AND SQUAD LEADER
 	case "dc":
 	{
-		["g"] call _backpack;
-		_unit addMagazines [_glriflemag,_defMags];
-		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
-		[_unit, _glrifle] call f_fnc_addWeapon;
+		_unit addHeadgear "gm_ge_headgear_hat_90_trp";
+		["r"] call _backpack;
+		_unit addMagazines [_riflemag,_defMags];
+		_unit addMagazines [_riflemag_tr,_defMags_tr];
+		[_unit, _rifle] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,1];
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_smokegrenadealt,2];

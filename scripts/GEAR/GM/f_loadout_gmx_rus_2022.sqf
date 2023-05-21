@@ -186,12 +186,12 @@ _heavy =  ["eng","engm","g"];
 _diver = ["div"];
 _pilot = ["pp","pcc","pc"];
 _crew = ["vc","vg","vd"];
-_ghillie = ["co"];
+_ghillie = [];
 _specOp = [];
 
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
-_baseUniform = ["gm_dk_army_uniform_soldier_84_m84"];
+_baseUniform = ["gm_pl_army_uniform_soldier_80_frog"];
 _baseHelmet = ["gm_ge_headgear_psh77_up_oli","gm_ge_headgear_psh77_oli"];
 _baseGlasses = [""];
 
@@ -207,13 +207,13 @@ _diverRig = "V_RebreatherB";
 _diverGlasses = "G_Diving";
 
 // Pilot
-_pilotUniform = "U_BG_Guerrilla_6_1";
+_pilotUniform = "gm_pl_army_uniform_soldier_80_frog";
 _pilotHelmet = "H_Cap_headphones";
 _pilotRig = "gmx_cdf2022_army_vest_90_officer_oli";
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = "U_BG_Guerilla1_1";
+_crewUniform = "gm_pl_army_uniform_soldier_80_frog";
 _crewHelmet = "gm_ge_headgear_beret_un";
 _crewRig = "V_CarrierRigKBT_01_light_Olive_F";
 _crewGlasses = ["gm_ge_facewear_dustglasses"];

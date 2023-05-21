@@ -2,7 +2,7 @@
 // Credits: TAWTonic @TAW for their config parser.
 // ====================================================================================
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
-if (!hasInterface || isNil "f_sqf_orbat" || missionNamespace getVariable ["f_param_virtualArsenal",0] == 1) exitWith {};
+if (!hasInterface || isNil "f_sqf_orbat") exitWith {};
 if (!isDedicated && (isNull player)) then {waitUntil {sleep 0.1; !isNull player};};
 
 _timeUntil = time + 1;
@@ -13,22 +13,24 @@ if ("ace_main" in activatedAddons) then {
 	waitUntil{(player getVariable ["f_var_assignGear_done", FALSE]) || time > _timeUntil};
 };
 
-_text = "<br/><font size='18' color='#80FF00'>LOADOUT SELECTION</font><br/><br/>
-You may change your gear from the standard load-out using the selections below. The default kit for your unit class is the first item in the list.<br/>
+_text = format["<br/><font size='18' color='#80FF00'>LOADOUT SELECTION</font><br/><br/>
+You may change your gear from the standard load-out using the %1.<br/>
 <br/>
 You may not change equipment in the field!<br/>
 <br/>
 <font size='16'>[</font><font size='16'><execute expression=""[player,TRUE] call f_fnc_tidyGear;"">Night Gear</execute></font><font size='16'>]</font><br/>Quickly prep your kit for a night operation; removes any basic smoke grenades in the inventory.<br/>
 <br/>
 <font size='16'>[</font><font size='16'><execute expression=""[player,FALSE] call f_fnc_tidyGear;"">Daytime Gear</execute></font><font size='16'>]</font><br/>Quickly prep your kit for a day operation; removes any NVG Equipment, flares and chems in the inventory.<br/>
-<br/>";
+<br/>",if (missionNamespace getVariable ["f_param_virtualArsenal",0] == 1) then { "<font color='#00FFFF'>Virtual Arsenal</font> at the Flag" } else { "selections below. The default kit for your unit class is the first item in the list"}];
 
-if (primaryWeapon player == "") exitWith {};
+if (primaryWeapon player isEqualTo "") exitWith {};
+if ((missionNamespace getVariable ["f_param_virtualArsenal",0]) isEqualTo 1) exitWith { player createDiaryRecord ["Diary", [format["Loadout (%1)",name player], _text]]; };
 
 if (isNil "f_fnc_magazineCheck") then { f_fnc_magazineCheck = compileFinal preprocessFileLineNumbers "f\assignGear\fn_magazineCheck.sqf"; };
 if (isNil "f_fnc_tidyGear") then { f_fnc_tidyGear = compileFinal preprocessFileLineNumbers "f\assignGear\fn_tidyGear.sqf"; };
 
-private _gearVar = format["f_var_%1_%2_gear",side player, player getVariable ["f_var_assignGear","r"]];
+private _side = side group player;
+private _gearVar = format["f_var_%1_%2_gear",_side, player getVariable ["f_var_assignGear","r"]];
 private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- .,/[]()";
 
 // Gets the picture from the relevant config
@@ -65,8 +67,8 @@ _fnc_itemText = {
 
 // Returns TRUE if the player is at the starting point, or nearby.
 f_fnc_inStartLocation = {
-	// Player has 5 minutes set-up time if Co-Op.
-	if (time < 1 || (time < 300 && toUpper (getText ((getMissionConfig "Header") >> "gameType")) == "COOP")) exitWith {TRUE};
+	// Player has 10 minutes set-up time if Co-Op.
+	if (time < 1 || (time < 600 && toUpper (getText ((getMissionConfig "Header") >> "gameType")) == "COOP")) exitWith {TRUE};
 	
 	private _playerRespawn = switch (side group player) do {
 			case west: {"respawn_west"};
@@ -245,7 +247,7 @@ f_fnc_matchingItem = {
 // ========================
 // Grenades
 private _textGR = "";
-f_var_signalGType = (missionNamespace getVariable [format["f_var_%1_gear_grenade",side player],[]]) - [""];
+f_var_signalGType = (missionNamespace getVariable [format["f_var_%1_gear_grenade",_side],[]]) - [""];
 f_var_signalGMax = {_x in f_var_signalGType } count (magazines player);
 
 if (f_var_signalGMax > 0 && count f_var_signalGType > 0) then {
@@ -268,7 +270,7 @@ if (_textGR != "") then {
 // Thrown Signal Items
 private _textTS = "";
 
-f_var_signalHType = ((missionNamespace getVariable [format["f_var_%1_gear_smokeTH",side player],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareTH",side player],[]])) - [""];
+f_var_signalHType = ((missionNamespace getVariable [format["f_var_%1_gear_smokeTH",_side],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareTH",_side],[]])) - [""];
 f_var_signalHMax = {_x in f_var_signalHType } count (magazines player);
 
 if (f_var_signalHMax > 0 && count f_var_signalHType > 0) then {
@@ -300,7 +302,7 @@ if (_textTS != "") then {
 // GL Items
 private _textGL = "";
 
-f_var_signalLType = ((missionNamespace getVariable [format["f_var_%1_gear_grenaGL",side player],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_smokeGL",side player],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareGL",side player],[]])) - [""];
+f_var_signalLType = ((missionNamespace getVariable [format["f_var_%1_gear_grenaGL",_side],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_smokeGL",_side],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareGL",_side],[]])) - [""];
 f_var_signalLMax = {_x in f_var_signalLType } count (magazines player);
 	
 // Skip if the player doesn't have GLs
