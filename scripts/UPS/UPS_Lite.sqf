@@ -1,6 +1,6 @@
 //
 //  Urban Patrol Script Zeus Edition
-//  Version: 2.31
+//  Version: 2.32
 //  Author: 2600K & Kronzky (www.kronzky.info / kronzky@gmail.com)
 //  BIS Forum: http://forums.bistudio.com/showthread.php?147904-Urban-Patrol-Script&highlight=Urban+Patrol+Script
 //
@@ -27,7 +27,7 @@ _safeDist = 200; 	// How far to move when under attack in meters
 _closeEnough = 50; 	// WP Completion Radius
 _shareDist = 400; 	// AI Comms Range in meters
 _alertTime = 300; 	// AI Alert after spotting enemy
-_artyTime = 500;	// Arty delay between firing
+_artyTime = 300;	// Arty delay between firing
 _artyRural = 100;	// Arty dispersion in rural areas
 _artyUrban = 50;	// Arty dispersion in urban areas
 _unitSkill = [['aimingAccuracy',0.2],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',1],['spotTime',0.85]]; // Average AI
@@ -292,7 +292,7 @@ if (_trackGrp) then {
 		_text = _text + format["Behaviour: (%1/%2)<br/>",_group getVariable ["ZAI_Behaviour", "-"], behaviour leader _group];
 		_text = _text + format["Speed: (%1/%2)<br/>",_group getVariable ["ZAI_Speed", "-"], speedMode leader _group];
 		_text = _text + format["Nearest Enemy: %1 (%2)<br/>",if (isNull (_group getVariable ["ZAI_EnemyUnit", objNull])) then { "None" } else { _group getVariable "ZAI_EnemyUnit" }, _group knowsAbout (_group getVariable ["ZAI_EnemyUnit", objNull])];
-		_text = _text + format["Attack Pos: %1<br/>",_group getVariable ["ZAI_EnemyPos", []]];
+		_text = _text + format["Attack Pos: %1 (Wait Time: %2)<br/>",_group getVariable ["ZAI_EnemyPos", []],_group getVariable ["ZAI_WaitTime", []]];
 		_text = _text + "<br/>";
 		
 		if (!isNil "_wp") then {
@@ -354,7 +354,7 @@ while {TRUE} do {
 	private _wasHit = FALSE;
 	private _taskType = "PATROL";
 	private _grpLeader = leader _grp;
-	private _lastTime = _grp getVariable ["WaitTime", 0];
+	private _lastTime = _grp getVariable ["ZAI_WaitTime", 0];
 	
 	// Check for damage to group
 	private _newDamage = 0; 
