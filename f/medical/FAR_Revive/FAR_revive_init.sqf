@@ -1,4 +1,4 @@
-// Farooq's Revive 2.35 (2600K Edit)
+// Farooq's Revive 2.36 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.

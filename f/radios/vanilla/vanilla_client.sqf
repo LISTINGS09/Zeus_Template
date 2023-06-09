@@ -119,5 +119,8 @@ if (f_param_radioMode == 1) then {
 	_radioText = _radioText + "<br/><br/><font size='18' color='#80FF00'>LOST RADIO</font><br/>Anyone may request a <execute expression=""[player, true] spawn f_fnc_giveRadioBackpack; hintSilent format['Radio assigned to %1', name player];"">Replacement Radio</execute> if your Radio Operator is MIA or any other technical issue.";
 };
 
+// Default non-commanders to group, commanders to side.
+if (leader player == player) then { setCurrentChannel 1 } else { setCurrentChannel 3 };
+
 //player removeDiaryRecord ["Diary", "Signal"];
 private _rad = player createDiaryRecord ["Diary", ["Signal",_radioText + "<br/>" + _joinText]];

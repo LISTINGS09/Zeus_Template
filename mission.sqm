@@ -1,14 +1,14 @@
 version=54;
 class EditorData
 {
-	moveGridStep=64;
+	moveGridStep=1;
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
 	toggles=549;
 	class ItemIDProvider
 	{
-		nextID=8752;
+		nextID=8756;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=428;
+		nextID=440;
 	};
 	class Camera
 	{
-		pos[]={2206.6184,98.378738,1005.9267};
-		dir[]={-0.83595741,-0.41877583,0.35468581};
-		up[]={-0.38551122,0.90808964,0.16356739};
-		aside[]={0.39058459,-1.4901161e-008,0.92056704};
+		pos[]={3371.3362,8.0696573,2178.9871};
+		dir[]={0.66788256,-0.55879843,0.49169657};
+		up[]={0.45002821,0.8292852,0.3313114};
+		aside[]={0.59289122,-5.3289114e-007,-0.80533469};
 	};
 };
 binarizationWanted=0;
@@ -703,7 +703,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1357;
+		items=1361;
 		class Item0
 		{
 			dataType="Marker";
@@ -803,7 +803,7 @@ class Mission
 		class Item9
 		{
 			dataType="Trigger";
-			position[]={8832,5,7168};
+			position[]={9472,5,7360};
 			class Attributes
 			{
 				name="z1";
@@ -839,7 +839,7 @@ class Mission
 		class Item11
 		{
 			dataType="Trigger";
-			position[]={8832,5,5056};
+			position[]={9472,5,5248};
 			class Attributes
 			{
 				name="z2";
@@ -858,7 +858,7 @@ class Mission
 		class Item12
 		{
 			dataType="Trigger";
-			position[]={8832,5,832};
+			position[]={9472,5,1024};
 			class Attributes
 			{
 				name="z3";
@@ -877,7 +877,7 @@ class Mission
 		class Item13
 		{
 			dataType="Trigger";
-			position[]={8832,5,2944};
+			position[]={9472,5,3136};
 			class Attributes
 			{
 				name="z4";
@@ -953,7 +953,7 @@ class Mission
 		class Item17
 		{
 			dataType="Trigger";
-			position[]={9387.8145,5,2349.8379};
+			position[]={10027.814,5,2541.8379};
 			class Attributes
 			{
 				name="z5";
@@ -972,7 +972,7 @@ class Mission
 		class Item18
 		{
 			dataType="Trigger";
-			position[]={9397.3711,5,304.24399};
+			position[]={10037.371,5,496.24414};
 			class Attributes
 			{
 				name="z6";
@@ -991,7 +991,7 @@ class Mission
 		class Item19
 		{
 			dataType="Trigger";
-			position[]={9446.8428,5,4451.3223};
+			position[]={10086.843,5,4643.3223};
 			class Attributes
 			{
 				name="z7";
@@ -1010,7 +1010,7 @@ class Mission
 		class Item20
 		{
 			dataType="Trigger";
-			position[]={9505.249,5,6497.7559};
+			position[]={10145.249,5,6689.7559};
 			class Attributes
 			{
 				name="z8";
@@ -16179,7 +16179,7 @@ class Mission
 			dataType="Comment";
 			class PositionInfo
 			{
-				position[]={7936,5,1696};
+				position[]={8576,5,1888};
 			};
 			title="DAC CSAT Example";
 			description="Ensure you have the DAC Line Activated in \Mission\scripts.sqf!" \n "" \n "The large trigger generates Infantry and Vehicles, whike the smaller trigger will generate an Outpost to provide mortar support.";
@@ -16190,7 +16190,7 @@ class Mission
 			dataType="Comment";
 			class PositionInfo
 			{
-				position[]={8000,5,3744};
+				position[]={8640,5,3936};
 			};
 			title="DAC FIA Example";
 			description="Ensure you have the DAC Line Activated in \Mission\scripts.sqf!" \n "" \n "The large trigger generates Infantry and Vehicles, whike the smaller trigger will generate an Outpost to provide mortar support.";
@@ -16201,7 +16201,7 @@ class Mission
 			dataType="Comment";
 			class PositionInfo
 			{
-				position[]={7968,5,5888};
+				position[]={8608,5,6080};
 			};
 			title="DAC NATO Example";
 			description="Ensure you have the DAC Line Activated in \Mission\scripts.sqf!" \n "" \n "The large trigger generates Infantry and Vehicles, whike the smaller trigger will generate an Outpost to provide mortar support.";
@@ -16212,7 +16212,7 @@ class Mission
 			dataType="Comment";
 			class PositionInfo
 			{
-				position[]={7968,5,8080};
+				position[]={8608,5,8272};
 			};
 			title="DAC AAF Example";
 			description="Ensure you have the DAC Line Activated in \Mission\scripts.sqf!" \n "" \n "The large trigger generates Infantry and Vehicles, whike the smaller trigger will generate an Outpost to provide mortar support.";
@@ -35969,8 +35969,8 @@ class Mission
 				name="TR_UPS_SYN";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -35986,8 +35986,8 @@ class Mission
 				name="TR_UPS_NATO";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -36003,8 +36003,8 @@ class Mission
 				name="TR_UPS_FIA";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -36020,8 +36020,8 @@ class Mission
 				name="TR_UPS_CSAT";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -36037,8 +36037,8 @@ class Mission
 				name="TR_UPS_CSATP";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -36054,8 +36054,8 @@ class Mission
 				name="TR_UPS_AAF";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -36071,8 +36071,8 @@ class Mission
 				name="TR_UPS_NATOP";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -44200,8 +44200,8 @@ class Mission
 				name="TR_UPS_LDF";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -50577,8 +50577,8 @@ class Mission
 				name="TR_UPS_CSATP_1";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -52403,8 +52403,8 @@ class Mission
 				name="TR_UPS_NATOP_1";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -53233,8 +53233,8 @@ class Mission
 				name="TR_UPS_CSATP_2";
 				condition="isMultiplayer";
 				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
-				sizeA=400;
-				sizeB=400;
+				sizeA=800;
+				sizeB=800;
 				isRectangle=1;
 				isServerOnly=1;
 			};
@@ -73348,16 +73348,274 @@ class Mission
 			id=8751;
 			type="EmptyDetector";
 		};
+		class Item1357
+		{
+			dataType="Trigger";
+			position[]={3375,5,2183};
+			class Attributes
+			{
+				name="TR_TAKEINTEL";
+				condition="!alive INTEL_DOC";
+				sizeA=0;
+				sizeB=0;
+				timeout[]={4,4,4};
+				interuptable=1;
+				isRectangle=1;
+				isServerOnly=1;
+			};
+			id=8752;
+			type="EmptyDetector";
+		};
+		class Item1358
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3376,5,2183};
+			};
+			id=8753;
+			type="ModuleTaskSetState_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskSetState_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskSetState_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="SUCCEEDED";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							singleType="BOOL";
+							value=1;
+						};
+					};
+				};
+				nAttributes=3;
+			};
+		};
+		class Item1359
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3376,5,2180};
+			};
+			id=8754;
+			type="ModuleTaskCreate_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleTaskCreate_F_Destination";
+					expression="_this setVariable ['Destination',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=1;
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleTaskCreate_F_Type";
+					expression="_this setVariable ['Type',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="search";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleTaskCreate_F_ShowNotification";
+					expression="_this setVariable ['ShowNotification',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=1;
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleTaskCreate_F_Marker";
+					expression="_this setVariable ['Marker',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute4
+				{
+					property="ModuleTaskCreate_F_Title";
+					expression="_this setVariable ['Title',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="Locate Documents";
+						};
+					};
+				};
+				class Attribute5
+				{
+					property="ModuleTaskCreate_F_Description";
+					expression="_this setVariable ['Description',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="Find and collect the Intelligence File.";
+						};
+					};
+				};
+				class Attribute6
+				{
+					property="ModuleTaskCreate_F_ID";
+					expression="_this setVariable ['ID',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="69";
+						};
+					};
+				};
+				class Attribute7
+				{
+					property="ModuleTaskCreate_F_AlwaysVisible";
+					expression="_this setVariable ['AlwaysVisible',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=0;
+						};
+					};
+				};
+				class Attribute8
+				{
+					property="ModuleTaskCreate_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=3;
+						};
+					};
+				};
+				class Attribute9
+				{
+					property="ModuleInfo";
+					expression="false";
+					class Value
+					{
+						class data
+						{
+							singleType="BOOL";
+							value=1;
+						};
+					};
+				};
+				class Attribute10
+				{
+					property="ModuleTaskCreate_F_State";
+					expression="_this setVariable ['State',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="CREATED";
+						};
+					};
+				};
+				class Attribute11
+				{
+					property="ModuleTaskCreate_F_IDParent";
+					expression="_this setVariable ['IDParent',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				nAttributes=12;
+			};
+		};
+		class Item1360
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3374,5.0073819,2180};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="[this, " \n "format[""Take %1"",getText (configFile >> ""CfgVehicles"" >> typeOf this >> ""displayName"")], " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"", " \n """\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_Search_ca.paa"", " \n """_this distance2d _target < 3"", " \n """_caller distance2d _target < 3"", " \n "{}, " \n "{}, " \n "{_caller playAction ""PutDown""; sleep 1; deleteVehicle _target;}, " \n "{},  " \n "[],  " \n "1,  " \n "10] call bis_fnc_holdActionAdd;";
+				name="INTEL_DOC";
+			};
+			id=8755;
+			type="Land_File2_F";
+		};
 	};
 	class Connections
 	{
 		class LinkIDProvider
 		{
-			nextID=547;
+			nextID=549;
 		};
 		class Links
 		{
-			items=547;
+			items=549;
 			class Item0
 			{
 				linkID=0;
@@ -78823,6 +79081,26 @@ class Mission
 				linkID=546;
 				item0=8750;
 				item1=8749;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item547
+			{
+				linkID=547;
+				item0=8754;
+				item1=8753;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item548
+			{
+				linkID=548;
+				item0=8753;
+				item1=8752;
 				class CustomData
 				{
 					type="Sync";

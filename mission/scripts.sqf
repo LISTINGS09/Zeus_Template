@@ -60,6 +60,7 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 			_bp = backpack _caller;
 			_bpi = backPackItems _caller;
 			removeBackpackGlobal _caller;
+			_caller allowDamage false;
 			waitUntil { backpack _caller == "" };
 			moveOut _caller;
 			ace_map_mapShake = true;
@@ -70,6 +71,7 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 			"dynamicBlur" ppEffectCommit 5;
 			_caller addBackpackGlobal "B_parachute";
 			waitUntil {sleep 0.1; (position _caller select 2) < 125 };
+			_caller allowDamage true;
 			if (vehicle _caller isEqualto _caller && alive _caller) then { _caller action ["openParachute", _caller] };
 			waitUntil {sleep 0.1; isTouchingGround _caller || (position _caller#2) < 1 };
 			_caller action ["eject", vehicle _caller];

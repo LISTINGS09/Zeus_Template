@@ -27,7 +27,8 @@ while { f_setAISkillLoop } do {
 		if !(_unit getVariable ["f_setAISkill", false]) then {
 			{ 
 				_x params ["_skill","_type"];
-				_unit setSkill [_type, (((_skill apply { _x * f_param_ZMMDiff }) call BIS_fnc_randomNum) min 1) max 0.15];
+				private _sv = (((_skill apply { _x * f_param_ZMMDiff }) call BIS_fnc_randomNum) min 1) max 0.15;
+				if (_unit skill _type < _sv) then { _unit setSkill [_type, _sv] };
 			} forEach _skills;
 			
 			_unit setVariable ["f_setAISkill", true];

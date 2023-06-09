@@ -85,11 +85,14 @@ _diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font>
 		overcast
 	];
 
-_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
+// If short view distance be default, then don't allow to override.
+if (viewDistance > 500) then {
+	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
 		[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance increased to ' + str viewDistance + 'm');"">Increase</execute>]
 		[<execute expression=""setViewDistance (viewDistance - 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance decreased to ' + str viewDistance + 'm');"">Decrease</execute>]<br/>", 
 		viewDistance
 	];
+};
 		
 if ((player getVariable ["f_var_assignGear","r"]) in ["pp","ppc","pc","uav"]) then {
 	_diaryText = _diaryText + "Map Cover: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0.1 } } forEach allMapMarkers;"">Hide</execute><br/>";

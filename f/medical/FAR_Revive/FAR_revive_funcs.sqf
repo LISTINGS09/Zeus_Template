@@ -218,7 +218,6 @@ FAR_fnc_HandleDamage = {
 		// If not instant death check allowed values, otherwise just make them unconscious
 		if ((random 100 < FAR_var_DeathChance  && (_damage < FAR_var_DeathDmgHead && _selection in ["head", "face_hub"] || _damage < FAR_var_DeathDmgBody && _selection == "")) || { !FAR_var_InstantDeath }) then {
 			_unit allowDamage false;
-			_unit setUnconscious true;
 			[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
 			0
 		};
@@ -246,6 +245,8 @@ FAR_fnc_HandleDeath = {
 
 FAR_fnc_SetUnconscious = {
 	params ["_unit", ["_killer", objNull]];
+	
+	_unit setUnconscious true;
 		
 	_rand = (floor random 18) + 1;
 	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
@@ -265,9 +266,9 @@ FAR_fnc_SetUnconscious = {
 			[_unit, "unconscious"] remoteExecCall ["playActionNow"];
 		};
 	} else {
-		sleep 5;
-		player playActionNow "unconsciousrevivedefault";
-		player switchMove "unconsciousrevivedefault";
+		waitUntil { sleep 1; velocity _unit isEqualTo [0,0,0] };
+		sleep 1;
+		_unit switchMove "unconsciousReviveDefault";
 	};
 	
 	// If the unit was killed (instant death) exit.
@@ -432,21 +433,40 @@ FAR_fnc_SetUnconscious = {
 	} else {	
 		// Player got revived		
 		["Terminate"] call BIS_fnc_EGSpectator;
-		uiSleep 3;
+		uiSleep 2;
 		
 		// Clear the "medic nearby" hint
 		hintSilent "";
 		_unit setDamage 0;
+		_unit forceWalk false;
 		_unit allowDamage true;
 		_unit setCaptive false;
 		_unit setUnconscious false;
+		
+		uiSleep 1;
+		
 		_unit playAction "Stop";
 		
-		if ({ currentWeapon _unit == _x } count ["", binocular _unit] > 0) then { 
-			_unit playAction "Civil"
-		} else {
+		if (currentWeapon _unit isEqualTo secondaryWeapon _unit) then {
 			_unit action ["SwitchWeapon", _unit, _unit, 0]
 		};
+		
+		[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
+
+        if (currentWeapon _unit == secondaryWeapon _unit && {currentWeapon _unit != ""}) then {
+			[_unit, "AmovPknlMstpSrasWlnrDnon"] remoteExec ["switchMove"];
+        };
+		
+		sleep 0.5;
+
+		if (!alive _unit) exitWith {};
+		
+		// Fix unit being in locked animation with switchMove (If unit was unloaded from a vehicle, they may be in deadstate instead of unconscious)
+        private _animation = animationState _unit;
+		if ((_animation == "unconscious" || _animation == "deadstate" || _animation find "unconscious" != -1) && lifeState _unit != "INCAPACITATED") then {
+			diag_log format["%1 AnimState INVALID: %2", _unit, _animation];
+			[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
+		};	
 	};
 	
 	// Reset variables
@@ -521,7 +541,7 @@ FAR_fnc_CheckRevive = {
 		!([side group _cursorTarget, side group _caller] call BIS_fnc_sideIsEnemy) && 
 		(
 			(_caller getUnitTrait "Medic" && FAR_var_ReviveMode == 0) ||
-			((count (FAR_var_FAK arrayIntersect (items _caller))) > 0 && FAR_var_ReviveMode == 1) ||
+			((count ((FAR_var_Medkit + FAR_var_FAK) arrayIntersect (items _caller + items _cursorTarget))) > 0 && FAR_var_ReviveMode == 1) ||
 			((count (FAR_var_Medkit arrayIntersect (items _caller + items _cursorTarget))) > 0 && FAR_var_ReviveMode == 2)
 		) &&
 		{lifeState _cursorTarget == 'INCAPACITATED'})
@@ -566,7 +586,6 @@ FAR_fnc_Revive = {
 		[_cursorTarget, false] remoteExecCall ["setUnconscious", _cursorTarget];
 		uiSleep 1;
 		[[format["<t color='#FF0080' size='1.5'>Revived</t><t size='1.5'> by %1</t>", name player], "PLAIN DOWN", -1, true, true]] remoteExecCall ["TitleText", _cursorTarget];
-		_cursorTarget forceWalk false;
 	};
 };
 
