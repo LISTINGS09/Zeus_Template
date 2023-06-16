@@ -25,7 +25,7 @@ _diaryText = _diaryText + format["<br/>Framework Version: <font color='#00FFFF'>
 ];
 
 // ENVIRONMENT
-_diaryText = _diaryText + "<br/><font size='18' color='#80FF00'>ENVIRONMENT</font>";
+_diaryText = _diaryText + "<font size='18' color='#80FF00'>ENVIRONMENT</font>";
 
 private _startTime = missionNamespace getVariable ["f_var_timeOfDay", daytime];
 private _sunriseHr = 4;
@@ -171,7 +171,7 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
 			
-			_diaryText = _diaryText + "<br/>Medical System: <execute expression=""if (time > 0) then { call FAR_fnc_unitInit };"">Reinitialise</execute> | <execute expression=""if (time > 0) then { [] spawn { player switchMove ""; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute><br/>";
+			_diaryText = _diaryText + "<br/><execute expression=""if (time > 0) then { [] spawn { player switchMove ''; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { private _ui = uniformItems player; player forceAddUniform (uniform player); { (uniformContainer player) addItemCargoGlobal [_x,1]; } forEach _ui; } };"">Uniform Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { player action ['SwitchWeapon', player, player, 100]; } };"">Weapon on Back</execute><br/>";
 		};
 		
 		case 2: { // ACE
