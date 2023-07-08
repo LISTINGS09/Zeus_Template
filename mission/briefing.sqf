@@ -116,8 +116,8 @@ if (rank player in ["MAJOR","COLONEL"]) then {
 		// Grey Marker when Destroyed
 		private _trg = createTrigger ["EmptyDetector", getPos _veh, false];
 		_trg setTriggerActivation ["NONE", "PRESENT", false];
-		_trg setVariable ["monitorUnit", _veh];
-		_trg setTriggerStatements ["!alive (thisTrigger getVariable ['monitorUnit', objNull]);",format["'%1' setMarkerColorLocal 'ColorGrey';", _mkr],""];
+		_trg setVariable ["monitorUnit", effectiveCommander _veh];
+		_trg setTriggerStatements ["!alive (thisTrigger getVariable ['monitorUnit', objNull]);", format["'%1' setMarkerColorLocal 'ColorGrey';", _mkr],""];
 		_trg setTriggerTimeout [5, 5, 5, true];
 	};
 } forEach (vehicles select { side _x getFriend side group player < 0.6 && count crew _x > 0});

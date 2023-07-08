@@ -42,6 +42,7 @@ FAR_fnc_unitRemove = {
 		_x removeAllEventHandlers "Killed";
 		_x removeAllEventHandlers "Respawn";
 		_x removeAllEventHandlers "HandleDamage";
+		
 	} forEach (switchableUnits - [_unit]);
 };
 
@@ -68,24 +69,21 @@ FAR_fnc_PlayerActions = {
 		if (!isNil "FAR_act_Bag") then { _unit removeAction FAR_act_Bag };		
 		FAR_act_Bag = _unit addAction ["Bag Body", FAR_fnc_Bag, [], 8, false, true, "", "(call FAR_fnc_CheckBag) && {(cursorObject distance _target) <= 2.5}"];
 		
-		// If everyone can revive so skip extended actions.
-		if (FAR_var_ReviveMode != 1) then {
-			// Stabilising
-			if (!isNil "FAR_act_Stabilise") then { _unit removeAction FAR_act_Stabilise };
-			FAR_act_Stabilise = _unit addAction ["Stabilize", FAR_fnc_Stabilize, [], 10, true, true, "", "(call FAR_fnc_CheckStabilize) && {(cursorTarget distance _target) <= 3}"];
-			
-			// Dragging
-			if (!isNil "FAR_act_Dragging") then { _unit removeAction FAR_act_Dragging };
-			FAR_act_Dragging = _unit addAction ["Drag", FAR_fnc_UnitMove, ["drag"], 9, false, true, "", "(call FAR_fnc_CheckDragging) && {(cursorTarget distance _target) <= 2.5}"];
+		// Stabilising
+		if (!isNil "FAR_act_Stabilise") then { _unit removeAction FAR_act_Stabilise };
+		FAR_act_Stabilise = _unit addAction ["Stabilize", FAR_fnc_Stabilize, [], 10, true, true, "", "(call FAR_fnc_CheckStabilize) && {(cursorTarget distance _target) <= 3}"];
 		
-			// Carrying
-			if (!isNil "FAR_act_Carry") then { _unit removeAction FAR_act_Carry };
-			FAR_act_Carry = _unit addAction ["Carry", FAR_fnc_UnitMove, ["carry"], 8, false, true, "", "(call FAR_fnc_CheckUnitCarry) && {(cursorTarget distance _target) <= 2.5}"];
-			
-			// Loading
-			if (!isNil "FAR_act_UnitLoad") then { _unit removeAction FAR_act_UnitLoad };
-			FAR_act_UnitLoad = _unit addAction ["Load", FAR_fnc_UnitLoad, [], 10, false, true, "", "(call FAR_fnc_CheckUnitLoad)"];
-		};
+		// Dragging
+		if (!isNil "FAR_act_Dragging") then { _unit removeAction FAR_act_Dragging };
+		FAR_act_Dragging = _unit addAction ["Drag", FAR_fnc_UnitMove, ["drag"], 9, false, true, "", "(call FAR_fnc_CheckDragging) && {(cursorTarget distance _target) <= 2.5}"];
+	
+		// Carrying
+		if (!isNil "FAR_act_Carry") then { _unit removeAction FAR_act_Carry };
+		FAR_act_Carry = _unit addAction ["Carry", FAR_fnc_UnitMove, ["carry"], 8, false, true, "", "(call FAR_fnc_CheckUnitCarry) && {(cursorTarget distance _target) <= 2.5}"];
+		
+		// Loading
+		if (!isNil "FAR_act_UnitLoad") then { _unit removeAction FAR_act_UnitLoad };
+		FAR_act_UnitLoad = _unit addAction ["Load", FAR_fnc_UnitLoad, [], 10, false, true, "", "(call FAR_fnc_CheckUnitLoad)"];
 	};
 };
 
@@ -417,7 +415,7 @@ FAR_fnc_SetUnconscious = {
 			!(_unit getVariable ["FAR_var_isStable",false])
 	) then {
 		// Kill player, stop the camera.
-		["Terminate"] call BIS_fnc_EGSpectator;
+		if (isPlayer _unit) then { ["Terminate"] call BIS_fnc_EGSpectator };
 		
 		if (FAR_var_RespawnBagTime > 0) then {
 			[[format["FAR_MKR_%1", profileName], [0,0,0]]] remoteExecCall ["createMarkerLocal", side group _unit];
@@ -432,7 +430,7 @@ FAR_fnc_SetUnconscious = {
 		_unit setDamage 1;
 	} else {	
 		// Player got revived		
-		["Terminate"] call BIS_fnc_EGSpectator;
+		if (isPlayer _unit) then { ["Terminate"] call BIS_fnc_EGSpectator };
 		uiSleep 2;
 		
 		// Clear the "medic nearby" hint

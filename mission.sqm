@@ -8,7 +8,7 @@ class EditorData
 	toggles=549;
 	class ItemIDProvider
 	{
-		nextID=8756;
+		nextID=8758;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=440;
+		nextID=452;
 	};
 	class Camera
 	{
-		pos[]={3371.3362,8.0696573,2178.9871};
-		dir[]={0.66788256,-0.55879843,0.49169657};
-		up[]={0.45002821,0.8292852,0.3313114};
-		aside[]={0.59289122,-5.3289114e-007,-0.80533469};
+		pos[]={2760.4717,74.786041,2808.27};
+		dir[]={-0.90238738,-0.4237335,0.078469314};
+		up[]={-0.4221434,0.90578598,0.036708545};
+		aside[]={0.086631231,-1.0768417e-008,0.99624532};
 	};
 };
 binarizationWanted=0;
@@ -703,7 +703,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1361;
+		items=1363;
 		class Item0
 		{
 			dataType="Marker";
@@ -73605,6 +73605,33 @@ class Mission
 			};
 			id=8755;
 			type="Land_File2_F";
+		};
+		class Item1361
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={3002,5,2807};
+				angles[]={0,3.7524581,0};
+			};
+			side="Empty";
+			class Attributes
+			{
+				init="if (isServer) then {" \n "private _bomb = createVehicle [""SatchelCharge_Remote_Ammo_Scripted"", getPosATL this, [], 0, ""NONE""]; _bomb setDir getDir this;" \n "deleteVehicle this;" \n "missionNamespace setVariable [""SATCHEL_1"", _bomb, true];" \n "[_bomb,""SATCHEL_1""] remoteExec [""setVehicleVarName"", 0, _bomb];" \n "};";
+				name="MARK_1";
+			};
+			id=8756;
+			type="Land_HelipadEmpty_F";
+		};
+		class Item1362
+		{
+			dataType="Comment";
+			class PositionInfo
+			{
+				position[]={3003,5,2816};
+			};
+			title="Create Bomb";
+			id=8757;
 		};
 	};
 	class Connections
