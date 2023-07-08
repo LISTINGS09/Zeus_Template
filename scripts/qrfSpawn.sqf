@@ -10,6 +10,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
+ZQR_version = 1.36;
 if !isServer exitWith {};
 
 params [
@@ -112,7 +113,7 @@ _Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
 _Medium = [["O_T_APC_Wheeled_02_rcws_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 _Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 _Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_bench_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
-_CAS = ["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
+_CAS = [["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
 
 // EAST - FIA (VANILLA)
 _side = EAST;
@@ -835,17 +836,19 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 1}] do {
 
 // DEBUG: Show Spawn Markers in local
 {
-	_mrkr = createMarkerLocal [format ["mkr_road_%1", _forEachIndex], _x];
-	(format ["mkr_road_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
-	(format ["mkr_road_%1", _forEachIndex]) setMarkerColorLocal "ColorYellow";
-	(format ["mkr_road_%1", _forEachIndex]) setMarkerTextLocal format["R%1",_forEachIndex];
+	private _mrkr = createMarkerLocal [format ["mkr_road_%1", _forEachIndex], _x];
+	_mrkr setMarkerPosLocal _x;
+	_mrkr setMarkerTypeLocal "mil_dot";
+	_mrkr setMarkerColorLocal "ColorYellow";
+	_mrkr setMarkerTextLocal format["R%1",_forEachIndex];
 } forEach _spawnRoad;
 
 {
-	_mrkr = createMarkerLocal [format ["mkr_land_%1", _forEachIndex], _x];
-	(format ["mkr_land_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
-	(format ["mkr_land_%1", _forEachIndex]) setMarkerColorLocal "ColorOrange";
-	(format ["mkr_land_%1", _forEachIndex]) setMarkerTextLocal format["L%1",_forEachIndex];
+	private _mrkr = createMarkerLocal [format ["mkr_land_%1", _forEachIndex], _x];
+	_mrkr setMarkerPosLocal _x;
+	_mrkr setMarkerTypeLocal "mil_dot";
+	_mrkr setMarkerColorLocal "ColorOrange";
+	_mrkr setMarkerTextLocal format["L%1",_forEachIndex];
 } forEach _spawnLand;
 
 // Adjust Difficulty
