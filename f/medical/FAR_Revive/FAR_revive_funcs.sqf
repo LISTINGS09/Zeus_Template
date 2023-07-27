@@ -305,7 +305,7 @@ FAR_fnc_SetUnconscious = {
 	// Announce Message.
 	[_unit, _killer, ["killed", "injured"] select FAR_var_InstantDeath] spawn FAR_fnc_DeathMessage;
 	
-	if !([_unit] call FAR_fnc_isUnderwater) then {
+	if (!([_unit] call FAR_fnc_isUnderwater) && vehicle _unit isEqualTo _unit) then {
 		private _bPool = createSimpleObject [selectRandom ["BloodSpray_01_New_F","BloodSplatter_01_Medium_New_F"], getPosWorld _unit]; 
 		_bPool setDir random 360; 
 		_bPool setVectorUp surfaceNormal getPosWorld _unit;

@@ -1,4 +1,4 @@
-// Farooq's Revive 2.36 (2600K Edit)
+// Farooq's Revive 2.37 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.
@@ -23,8 +23,8 @@ if (side group player in FAR_var_SkipSide) exitWith {};
 // Create PP effects
 FAR_eff_ppVig = ppEffectCreate ["ColorCorrections", 1633];
 FAR_eff_ppBlur = ppEffectCreate ["DynamicBlur", 525];
-FAR_var_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80","vn_b_item_medikit_01"];
-FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress","vn_b_item_firstaidkit","vn_o_item_firstaidkit"];
+FAR_var_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80","vn_b_item_medikit_01","SPE_US_Medkit","SPE_GER_Medkit"];
+FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress","vn_b_item_firstaidkit","vn_o_item_firstaidkit","SPE_US_FirstAidKit","SPE_GER_FirstAidKit"];
 
 // Player Initialization
 [] spawn {
