@@ -1,48 +1,71 @@
 // Zeus - Checks a units magazines and converts them from the old weapon to a given one.
 // USAGE: [player,"arifle_Katiba_F","SMG_02_F"] call f_fnc_magazineCheck;
 // ====================================================================================
-params["_unit","_weaponOld","_weaponNew",""];
+params["_unit",["_weaponOld",""],["_weaponNew",""]];
+
+if (isNil "_unit") exitWith {};
+if (!(isClass (configFile >> "CfgWeapons" >> _weaponNew)) || !(isClass (configFile >> "CfgWeapons" >> _weaponOld))) exitWith {
+	["fn_magazineCheck.sqf",format["Invalid Weapon (%1 to %2)",_weaponOld, _weaponNew], "ERROR"] call f_fnc_logIssue;
+};
 
 private _isMissile = _weaponNew isKindOf ["Launcher", configFile >> "CfgWeapons"];
-
-if (isNil "_unit") exitWith { ["fn_magazineCheck.sqf",format["Invalid Unit passed: '%1'",_unit], "ERROR"] call f_fnc_logIssue };
-if (!(isClass (configFile >> "CfgWeapons" >> _weaponNew)) || !(isClass (configFile >> "CfgWeapons" >> _weaponOld))) exitWith { ["fn_magazineCheck.sqf",format["Invalid Weapon (%1 to %2)",_weaponOld, _weaponNew], "ERROR"] call f_fnc_logIssue };
-
 private _magsOld = (getArray(configFile >> "CfgWeapons" >> _weaponOld >> "magazines")) apply { toLower _x };
+private _magSize = getNumber (configfile >> "CfgMagazines" >> (currentMagazine _unit) >> "count"); // Get Bullet Count
 
 // Only one mag? Find other compatible magazines.
 if (count _magsOld <= 1) then { 
 	private _oldGLMags = [];
 	private _oldMuzzle = getArray (configFile >> "CfgWeapons" >> _weaponOld >> "muzzles");
 	if (count _oldMuzzle > 1) then { _oldGLMags = (getArray (configFile >> "CfgWeapons" >> _weaponOld >> _oldMuzzle#1 >> "magazines")) apply { toLower _x } };
-	_magsOld = ([_weaponOld] call BIS_fnc_compatibleMagazines) - _oldGLMags;
+	_magsOld = (([_weaponOld] call BIS_fnc_compatibleMagazines) - _oldGLMags) select { _magSize isEqualTo getNumber (configfile >> "CfgMagazines" >> _x >> "count") };
 };
 
-private _magsNew = (getArray(configFile >> "CfgWeapons" >> _weaponNew >> "magazines")) apply { toLower _x };
+// Fix BIS Config Issues - MX is missing the default tracer mag
+private _magsNew = switch (_weaponNew) do {
+	case "arifle_MX_F";
+	case "arifle_MX_GL_F";
+	case "arifle_MXC_F";
+	case "arifle_MXM_F": { ["30Rnd_65x39_caseless_mag","30Rnd_65x39_caseless_mag_tracer"] };
+	case "arifle_MX_SW_F": { ["100rnd_65x39_caseless_mag","100rnd_65x39_caseless_mag_tracer"] };
+	case "arifle_MX_Black_F";
+	case "arifle_MX_GL_Black_F";
+	case "arifle_MXC_Black_F";
+	case "arifle_MXM_Black_F": { ["30rnd_65x39_caseless_black_mag","30Rnd_65x39_caseless_black_mag_tracer"] };
+	case "arifle_MX_SW_Black_F": { ["100rnd_65x39_caseless_black_mag","100rnd_65x39_caseless_black_mag_tracer"] };
+	case "arifle_MX_khk_F";
+	case "arifle_MX_GL_khk_F";
+	case "arifle_MXC_khk_F";
+	case "arifle_MXM_khk_F": { ["30rnd_65x39_caseless_khaki_mag","30rnd_65x39_caseless_khaki_mag_tracer"] };
+	case "arifle_MX_SW_khk_F": { ["100rnd_65x39_caseless_khaki_mag","100rnd_65x39_caseless_khaki_mag_tracer"] };
+	case "arifle_AK12_F";
+	case "arifle_AK12_GL_F";
+	case "arifle_AKM_F": { ["30Rnd_762x39_AK12_Mag_F","30Rnd_762x39_AK12_Mag_Tracer_F"] };
+	default { getArray (configFile >> "CfgWeapons" >> _weaponNew >> "magazines") };
+};
 
 //diag_log format["[F3] MAGCHECK: _magsOld: %1",_magsOld];
 //diag_log format["[F3] MAGCHECK: _magsNew: %1",_magsNew];
 
 private _magsCurrent = (magazines _unit) apply { toLower _x }; 
-private _magsToAdd = 1;
+private _numDefault = 0;
 {
 	if (_x in _magsOld && !(_x in _magsNew)) then {
 		_unit removeMagazine _x;
-		_magsToAdd = _magsToAdd + 1;
+		_numDefault = _numDefault + 1;
 	};
 } forEach _magsCurrent;
 
 // No suitable magazines found to add!
-if (_magsToAdd isEqualTo 0 || count _magsNew == 0) exitWith {}; 
+if (_numDefault isEqualTo 0 || count _magsNew == 0) exitWith {}; 
 
-private _magsNewDefault = _magsNew select 0; // Default new magazine.
-private _magsTracer = 0;
-private _magsStandard = _magsToAdd;
+private _magsNewDefault = _magsNew#0; // Default new magazine.
+private _numTracer = 0;
+private _magsStandard = _numDefault;
 
 // Check weapon type to see if we need tracer rounds.
 if (getNumber (configFile >> "CfgWeapons" >> _weaponNew >> "type") == 1) then {
-	_magsTracer = ceil ((_magsToAdd / 100) * 35);
-	_magsStandard = _magsToAdd - _magsTracer;
+	_numTracer = ceil (_numDefault * 0.5);
+	_magsStandard = _numDefault - _numTracer;
 };
 
 private _fnc_addMagazine = {
@@ -52,97 +75,42 @@ private _fnc_addMagazine = {
 	private _vc = vestContainer _unit;
 	private _uc = uniformContainer _unit;
 	
-	private _container = if (isNull _vc) then { if (isNull _bc) then { _uc } else { _bc } } else { _vc };
+	//systemChat format ["Adding %1 of %2", _count, _class];
+	//diag_log format["[F3] MAGCHECK - Adding %1 of %2", _count, _class];
 	
-	if (_isLauncher) then {
-		_bc addItemCargoGlobal [_class, _count];
-	} else {
-		_container addItemCargoGlobal [_class, _count];
-	};
-	
-	//systemChat format ["Added %2 of %1 (%3)", _class, _count, _isLauncher];
-	//diag_log format["[F3] MAGCHECK: There are %1 magazines to add, %2 std %3 special.",_magsToAdd,_magsStandard,_magsTracer];
+	if (_isLauncher) exitWith { _bc addItemCargoGlobal [_class, _count] };
+
+	private _containers = [_vc, _bc, _uc] - [objNull];	
+	(_containers#0) addItemCargoGlobal [_class, _count];
 };
 
-//diag_log format["[F3] MAGCHECK: There are %1 magazines to add, %2 std %3 special.",_magsToAdd,_magsStandard,_magsTracer];
+//diag_log format["[F3] MAGCHECK: There are %1 magazines to add, %2 std %3 special.",_numDefault,_magsStandard,_numTracer];
+[_unit, _magsNewDefault, _magsStandard, _isMissile] call _fnc_addMagazine;
 
-if (_magsTracer > 1) then {
-	//diag_log format["[F3] MAGCHECK:Planning to add, %1 of %2, %3 of %4.",(_magsNew select 0),_magsStandard,(_magsNew select 1),_magsTracer];
-	[_unit, _magsNewDefault, _magsStandard, _isMissile] call _fnc_addMagazine;
-	
-	// Try and find 'special' mags that fit the factions tracer.
-	// Get array of tracer rounds, then try and find the factions own tracer if possible.
-	
-	private _KK_fnc_inString = {
-		/*
-		Author: Killzone_Kid
-		Description: Find a string within a string (case insensitive)
-		Parameter(s): _this select 0: <string> string to be found, _this select 1: <string> string to search in
-		Returns: Boolean (true when string is found)
-		_found = ["needle", "Needle in Haystack"] call _KK_fnc_inString;
-		*/
+if (_numTracer isEqualTo 0) exitWith {};
+// Try and find 'special' mags that fit the factions tracer.
+// Get array of tracer rounds, then try and find the factions own tracer if possible.
 
-		private ["_searchLen","_searchItem","_found"];
-		params [["_searchFor",""],["_searchIn",""]];
-		_searchIn = toArray _searchIn;
-		_searchLen = count toArray _searchFor;
-		_searchItem = +_searchIn;
-		_searchItem resize _searchLen;
-		_found = false;
-		for "_i" from _searchLen to count _searchIn do {
-			if (toString _searchItem == _searchFor) exitWith {_found = true};
-			_searchItem set [_searchLen, _searchIn select _i];
-			_searchItem set [0, "x"];
-			_searchItem = _searchItem - ["x"]
-		};
-		_found
-	};
+// TRY1: Get a list of ALL the tracer rounds from the magazine class.
+private _magsNewTracer = _magsNew select { getNumber(configFile >> "cfgMagazines" >> _x >> "tracersEvery") isEqualTo 1 };
+//diag_log format["[F3] MAGCHECK: Result of tracer search: %1",_magsNewTracer];
+
+if (count _magsNewTracer isEqualTo 0) exitWith { [_unit, _magsNewDefault, _numTracer, _isMissile] call _fnc_addMagazine };
 	
-	// TRY1: Get a list of ALL the tracer rounds from the magazine class.
-	_magTracerAll = [];
-	{
-		_searchString = _x + 
-						getText(configFile >> "cfgMagazines" >> _x >> "ammo") +
-						getText(configFile >> "cfgMagazines" >> _x >> "displayNameShort") + 
-						getText(configFile >> "cfgMagazines" >> _x >> "displayName") + 
-						getText(configFile >> "cfgMagazines" >> _x >> "descriptionShort");
-						
-		if (["tracer",_searchString] call _KK_fnc_inString) then {
-			_magTracerAll pushBack [_x,_searchString];
-		}
-	} forEach _magsNew;
-	
-	//diag_log format["[F3] MAGCHECK: Result of tracer search: %1",_magTracerAll];
-	
-	// Unable to find any tracer rounds at all, assign default magazine.
-	if (count _magTracerAll < 1) exitWith {
-		[_unit, _magsNewDefault, _magsTracer, _isMissile] call _fnc_addMagazine;
-	};
-		
-	_tracerColor = switch (side _unit) do {case west: {"red"}; case east: {"green"}; default {"yellow"};};
-	
-	// TRY2: Filter the list further to just find the factions tracer.
-	_magTracerFaction = [];
-	{						
-		if ([_tracerColor,(_x select 1)] call _KK_fnc_inString) then {
-			_magTracerFaction pushBack (_x select 0);
-		}
-	} forEach _magTracerAll;
-	
-	//diag_log format["[F3] MAGCHECK: Result of tracerFaction search: %1",_magTracerFaction];
-	
-	if (count _magTracerFaction > 0) then {
-		[_unit, (_magTracerFaction select 0), _magsTracer, _isMissile] call _fnc_addMagazine;
-	} else {
-		if ((_magTracerAll select 0) isEqualType []) then {
-			[_unit, ((_magTracerAll select 0) select 0), _magsTracer, _isMissile] call _fnc_addMagazine;
-		} else {
-			[_unit, (_magTracerAll select 0), _magsTracer, _isMissile] call _fnc_addMagazine;
-		};
-	};	
+private _tracerColor = switch (side _unit) do {case west: {"red"}; case east: {"green"}; default {"yellow"};};
+
+// TRY2: Filter the list further to just find the factions tracer.
+private _magTracerFaction = _magsNewTracer select { 	
+	toLower (_x + getText(configFile >> "cfgMagazines" >> _x >> "ammo") +
+		getText(configFile >> "cfgMagazines" >> _x >> "displayNameShort") + 
+		getText(configFile >> "cfgMagazines" >> _x >> "displayName") + 
+		getText(configFile >> "cfgMagazines" >> _x >> "descriptionShort")) 
+	find _tracerColor > 0 };
+
+//diag_log format["[F3] MAGCHECK: Result of faction search: %1",_magTracerFaction];
+
+if (count _magTracerFaction > 0) then {
+	[_unit, _magTracerFaction select 0, _numTracer, _isMissile] call _fnc_addMagazine;
 } else {
-	[_unit, _magsNewDefault, (_magsStandard+_magsTracer), _isMissile] call _fnc_addMagazine;
-	//diag_log format["[F3] MAGCHECK:Added, %1 of %2",_magsNewDefault,_magsStandard+_magsTracer];
+	[_unit, _magsNewTracer select 0, _numTracer, _isMissile] call _fnc_addMagazine;
 };
-
-["fn_magazineCheck.sqf",format["%1 Mags Replaced",_magsToAdd], "INFO"] call f_fnc_logIssue;

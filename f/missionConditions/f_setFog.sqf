@@ -31,9 +31,9 @@ if (!isNil "_overRide") then {
 			// DEFAULT FOG SETTING
 			[
 				[0,0,0],			// None
-				[0.2,0,0], 			// Low
-				[0.4,0,0], 			// Heavy
-				[random 0.15,0,0] 	// Random
+				[0.4,0,0], 			// Low
+				[0.8,0,0], 			// Heavy
+				[random 0.3,0,0] 	// Random
 			]
 		} else {
 			f_var_fogOverride;
@@ -41,5 +41,8 @@ if (!isNil "_overRide") then {
 
 	_delay setFog (_fogSettings select (_fog - 1));
 };
+
+// Prevent fog from changing
+if (_delay isEqualTo 0) then { [] spawn { sleep 10; 999999 setFog fogParams; } };
 
 ["f_setFog.sqf",format["Fog setting - %1: %2", _fog, fogParams],"INFO"] call f_fnc_logIssue;

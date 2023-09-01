@@ -34,7 +34,7 @@ fnc_pylon_setPylons = {
 	private _cfgTurret = (configProperties [configFile >> "CfgVehicles" >> _type >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray ( _x >> "turret" ) };
 	
 	if (isNull _v) exitWith { systemChat format["[%1] No valid vehicle found within 50m!", _vName] };
-	if (count fullCrew [_v,"",false] > 0) exitWith { systemChat format["[%1] Vehicle must be empty!", _vName] };
+	//if (count fullCrew [_v,"",false] > 0) exitWith { systemChat format["[%1] Vehicle must be empty!", _vName] };
 		
 	private _pylons = getPylonMagazines _v;
 	
@@ -44,19 +44,25 @@ fnc_pylon_setPylons = {
 	if (time > _timeLimit && _timeLimit > 0 && _rearmMode < 1) exitWith { systemChat format["[%1] Cannot change pylons after time has passed!", _vName] };
 	if (time > _timeLimit && _timeLimit > 0 && count (vehicles select { (getAmmoCargo _x > 0 || (getNumber (configFile >> "CfgVehicles" >> typeOf _x >> "ace_rearm_defaultSupply") > 0)) && locked _x <= 1 && { _x distance _v < 50 } }) < 1 && _rearmMode == 1) exitWith { systemChat format["[%1] No Support Vehicle within 50m!", _vName] };
 	
-	{
-		_v removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon");
-	} forEach ((_pylons arrayIntersect _pylons) - [""]);
+	{ _v removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") } forEach (((_pylons arrayIntersect _pylons) - _loadout) - [""]);
 	
 	{
-		// Use override value otherwise use the vehicle setting
-		private _turret = if ((_cfgTurret#_forEachIndex) isEqualTo [0]) then { [0] } else { [] };
-		if (_forEachIndex < count _owner) then { if ((_owner#_forEachIndex) isEqualType []) then { _turret = _owner#_forEachIndex } };
+		private _mag = _loadout param [_forEachIndex, ""];
+		private _turret = if (_cfgTurret param [_forEachIndex, []] isEqualTo [0]) then { [0] } else { [] };
 		
-		//diag_log text format["%1:%2 - W:%3 T:%4", _type, _forEachIndex + 1, if (_forEachIndex >= count _loadout) then { "" } else { _loadout#_forEachIndex }, _turret];
-		[_v, [_forEachIndex + 1, if (_forEachIndex >= count _loadout) then { "" } else { _loadout#_forEachIndex }, true, _turret]] remoteExec ["setPylonLoadout"];
+		//diag_log text format["[PLY] %1:%2 - W:%3 T:%4", _type, _forEachIndex + 1, _mag, _turret];
+		if (_mag isEqualTo "") then {
+			[_v, [_forEachIndex + 1, "", true, _turret]] remoteExec ["setPylonLoadOut"];
+			[_v, [_forEachIndex + 1, 0]] remoteExec ["SetAmmoOnPylon"];
+		} else {
+			[_v, [_forEachIndex + 1, _mag, true, _turret]] remoteExec ["setPylonLoadOut"];
+			[_v, [_forEachIndex + 1, getNumber (configfile >> "CfgMagazines" >> _mag >> "count")]] remoteExec ["SetAmmoOnPylon"];
+		};
 	} forEach _pylons;
-		
+	
+	private _loadSound = (getArray (configfile >> "CfgSounds" >> (selectRandom ['FD_Target_PopDown_Large_F','FD_Target_PopDown_Small_F','FD_Target_PopUp_Small_F']) >> "sound"))#0;
+	playSound3D [_loadSound, _v, false, getPosASL _v, random [0.8,1,1.2], random [0.8,1,1.2],100];
+	
 	systemChat format["[%1] Pylons Applied", _vName];
 	[_type] call fnc_pylon_getPylons;
 };
@@ -132,7 +138,6 @@ _pylonRecord = _pylonRecord + format["<execute expression=""f_var_pylon_%1 = [''
 
 {
 	if !(toUpper (configName _x) in ['EMPTY','NONE']) then {
-		
 		_pylonRecord = _pylonRecord + format["<br/><br/><execute expression=""f_var_pylon_%1 = getArray (configFile >> 'CfgVehicles' >> '%1' >> 'Components' >> 'TransportPylonsComponent' >> 'Presets' >> '%2' >> 'attachment'); systemChat '[%4] Template Loaded: %3';"">%3</execute><br/>", _vType, configName _x, getText (_x >> "displayName"), _vName];
 		private _pylons = ((getArray (_x >> "attachment") - [""]) call BIS_fnc_consolidatearray) apply { format["<font size='12'>%1 <font color='#CCCCCC'>x%2</font></font>", getText (configFile >> 'CfgMagazines' >> (_x#0) >> 'displayName'), _x#1] };
 		_pylonRecord = _pylonRecord + "" + (_pylons joinString ', ') + "";

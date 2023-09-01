@@ -30,7 +30,7 @@ _uidList = ["76561197970695190"]; // 2600K
 
 // Get Author ID if present
 if (!isNil "f_var_AuthorUID") then {
-	_uidList pushBack f_var_AuthorUID;
+	_uidList pushBackUnique f_var_AuthorUID;
 };
 
 // Get Server Admin List if present (f_zeusAdminNames from f\common\fn_processParamsArray.sqf)

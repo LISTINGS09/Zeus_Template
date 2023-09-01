@@ -51,13 +51,13 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_MX_Black_F","arifle_MX_khk_F"];
-_riflemag = "30Rnd_65x39_caseless_mag";
-_riflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_riflemag = "30rnd_65x39_caseless_black_mag";
+_riflemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["arifle_MXC_Black_F","arifle_MXC_khk_F"];
-_carbinemag = "30Rnd_65x39_caseless_mag";
-_carbinemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_carbinemag = "30rnd_65x39_caseless_black_mag";
+_carbinemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = "SMG_01_F";
@@ -71,18 +71,18 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["arifle_MX_GL_Black_F","arifle_MX_GL_khk_F"];
-_glriflemag = "30Rnd_65x39_caseless_mag";
-_glriflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
-_glmag = "1Rnd_HE_Grenade_shell";
+_glriflemag = "30rnd_65x39_caseless_black_mag";
+_glriflemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
+_glmag = "3Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
-_glsmoke = "1Rnd_Smoke_Grenade_shell";
-_glsmokealt1 = "1Rnd_SmokeGreen_Grenade_shell";
-_glsmokealt2 = "1Rnd_SmokeRed_Grenade_shell";
+_glsmoke = "3Rnd_Smoke_Grenade_shell";
+_glsmokealt1 = "3Rnd_SmokeGreen_Grenade_shell";
+_glsmokealt2 = "3Rnd_SmokeRed_Grenade_shell";
 
 // Flares for FTLs, Squad Leaders, etc
-_glflare = "UGL_FlareWhite_F";
-_glflarealt = "UGL_FlareGreen_F";
+_glflare = "3Rnd_UGL_FlareWhite_F";
+_glflarealt = "3Rnd_UGL_FlareGreen_F";
 
 // Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
 _pistol = "hgun_Pistol_heavy_01_F";
@@ -133,8 +133,8 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["arifle_MX_SW_Black_F","arifle_MX_SW_khk_F"];
-_ARmag = "100Rnd_65x39_caseless_mag";
-_ARmag_tr = "100Rnd_65x39_caseless_mag_Tracer";
+_ARmag = "100Rnd_65x39_caseless_black_mag";
+_ARmag_tr = "100Rnd_65x39_caseless_black_mag_Tracer";
 
 // Medium MG
 _MMG = "MMG_02_black_F";

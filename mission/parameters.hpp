@@ -50,8 +50,8 @@ class f_param_timeOfDay
 class f_param_timeMultiplier
 {
 	title = "Time Multiplier";
-	values[] = {1,6,12,24};
-	texts[] = {"Normal","1 Day = 4 Hours","1 Day = 2 Hours","1 Day = 1 Hour"};
+	values[] = {0.5,1,6,12,24};
+	texts[] = {"Half Time","Normal","1 Day = 4 Hours","1 Day = 2 Hours","1 Day = 1 Hour"};
 	default = 1;
 };
 class f_ParamSpacer_title2

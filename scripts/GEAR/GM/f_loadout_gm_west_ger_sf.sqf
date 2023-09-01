@@ -85,8 +85,8 @@ _glflare = "UGL_FlareWhite_F";
 _glflarealt = "UGL_FlareGreen_F";
 
 // Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
-_pistol = "hgun_Pistol_heavy_01_F";
-_pistolmag = "11Rnd_45ACP_Mag";
+_pistol = "gm_lp1_blk";
+_pistolmag = "gm_1Rnd_265mm_flare_multi_wht_DM25";
 
 // Grenades
 _grenade = "HandGrenade";
@@ -132,14 +132,14 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_SPAR_02_blk_F"];
-_ARmag = "150Rnd_556x45_Drum_Mag_F";
-_ARmag_tr = "150Rnd_556x45_Drum_Mag_Tracer_F";
+_AR = ["gm_mg8a2_blk"];
+_ARmag = "gm_100Rnd_762x51mm_B_T_DM21_mg8_oli";
+_ARmag_tr = "gm_100Rnd_762x51mm_B_T_DM21A1_mg8_oli";
 
 // Medium MG
-_MMG = "MMG_02_black_F";
-_MMGmag = "130Rnd_338_Mag";
-_MMGmag_tr = "130Rnd_338_Mag";
+_MMG = "gm_mg8a2_blk";
+_MMGmag = "gm_100Rnd_762x51mm_B_T_DM21_mg8_oli";
+_MMGmag_tr = "gm_100Rnd_762x51mm_B_T_DM21A1_mg8_oli";
 
 // Marksman rifle
 _DMrifle = ["srifle_DMR_03_F","arifle_SPAR_03_blk_F","srifle_DMR_02_camo_F","srifle_DMR_06_camo_F","srifle_DMR_03_khaki_F"];
@@ -192,7 +192,7 @@ _specOp = [];
 // Basic clothing
 // The outfit-piece is randomly selected from the array for each unit
 _baseUniform = ["gm_ge_army_uniform_soldier_bdu_80_wdl"];
-_baseHelmet = ["gm_ge_headgear_beret_bdx_specop"];
+_baseHelmet = ["gm_ge_headgear_m62_cover_wdl"];
 _baseGlasses = [""];
 
 // Vests
@@ -254,7 +254,7 @@ if (_isMan) then {
 	_unit linkItem "ItemCompass";	// Add and equip a compass
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
-	_unit linkItem "ItemGPS"; 		// Add and equip a GPS
+	//_unit linkItem "ItemGPS"; 		// Add and equip a GPS
 	_unit addItem "gm_ge_headgear_hat_boonie_wdl";// Free Hat!
 };
 
@@ -281,6 +281,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: COMMANDER
 	case "co":
 	{
+		_unit addHeadgear "gm_ge_headgear_beret_bdx_specop";
 		["r"] call _backpack;
 		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_riflemag,_defMags];
@@ -291,13 +292,13 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenadealt,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
-		_unit linkItem "ItemGPS";
 		_attachments = _attach_co;
 	};
 
 	// LOADOUT: DEPUTY COMMANDER AND SQUAD LEADER
 	case "dc":
 	{
+		_unit addHeadgear "gm_ge_headgear_beret_bdx_specop";
 		["r"] call _backpack;
 		_unit addMagazines [_riflemag,_defMags];
 		_unit addMagazines [_riflemag_tr,_defMags_tr];
@@ -337,7 +338,6 @@ switch (_typeOfUnit) do
 		_unit addMagazines [_smokegrenadealt,2];
 		_unit addMagazines [_chem,2];
 		[_unit, _binos2] call f_fnc_addWeapon;
-		_unit linkItem "ItemGPS";
 		_attachments = _attach_fl;
 	};
 

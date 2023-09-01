@@ -19,11 +19,9 @@ player groupChat format["Click a location on the map to %1.", (if (f_var_mapClic
 
 openMap [true, true];
 
-onMapSingleClick "f_var_mapClickTeleport_telePos = _pos; f_telePositionSelected = true";
+onMapSingleClick "f_var_mapClickTeleport_telePos = _pos; f_telePositionSelected = true; onMapSingleClick '';";
 
 waitUntil {sleep 0.1;f_telePositionSelected;};
-
-onMapSingleClick "";
 
 openMap [true, false];
 

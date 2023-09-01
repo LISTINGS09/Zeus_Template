@@ -23,6 +23,9 @@ if (getMissionConfigValue ["ReviveMode",0] > 0) then { ["f_debug.sqf","BIS Reviv
 // Check for mines
 if (count allMines > 5 && { _x getUnitTrait 'explosiveSpecialist' } count (playableUnits + switchableUnits) <= 0) then { ["f_debug.sqf","Mines present but no Explosives Experts detected!"] call f_fnc_logIssue }; 
 
+// Check for unassigned completions
+if (count ((allMissionObjects "ModuleTaskSetState_F") select { _x getVariable "State"  in ["CREATED","ASSIGNED"] }) > 0) then { ["f_debug.sqf","Task Status change is not Complete! Not set to 'Succeed' or 'Failure' is this correct?"] call f_fnc_logIssue };
+
 // Missing Group Markers
 if ({ !(groupID group _x in ((missionNamespace getVariable ["f_var_allGroups",[["","",""]]]) apply { _x#2 }))} count (playableUnits + switchableUnits) > 0) then {
 	["groups.sqf",format["%1 units have no group ID assigned: %2",

@@ -51,13 +51,13 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_MX_khk_F","arifle_MX_Black_F"];
-_riflemag = "30Rnd_65x39_caseless_mag";
-_riflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_riflemag = "30rnd_65x39_caseless_khaki_mag";
+_riflemag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["arifle_MXC_khk_F","arifle_MXC_Black_F"];
-_carbinemag = "30Rnd_65x39_caseless_mag";
-_carbinemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_carbinemag = "30rnd_65x39_caseless_khaki_mag";
+_carbinemag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = ["SMG_02_F","SMG_05_F"];
@@ -71,8 +71,8 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["arifle_MX_GL_khk_F","arifle_MX_GL_Black_F"];
-_glriflemag = "30Rnd_65x39_caseless_mag";
-_glriflemag_tr = "30Rnd_65x39_caseless_mag_Tracer";
+_glriflemag = "30rnd_65x39_caseless_khaki_mag";
+_glriflemag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -133,8 +133,8 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["arifle_MX_SW_khk_F","arifle_MX_SW_Black_F"];
-_ARmag = "100Rnd_65x39_caseless_mag";
-_ARmag_tr = "100Rnd_65x39_caseless_mag_Tracer";
+_ARmag = "100rnd_65x39_caseless_khaki_mag";
+_ARmag_tr = "100rnd_65x39_caseless_khaki_mag_tracer";
 
 // Medium MG
 // NON-DLC ALTERNATIVE:
@@ -144,7 +144,7 @@ _MMGmag_tr = "130Rnd_338_Mag";
 
 // Marksman rifle
 _DMrifle = ["arifle_MXM_khk_F","arifle_MXM_Black_F","srifle_DMR_03_khaki_F","srifle_DMR_03_F","srifle_DMR_06_olive_F"];
-_DMriflemag = "30Rnd_65x39_caseless_mag";
+_DMriflemag = "30rnd_65x39_caseless_khaki_mag";
 
 // Rifleman AT
 _RAT = ["launch_MRAWS_olive_F","launch_NLAW_F"];

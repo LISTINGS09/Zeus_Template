@@ -1,4 +1,4 @@
-// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.3
+// Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script - V2.4
 // [] execVM "scripts\civPopulation.sqf";
 
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
@@ -193,7 +193,7 @@ ZCS_fnc_SpawnUnit = {
 		if (isPlayer _killer) then { 
 			missionNamespace setVariable ["ZCS_var_deadCivCount", (missionNamespace getVariable ["ZCS_var_deadCivCount",0])+1,true]; 
 			missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.1, true];
-			missionNamespace setVariable ["ZCS_var_BomberChance", (missionNamespace getVariable ["ZCS_var_BomberChance",0.01])+0.05, true];
+			missionNamespace setVariable ["ZCS_var_BomberChance", (missionNamespace getVariable ["ZCS_var_BomberChance",0.005])+0.05, true];
 			
 			if (ZCS_var_LOWTasks) then {
 				format["%1 (%2) killed Civilian (%3)",name _killer,groupId group _killer,name (_this select 0)] remoteExec ["systemChat",0];
@@ -402,6 +402,12 @@ while { ZCS_var_Running } do {
 
 		_x set [2, getPos _unit];
 	} forEach ZCS_CivList select { side _x == Civilian };
+	
+	if (diag_tickTime - (missionNamespace getVariable ["ZCS_var_LastCheck",0]) > 300) then {
+		if (ZCS_var_EnemyChance > 0.05) then { missionNamespace setVariable ["ZCS_var_EnemyChance", (ZCS_var_EnemyChance - 0.05) max 0.05, true ] };
+		if (ZCS_var_BomberChance > 0.005) then { missionNamespace setVariable ["ZCS_var_BomberChance", (ZCS_var_BomberChance - 0.01) max 0.005, true] };
+		ZCS_var_LastCheck = diag_tickTime;
+	};
 
 	sleep 5;
 };

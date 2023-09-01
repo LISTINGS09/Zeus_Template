@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek v1.33
+	Author: 2600K / Josef Zemanek v1.35
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -10,6 +10,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
+ZQR_version = 1.36;
 if !isServer exitWith {};
 
 params [
@@ -36,10 +37,7 @@ if !(_location isEqualType []) exitWith { systemChat "[QRF] ERROR Invalid Object
 
 // WEST - NATO TANOA (VANILLA)
 _side = WEST;
-ZMM_WESTMan = ["B_T_Soldier_F","B_T_soldier_LAT_F","B_T_soldier_AR_F","B_T_Soldier_TL_F"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam_Light"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfSquad"];
+ZMM_WESTMan = ["B_T_Soldier_F","B_T_soldier_LAT_F","B_T_Soldier_F","B_T_soldier_AR_F","B_T_Soldier_F","B_T_Soldier_TL_F","B_T_Soldier_F",selectRandom["B_T_Soldier_AA_F","B_T_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Motorized" >> "B_T_MotInf_Reinforcements"];
 _Light = ["B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
 _Medium = [["B_T_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_T_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
@@ -49,10 +47,7 @@ _CAS = ["B_Heli_Light_01_dynamicLoadout_F",["B_Heli_Attack_01_dynamicLoadout_F",
 
 // WEST - NATO (VANILLA)
 _side = WEST;
-ZMM_WESTMan = ["B_Soldier_F","B_soldier_LAT_F","B_soldier_AR_F","B_Soldier_TL_F"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "B_InfTeam_Light"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfSquad"];
+ZMM_WESTMan = ["B_Soldier_F","B_soldier_LAT_F","B_Soldier_F","B_soldier_AR_F","B_Soldier_F","B_Soldier_TL_F","B_Soldier_F",selectRandom["B_Soldier_AA_F","B_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Motorized" >> "BUS_MotInf_Reinforce"];
 _Light = ["B_MRAP_01_gmg_F","B_MRAP_01_hmg_F","B_LSV_01_AT_F","B_LSV_01_armed_F"];
 _Medium = [["B_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
@@ -60,11 +55,9 @@ _Heavy = [["B_APC_Tracked_01_AA_F","[_grpVeh,false,['showCamonetTurret',0.3,'sho
 _Air = ["B_Heli_Light_01_F","B_Heli_Transport_01_F",["B_Heli_Transport_03_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
 _CAS = ["B_Heli_Light_01_dynamicLoadout_F",["B_Heli_Attack_01_dynamicLoadout_F","_grpVeh setPylonLoadout [3,'PylonRack_12Rnd_missiles'];_grpVeh setPylonLoadout [4,'PylonRack_12Rnd_missiles'];"],["B_Plane_CAS_01_dynamicLoadout_F","_grpVeh setPylonLoadout [3,'PylonRack_7Rnd_Rocket_04_HE_F'];_grpVeh setPylonLoadout [4,'PylonMissile_1Rnd_Mk82_F'];_grpVeh setPylonLoadout [5,'PylonMissile_1Rnd_BombCluster_03_F'];_grpVeh setPylonLoadout [6,'PylonMissile_1Rnd_BombCluster_03_F'];_grpVeh setPylonLoadout [7,'PylonMissile_1Rnd_Mk82_F'];_grpVeh setPylonLoadout [8,'PylonRack_7Rnd_Rocket_04_AP_F'];"]];
 
+
 // WEST - NATO (WOODLAND)
-ZMM_WESTMan = ["B_W_Soldier_F","B_W_soldier_LAT_F","B_W_Soldier_F","B_W_soldier_AR_F","B_W_Soldier_F","B_W_Soldier_TL_F","B_W_Soldier_F","B_W_Soldier_AA_F","B_W_Soldier_F","B_W_Soldier_LAT2_F"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "BLU_W_F" >> "Infantry" >> "B_W_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "BLU_W_F" >> "Infantry" >> "B_W_InfTeam"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "BLU_W_F" >> "Infantry" >> "B_W_InfSquad"];
+ZMM_WESTMan = ["B_W_Soldier_F","B_W_soldier_AR_F","B_W_Soldier_F","B_W_Soldier_TL_F","B_W_Soldier_F","B_W_Soldier_LAT2_F","B_W_Soldier_F",selectRandom["B_W_Soldier_AA_F","B_W_Soldier_AT_F"]];
 _Truck = ["B_T_Truck_01_covered_F"];
 _Light = ["B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
 _Medium = [["B_T_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_T_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
@@ -74,11 +67,8 @@ _CAS = ["B_Heli_Light_01_dynamicLoadout_F","B_Heli_Attack_01_dynamicLoadout_F"];
 
 // WEST - FIA (VANILLA)
 _side = WEST;
-ZMM_WESTMan = ["B_G_Soldier_LAT_F","B_G_Soldier_F","B_G_Soldier_SL_F","B_G_Soldier_AR_F"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "B_G_InfTeam_Light"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "B_G_InfTeam_Light"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "B_G_InfSquad_Assault"];
-_Truck = ["B_G_Van_01_transport_F"];
+ZMM_WESTMan = ["B_G_Soldier_F","B_G_Soldier_LAT_F","B_G_Soldier_F","B_G_Soldier_SL_F","B_G_Soldier_F","B_G_Soldier_AR_F"];
+Truck = ["B_G_Van_01_transport_F"];
 _Light = ["B_G_Offroad_01_AT_F","B_G_Offroad_01_armed_F"];
 _Medium = [["I_APC_Wheeled_03_cannon_F","[_grpVeh,['Guerilla_02',1],['showSLATHull',0.3]] call BIS_fnc_initVehicle;"]];
 _Heavy = [["I_APC_Wheeled_03_cannon_F","[_grpVeh,['Guerilla_02',1],['showSLATHull',0.7]] call BIS_fnc_initVehicle;"]];
@@ -87,11 +77,8 @@ _CAS = [["B_Heli_Light_01_dynamicLoadout_F","_grpVeh setObjectTextureGlobal [0, 
 
 // WEST - GENDARME (VANILLA)
 _side = WEST;
-ZMM_WESTMan = ["B_GEN_Soldier_F","B_GEN_Commander_F"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "Gendarmerie" >> "Infantry" >> "GENDARME_Inf_Patrol"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "Gendarmerie" >> "Infantry" >> "GENDARME_Inf_Patrol"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "Gendarmerie" >> "Infantry" >> "GENDARME_Inf_Patrol"];
-_Truck = ["B_GEN_Van_02_transport_F"];
+ZMM_WESTMan = ["B_GEN_Soldier_F","B_GEN_Commander_F","B_GEN_Soldier_F","B_GEN_Soldier_F"];
+Truck = ["B_GEN_Van_02_transport_F"];
 _Light = [["B_G_Offroad_01_armed_F","[_grpVeh,false,['HideDoor1',0,'HideDoor2',0,'HideDoor3',0,'HideBackpacks',1,'HideBumper1',0,'HideBumper2',1,'HideConstruction',0]] call BIS_fnc_initVehicle;_grpVeh setObjectTextureGlobal [0,'\A3\Soft_F_Exp\Offroad_01\Data\Offroad_01_ext_gen_CO.paa']"]];
 _Medium =[["O_MRAP_02_hmg_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];"]];
 _Heavy = [["O_T_APC_Wheeled_02_rcws_ghex_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [4,'#(rgb,8,8,3)color(0,0,0,1)'];"]];
@@ -100,10 +87,7 @@ _CAS = [];
 
 // EAST - CSAT TANOA (VANILLA)
 _side = EAST;
-ZMM_EASTMan = ["O_T_Soldier_F","O_T_Soldier_LAT_F","O_T_Soldier_GL_F","O_T_Soldier_AR_F"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfSquad"];
+ZMM_EASTMan = ["O_T_Soldier_F","O_T_Soldier_LAT_F","O_T_Soldier_F","O_T_Soldier_GL_F","O_T_Soldier_F","O_T_Soldier_AR_F","O_T_Soldier_F",selectRandom["O_T_Soldier_AA_F","O_T_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_Reinforcements"];
 _Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
 _Medium = [["O_T_APC_Wheeled_02_rcws_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
@@ -113,10 +97,7 @@ _CAS = [["O_T_VTOL_02_infantry_dynamicLoadout_F","_grpVeh setPylonLoadout [1,'Py
 
 // EAST - CSAT (VANILLA)
 _side = EAST;
-ZMM_EASTMan = ["O_Soldier_F","O_Soldier_LAT_F","O_Soldier_GL_F","O_Soldier_AR_F"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad"];
+ZMM_EASTMan = ["O_Soldier_F","O_Soldier_LAT_F","O_Soldier_F","O_Soldier_GL_F","O_Soldier_F","O_Soldier_AR_F","O_Soldier_F",selectRandom["O_Soldier_AA_F","O_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized" >> "OIA_MotInf_Reinforce"];
 _Light = ["O_MRAP_02_hmg_F","O_LSV_02_armed_F"];
 _Medium = [["O_APC_Wheeled_02_rcws_v2_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_APC_Tracked_02_cannon_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
@@ -126,23 +107,17 @@ _CAS = [["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Hex',1]] call BIS_f
 
 // EAST - SPETSNAZ (VANILLA)
 _side = EAST;
-ZMM_EASTMan = ["O_R_Soldier_TL_F","O_R_Soldier_AR_F","O_R_Soldier_LAT_F","O_R_Soldier_GL_F"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_R_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_R_InfTeam"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_R_InfSquad"];
+ZMM_EASTMan = ["O_R_Soldier_TL_F","O_R_soldier_M_F","O_R_Soldier_AR_F","O_R_JTAC_F","O_R_medic_F","O_R_Soldier_LAT_F","O_R_Soldier_GL_F"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_T_MotInf_Reinforcements"];
 _Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
 _Medium = [["O_T_APC_Wheeled_02_rcws_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 _Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 _Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_bench_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
-_CAS = ["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
+_CAS = [["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
 
 // EAST - FIA (VANILLA)
 _side = EAST;
-ZMM_EASTMan = ["O_G_Soldier_SL_F","O_G_Soldier_AR_F","O_G_Soldier_LAT_F","O_G_Soldier_F"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "OPF_G_F" >> "Infantry" >> "O_G_InfTeam_Light"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "OPF_G_F" >> "Infantry" >> "O_G_InfTeam_Light"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "OPF_G_F" >> "Infantry" >> "O_G_InfSquad_Assault"];
+ZMM_EASTMan = ["O_G_Soldier_SL_F","O_G_Soldier_F","O_G_Soldier_AR_F","O_G_Soldier_F","O_G_Soldier_LAT_F","O_G_Soldier_F"];
 _Truck = ["O_G_Van_01_transport_F"];
 _Light = ["O_G_Offroad_01_armed_F","O_G_Offroad_01_AT_F"];
 _Medium = [["I_LT_01_cannon_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
@@ -162,10 +137,7 @@ _CAS = [["I_Heli_light_03_dynamicLoadout_F","[_grpVeh,['Green',1],TRUE] call BIS
 
 // GUER - AAF (VANILLA)
 _side = INDEPENDENT;
-ZMM_GUERMan = ["I_Soldier_F","I_Soldier_LAT_F","I_Soldier_GL_F","I_Soldier_AR_F"];
-_Sentry = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "HAF_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "I_InfTeam_Light"];
-_Squad = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "HAF_InfSquad"];
+ZMM_GUERMan = ["I_Soldier_F","I_Soldier_LAT2_F","I_Soldier_F","I_Soldier_GL_F","I_Soldier_F","I_Soldier_AR_F","I_Soldier_F",selectRandom["I_Soldier_AA_F","I_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Motorized" >> "HAF_MotInf_Reinforce"];
 _Light = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];
 _Medium = [["I_LT_01_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_APC_Wheeled_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_APC_tracked_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3,'showSLATHull',0.5,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"]];
@@ -175,10 +147,7 @@ _CAS = ["I_Heli_light_03_dynamicLoadout_F","I_Plane_Fighter_03_dynamicLoadout_F"
 
 // GUER - LDF (VANILLA)
 _side = INDEPENDENT;
-ZMM_GUERMan = ["I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldier_AR_F","I_E_Soldier_TL_F"];
-_Sentry = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Infantry" >> "I_E_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Infantry" >> "I_E_InfTeam"];
-_Squad = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Infantry" >> "I_E_InfSquad"];
+ZMM_GUERMan = ["I_E_Soldier_F","I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldier_AR_F","I_E_Soldier_F","I_E_Soldier_TL_F","I_E_Soldier_F",selectRandom["I_E_Soldier_AA_F","I_E_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Motorized" >> "I_E_MotInf_Reinforcements"];
 _Light = [["I_MRAP_03_HMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"],["I_MRAP_03_GMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"]];
 _Medium = [["I_LT_01_cannon_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
@@ -193,9 +162,6 @@ _CAS = ["I_E_Heli_light_03_dynamicLoadout_F"];
 // WEST - CDF (RHS)
 _side = WEST;
 ZMM_WESTMan = ["rhsgref_cdf_b_reg_machinegunner","rhsgref_cdf_b_reg_rifleman","rhsgref_cdf_b_reg_grenadier","rhsgref_cdf_b_reg_grenadier_rpg"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_cdf_b_ground" >> "rhsgref_group_cdf_b_reg_infantry" >> "rhsgref_group_cdf_b_reg_infantry_squad"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_cdf_b_ground" >> "rhsgref_group_cdf_b_reg_infantry" >> "rhsgref_group_cdf_b_reg_infantry_squad"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_cdf_b_ground" >> "rhsgref_group_cdf_b_reg_infantry" >> "rhsgref_group_cdf_b_reg_infantry_squad"];
 _Truck = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_cdf_b_ground" >> "rhs_group_cdf_b_gaz66" >> "rhs_group_cdf_b_gaz66_squad", configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_cdf_b_ground" >> "rhs_group_cdf_b_ural" >> "rhs_group_cdf_b_ural_squad"];
 _Light = ["rhsgref_cdf_b_reg_uaz_ags","rhsgref_cdf_b_reg_uaz_dshkm","rhsgref_cdf_b_reg_uaz_spg9"];
 _Medium = ["rhsgref_cdf_b_btr70","rhsgref_cdf_b_bmp2k","rhsgref_cdf_b_bmd1k","rhsgref_cdf_b_bmd2k"];
@@ -206,9 +172,6 @@ _CAS = ["rhsgref_cdf_b_Mi35","rhsgref_cdf_b_su25"];
 // WEST - US ARMY D (RHS)
 _side = WEST;
 ZMM_WESTMan = ["rhsusf_army_ocp_rifleman","rhsusf_army_ocp_machinegunner","rhsusf_army_ocp_grenadier","rhsusf_army_ocp_riflemanat","rhsusf_army_ocp_squadleader"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_team"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_team"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_squad"];
 _Truck = [configFile >> "CfgGroups" >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_RG33" >> "rhs_group_nato_usarmy_d_RG33_m2_squad", configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_RG33" >> "rhs_group_nato_usarmy_d_RG33_squad"];
 _Light = ["rhsusf_m1025_d_m2","rhsusf_m1025_d_Mk19"];
 _Medium = ["rhsusf_m113d_usarmy","rhsusf_m113d_usarmy_MK19"];
@@ -219,9 +182,6 @@ _CAS = ["RHS_MELB_AH6M","RHS_AH64DGrey","RHS_AH1Z"];
 // WEST - US ARMY W (RHS)
 _side = WEST;
 ZMM_WESTMan = ["rhsusf_army_ucp_rifleman","rhsusf_army_ucp_machinegunner","rhsusf_army_ucp_grenadier","rhsusf_army_ucp_riflemanat","rhsusf_army_ucp_squadleader"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_team"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_team"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_squad"];
 _Truck = [configFile >> "CfgGroups" >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_RG33" >> "rhs_group_nato_usarmy_wd_RG33_m2_squad", configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_RG33" >> "rhs_group_nato_usarmy_wd_RG33_squad"];
 _Light = ["rhsusf_m1025_w_m2","rhsusf_m1025_w_Mk19"];
 _Medium = ["rhsusf_m113_usarmy","rhsusf_m113_usarmy_MK19"];
@@ -232,9 +192,6 @@ _CAS = ["RHS_MELB_AH6M","RHS_AH64D_wd"];
 // WEST - HORIZON (RHS)
 _side = WEST;
 ZMM_WESTMan = ["rhsgref_hidf_grenadier","rhsgref_hidf_squadleader","rhsgref_hidf_autorifleman"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_hidf" >> "rhsgref_group_hidf_infantry" >> "rhs_group_hidf_infantry_team"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_hidf" >> "rhsgref_group_hidf_infantry" >> "rhs_group_hidf_infantry_team"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "rhsgref_faction_hidf" >> "rhsgref_group_hidf_infantry" >> "rhsgref_group_hidf_infantry_squad"];
 _Truck = ["rhsgref_hidf_m998_4dr"];
 _Light = ["rhsgref_hidf_m1025_m2","rhsgref_hidf_m1025_mk19"];
 _Medium = ["rhsgref_hidf_m113a3_m2","rhsgref_hidf_m113a3_mk19"];
@@ -245,9 +202,6 @@ _CAS = ["RHS_MELB_AH6M","RHS_AH64D_wd"];
 // EAST - RU MSV (RHS)
 _side = EAST;
 ZMM_EASTMan = ["rhs_msv_rifleman","rhs_msv_grenadier","rhs_msv_rifleman","rhs_msv_LAT","rhs_msv_rifleman","rhs_msv_grenadier_rpg","rhs_msv_rifleman","rhs_msv_machinegunner"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry" >> "rhs_group_rus_msv_infantry_MANEUVER"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry" >> "rhs_group_rus_msv_infantry_fireteam"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry" >> "rhs_group_rus_msv_infantry_squad"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_Ural" >> "rhs_group_rus_msv_Ural_squad", configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_gaz66" >> "rhs_group_rus_msv_gaz66_squad"];
 _Light = ["rhs_tigr_sts_msv","rhsgref_nat_uaz_dshkm","rhsgref_nat_uaz_ags","rhsgref_nat_uaz_spg9"];
 _Medium = ["rhs_btr80a_msv","rhs_btr70_msv","rhs_btr80_msv"];
@@ -258,9 +212,6 @@ _CAS = ["RHS_Mi24P_vvsc","RHS_Ka52_vvsc"];
 // EAST - RU DESERT (RHS)
 _side = EAST;
 ZMM_EASTMan = ["rhs_vdv_mflora_rifleman","rhs_vdv_mflora_at","rhs_vdv_mflora_grenadier","rhs_vdv_mflora_sergeant","rhs_vdv_mflora_machinegunner"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry_mflora"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry_mflora"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry_mflora"];
 _Truck = [["RHS_Ural_VDV_01","[_grpVeh,['rhs_sand',1]] call BIS_fnc_initVehicle;"]];
 _Light = [["RHS_Ural_Zu23_VDV_01","[_grpVeh,['rhs_sand',1]] call BIS_fnc_initVehicle;"],["rhs_btr70_vdv","[_grpVeh,['rhs_sand',1]] call BIS_fnc_initVehicle;"]];
 _Medium = [["rhs_bmd2","[_grpVeh,['Desert',1]] call BIS_fnc_initVehicle;"],["rhs_bmp1k_vdv","[_grpVeh,['rhs_sand',1]] call BIS_fnc_initVehicle;"]];
@@ -271,9 +222,6 @@ _CAS = [["RHS_Mi24V_vvs","_grpVeh setPylonLoadout [5,'']; _grpVeh setPylonLoadou
 // EAST - TAKI (ZEU)
 _side = EAST;
 ZMM_EASTMan = ["O_Taki_soldier_TL_F","O_Taki_soldier_R26_F","O_Taki_soldier_R_AK103_F","O_Taki_soldier_R_AK105_F"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "Taki_Opfor" >> "Infantry" >> "Taki_Sentry"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "Taki_Opfor" >> "Infantry" >> "Taki_AssaultTeam"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "Taki_Opfor" >> "Infantry" >> "Taki_RifleSquad"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "Taki_Opfor" >> "Motorized" >> "Taki_MountedWarband"];
 _Light = ["Taki_Ural_Zu23_F","Taki_UAZ_ags30_F","Taki_UAZ_dshkm_F","Taki_UAZ_spg9_F"];
 _Medium = ["Taki_bmd1_F","Taki_bmp1_F"];
@@ -284,9 +232,6 @@ _CAS = ["Taki_mi8_armed_F"];
 // GUER - SAF (RHS)
 _side = INDEPENDENT;
 ZMM_GUERMan = ["rhssaf_army_m93_oakleaf_summer_spec_aa","rhssaf_army_m93_oakleaf_summer_spec_at","rhssaf_army_m93_oakleaf_summer_sq_lead","rhssaf_army_m93_oakleaf_summer_ft_lead","rhssaf_army_m93_oakleaf_summer_rifleman_m70","rhssaf_army_m93_oakleaf_summer_mgun_m84","rhssaf_army_m93_oakleaf_summer_gl","rhssaf_army_m93_oakleaf_summer_rifleman_at"];
-_Sentry = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhsgref_group_chdkz_ins_gurgents_infantry" >> "rhsgref_group_chdkz_infantry_mg"];
-_Team = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhsgref_group_chdkz_ins_gurgents_infantry" >> "rhsgref_group_chdkz_infantry_patrol"];
-_Squad = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhsgref_group_chdkz_ins_gurgents_infantry" >> "rhsgref_group_chdkz_ins_gurgents_squad"];
 _Truck = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhs_group_indp_ins_g_ural" >> "rhs_group_chdkz_ural_squad"];
 _Light = ["rhsgref_nat_uaz_ags","rhsgref_nat_uaz_spg9","rhsgref_nat_uaz_dshkm"];
 _Medium = ["rhsgref_nat_btr70"];
@@ -297,9 +242,6 @@ _CAS = ["rhsgref_ins_g_Mi8amt"];
 // GUER - REBELS (RHS)
 _side = INDEPENDENT;
 ZMM_GUERMan = ["rhsgref_ins_g_rifleman","rhsgref_ins_g_machinegunner","rhsgref_ins_g_grenadier","rhsgref_ins_g_rifleman_RPG26"];
-_Sentry = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhsgref_group_chdkz_ins_gurgents_infantry" >> "rhsgref_group_chdkz_infantry_mg"];
-_Team = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhsgref_group_chdkz_ins_gurgents_infantry" >> "rhsgref_group_chdkz_infantry_patrol"];
-_Squad = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhsgref_group_chdkz_ins_gurgents_infantry" >> "rhsgref_group_chdkz_ins_gurgents_squad"];
 _Truck = [configFile >> "CfgGroups" >> "Indep" >> "rhsgref_faction_chdkz_g" >> "rhs_group_indp_ins_g_ural" >> "rhs_group_chdkz_ural_squad"];
 _Light = ["rhsgref_ins_g_uaz_ags","rhsgref_ins_g_uaz_dshkm_chdkz","rhsgref_ins_g_uaz_spg9"];
 _Medium = ["rhsgref_ins_g_btr70"];
@@ -315,9 +257,6 @@ _CAS = [["RHS_Mi8MTV3_vvs","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
 // East Germany - Winter
 _side = EAST;
 ZMM_EASTMan = ["gm_gc_army_antitank_mpiak74n_rpg7_80_win","gm_gc_army_machinegunner_pk_80_win","gm_gc_army_rifleman_mpiak74n_80_win","gm_gc_army_squadleader_mpiak74n_80_win"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_str"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_str",configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_str"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_infantry_80" >> "gm_gc_army_infantry_squad_win"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army_win" >> "gm_motorizedinfantry_80" >> "gm_gc_army_motorizedinfantly_squad_ural4320_cargo"];
 _Light = ["gm_gc_army_brdm2_olw"];
 _Medium = ["gm_gc_army_bmp1sp2_olw","gm_gc_army_btr60pa_olw"];
@@ -328,9 +267,6 @@ _CAS = [];
 // East Germany - Summer
 _side = EAST;
 ZMM_EASTMan = ["gm_gc_army_rifleman_mpiak74n_80_str","gm_gc_army_squadleader_mpiak74n_80_str","gm_gc_army_machinegunner_pk_80_str","gm_gc_army_antitank_mpiak74n_rpg7_80_str","gm_gc_army_squadleader_mpiak74n_80_str"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_borderguards" >> "gm_gc_bgs_infantry_post_str"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_str",configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_str"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_infantry_80" >> "gm_gc_army_infantry_squad_str"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_gc_army" >> "gm_motorizedinfantry_80" >> "gm_gc_army_motorizedinfantly_squad_ural4320_cargo"];
 _Light = ["gm_gc_army_brdm2"];
 _Medium = ["gm_gc_army_bmp1sp2","gm_gc_army_btr60pa"];
@@ -341,9 +277,6 @@ _CAS = [];
 // West Germany - Summer
 _side = WEST;
 ZMM_WESTMan = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_80_ols"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_80_ols",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_80_ols"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_squad_80_ols"];
 _Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_motorizedinfantry_80" >> "gm_ge_army_motorizedInfantry_squad_u1300l"];
 _Light = ["gm_ge_army_iltis_milan"];
 _Medium = ["gm_ge_army_fuchsa0_engineer","gm_ge_army_m113a1g_apc"];
@@ -354,9 +287,6 @@ _CAS = [];
 // West Germany - Winter
 _side = WEST;
 ZMM_WESTMan = ["gm_ge_army_machinegunner_mg3_parka_80_win","gm_ge_army_rifleman_g3a3_parka_80_win","gm_ge_army_squadleader_g3a3_p2a1_parka_80_win","gm_ge_army_grenadier_g3a3_parka_80_win"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_parka_80_win"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_parka_80_win",configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_parka_80_win"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_infantry_80" >> "gm_ge_army_infantry_squad_parka_80_win"];
 _Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_motorizedinfantry_80" >> "gm_ge_army_motorizedInfantry_squad_u1300l"];
 _Light = ["gm_ge_army_iltis_milan_win"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_win","gm_ge_army_m113a1g_apc_win"];
@@ -367,9 +297,6 @@ _CAS = [];
 // West Germany - Tropical
 _side = WEST;
 ZMM_WESTMan = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_80_ols"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_80_ols",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_80_ols"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_squad_80_ols"];
 _Truck = [["gm_ge_army_u1300l_cargo","[_grpVeh,['gm_ge_trp',1]] call BIS_fnc_initVehicle;"]];
 _Light = ["gm_ge_army_iltis_milan_trp"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_trp","gm_ge_army_m113a1g_apc_trp"];
@@ -380,9 +307,6 @@ _CAS = [];
 // West Germany - Desert
 _side = WEST;
 ZMM_WESTMan = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"];
-_Sentry = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_80_ols"];
-_Team = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_atgroup_80_ols",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_80_ols"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_squad_80_ols"];
 _Truck = [["gm_ge_army_u1300l_cargo","[_grpVeh,['gm_ge_des',1]] call BIS_fnc_initVehicle;"]];
 _Light = ["gm_ge_army_iltis_milan_des"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_des","gm_ge_army_m113a1g_apc_des"];
@@ -393,9 +317,6 @@ _CAS = [];
 // Poland - Winter
 _side = EAST;
 ZMM_EASTMan = ["gm_pl_army_rifleman_akm_80_win","gm_pl_army_squadleader_akm_80_win","gm_pl_army_machinegunner_pk_80_win","gm_pl_army_antitank_akm_rpg7_80_win"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_infantry_80" >> "gm_pl_army_infantry_mggroup_80_win"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_infantry_80" >> "gm_pl_army_infantry_atgroup_80_win"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_infantry_80" >> "gm_pl_army_infantry_squad_80_win"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_motorizedinfantry_80" >> "gm_pl_army_motorizedinfantly_squad_ural4320_cargo_80"];
 _Light = ["gm_pl_army_brdm2_olw"];
 _Medium = ["gm_pl_army_bmp1sp2_olw","gm_pl_army_ot64a_olw"];
@@ -406,9 +327,6 @@ _CAS = [];
 // Poland - Summer
 _side = EAST;
 ZMM_EASTMan = ["gm_pl_army_rifleman_akm_80_autumn_moro","gm_pl_army_squadleader_akm_80_autumn_moro","gm_pl_army_machinegunner_pk_80_autumn_moro","gm_pl_army_antitank_akm_rpg7_80_autumn_moro"];
-_Sentry = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_infantry_80" >> "gm_pl_army_infantry_mggroup_80_moro"];
-_Team = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_infantry_80" >> "gm_pl_army_infantry_atgroup_80_moro"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_infantry_80" >> "gm_pl_army_infantry_squad_80_moro"];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_motorizedinfantry_80" >> "gm_pl_army_motorizedinfantly_squad_ural4320_cargo_80"];
 _Light = ["gm_pl_army_brdm2"];
 _Medium = ["gm_pl_army_bmp1sp2","gm_pl_army_ot64a"];
@@ -419,9 +337,6 @@ _CAS = [];
 // GMX CDF - 1980
 _side = WEST;
 ZMM_WESTMan = ["gmx_cdf_army_antitank_ak74_rpg7_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_machinegunner_rpk_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_squadleader_ak74_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_rifleman_ak74_ttsko"];
-_Sentry = [[["gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_machinegunner_rpk_ttsko"]]];
-_Team = [configFile >> "CfgGroups" >> "West" >> "gmx_cdf" >> "gm_infantry" >> "gmx_cdf_army_infantry_atgroup_oli",configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_infantry_80" >> "gm_ge_army_infantry_mggroup_80_ols"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "gmx_cdf" >> "gm_infantry" >> "gmx_cdf_army_infantry_squad_ttsko"];
 _Truck = ["gmx_cdf_ural4320_cargo_wdl"];
 _Light = ["gmx_cdf_uaz469_spg9_wdl","gmx_cdf_uaz469_dshkm_wdl"];
 _Medium = ["gmx_cdf_btr60pb_wdl","gmx_cdf_bmp1sp2_wdl","gmx_cdf_brdm2_wdl"];
@@ -432,9 +347,6 @@ _CAS = ["gmx_cdf_mi2urn_wdl"];
 // GMX CDF - 2022
 _side = WEST;
 ZMM_WESTMan = ["gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_machinegunner_pk_digittsko","gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_antitank_trg21_pzf3_digittsko","gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_squadleader_trg21_digittsko"];
-_Sentry = [[["gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_machinegunner_pk_digittsko"]]];
-_Team = [configFile >> "CfgGroups" >> "West" >> "gmx_cdf2022" >> "gm_infantry" >> "gmx_cdf2022_army_infantry_mggroup_oli",configFile >> "CfgGroups" >> "West" >> "gmx_cdf2022" >> "gm_infantry" >> "gmx_cdf2022_army_infantry_atgroup_oli"];
-_Squad = [configFile >> "CfgGroups" >> "West" >> "gmx_cdf2022" >> "gm_infantry" >> "gmx_cdf2022_army_infantry_squad_digittsko"];
 _Truck = ["gmx_cdf2022_ural4320_cargo_wdl"];
 _Light = ["gmx_cdf2022_uaz469_dshkm_wdl","gmx_cdf2022_uaz469_spg9_wdl"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_trp","gm_ge_army_m113a1g_apc_trp"];
@@ -445,9 +357,6 @@ _CAS = ["gmx_cdf2022_mi2urn_wdl"];
 // GMX ChDkz
 _side = EAST;
 ZMM_EASTMan = ["gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_squadleader_akm_win","gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_antitank_akm_rpg7_mix","gmx_chdkz_army_machinegunner_rpk_mix","gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_grenadier_akm_pallad_mix"];
-_Sentry = [[["gmx_chdkz_army_machinegunner_rpk_mix","gmx_chdkz_army_rifleman_akm_mix"]]];
-_Team = [configFile >> "CfgGroups" >> "East" >> "gmx_chdkz" >> "gm_infantry" >> "gmx_chdkz_army_infantry_atgroup_oli",configFile >> "CfgGroups" >> "East" >> "gmx_chdkz" >> "gm_infantry" >> "gmx_chdkz_army_infantry_mggroup_oli"];
-_Squad = [configFile >> "CfgGroups" >> "East" >> "gmx_chdkz" >> "gm_infantry" >> "gmx_chdkz_army_infantry_squad_mix"];
 _Truck = ["gmx_chdkz_ural4320_cargo_wdr"];
 _Light = ["gmx_chdkz_uaz469_dshkm_wdr","gmx_chdkz_uaz469_spg9_wdr"];
 _Medium = ["gmx_chdkz_bmp1sp2_wdr","gmx_chdkz_brdm2_wdr","gmx_chdkz_btr60pb_wdr","gmx_chdkz_ot64a_wdr"];
@@ -459,14 +368,21 @@ _CAS = ["gmx_chdkz_mi2urn_wdl"];
 _side = INDEPENDENT;
 ZMM_GUERMan = ["I_Soldier_F","I_Soldier_LAT_F","I_Soldier_GL_F","I_Soldier_AR_F"];
 _Sentry = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "HAF_InfSentry"];
-_Team = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "I_InfTeam_Light"];
-_Squad = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "HAF_InfSquad"];
-_Truck = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Motorized" >> "HAF_MotInf_Reinforce"];
 _Light = ["gmx_aaf_fuchsa0_engineer_wdl","gmx_aaf_iltis_milan_wdl"];
 _Medium = ["gmx_aaf_luchsa2_wdl","gmx_aaf_marder1a2_wdl"];
 _Heavy = ["gmx_aaf_gepard1a1_wdl","gmx_aaf_leopard1a5_wdl","gmx_aaf_leopard1a5_wdl"];
 _Air = [["I_Heli_light_03_unarmed_F","[_grpVeh,['Indep',1]] call BIS_fnc_initVehicle;"],"I_Heli_Transport_02_F", ["O_Heli_Light_02_unarmed_F","_grpVeh setObjectTextureGlobal [0,'\a3\air_f\Heli_Light_02\Data\heli_light_02_ext_indp_co.paa'];"], ["B_Heli_Light_01_F","_grpVeh setObjectTextureGlobal [0,'A3\Air_F\Heli_Light_01\Data\heli_light_01_ext_indp_co.paa'];"]];
 _CAS = ["I_Heli_light_03_dynamicLoadout_F","I_Plane_Fighter_03_dynamicLoadout_F",["O_Heli_Light_02_dynamicLoadout_F","_grpVeh setObjectTextureGlobal [0,'\a3\air_f\Heli_Light_02\Data\heli_light_02_ext_indp_co.paa']; _grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"]];
+
+// GM Revolutionaries
+_side = INDEPENDENT;
+ZMM_GUERMan = ["gm_xx_army_squadleader_m16a1_80_grn","gm_xx_army_rifleman_01_akm_alp","gm_xx_army_machinegunner_rpk_80_oli","gm_xx_army_assault_ak74nk_80_wdl","gm_xx_army_antitank_hk53a2_rpg7_80_oli"];
+_Truck = [["gmx_chdkz_ural4320_cargo_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_initVehicle;"]];
+_Light = [[["gmx_chdkz_uaz469_dshkm_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_initVehicle;"]],[["gmx_chdkz_uaz469_spg9_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_initVehicle;"]]];
+_Medium = [[["gmx_chdkz_btr60pb_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_initVehicle;"]]];
+_Heavy = [[["gmx_chdkz_bmp1sp2_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_initVehicle;"]],[["gmx_chdkz_t55_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_initVehicle;"]]];
+_Air = ["gmx_chdkz_mi2p_wdl"];
+_CAS = ["gmx_chdkz_mi2urn_wdl"];
 
 */
 
@@ -482,10 +398,10 @@ zmm_fnc_spawnUnit = {
 		["_tries", 1]
 	];
 
-	if (_unitClass isEqualTo "") exitWith { diag_log format["SpawnUnit - Empty Unit Passed: %1 (%2)", _unitClass, _side] };
+	if (_unitClass isEqualTo "") exitWith { diag_log format["[QRF] SpawnUnit - Empty Unit Passed: %1 (%2)", _unitClass, _side] };
 	if (_tries > 10) exitWith {};
 
-	systemChat format["SpawnUnit - Passed %1: %2 [%3] Try:%4", _targetPos, _unitClass, _side, _tries];
+	diag_log format["[QRF] SpawnUnit - Passed %1: %2 [%3] Try:%4", _targetPos, _unitClass, _side, _tries];
 
 	private _reinfGrp = grpNull;
 	private _grpVeh = objNull;
@@ -508,10 +424,17 @@ zmm_fnc_spawnUnit = {
 	private _startingPos = selectRandom _posArray;
 	_startingPos set [2,0];
 	_dir = _startingPos getDir _targetPos;
-	private _manArray = missionNamespace getVariable [format["ZMM_%1Man", _side], ["B_Soldier_F"]];
+	private _enemyMen = missionNamespace getVariable [format["ZMM_%1Man", _side], ["B_Soldier_F"]];
 
 	// If _unitClass is array, extract the custom init.
 	if (_unitClass isEqualType []) then { _customInit = _unitClass # 1; _unitClass = _unitClass # 0 };
+
+	// If _unitClass is a number, fill it with random units.
+	if (_unitClass isEqualType 1) then { 
+		private _enemyTeam = [];
+		for "_i" from 0 to (_unitClass - 1) do {  _enemyTeam set [_i, selectRandom _enemyMen] };
+		_unitClass = _enemyTeam;
+	};
 
 	// Check if _unitClass is an air vehicle.
 	_isAir = false;
@@ -528,7 +451,7 @@ zmm_fnc_spawnUnit = {
 	if (_unitClass isEqualType "") then {
 		_vehType = toLower getText (configFile >> "CfgVehicles" >> _unitClass >> "vehicleClass");
 		_vehName = toLower getText (configFile >> "CfgVehicles" >> _unitClass >> "displayName");
-		_grpVeh = createVehicle [_unitClass, _startingPos, [], 15, if _isAir then {"FLY"} else {"NONE"}];
+		_grpVeh = createVehicle [_unitClass, _startingPos, [], 0, if _isAir then {"FLY"} else {"NONE"}];
 		_grpVeh setVehicleLock "LOCKEDPLAYER";
 		[_grpVeh,[1, 0.5, 0.5]] remoteExec ["setVehicleTIPars"];
 
@@ -544,9 +467,9 @@ zmm_fnc_spawnUnit = {
 		
 		if (_vehType == "car" || (!canFire _grpVeh && !_isAir)) then {
 			_vehType = "car";
-			_soldierArr = [];
-		
-			for "_i" from 1 to (count (fullCrew [_grpVeh, "", true])) do { _soldierArr pushBack (selectRandom _manArray) };
+			private _soldierArr = [];
+			private _cargoNo = (count fullCrew [_grpVeh, "", true]) min 12;
+			for "_i" from 1 to _cargoNo do { _soldierArr pushBack (if (_cargoNo > 4) then { selectRandom _enemyMen } else { _enemyMen#0 }) }; // Random units for cargo
 		
 			_reinfGrp = [_grpVeh getPos [15, random 360], _side, _soldierArr] call BIS_fnc_spawnGroup;
 			_reinfGrp addVehicle _grpVeh;
@@ -585,7 +508,9 @@ zmm_fnc_spawnUnit = {
 	};
 
 	// Run custom init for vehicle (set camos etc).
-	if !(_customInit isEqualTo "") then { call compile _customInit; };
+	if !(isNil "_customInit") then { 
+		if !(_customInit isEqualTo "") then { call compile _customInit; };
+	};
 
 	if !_isAir then {
 		if (random 1 > 0.3) then {
@@ -641,14 +566,14 @@ zmm_fnc_spawnUnit = {
 		};
 	} else {
 		private _paraGrp = grpNull;
-		private _cargoNo = (count fullCrew [_grpVeh, "", true]) - (count fullCrew [_grpVeh, "", false]);
+		private _cargoNo = ((count fullCrew [_grpVeh, "", true]) - (count fullCrew [_grpVeh, "", false])) min 12;
 		
 		// No cargo seats so assume its CAS
 		if (_cargoNo > 1) then {
 			_reinfGrp setBehaviour "CARELESS";
 			_soldierArr = [];
 			
-			for "_i" from 1 to _cargoNo do { _soldierArr pushBack (selectRandom _manArray) };
+			for "_i" from 1 to _cargoNo do { _soldierArr pushBack (selectRandom _enemyMen) };
 
 			_paraGrp = [[0,0,0], _side, _soldierArr] call BIS_fnc_spawnGroup;
 			
@@ -693,7 +618,7 @@ zmm_fnc_spawnUnit = {
 				private _time = time + 600;
 				while {	alive (vehicle leader _rGrp) && time < _time } do {
 					uiSleep 30;
-					{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select {_x distance2D leader _rGrp < 2500 && vehicle _x == _x && stance _x != "PRONE" });
+					{ if (_rGrp knowsAbout _x < 4) then { _rGrp reveal [_x, 4] } } forEach (allPlayers select {_x distance2D leader _rGrp < 2500 && stance _x != "PRONE" });
 				};
 			};
 		} else {
@@ -724,6 +649,139 @@ zmm_fnc_spawnUnit = {
 	{ _x addCuratorEditableObjects [(units _reinfGrp) + [_grpVeh], true] } forEach allCurators;
 
 	if (_sleep) then { sleep random 20 };
+};
+
+zmm_fnc_spawnPara = {
+	params [["_location", [0,0,0]], ["_side", EAST], ["_vehicle", ""]];
+
+	private _man = missionNamespace getVariable [format["ZMM_%1Man",_side],["O_Soldier_F"]];
+
+	sleep random 30;
+
+	private _groupMax = 99; // Maximum para groups
+	private _groupSize = 8; // Units number per para group
+
+	_startPos = _location getPos [3000, random 360];
+
+	// Split out init from class.
+	private _customInit = "";
+	if (_vehicle isEqualType []) then { _customInit = _vehicle # 1; _vehicle = _vehicle # 0 };
+
+	private _grpVeh = createVehicle [_vehicle, _startPos, [], 0, "FLY"];
+	private _dirTo =  _grpVeh getDir _location;
+	private _dirFrom =  (_grpVeh getDir _location) + 180;
+	_grpVeh setDir _dirTo;
+	//_grpVeh flyInHeight 200;
+
+	// Run the custom init 
+	if !(isNil "_customInit") then { 
+		if !(_customInit isEqualTo "") then { call compile _customInit; };
+	};
+
+	createVehicleCrew _grpVeh;
+	(group effectiveCommander _grpVeh) deleteGroupWhenEmpty true;
+
+	// Convert crew if using another sides vehicle.
+	if (([getNumber (configFile >> "CfgVehicles" >> _vehicle >> "Side")] call BIS_fnc_sideType) != _side) then {
+		_grp = createGroup [_side, true];
+		(crew _grpVeh) join _grp;
+	};
+
+	private _grp = group effectiveCommander _grpVeh;
+
+	// Find the number of seats we can hold
+	private _cargoMax = ([_vehicle, true] call BIS_fnc_crewCount) - ([_vehicle, false] call BIS_fnc_crewCount);
+
+	if (_cargoMax < 1) exitWith { _grpVeh setDamage 1 };
+
+	// Create Para Group
+	private _paraList = [];
+	private _cargoLeft = _cargoMax;
+
+	// Work out how many groups we can have without overfilling the vehicle.
+	for [{_i = 0}, {_i <= ceil (_cargoMax / _groupSize)}, {_i = _i + 1}] do {
+		if (_cargoLeft - _groupSize >= _groupSize) then {
+			_paraList set [_i,_groupSize];
+		} else {
+			// Only part of a group can be added, if its worth adding include it.
+			if (_cargoLeft > 2) then {
+				_paraList set [_i,_groupSize];
+			};
+		};
+		
+		_cargoLeft = _cargoLeft - _groupSize;
+	};
+
+	// If there are more groups than allowed, remove them.
+	if (count _paraList > _groupMax) then { _paraList resize _groupMax };
+
+	// Create the groups and store them in a variable
+	private _grpVehVar = [];
+	private _grpVehCount = 0;
+
+	{
+		private _paraUnits = [];	
+		for [{_i = 1}, {_i <= _x}, {_i = _i + 1}] do { _paraUnits pushBack (selectRandom _man) };
+
+		_grpPara = [[0,0,0], _side, _paraUnits] call BIS_fnc_spawnGroup;
+
+		{ _x moveInAny _grpVeh } forEach units _grpPara;
+		
+		_wp = _grpPara addWaypoint [_location, 0];
+		_wp setWaypointType 'SAD';
+		_wp = _grpPara addWaypoint [_location, 0];
+		_wp setWaypointType 'GUARD';
+		
+		sleep 0.5;
+
+		_grpVehVar pushBack _grpPara;
+		
+		_grpVehCount = _grpVehCount + _x;
+	} forEach _paraList;
+
+	_grpVeh setVariable ['var_dropGroup', _grpVehVar];
+
+	// Set pilot wayPoints
+	_wp = _grp addWaypoint [_startPos, 0];
+	_wp setWaypointType "MOVE";
+	_wp setWaypointSpeed "FULL";
+	_wp setWaypointBehaviour "CARELESS";
+	_wp setWaypointStatements ["true","(vehicle this) setPilotLight true;"];
+
+	// Set Pilots wayPoints
+
+	private  _dropStart = _location getPos [_grpVehCount * 25, _dirFrom];
+	private _tmp = createMarkerLocal ["dropStart", _dropStart];
+	_tmp setMarkerTypeLocal "mil_dot";
+	_tmp setMarkerTextLocal "Start";
+
+	_wp = _grp addWaypoint [_dropStart, 0];
+	_wp setWaypointType "MOVE";
+	_wp setWaypointStatements ["true","
+		(vehicle this) spawn {
+			{
+				{
+					unassignVehicle _x;
+					[_x] orderGetIn false;
+					moveOut _x; 
+					sleep 0.5;
+					_pc = createVehicle ['Steerable_Parachute_F', (getPosATL _x), [], 0, 'NONE'];
+					_pc setPosATL (getPosatl _x);
+					_vel = velocity _pc;
+					_dir = random 360;
+					_pc setVelocity [(_vel#0) + (sin _dir * 10),  (_vel#1) + (cos _dir * 10), (_vel#2)];
+					_x moveinDriver _pc;
+				} forEach (units _x);
+				sleep 1;
+			} forEach (_this getVariable ['var_dropGroup',[]]);
+		};
+	"];
+
+	private _dropDelete = _location getPos [3000, _dirTo];
+	_wp = _grp addWaypoint [_dropDelete, 0];
+	_wp setWaypointType "MOVE";
+	_wp setWaypointCompletionRadius 500;
+	_wp setWaypointStatements ["true","_delVeh = (vehicle this); { deleteVehicle (_x#0) } forEach (fullCrew _delVeh); deleteVehicle _delVeh; deleteGroup (group this);"];
 };
 
 // PREPERATION
@@ -778,17 +836,19 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 1}] do {
 
 // DEBUG: Show Spawn Markers in local
 {
-	_mrkr = createMarkerLocal [format ["mkr_road_%1", _forEachIndex], _x];
-	(format ["mkr_road_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
-	(format ["mkr_road_%1", _forEachIndex]) setMarkerColorLocal "ColorYellow";
-	(format ["mkr_road_%1", _forEachIndex]) setMarkerTextLocal format["R%1",_forEachIndex];
+	private _mrkr = createMarkerLocal [format ["mkr_road_%1", _forEachIndex], _x];
+	_mrkr setMarkerPosLocal _x;
+	_mrkr setMarkerTypeLocal "mil_dot";
+	_mrkr setMarkerColorLocal "ColorYellow";
+	_mrkr setMarkerTextLocal format["R%1",_forEachIndex];
 } forEach _spawnRoad;
 
 {
-	_mrkr = createMarkerLocal [format ["mkr_land_%1", _forEachIndex], _x];
-	(format ["mkr_land_%1", _forEachIndex]) setMarkerTypeLocal "mil_dot";
-	(format ["mkr_land_%1", _forEachIndex]) setMarkerColorLocal "ColorOrange";
-	(format ["mkr_land_%1", _forEachIndex]) setMarkerTextLocal format["L%1",_forEachIndex];
+	private _mrkr = createMarkerLocal [format ["mkr_land_%1", _forEachIndex], _x];
+	_mrkr setMarkerPosLocal _x;
+	_mrkr setMarkerTypeLocal "mil_dot";
+	_mrkr setMarkerColorLocal "ColorOrange";
+	_mrkr setMarkerTextLocal format["L%1",_forEachIndex];
 } forEach _spawnLand;
 
 // Adjust Difficulty
@@ -808,32 +868,33 @@ for [{_wave = 1}, {_wave < _waveMax}, {_wave = _wave + 1}] do {
 		case 1: {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawnRoad, _side, selectRandom (_Light + _Air)] call zmm_fnc_spawnUnit;
-			[_location, _spawnLand, _side, selectRandom _Team] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
+			
 		};
 		case 2: {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
 			[_location, _spawnRoad, _side, selectRandom (_Air + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawnLand, _side, selectRandom _Team] call zmm_fnc_spawnUnit;
+			[_location, _side, selectRandom _Air] call zmm_fnc_spawnPara;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
 		};
 		case 3: {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
 			[_location, _spawnRoad, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawnRoad, _side, selectRandom (_Medium + _CAS)] call zmm_fnc_spawnUnit;
-			[_location, _spawnLand, _side, selectRandom _Team] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
 		};
 		case 4: {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
-			[_location, _spawnRoad, _side, selectRandom (_Truck + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawnRoad, _side, selectRandom (_Heavy + _Air)] call zmm_fnc_spawnUnit;
-			[_location, _spawnLand, _side, selectRandom _Squad] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Air + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _side, selectRandom _Air] call zmm_fnc_spawnPara;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
 		};
 		default {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
 			[_location, _spawnRoad, _side, selectRandom (_Heavy + _Medium)] call zmm_fnc_spawnUnit;
-			[_location, _spawnRoad, _side, selectRandom (_Heavy + _CAS)] call zmm_fnc_spawnUnit;
-			[_location, _spawnLand, _side, selectRandom _Squad] call zmm_fnc_spawnUnit;
+			[_location, _spawnRoad, _side, selectRandom (_Heavy + _Medium)] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
+			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
 		};
 	};
 

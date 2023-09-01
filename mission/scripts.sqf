@@ -7,9 +7,7 @@ showSubtitles false; // No radio calls
 //enableEngineArtillery false; 	// Disable Artillery Computer
 //onMapSingleClick "_shift";	// Disable Map Clicking
 f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus features in MP.
-//f_var_fogOverride = [[0,0,0],[0.1,0.005,100],[0.1,0.04,100],[0.1,random 0.02,100]]; // Override default fog settings [[none],[Light],[heavy],[rand]].
-//[] spawn {sleep 1; tao_foldmap_isOpen = true;}; // Disable TAO Folding Map
-//[] spawn {sleep 5; ZEU_tkLog_mpKilledEH = {};}; // Disable Zeus TK Spam
+//f_var_fogOverride = [[0,0,0],[0.1,0.005,100],[0.9,0.0155,0],[0.1,random 0.02,100]]; // Override default fog settings [[none],[Light],[heavy],[rand]].
 // ====================================================================================
 // F3 - Casualty Cap - Sides: west | east | resistance - Format: [SIDE,ENDING,<PERCENT>]
 [nil, 2] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
@@ -18,9 +16,15 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 // [1,600,true,[],3000] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";	// Teleport Group, Leaders Only, Set for HALO (3000m Height)
 // [] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";						// Use Defaults (Teleport Group, Leaders Only, Land Teleport)
 // ====================================================================================
-// [RESISTANCE,"acc_flashlight"] execVM "scripts\flashLight.sqf";			// AI Flashlights
-// DAC_Basic_Value = 0; execVM "scripts\DAC\DAC_Config_Creator.sqf";		// DAC
-// [] execVM "scripts\civPopulation.sqf";									// Civ Spawner
+// [RESISTANCE,"acc_flashlight"] execVM "scripts\flashLight.sqf";	// AI Flashlights
+// DAC_Basic_Value = 0; execVM "scripts\DAC\DAC_Config_Creator.sqf";	// DAC
+// [] execVM "scripts\civPopulation.sqf";	// Civ Spawner
+// [] execVM "scripts\z_ambientUnits.sqf";	// Ambient Infantry
+// ====================================================================================
+// Hardcore Settings:
+// FAR_var_DeathMessages = false; // Disable TK Messages
+// f_var_ShowFTMarkers = false; // Disable FT Markers
+// [] spawn { sleep 1; f_param_groupMarkers = 0; setGroupIconsVisible [false, false]; tao_foldmap_isOpen = true; ZEU_tkLog_mpKilledEH = {}; };
 // ====================================================================================
 // Remove Enemy weapons on death
 /* if isServer then {
@@ -60,6 +64,7 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 			_bp = backpack _caller;
 			_bpi = backPackItems _caller;
 			removeBackpackGlobal _caller;
+			_caller allowDamage false;
 			waitUntil { backpack _caller == "" };
 			moveOut _caller;
 			ace_map_mapShake = true;
@@ -70,6 +75,7 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 			"dynamicBlur" ppEffectCommit 5;
 			_caller addBackpackGlobal "B_parachute";
 			waitUntil {sleep 0.1; (position _caller select 2) < 125 };
+			_caller allowDamage true;
 			if (vehicle _caller isEqualto _caller && alive _caller) then { _caller action ["openParachute", _caller] };
 			waitUntil {sleep 0.1; isTouchingGround _caller || (position _caller#2) < 1 };
 			_caller action ["eject", vehicle _caller];

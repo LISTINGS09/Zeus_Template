@@ -132,7 +132,7 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_MX_SW_Black_F"];
+_AR = ["arifle_MX_SW_Black_F","arifle_MX_SW_khk_F"];
 _ARmag = "100Rnd_65x39_caseless_black_mag";
 _ARmag_tr = "100Rnd_65x39_caseless_black_mag_Tracer";
 

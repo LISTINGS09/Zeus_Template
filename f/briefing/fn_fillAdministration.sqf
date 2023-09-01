@@ -19,13 +19,17 @@ params [["_diaryText", "", [""]]];
 
 if (_diaryText == "") then { _diaryText = _diaryText + "<br/><font size='18' color='#80FF00'>ADMINISTRATION</font><br/>The following text has been auto-generated from the mission modules and parameters.<br/>" };
 
-_diaryText = _diaryText + format["<br/>Framework Version: <font color='#00FFFF'>v%1</font><br/>%2<br/>",
+_diaryText = _diaryText + format["<br/>Framework Version: <font color='#00FFFF'>v%1</font><br/>%2%3%4%5%6<br/>",
 	missionNamespace getVariable ["f_var_version","0.00"],
-	if (!isNil "ZMM_Version") then { format["ZMM Version: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZMM_Version","0.00"]] } else { "" }
+	if (!isNil "ZMM_version") then { format["Mission Manager: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZMM_version","0.00"]] } else { "" },
+	if (!isNil "ZUP_version") then { format["Urban Patrol: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZUP_version","0.00"]] } else { "" },
+	if (!isNil "ZCS_version") then { format["Civilian Spawns: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZCS_version","0.00"]] } else { "" },
+	if (!isNil "ZRA_version") then { format["Radiation Areas: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZRA_version","0.00"]] } else { "" },
+	if (!isNil "ZAU_version") then { format["Ambient Units: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZAU_version","0.00"]] } else { "" }
 ];
 
 // ENVIRONMENT
-_diaryText = _diaryText + "<br/><font size='18' color='#80FF00'>ENVIRONMENT</font>";
+_diaryText = _diaryText + "<font size='18' color='#80FF00'>ENVIRONMENT</font>";
 
 private _startTime = missionNamespace getVariable ["f_var_timeOfDay", daytime];
 private _sunriseHr = 4;
@@ -85,11 +89,14 @@ _diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font>
 		overcast
 	];
 
-_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
+// If short view distance be default, then don't allow to override.
+if (viewDistance > 500) then {
+	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>
 		[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance increased to ' + str viewDistance + 'm');"">Increase</execute>]
 		[<execute expression=""setViewDistance (viewDistance - 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance decreased to ' + str viewDistance + 'm');"">Decrease</execute>]<br/>", 
 		viewDistance
 	];
+};
 		
 if ((player getVariable ["f_var_assignGear","r"]) in ["pp","ppc","pc","uav"]) then {
 	_diaryText = _diaryText + "Map Cover: <execute expression=""{ if (['zao_',_x] call BIS_fnc_inString) then { _x setMarkerAlphaLocal 0.1 } } forEach allMapMarkers;"">Hide</execute><br/>";
@@ -168,7 +175,7 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
 			
-			_diaryText = _diaryText + "<br/>Medical System: <execute expression=""if (time > 0) then { call FAR_fnc_unitInit };"">Reinitialise</execute> | <execute expression=""if (time > 0) then { [] spawn { player switchMove ""; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute><br/>";
+			_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 AND lifeState player isEqualto 'HEALTHY') then { [] spawn { systemChat 'Fixing Ragdoll'; player switchMove ''; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { systemChat 'Fixing Uniform'; player setUnitLoadout (getUnitLoadout player) } };"">Uniform Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { player action ['SwitchWeapon', player, player, 100]; } };"">Weapon on Back</execute><br/>";
 		};
 		
 		case 2: { // ACE
