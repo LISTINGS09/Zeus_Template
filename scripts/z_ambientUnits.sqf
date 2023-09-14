@@ -3,7 +3,7 @@
 // Generates Ambient Garrison and Patrols
 //
 // Usage: _nul = [] execVM "scripts\z_ambientUnits.sqf";
-ZAU_version = 0.3;
+ZAU_version = 0.4;
 if !isServer exitWith {};
 
 // Unit Variables
@@ -40,7 +40,7 @@ if (isNil "ZAU_UnitsMax" ) 		then { ZAU_UnitsMax = 60 };		// Max units active at
 if (isNil "ZAU_UnitsChance" ) 	then { ZAU_UnitsChance = 80 }; 	// Overall chance to spawn
 if (isNil "ZAU_UnitsGarrison" ) then { ZAU_UnitsGarrison = 2 }; // # of units in garrison
 if (isNil "ZAU_UnitsPatrol" ) 	then { ZAU_UnitsPatrol = 4 }; 	// # of units in patrols
-if (isNil "ZAU_SafeAreas" ) 	then { ZAU_SafeAreas = missionNamespace getVariable ["ZCS_var_BlackList",[]] }; // List of Safe Areas - Imported from ZMM
+if (isNil "ZAU_SafeAreas" ) 	then { ZAU_SafeAreas = (allMapMarkers select { "cover" in toLower _x || "safezone" in toLower _x }) + (missionNamespace getVariable ["ZCS_var_BlackList",[]]) };
 
 // Script Variables
 ZAU_Loop = true;
