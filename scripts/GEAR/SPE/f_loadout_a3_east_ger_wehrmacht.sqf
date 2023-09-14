@@ -3,7 +3,7 @@
 // ================================
 // GENERAL EQUIPMENT USED BY MULTIPLE CLASSES
 // ATTACHMENTS - PRIMARY
-_attach1 = ["acc_flashlight"];
+_attach1 = ["SPE_ACC_GW_SB_Empty"]; // GL Rifling
 _attach2 = "";
 
 _flashHider = "SPE_ACC_K98_Bayo";
@@ -21,9 +21,9 @@ _bipod1 = [""];
 _attachments = [_flashHider]; // The default attachment set for most units, overwritten in the individual unitType
 
 // Predefined Class Attachment Setup
-_attach_co = [];
+_attach_co = [_attach1];
 _attach_dc = []; // Also SL!
-_attach_fl = [];
+_attach_fl = [_attach1];
 _attach_mg = [];
 _attach_dm = [];
 _attach_sn = [];
@@ -113,8 +113,8 @@ _chem =  "SPE_Rauchsichtzeichen_Orange";
 _chemalt = "SPE_Rauchsichtzeichen_Orange";
 
 // Backpacks
-_bagsmall = "B_SPE_GER_A_frame_kit";
-_bagmedium = "B_SPE_GER_A_frame_MGCan_zelt";
+_bagsmall = "B_SPE_GER_A_frame_MGCan";
+_bagmedium = "B_SPE_GER_A_frame_MGCan";
 _baglarge =  "B_SPE_GER_Tonister41_Frame_Full";
 _bagmediumdiver =  "B_SPE_GER_Flammenwerfer_41";
 _baguav = "O_UAV_01_backpack_F";			// used by UAV operator
@@ -297,12 +297,10 @@ switch (_typeOfUnit) do
 	// LOADOUT: DEPUTY COMMANDER AND SQUAD LEADER
 	case "dc":
 	{
-		["g"] call _backpack;
-		_unit addMagazines [_glriflemag,_defMags];
-		_unit addMagazines [_glriflemag_tr,_defMags_tr];
-		_unit addMagazines [_glmag,3];
-		_unit addMagazines [_glsmoke,4];
-		[_unit, _glrifle] call f_fnc_addWeapon;
+		["smg"] call _backpack;
+		_unit addMagazines [_smgmag,_defMags];
+		_unit addMagazines [_smgmag_tr,_defMags_tr];
+		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_grenade,2];
 		_unit addMagazines [_smokegrenade,2];
 		_unit addMagazines [_smokegrenadealt,2];

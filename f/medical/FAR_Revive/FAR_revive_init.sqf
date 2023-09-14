@@ -1,4 +1,4 @@
-// Farooq's Revive 2.37 (2600K Edit)
+// Farooq's Revive 2.38 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.
@@ -10,7 +10,7 @@ if (isNil "FAR_var_reduceBleedOut")	then { FAR_var_reduceBleedOut = 30 };		// Wh
 if (isNil "FAR_var_RespawnBagTime") then { FAR_var_RespawnBagTime = 180 };		// Time for player to respawn (if allowed). Set to 0 or less to disable.
 if (isNil "FAR_var_ReviveMode") 	then { FAR_var_ReviveMode = 	2 };		// 0 = Only medics can revive  1 = All units can revive (Uses 1 FAK)  2 = Same as 1 but a medikit is required to revive
 if (isNil "FAR_var_DeathMessages")	then { FAR_var_DeathMessages = 	TRUE };		// Enable Team Kill notifications
-if (isNil "FAR_var_SpawnInMedical")	then { FAR_var_SpawnInMedical = TRUE };		// Units respawn in the nearest medical vehicle (if available and respawn enabled).
+if (isNil "FAR_var_SpawnInMedical")	then { FAR_var_SpawnInMedical = FALSE };	// Units respawn in the nearest medical vehicle (if available and respawn enabled).
 if (isNil "FAR_var_AICanHeal")		then { FAR_var_AICanHeal = FALSE };			// Nearest AI in team will automatically revive players.
 if (isNil "FAR_var_SkipSide")		then { FAR_var_SkipSide = [sideLogic] };	// Don't allow these sides to use the medical script.
 

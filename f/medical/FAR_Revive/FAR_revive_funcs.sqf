@@ -389,8 +389,14 @@ FAR_fnc_SetUnconscious = {
 			alive _unit && lifeState _unit == "INCAPACITATED"
 		} do {
 			if (isPlayer _unit) then  {		
-				hintSilent format["You have been stabilized\n\n%1", call FAR_fnc_CheckFriendlies];	
+				hintSilent format["You have been stabilized\n\n%1", call FAR_fnc_CheckFriendlies];				
 			};
+			
+			if !(headgear _unit in ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"]) then {
+				_unit setVariable ["FAR_var_headgear", headgear _unit];
+				_unit addHeadgear selectRandom ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"];
+			};
+			
 			// Handle stuck dragging player D/C
 			if ((_unit getVariable ["FAR_var_isDragged", false]) &&
 				!isNull (attachedTo _unit) &&
@@ -433,6 +439,11 @@ FAR_fnc_SetUnconscious = {
 		if (isPlayer _unit) then { ["Terminate"] call BIS_fnc_EGSpectator };
 		uiSleep 2;
 		
+		if (headgear _unit in ["H_HeadBandage_clean_F","H_HeadBandage_stained_F","H_HeadBandage_bloody_F"]) then {
+			removeHeadgear _unit;
+			if (_unit getVariable ["FAR_var_headgear", ""] != "") then { _unit addHeadgear (_unit getVariable "FAR_var_headgear") };
+		};
+		
 		// Clear the "medic nearby" hint
 		hintSilent "";
 		_unit setDamage 0;
@@ -441,7 +452,7 @@ FAR_fnc_SetUnconscious = {
 		_unit setCaptive false;
 		_unit setUnconscious false;
 		
-		uiSleep 1;
+		uiSleep 1;		
 		
 		_unit playAction "Stop";
 		

@@ -18,13 +18,13 @@ _scope4 = ["optic_LRPS","optic_AMS","optic_Nightstalker"]; // High
 _bipod1 = "bipod_01_F_blk";
 
 // Default setup
-_attachments = [_attach1]; // The default attachment set for most units, overwritten in the individual unitType
+_attachments = [_attach1,_scope1]; // The default attachment set for most units, overwritten in the individual unitType
 
 // Predefined Class Attachment Setup
 _attach_co = [_attach1,_scope1];
 _attach_dc = [_attach1,_scope1]; // Also SL!
-_attach_fl = [_attach1];
-_attach_mg = [_attach1,_bipod1];
+_attach_fl = [_attach1,_scope1];
+_attach_mg = [_attach1,_scope1,_bipod1];
 _attach_dm = [_scope2,_bipod1];
 _attach_sn = [_scope3,_bipod1];
 
