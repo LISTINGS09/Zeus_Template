@@ -30,7 +30,7 @@ f_radios_settings_longRangeGroups = ["Company", "Platoon 1", "Platoon 2", "Air",
 // ====================================================================================
 
 // Any units that get a PRC117F radio e.g. "co", "pp"
-f_radios_settings_acre2_extraRadios = ["co","dc","pp","vc"];
+f_radios_settings_acre2_extraRadios = ["pp","vc"];
 
 // Whether or not the radio frequencies should be shared as default. TRUE = Frequency separation across sides.
 f_radios_settings_acre2_SplitFrequencies = TRUE;
