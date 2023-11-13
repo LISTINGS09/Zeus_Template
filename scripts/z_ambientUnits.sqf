@@ -3,7 +3,7 @@
 // Generates Ambient Garrison and Patrols
 //
 // Usage: _nul = [] execVM "scripts\z_ambientUnits.sqf";
-ZAU_version = 0.4;
+ZAU_version = 0.7;
 if !isServer exitWith {};
 
 // Unit Variables
@@ -34,14 +34,14 @@ sleep 5;
 
 // User Variables
 if (isNil "ZAU_Debug" ) 		then { ZAU_Debug = false };		// Show Markers
-if (isNil "ZAU_DistMax" ) 		then { ZAU_DistMax = 700 };		// Max distance to find buildings.
-if (isNil "ZAU_DistMin" ) 		then { ZAU_DistMin = 500 }; 	// Min distance to spawn.
-if (isNil "ZAU_UnitsMax" ) 		then { ZAU_UnitsMax = 60 };		// Max units active at once.
-if (isNil "ZAU_UnitsChance" ) 	then { ZAU_UnitsChance = 80 }; 	// Overall chance to spawn
-if (isNil "ZAU_UnitsGarrison" ) then { ZAU_UnitsGarrison = 2 }; // # of units in garrison
-if (isNil "ZAU_UnitsPatrol" ) 	then { ZAU_UnitsPatrol = 4 }; 	// # of units in patrols
-if (isNil "ZAU_SafeAreas" ) 	then { ZAU_SafeAreas = (allMapMarkers select { "cover" in toLower _x || "safezone" in toLower _x }) + (missionNamespace getVariable ["ZCS_var_BlackList",[]]) };
-
+if (isNil "ZAU_DistMax" ) 		then { ZAU_DistMax = 600 };		// Max distance to find buildings.
+if (isNil "ZAU_DistMin" ) 		then { ZAU_DistMin = 400 }; 	// Min distance to spawn.
+if (isNil "ZAU_UnitsMax" ) 		then { ZAU_UnitsMax = 20 * (missionNamespace getVariable ["f_param_ZMMDiff", 1]) };		// Max units active at once.
+if (isNil "ZAU_UnitsChance" ) 	then { ZAU_UnitsChance = 60 }; 	// Overall chance to spawn
+if (isNil "ZAU_UnitsGarrison" ) then { ZAU_UnitsGarrison = 3 }; // # of units in garrison
+if (isNil "ZAU_UnitsPatrol" ) 	then { ZAU_UnitsPatrol = 3 }; 	// # of units in patrols
+if (isNil "ZAU_SleepTime" ) 	then { ZAU_SleepTime = 30 }; 	// Seconds between checks
+if (isNil "ZAU_SafeAreas" ) 	then { ZAU_SafeAreas = ((allMapMarkers select { "cover" in toLower _x || "safezone" in toLower _x}) - ["bis_fnc_moduleCoverMap_border"]) + (missionNamespace getVariable ["ZCS_var_BlackList",[]]) };
 // Script Variables
 ZAU_Loop = true;
 ZAU_UnitsActive = [];
@@ -65,7 +65,7 @@ while {ZAU_Loop} do {
 	{ 
 		if (_x find "mkr_ZAU_" > -1) then {
 			if ((_x find "mkr_ZAU_spawn_" > -1 || _x find "mkr_ZAU_tracker_" > -1) && markerAlpha _x > 0) then {
-				_x setMarkerAlphaLocal (markerAlpha _x - 0.05)
+				_x setMarkerAlphaLocal (markerAlpha _x - 0.01)
 			} else {
 				deleteMarker _x
 			};
@@ -75,57 +75,72 @@ while {ZAU_Loop} do {
 		private _unit = _x;
 
 		// Breadcrumbs - These markers gradually fade and prevent units from spawning in those zones.
-		if (allMapMarkers findIf { getMarkerPos _x distance2D _unit < 200 && _x find "mkr_ZAU_tracker_" > -1} == -1) then {
+		if (allMapMarkers findIf { getMarkerPos _x distance2D _unit < (ZAU_DistMin*0.5) && _x find "mkr_ZAU_tracker_" > -1} == -1) then {
 			private _mrkr = createMarkerLocal [format ["mkr_ZAU_tracker_%1_%2", _loopNo, _forEachIndex], _unit];
 			_mrkr setMarkerShapeLocal "ELLIPSE";
-			_mrkr setMarkerSizeLocal [400, 400];
-			_mrkr setMarkerColorLocal "ColorWest";
+			_mrkr setMarkerSizeLocal [ZAU_DistMin, ZAU_DistMin];
+			_mrkr setMarkerColorLocal "ColorGrey";
 			if !ZAU_Debug then { _mrkr setMarkerAlphaLocal 0; };
-			
-			private _tempList = (_x nearObjects ["House", ZAU_DistMax]) select { count (_x buildingPos -1) > 4 };
-			
-			// TODO: Improve this - Filter buildings at the stage instead of leaving it to later?
-			// If the unit is in a safe zone, but the houses are outside, we can't skip this step.
-		
-			{
-				private _bld = _x;
-				//systemChat format["[ZAU] Loop #%1 - %2 - %3m", _forEachIndex, _bld, player distance2D _bld];
-				if (_unitsToCheck findIf { _x distance2D _bld < ZAU_DistMin } == -1) then { _tempBuild pushBackUnique _bld };
-			} forEach (_tempList - _tempBuild);
 		};
+			
+		private _tempList = (_x nearObjects ["Building", ZAU_DistMax]) select { count (_x buildingPos -1) > 2 };
 		
+		// If the unit is in a safe zone, but the houses are outside, we can't skip this step.
+		{
+			private _bld = _x;
+			//systemChat format["[ZAU] Loop #%1 - %2 - %3m", _forEachIndex, _bld, player distance2D _bld];
+			if (_unitsToCheck findIf { _x distance2D _bld < ZAU_DistMin } < 0 && (allMapMarkers select { _x find "mkr_ZAU_tracker_" > -1 || _x in ZAU_SafeAreas }) findIf { _bld inArea _x } < 0 ) then { _tempBuild pushBackUnique _bld };
+		} forEach (_tempList - _tempBuild);
+				
 		if (ZAU_Debug) then {
 			private _mrkr = createMarkerLocal [format ["mkr_ZAU_player_%1", _forEachIndex], _unit];
 			_mrkr setMarkerPosLocal getPos _unit;
 			_mrkr setMarkerTypeLocal "mil_dot";
-			_mrkr setMarkerColorLocal "ColorOrange";
+			_mrkr setMarkerColorLocal format["Color%1",_side];
 			
 			private	_mrkr = createMarkerLocal [format ["mkr_ZAU_max_%1", _forEachIndex], _unit];
 			_mrkr setMarkerPosLocal getPos _unit;
 			_mrkr setMarkerShapeLocal "ELLIPSE";
 			_mrkr setMarkerBrushLocal "Border";
 			_mrkr setMarkerSizeLocal [ZAU_DistMax, ZAU_DistMax];
-			_mrkr setMarkerColorLocal "ColorOrange";
+			_mrkr setMarkerColorLocal format["Color%1",_side];
 			
 			private	_mrkr = createMarkerLocal [format ["mkr_ZAU_min_%1", _forEachIndex], _unit];
 			_mrkr setMarkerPosLocal getPos _unit;
 			_mrkr setMarkerShape "ELLIPSE";
 			_mrkr setMarkerBrushLocal "Border";
 			_mrkr setMarkerSizeLocal [ZAU_DistMin, ZAU_DistMin];
-			_mrkr setMarkerColorLocal "ColorOrange";
+			_mrkr setMarkerColorLocal format["Color%1",_side];
 		};
 	} forEach _unitsToCheck;
+	
+	_finalBuild = [];
 		
-	// Filter the largest buildings within 150m of each other
+	// First Pass to filter the largest buildings within 100 of each other
 	{
 		private _bld = _x;
-		// Remove nearby smaller buildings.
-		_tempBuild = _tempBuild - (_tempBuild select { _bld != _x && _bld distance2D _x < 100 && count (_x buildingPos -1) <= count (_bld buildingPos -1) });
-		// Remove buildings in safe zone or that have infantry already
-		if ((allGroups select { side _x isEqualto _side } apply { leader _x }) findIf { _x distance2D _bld < 100 } > -1 || count (allMapMarkers select { (_x find "mkr_ZAU_tracker_" > -1 || _x in ZAU_SafeAreas) && _bld inArea _x }) > 0) then { _tempBuild = _tempBuild - [_bld] };
-	} forEach _tempBuild;
 	
-	//format["[ZAU] After Filter %1 - %2", count _tempBuild, _tempBuild] call _fnc_log;
+		if ( _tempBuild findIf { _bld != _x && 
+			_bld distance2D _x < 100 && 
+			count (_x buildingPos -1) > count (_bld buildingPos -1) } < 0 && 
+			_finalBuild findIf { _bld distance2D _x < 100 } < 0 &&
+			(allGroups select { side _x isEqualto _side } apply { leader _x }) findIf { _x distance2D _bld < 100 } < 0
+		) then {		
+			_finalBuild pushBack _x;
+			
+			if (ZAU_Debug) then {
+				format["[ZAU] Building %1/%2 - Dist: %3 - %4 vs %5", _forEachIndex, count _tempBuild, round (_bld distance2D _x), count (_x buildingPos -1), count (_bld buildingPos -1)] call _fnc_log;
+		
+				private _mrkr = createMarkerLocal [ format ["mkr_ZAU_house_%1_%2", _loopNo, _forEachIndex], _bld];
+				_mrkr setMarkerPosLocal getPos _bld;
+				_mrkr setMarkerTypeLocal "mil_dot";
+				_mrkr setMarkerSizeLocal [0.6,0.6];
+				_mrkr setMarkerColorLocal "ColorGreen";
+			};
+		};
+	} forEach _tempBuild;
+		
+	//format["[ZAU] Filter %1 vs %2 - %3", count _finalBuild, count _tempBuild, _finalBuild] call _fnc_log;
 	
 	{
 		private _bld = _x;
@@ -162,9 +177,9 @@ while {ZAU_Loop} do {
 				private _tempPos = selectRandom _bpa;
 				_bpa = _bpa - [_tempPos];
 				
-				if (count (_tempPos nearEntities ["Man", 2]) < 1) then {
+				if (count (_tempPos nearEntities ["Man", 1]) < 1) then {
 					_unit setPosATL _tempPos;				
-					_unit disableAI "PATH";
+					doStop _unit;
 					_unit setUnitPos selectRandom ["UP","UP","MIDDLE"];
 					_unit setDir random 360;
 				};
@@ -198,12 +213,12 @@ while {ZAU_Loop} do {
 				private _mrkr = createMarkerLocal [format ["mkr_ZAU_spawn_%1_%2", _loopNo, _forEachIndex], _bMid];
 				_mrkr setMarkerPosLocal _bMid;
 				_mrkr setMarkerTypeLocal "mil_dot";
-				_mrkr setMarkerColorLocal "ColorRed";
+				_mrkr setMarkerColorLocal format["Color%1",_side];
 				_mrkr setMarkerTextLocal format["SP_%1_%2",_loopNo, _forEachIndex];
 			};
 			sleep 1;
 		};
-	} forEach _tempBuild;
+	} forEach _finalBuild;
 	
 	{
 		private _unit = _x;
@@ -215,5 +230,5 @@ while {ZAU_Loop} do {
 	} forEach ZAU_UnitsActive;
 	
 	_loopNo = _loopNo + 1;
-	sleep 30;
+	sleep ZAU_SleepTime;
 };
