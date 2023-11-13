@@ -36,7 +36,6 @@ force TFAR_setting_defaultFrequencies_lr_independent = "50,50.2,50.4,50.6,50.8,5
 
 // ACRE
 force acre_sys_core_revealToAI = 2.5;
-force acre_sys_signal_signalModel = 0;
 
 // ACE
 // http://www.29th.org/a3/index.php?title=ACE_3_Settings

@@ -311,21 +311,18 @@ Supply Inventory <execute expression=""
 ";
 
 if ("acre_main" in activatedAddons) then {
-
 	private _missionGear = "<font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
 
 	{ 
 		if (isClass (configFile >> "CfgWeapons" >> _x)) then {
-			_missionGear = _missionGear + format["<img image='%4' height='64'/> <execute expression=""uniformContainer player addItemCargoGlobal ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
+			_missionGear = _missionGear + format["<img image='%4' height='40'/> <execute expression=""uniformContainer player addItemCargoGlobal ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
 				_x,
 				getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
 				getText (configFile >> "CfgWeapons" >> _x >> "descriptionShort"),
 				getText (configFile >> "CfgWeapons" >> _x >> "picture")
 			];
 		};
-	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F"];
- 
-															  
+	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F","ACRE_SEM52SL","ACRE_SEM70","ACRE_BF888S"];															  
 };
 
 player createDiaryRecord ["ZeuAdmin", ["Gear",_missionGear]];															 
@@ -412,21 +409,21 @@ _missionFramework = _missionFramework + "<br/><font size='16' color='#FF0080'>SC
 	_missionFramework = _missionFramework + format["
 	%1: <font color='#80FF00'><execute expression=""{%2 = execVM '%3';} remoteExec ['BIS_fnc_spawn', 0];"">Run</execute></font> | <font color='#CF142B'><execute expression=""[%2] remoteExec ['terminate',0]"">Terminate</execute></font><br/>",_title, _variable, _location];
 } forEach [
-	["Briefing - Core Texts","f_sqf_brief", "f\briefing\briefing.sqf"],
-	["Briefing - ORBAT","f_sqf_orbat", "f\briefing\f_showOrbat.sqf"],
-	["Briefing - Gear Selection","f_sqf_gearSel", "f\briefing\f_showLoadoutSelect.sqf"],
-	["Group - Team Colors","f_sqf_ftmk", "f\setTeamColours\f_setTeamColours.sqf"],
-	["Group - Group Markers","f_sqf_grpm", "f\groupMarkers\f_setLocGroupMkr.sqf"],
-	["Group - Team Markers","f_sqf_ftmrk", "f\FTMemberMarkers\f_initFTMarkers.sqf"],
-	["Map - AO Border","f_sqf_draw","f\briefing\f_drawAO.sqf"],
-	["Misc - Intro","f_sqf_intro","f\common\f_clientIntro.sqf"],
-	["Misc - Third Person","f_sqf_third", "f\thirdPerson\f_thirdPerson.sqf"],
-	["Misc - VAS Crate","f_sqf_vas", "f\misc\f_vas.sqf"],
-	["Misc - JIP Teleport Flag/Action","f_sqf_jip", "f\JIP\f_teleportOption.sqf"],
-	["Misc - Earplugs","f_sqf_earp", "f\earplug\f_earplugs.sqf"],
-	["Misc - Nametags","f_sqf_names", "f\nametag\f_nametags.sqf"],
-	["Misc - Safe Start","f_sqf_safe", "f\safeStart\f_safeStart.sqf"],
-	["Misc - Unit Caching","f_sqf_cache", "f\cache\f_cInit.sqf"]
+	["Briefing - Core Texts","f_sqf_brief", "f\briefing\briefing.sqf"]
+	,["Briefing - ORBAT","f_sqf_orbat", "f\briefing\f_showOrbat.sqf"]
+	,["Briefing - Gear Selection","f_sqf_gearSel", "f\briefing\f_showLoadoutSelect.sqf"]
+	,["Group - Team Colors","f_sqf_ftmk", "f\setTeamColours\f_setTeamColours.sqf"]
+	,["Group - Group Markers","f_sqf_grpm", "f\groupMarkers\f_setLocGroupMkr.sqf"]
+	,["Group - Team Markers","f_sqf_ftmrk", "f\FTMemberMarkers\f_initFTMarkers.sqf"]
+	,["Map - AO Border","f_sqf_draw","f\briefing\f_drawAO.sqf"]
+	,["Misc - Intro","f_sqf_intro","f\common\f_clientIntro.sqf"]
+	,["Misc - Third Person","f_sqf_third", "f\thirdPerson\f_thirdPerson.sqf"]
+	,["Misc - VAS Crate","f_sqf_vas", "f\misc\f_vas.sqf"]
+	,["Misc - JIP Teleport Flag/Action","f_sqf_jip", "f\JIP\f_teleportOption.sqf"]
+	,["Misc - Earplugs","f_sqf_earp", "f\earplug\f_earplugs.sqf"]
+	,["Misc - Nametags","f_sqf_names", "f\nametag\f_nametags.sqf"]
+	,["Misc - Safe Start","f_sqf_safe", "f\safeStart\f_safeStart.sqf"]
+	,["Misc - Virtual Garage","f_sqf_vg", "f\misc\f_virtualGarage.sqf"]
 ];
 
 if (missionNamespace getVariable ["f_var_medical_level", 0] == 1) then {

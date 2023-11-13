@@ -20,6 +20,9 @@ if (_flagMarker in allMapMarkers) then {
 		f_obj_spawnFlag = _flagType createVehicleLocal _mrkPos;
 		sleep 0.1;
 		
+		private _flagTexture = missionNamespace getVariable ["f_var_flagTexture", ""];
+		if !(_flagTexture isEqualTo "") then { f_obj_spawnFlag setFlagTexture _flagTexture };
+		
 		// Don't spawn on seabed.
 		if (underwater f_obj_spawnFlag) then {
 			private _flagStone = "Land_W_sharpStone_02" createVehicleLocal [0,0,0];		
@@ -60,14 +63,16 @@ if (_flagMarker in allMapMarkers) then {
 		f_obj_spawnFlag addAction ["<t color='#CCCCCC'>Unlock HALO Travel (Admin)</t>", { missionNamespace setVariable ['f_param_haloTravel', 1, true] }, nil, 0.5, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] == 0"];
 	};
 	
-	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Fast Travel</t>", {
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Add Fast Travel</t>", {
 		[[1,0,false,[],0], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
+		f_var_lastActionTime = time + 15;
 		systemChat format["Use the %1 to select individual Fast Travel Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
-	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0"];
-	f_obj_spawnFlag addAction ["<t color='#35BAF6'>HALO Travel</t>", {
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_fastTravel',0] != 0 && missionNamespace getVariable ['f_var_lastActionTime',0] < time"];
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Add HALO Travel</t>", {
 		[[1,0,false,[],2000], "f\mapClickTeleport\f_mapClickTeleportAction.sqf"] remoteExec ["execVM", (_this select 1)]; 
+		f_var_lastActionTime = time + 15;
 		systemChat format["Use the %1 to select individual HALO Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
-	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0"];
+	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0 && missionNamespace getVariable ['f_var_lastActionTime',0] < time"];
 
 	// TODO: Add ability to choose traits	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [player getVariable ["f_var_assignGear","r"],player] spawn f_fnc_assignGear }, nil, 0.5, true, true, "", "true"];

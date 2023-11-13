@@ -247,7 +247,7 @@ FAR_fnc_SetUnconscious = {
 	_unit setUnconscious true;
 		
 	_rand = (floor random 18) + 1;
-	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5], _unit, false, getPosASL _unit, 1.5, 1, 50];
+	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 3) + 1], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	
 	_unit setCaptive true;
 	_unit setDamage 0;
@@ -434,6 +434,9 @@ FAR_fnc_SetUnconscious = {
 		_unit setCaptive false;
 		_unit allowDamage true;
 		_unit setDamage 1;
+		
+		_rand = (floor random 11) + 1;
+		playSound3D [format["a3\dubbing_radio_f\data\eng\male%1eng\radioprotocoleng\combat\200_combatshouts\screaminge_%2.ogg", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 3) + 1], _unit, false, getPosASL _unit, 1.5, 1, 50];
 	} else {	
 		// Player got revived		
 		if (isPlayer _unit) then { ["Terminate"] call BIS_fnc_EGSpectator };
@@ -707,7 +710,7 @@ FAR_fnc_Bag = {
 	
 	// Looking at weapons holder - Find the body.
 	if !(lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN'] && !(_cursorTarget isKindOf "CAManBase")) then {
-		_cursorTarget = (_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] }) # 0;
+		_cursorTarget = (_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] && !(isObjectHidden _x) }) # 0;
 	};
 	
 	// Exit if we lost the body!

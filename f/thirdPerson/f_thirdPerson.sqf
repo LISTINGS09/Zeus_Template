@@ -17,7 +17,8 @@ if (f_param_thirdPerson == 1) exitWith {
 };
 
 // 3rd Disabled Everywhere
-if (f_param_thirdPerson == 2) exitWith { 
+if (f_param_thirdPerson == 2) exitWith {
 	(FindDisplay 46) displayAddEventHandler ["keydown",{inputAction "tacticalView" > 0}];
 	(FindDisplay 46) displayAddEventHandler ["keydown",{inputAction "personView" > 0}];
+	player switchCamera "INTERNAL";
 };

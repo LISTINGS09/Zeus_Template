@@ -87,7 +87,7 @@ f_fnc_inStartLocation = {
 
 // Adds or removes a chosen item to the maximum allowed value (Grenades etc).
 f_fnc_addMagazineItem = {
-	params ["_item","_willAdd","_itemNoMax"];
+	params ["_item","_willAdd","_itemNoMax",["_silent", false]];
 	
 	if !([] call f_fnc_inStartLocation) exitWith {};
 	
@@ -97,21 +97,31 @@ f_fnc_addMagazineItem = {
 	if (_item in f_var_signalHType) then { _itemTypeArr = f_var_signalHType; };
 	if (_item in f_var_signalLType) then { _itemTypeArr = f_var_signalLType; };
 	if (count _itemTypeArr == 0) then { _itemTypeArr = [_item]};
-		
-	if (_willAdd) then {
-		if ({_x in _itemTypeArr} count (magazines player) == _itemNoMax) exitWith {
-			systemChat format['[GEAR] Cannot add %1 - Limit reached (%2).', getText (configFile >> "CfgMagazines" >> _item >> "displayName"), _itemNoMax];
-		};
 	
-		if (player canAdd _item) then {
-			player addMagazine _item; 
-			systemChat format['[GEAR] Added %1 - %2 Total (%3/%4)', 
-				getText (configFile >> "CfgMagazines" >> _item >> "displayName"), 
-				{_x == _item} count (magazines player),
-				{_x in _itemTypeArr} count (magazines player),
-				_itemNoMax];
+	if (_willAdd > 0) then {
+		if (_willAdd isEqualTo 1) then {
+			if ({_x in _itemTypeArr} count (magazines player) == _itemNoMax) exitWith {
+				systemChat format['[GEAR] Cannot add %1 - Limit reached (%2).', getText (configFile >> "CfgMagazines" >> _item >> "displayName"), _itemNoMax];
+			};
+		
+			if (player canAdd _item) then {
+				player addMagazine _item; 
+				systemChat format['[GEAR] Added %1 - %2 Total (%3/%4)', 
+					getText (configFile >> "CfgMagazines" >> _item >> "displayName"), 
+					{_x == _item} count (magazines player),
+					{_x in _itemTypeArr} count (magazines player),
+					_itemNoMax];
+			} else {
+				systemChat format['[GEAR] Cannot add %1 - No space', getText (configFile >> "CfgMagazines" >> _item >> "displayName"), _itemNoMax];
+			};
 		} else {
-			systemChat format['[GEAR] Cannot add %1 - No space', getText (configFile >> "CfgMagazines" >> _item >> "displayName"), _itemNoMax];
+			private _mags = (magazines player) select { _x in _itemTypeArr && _x != _item };
+			{
+				if (player canAdd _item) then {
+					[_x,-1,_itemNoMax] call f_fnc_addMagazineItem;
+					[_item,1,_itemNoMax] call f_fnc_addMagazineItem;
+				};
+			} forEach _mags;
 		};
 	} else {
 		if !(_item in magazines player) exitWith {};
@@ -252,7 +262,7 @@ f_var_signalGMax = {_x in f_var_signalGType } count (magazines player);
 
 if (f_var_signalGMax > 0 && count f_var_signalGType > 0) then {
 	{
-		_textGR = _textGR + format["%3<br/><font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalGMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalGMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/><font color='#777777'>%4</font><br/><br/>",
+		_textGR = _textGR + format["%3<br/><font size='16'>[</font><font size='16'><execute expression=""['%1',99,f_var_signalGMax] call f_fnc_addMagazineItem;"">All</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',1,f_var_signalGMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',-1,f_var_signalGMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/><font color='#777777'>%4</font><br/><br/>",
 		_x,
 		[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
 		[_x,30] call _fnc_itemPicture,
@@ -285,7 +295,7 @@ if (f_var_signalHMax > 0 && count f_var_signalHType > 0) then {
 	if (_irGrenade != "" && hmd player != "") then { f_var_signalHType pushBackUnique _irGrenade };
 
 	{
-		_textTS = _textTS + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalHMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalHMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
+		_textTS = _textTS + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',99,f_var_signalHMax] call f_fnc_addMagazineItem;"">All</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',1,f_var_signalHMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',-1,f_var_signalHMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
 		_x,
 		[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
 		[_x,30] call _fnc_itemPicture,
@@ -308,7 +318,7 @@ f_var_signalLMax = {_x in f_var_signalLType } count (magazines player);
 // Skip if the player doesn't have GLs
 if (f_var_signalLMax > 0 && count f_var_signalLType > 0) then {
 	{
-		_textGL = _textGL + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',TRUE,f_var_signalLMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',FALSE,f_var_signalLMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
+		_textGL = _textGL + format["%3 <font size='16'>[</font><font size='16'><execute expression=""['%1',99,f_var_signalLMax] call f_fnc_addMagazineItem;"">All</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',1,f_var_signalLMax] call f_fnc_addMagazineItem;"">Add</execute></font><font size='16'>] [</font><font size='16'><execute expression=""['%1',-1,f_var_signalLMax] call f_fnc_addMagazineItem;"">Remove</execute></font><font size='16'>] %2</font><br/>",
 		_x,
 		[getText (configFile >> "CfgMagazines" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString,
 		[_x,30] call _fnc_itemPicture,

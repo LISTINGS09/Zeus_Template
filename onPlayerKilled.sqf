@@ -8,7 +8,7 @@ _killed spawn {
 	
 	sleep random 5;
 	
-	[group _this] remoteExecCall ["f_fnc_updateCas", 2];
+	[group _this] remoteExecCall ["f_fnc_updateCas", 2]; // f_var_casualtyCount_[side]
 };
 
 // Save players dying gear

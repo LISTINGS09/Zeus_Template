@@ -281,7 +281,7 @@ switch (_typeOfUnit) do
 	{
 		["g"] call _backpack;
 		_unit addHeadGear "gm_gc_bgs_headgear_hat_80_gry";
-		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["engineer",true];
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		[_unit, _glrifle] call f_fnc_addWeapon;
@@ -590,7 +590,7 @@ switch (_typeOfUnit) do
 	case "vc":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["engineer",true];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -601,7 +601,7 @@ switch (_typeOfUnit) do
 	case "vd":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["engineer",true];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -619,7 +619,7 @@ switch (_typeOfUnit) do
 	case "pp":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["engineer",true];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -629,7 +629,7 @@ switch (_typeOfUnit) do
 	case "pcc":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["engineer",true];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -638,7 +638,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: AIR VEHICLE CREW
 	case "pc":
 	{
-		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["engineer",true];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -648,8 +648,8 @@ switch (_typeOfUnit) do
 	case "eng":
 	{
 		[_typeOfUnit] call _backpack;
-		_unit setUnitTrait ["engineer",1];
-		_unit setUnitTrait ["explosiveSpecialist",1];
+		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["explosiveSpecialist",true];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
@@ -663,8 +663,8 @@ switch (_typeOfUnit) do
 	case "engm":
 	{
 		[_typeOfUnit] call _backpack;
-		_unit setUnitTrait ["engineer",1];
-		_unit setUnitTrait ["explosiveSpecialist",1];
+		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["explosiveSpecialist",true];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
