@@ -50,5 +50,5 @@ if hasInterface then {
 	f_sqf_earp = execVM "f\earplug\f_earplugs.sqf";					// Zeus - Earplugs
 	f_sqf_names = execVM "f\nametag\f_nametags.sqf";				// F3 - Nametags
 	f_sqf_ftmrk = execVM "f\FTMemberMarkers\f_initFTMarkers.sqf";	// F3 - FT Markers
-	f_sqf_skill = execVM "f\setAISkill\z_setAISkill.sqf";			// Zeus - Unit Skill
+	f_sqf_skill = execVM "f\setAISkill\f_setAISkill.sqf";			// Zeus - Unit Skill
 };

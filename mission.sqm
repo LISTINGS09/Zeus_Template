@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=549;
+	toggles=677;
 	class ItemIDProvider
 	{
-		nextID=10844;
+		nextID=10967;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=492;
+		nextID=496;
 	};
 	class Camera
 	{
-		pos[]={4978.2822,20.478699,7156.0454};
-		dir[]={0.47762814,-0.44160682,-0.75953424};
-		up[]={0.23508503,0.89720583,-0.3738375};
-		aside[]={-0.84654802,-1.2449891e-007,-0.53234595};
+		pos[]={4980.3418,18.248148,7016.25};
+		dir[]={0.60853624,-0.5678677,-0.5544318};
+		up[]={0.419783,0.82308894,-0.38246027};
+		aside[]={-0.67354113,2.1792948e-007,-0.73926204};
 	};
 };
 binarizationWanted=0;
@@ -705,7 +705,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1367;
+		items=1366;
 		class Item0
 		{
 			dataType="Marker";
@@ -1140,7 +1140,7 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_A1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -1194,6 +1194,27 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
+						position[]={4990,5.0014391,7136.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_A1_3";
+						description="Asst. Autorifleman";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=3321;
+					type="O_Soldier_AAR_F";
+				};
+				class Item6
+				{
+					dataType="Object";
+					class PositionInfo
+					{
 						position[]={4994,5.0014391,7138.0498};
 					};
 					side="East";
@@ -1203,11 +1224,11 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_A2_2";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=2592;
+					id=10884;
 					type="O_Soldier_LAT_F";
 					class CustomAttributes
 					{
@@ -1240,27 +1261,6 @@ class Mission
 						nAttributes=2;
 					};
 				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
-						position[]={4990,5.0014391,7136.0498};
-					};
-					side="East";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_A1_3";
-						description="Asst. Autorifleman";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=3321;
-					type="O_Soldier_AAR_F";
-				};
 				class Item7
 				{
 					dataType="Object";
@@ -1275,12 +1275,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_A2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10820;
-					type="O_Soldier_AAT_F";
+					id=10890;
+					type="O_Soldier_F";
 				};
 			};
 			class Attributes
@@ -1399,7 +1399,7 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_B1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -1453,27 +1453,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={4994,5.0014391,7102.0498};
-					};
-					side="East";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_B2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=2602;
-					type="O_Soldier_LAT_F";
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={4990,5.0014391,7100.0498};
 					};
 					side="East";
@@ -1490,6 +1469,57 @@ class Mission
 					id=3319;
 					type="O_Soldier_AAR_F";
 				};
+				class Item6
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4994,5.0014391,7102.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_B2_2";
+						description="Rifleman (AT)";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10883;
+					type="O_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.99000001;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
 				class Item7
 				{
 					dataType="Object";
@@ -1504,12 +1534,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_B2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10821;
-					type="O_Soldier_AAT_F";
+					id=10891;
+					type="O_Soldier_F";
 				};
 			};
 			class Attributes
@@ -1628,7 +1658,7 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_C1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -1682,27 +1712,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={4994,5.0014391,7072.0498};
-					};
-					side="East";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_C2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=2612;
-					type="O_Soldier_LAT_F";
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={4990,5.0014391,7070.0498};
 					};
 					side="East";
@@ -1719,6 +1728,57 @@ class Mission
 					id=3317;
 					type="O_Soldier_AAR_F";
 				};
+				class Item6
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4994,5.0014391,7072.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_C2_2";
+						description="Rifleman (AT)";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10882;
+					type="O_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male02PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
 				class Item7
 				{
 					dataType="Object";
@@ -1733,12 +1793,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_C2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10822;
-					type="O_Soldier_AAT_F";
+					id=10892;
+					type="O_Soldier_F";
 				};
 			};
 			class Attributes
@@ -1857,7 +1917,7 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_D1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -1911,27 +1971,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={4994,5.0014391,7040.0498};
-					};
-					side="East";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_D2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=2622;
-					type="O_Soldier_LAT_F";
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={4990,5.0014391,7038.0498};
 					};
 					side="East";
@@ -1948,6 +1987,57 @@ class Mission
 					id=3313;
 					type="O_Soldier_AAR_F";
 				};
+				class Item6
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4994,5.0014391,7040.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_D2_2";
+						description="Rifleman (AT)";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10881;
+					type="O_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male03PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
 				class Item7
 				{
 					dataType="Object";
@@ -1962,12 +2052,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_D2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10823;
-					type="O_Soldier_AAT_F";
+					id=10893;
+					type="O_Soldier_F";
 				};
 			};
 			class Attributes
@@ -2116,7 +2206,7 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_CO_UAV";
-						description="UAV Operator (AL-6)";
+						description="UAV Operator";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -2341,57 +2431,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1698,5.0014391,7132.0498};
-					};
-					side="Independent";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_A2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=10810;
-					type="I_Soldier_AT_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="speaker";
-							expression="_this setspeaker _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="STRING";
-									value="Male05GRE";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="SCALAR";
-									value=0.95999998;
-								};
-							};
-						};
-						nAttributes=2;
-					};
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={1698,5.0014391,7130.0498};
 					};
 					side="Independent";
@@ -2401,12 +2440,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_A2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10811;
-					type="I_Soldier_AAT_F";
+					id=10929;
+					type="I_soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -2438,7 +2477,7 @@ class Mission
 						nAttributes=2;
 					};
 				};
-				class Item7
+				class Item6
 				{
 					dataType="Object";
 					class PositionInfo
@@ -2452,12 +2491,63 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_A1_FTL";
+						description="Grenadier";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10930;
+					type="I_Soldier_TL_F";
+				};
+				class Item7
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1698,5.0014391,7132.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_A2_2";
 						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10830;
+					id=10939;
 					type="I_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male05GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.95999998;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -2630,57 +2720,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1698,5.0014391,7098.0498};
-					};
-					side="Independent";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_B2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=10818;
-					type="I_Soldier_AT_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="speaker";
-							expression="_this setspeaker _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="STRING";
-									value="Male01GRE";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="SCALAR";
-									value=0.98000002;
-								};
-							};
-						};
-						nAttributes=2;
-					};
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={1698,5.0014391,7096.0498};
 					};
 					side="Independent";
@@ -2690,12 +2729,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_B2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10819;
-					type="I_Soldier_AAT_F";
+					id=10928;
+					type="I_soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -2727,7 +2766,7 @@ class Mission
 						nAttributes=2;
 					};
 				};
-				class Item7
+				class Item6
 				{
 					dataType="Object";
 					class PositionInfo
@@ -2741,12 +2780,63 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_B1_FTL";
+						description="Grenadier";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10931;
+					type="I_Soldier_TL_F";
+				};
+				class Item7
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1698,5.0014391,7098.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_B2_2";
 						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10831;
+					id=10938;
 					type="I_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -2919,57 +3009,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1698,5.0014391,7068.0498};
-					};
-					side="Independent";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_C2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=10816;
-					type="I_Soldier_AT_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="speaker";
-							expression="_this setspeaker _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="STRING";
-									value="Male05GRE";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="SCALAR";
-									value=1.02;
-								};
-							};
-						};
-						nAttributes=2;
-					};
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={1698,5.0014391,7066.0498};
 					};
 					side="Independent";
@@ -2979,12 +3018,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_C2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10817;
-					type="I_Soldier_AAT_F";
+					id=10927;
+					type="I_soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -3016,7 +3055,7 @@ class Mission
 						nAttributes=2;
 					};
 				};
-				class Item7
+				class Item6
 				{
 					dataType="Object";
 					class PositionInfo
@@ -3030,12 +3069,63 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_C1_FTL";
+						description="Grenadier";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10932;
+					type="I_Soldier_TL_F";
+				};
+				class Item7
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1698,5.0014391,7068.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_C2_2";
 						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10832;
+					id=10937;
 					type="I_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male05GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -3208,57 +3298,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1698,5.0014391,7036.0498};
-					};
-					side="Independent";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_D2_2";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=10814;
-					type="I_Soldier_AT_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="speaker";
-							expression="_this setspeaker _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="STRING";
-									value="Male01GRE";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="SCALAR";
-									value=1.04;
-								};
-							};
-						};
-						nAttributes=2;
-					};
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={1698,5.0014391,7034.0498};
 					};
 					side="Independent";
@@ -3268,12 +3307,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_D2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10815;
-					type="I_Soldier_AAT_F";
+					id=10926;
+					type="I_soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -3305,7 +3344,7 @@ class Mission
 						nAttributes=2;
 					};
 				};
-				class Item7
+				class Item6
 				{
 					dataType="Object";
 					class PositionInfo
@@ -3319,12 +3358,63 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_D1_FTL";
+						description="Grenadier";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10933;
+					type="I_Soldier_TL_F";
+				};
+				class Item7
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1698,5.0014391,7036.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_D2_2";
 						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10833;
+					id=10936;
 					type="I_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -3752,7 +3842,7 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_A2_2";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -3824,12 +3914,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_A2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10801;
-					type="B_soldier_AAT_F";
+					id=10908;
+					type="B_Soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -3875,12 +3965,12 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_A1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10825;
-					type="B_soldier_LAT_F";
+					id=10914;
+					type="B_Soldier_TL_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4123,12 +4213,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_B2_2";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10802;
-					type="B_soldier_AT_F";
+					id=10895;
+					type="B_soldier_LAT_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4174,12 +4264,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_B2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10803;
-					type="B_soldier_AAT_F";
+					id=10907;
+					type="B_Soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4225,12 +4315,12 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_B1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10826;
-					type="B_soldier_LAT_F";
+					id=10915;
+					type="B_Soldier_TL_F";
 				};
 			};
 			class Attributes
@@ -4430,12 +4520,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_C2_2";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10804;
-					type="B_soldier_AT_F";
+					id=10896;
+					type="B_soldier_LAT_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4481,12 +4571,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_C2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10805;
-					type="B_soldier_AAT_F";
+					id=10906;
+					type="B_Soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4532,12 +4622,12 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_C1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10827;
-					type="B_soldier_LAT_F";
+					id=10916;
+					type="B_Soldier_TL_F";
 				};
 			};
 			class Attributes
@@ -4720,12 +4810,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_D2_2";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10806;
-					type="B_soldier_AT_F";
+					id=10897;
+					type="B_soldier_LAT_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4771,12 +4861,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_D2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10807;
-					type="B_soldier_AAT_F";
+					id=10905;
+					type="B_Soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -4822,12 +4912,12 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_D1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10828;
-					type="B_soldier_LAT_F";
+					id=10917;
+					type="B_Soldier_TL_F";
 				};
 			};
 			class Attributes
@@ -5086,12 +5176,12 @@ class Mission
 					{
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_E2_3";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10808;
-					type="B_soldier_AT_F";
+					id=10898;
+					type="B_soldier_LAT_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5137,12 +5227,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_E2_2";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10809;
-					type="B_soldier_AAT_F";
+					id=10904;
+					type="B_Soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5188,12 +5278,12 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitNATO_E1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10829;
-					type="B_soldier_LAT_F";
+					id=10918;
+					type="B_Soldier_TL_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5505,7 +5595,7 @@ class Mission
 			side="East";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -5570,12 +5660,92 @@ class Mission
 					{
 						rank="CORPORAL";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_MMG1_ASS";
+						name="UnitCSAT_MMG1_MGG_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
 					id=2561;
 					type="O_HeavyGunner_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4928,5.0014391,7196.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						rank="LIEUTENANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_MMG1_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10874;
+					type="O_support_AMG_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -5607,7 +5777,7 @@ class Mission
 			side="East";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -5621,7 +5791,7 @@ class Mission
 					{
 						rank="LIEUTENANT";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_MAT_SL";
+						name="UnitCSAT_MAT1_SL";
 						description="MAT - Leader@MAT";
 						isPlayable=1;
 						reportRemoteTargets=1;
@@ -5672,12 +5842,92 @@ class Mission
 					{
 						rank="CORPORAL";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_MAT_ASS";
+						name="UnitCSAT_MAT1_MSP_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
 					id=2563;
 					type="O_Soldier_AT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4940,5.0014391,7196.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						rank="CORPORAL";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_MAT1_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10869;
+					type="O_Soldier_AAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -5709,7 +5959,7 @@ class Mission
 			side="East";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -5774,12 +6024,92 @@ class Mission
 					{
 						rank="CORPORAL";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitCSAT_SAM_ASS";
+						name="UnitCSAT_SAM_MSP_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
 					id=2565;
 					type="O_Soldier_AA_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4940,5.0014391,7184.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						rank="LIEUTENANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_SAM_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10858;
+					type="O_Soldier_AAA_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.03;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -5811,7 +6141,7 @@ class Mission
 			side="East";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -5882,6 +6212,56 @@ class Mission
 					};
 					id=2567;
 					type="O_sniper_F";
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={4928,5.0014391,7184.0498};
+					};
+					side="East";
+					flags=4;
+					class Attributes
+					{
+						rank="LIEUTENANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitCSAT_REC_SN_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10854;
+					type="O_spotter_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male03PER";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.95999998;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
@@ -6584,7 +6964,7 @@ class Mission
 			side="West";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -6648,7 +7028,7 @@ class Mission
 					class Attributes
 					{
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitNATO_MMG1_ASS";
+						name="UnitNATO_MMG1_MGG_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -6685,6 +7065,56 @@ class Mission
 						nAttributes=2;
 					};
 				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2948,5.0014391,7156.0498};
+					};
+					side="West";
+					flags=4;
+					class Attributes
+					{
+						rank="SERGEANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitNATO_MMG1_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10958;
+					type="B_support_AMG_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male07ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.03;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
 			};
 			class Attributes
 			{
@@ -6715,7 +7145,7 @@ class Mission
 			side="West";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -6729,7 +7159,7 @@ class Mission
 					{
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitNATO_MAT_SL";
+						name="UnitNATO_MAT1_SL";
 						description="MAT - Leader@MAT";
 						isPlayable=1;
 						reportRemoteTargets=1;
@@ -6779,7 +7209,7 @@ class Mission
 					class Attributes
 					{
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitNATO_MAT_ASS";
+						name="UnitNATO_MAT1_MAT_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -6816,6 +7246,56 @@ class Mission
 						nAttributes=2;
 					};
 				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2936,5.0014391,7156.0498};
+					};
+					side="West";
+					flags=4;
+					class Attributes
+					{
+						rank="SERGEANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitNATO_MAT1_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10960;
+					type="B_soldier_AAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male08ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
 			};
 			class Attributes
 			{
@@ -6846,7 +7326,7 @@ class Mission
 			side="West";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -6910,7 +7390,7 @@ class Mission
 					class Attributes
 					{
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitNATO_SAM_ASS";
+						name="UnitNATO_SAM_AAG_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -6941,6 +7421,56 @@ class Mission
 								{
 									singleType="SCALAR";
 									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={2948,5.0014391,7142.0498};
+					};
+					side="West";
+					flags=4;
+					class Attributes
+					{
+						rank="SERGEANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitNATO_SAM_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10920;
+					type="B_soldier_AAA_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male08ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1;
 								};
 							};
 						};
@@ -7708,7 +8238,7 @@ class Mission
 			side="Independent";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -7773,7 +8303,7 @@ class Mission
 					{
 						rank="CORPORAL";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_MMG1_ASS";
+						name="UnitAAF_MMG1_MGG_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -7810,6 +8340,56 @@ class Mission
 						nAttributes=2;
 					};
 				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1654,5.0014391,7176.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						rank="LIEUTENANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_MMG1_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10947;
+					type="I_Soldier_AAR_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male02GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
 			};
 			class Attributes
 			{
@@ -7840,7 +8420,7 @@ class Mission
 			side="Independent";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -7854,7 +8434,7 @@ class Mission
 					{
 						rank="LIEUTENANT";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_MAT_SL";
+						name="UnitAAF_MAT1_SL";
 						description="MAT - Leader@MAT";
 						isPlayable=1;
 						reportRemoteTargets=1;
@@ -7905,7 +8485,7 @@ class Mission
 					{
 						rank="CORPORAL";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_MAT_ASS";
+						name="UnitAAF_MAT1_MAG_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -7936,6 +8516,56 @@ class Mission
 								{
 									singleType="SCALAR";
 									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1646,5.0014391,7176.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						rank="LIEUTENANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_MAT1_ASS_1";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10952;
+					type="I_Soldier_AAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male01GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.03;
 								};
 							};
 						};
@@ -8744,7 +9374,7 @@ class Mission
 			side="Independent";
 			class Entities
 			{
-				items=2;
+				items=3;
 				class Item0
 				{
 					dataType="Object";
@@ -8809,7 +9439,7 @@ class Mission
 					{
 						rank="CORPORAL";
 						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_SAM_ASS";
+						name="UnitAAF_SAM_MSG_1";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -8840,6 +9470,57 @@ class Mission
 								{
 									singleType="SCALAR";
 									value=1.03;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item2
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1654,5.0014391,7166.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						rank="LIEUTENANT";
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_SAM_ASS_1";
+						description="SAM - Leader@SAM";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10962;
+					type="I_Soldier_AAA_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male05GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.05;
 								};
 							};
 						};
@@ -11413,57 +12094,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={1698,5.0014391,7002.0498};
-					};
-					side="Independent";
-					flags=4;
-					class Attributes
-					{
-						skill=0.2;
-						init="["""",this] call f_fnc_assignGear;";
-						name="UnitAAF_E2_4";
-						description="Missile Spec. (AT)";
-						isPlayable=1;
-						reportRemoteTargets=1;
-					};
-					id=10812;
-					type="I_Soldier_AT_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="speaker";
-							expression="_this setspeaker _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="STRING";
-									value="Male05GRE";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="SCALAR";
-									value=1.01;
-								};
-							};
-						};
-						nAttributes=2;
-					};
-				};
-				class Item6
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={1698,5.0014391,7000.0498};
 					};
 					side="Independent";
@@ -11473,12 +12103,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_E2_5";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10813;
-					type="I_Soldier_AAT_F";
+					id=10925;
+					type="I_soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -11510,7 +12140,7 @@ class Mission
 						nAttributes=2;
 					};
 				};
-				class Item7
+				class Item6
 				{
 					dataType="Object";
 					class PositionInfo
@@ -11524,12 +12154,12 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitAAF_E1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10834;
-					type="I_Soldier_LAT_F";
+					id=10934;
+					type="I_Soldier_TL_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -11555,6 +12185,57 @@ class Mission
 								{
 									singleType="SCALAR";
 									value=1.02;
+								};
+							};
+						};
+						nAttributes=2;
+					};
+				};
+				class Item7
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={1698,5.0014391,7002.0498};
+					};
+					side="Independent";
+					flags=4;
+					class Attributes
+					{
+						skill=0.2;
+						init="["""",this] call f_fnc_assignGear;";
+						name="UnitAAF_E2_4";
+						description="Rifleman (AT)";
+						isPlayable=1;
+						reportRemoteTargets=1;
+					};
+					id=10935;
+					type="I_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="STRING";
+									value="Male05GRE";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									singleType="SCALAR";
+									value=1.01;
 								};
 							};
 						};
@@ -11759,7 +12440,7 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_E2_2";
-						description="Missile Spec. (AT)";
+						description="Rifleman (AT)";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -11861,7 +12542,7 @@ class Mission
 						rank="SERGEANT";
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_E1_FTL";
-						description="Rifleman (AT)";
+						description="Grenadier";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
@@ -11963,12 +12644,12 @@ class Mission
 						skill=0.2;
 						init="["""",this] call f_fnc_assignGear;";
 						name="UnitCSAT_E2_3";
-						description="Asst. Missile Spec. (AT)";
+						description="Rifleman";
 						isPlayable=1;
 						reportRemoteTargets=1;
 					};
-					id=10824;
-					type="O_Soldier_AAT_F";
+					id=10894;
+					type="O_Soldier_F";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -73715,34 +74396,23 @@ class Mission
 		class Item1364
 		{
 			dataType="Group";
-			side="West";
+			side="East";
 			class Attributes
 			{
-				name="GrpBLU_CO_1";
+				name="GrpOPF_MAT1_2";
 			};
-			id=10835;
+			id=10865;
 			atlOffset=-5;
 		};
 		class Item1365
 		{
 			dataType="Group";
-			side="Independent";
-			class Attributes
-			{
-				name="GrpIND_CO_1";
-			};
-			id=10838;
-			atlOffset=-5;
-		};
-		class Item1366
-		{
-			dataType="Group";
 			side="East";
 			class Attributes
 			{
-				name="GrpOPF_CO_1";
+				name="GrpOPF_MAT1_3";
 			};
-			id=10841;
+			id=10867;
 			atlOffset=-5;
 		};
 	};
