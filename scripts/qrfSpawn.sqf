@@ -1,5 +1,5 @@
 /*
-	Author: 2600K / Josef Zemanek v1.35
+	Author: 2600K / Josef Zemanek
 
 	Description:
 	Enemy Reinforcements Spawner
@@ -10,7 +10,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
-ZQR_version = 1.36;
+ZQR_version = 1.38;
 if !isServer exitWith {};
 
 params [
@@ -384,6 +384,47 @@ _Heavy = [[["gmx_chdkz_bmp1sp2_wdr","[_grpVeh,['gmx_chdkz_wdl',1]] call BIS_fnc_
 _Air = ["gmx_chdkz_mi2p_wdl"];
 _CAS = ["gmx_chdkz_mi2urn_wdl"];
 
+
+***************************
+*** SPEADHEAD ***
+***************************
+
+// Germany (Sturmtroopers)
+_side = WEST;
+ZMM_WESTMan = ["SPE_sturmtrooper_SquadLead","SPE_sturmtrooper_mgunner","SPE_sturmtrooper_rifleman","SPE_sturmtrooper_medic","SPE_sturmtrooper_rifleman","SPE_sturmtrooper_stggunner","SPE_sturmtrooper_rifleman","SPE_sturmtrooper_amgunner","SPE_sturmtrooper_LAT_rifleman","SPE_sturmtrooper_ober_grenadier","SPE_sturmtrooper_rifleman"];
+_Truck = ["SPE_ST_OpelBlitz"];
+_Light = ["SPE_ST_SdKfz250_1"];
+_Medium = ["SPE_ST_PzKpfwIII_J","SPE_ST_OpelBlitz_Flak38"];
+_Heavy = ["SPE_ST_PzKpfwIII_M","SPE_ST_PzKpfwIV_G"];
+_CAS = ["SPE_FW190F8"];
+
+/// Germany (Wehrmacht)
+_side = WEST;
+ZMM_WESTMan = ["SPE_GER_SquadLead","SPE_GER_rifleman","SPE_GER_mgunner","SPE_GER_medic","SPE_GER_rifleman","SPE_GER_amgunner","SPE_GER_rifleman","SPE_GER_LAT_Rifleman","SPE_GER_ober_grenadier","SPE_GER_rifleman"];
+_Truck = ["SPE_OpelBlitz"];
+_Light = ["SPE_SdKfz250_1"];
+_Medium = ["SPE_OpelBlitz_Flak38","SPE_PzKpfwIII_J"];
+_Heavy = ["SPE_PzKpfwIII_M","SPE_PzKpfwIV_G"];
+_CAS = ["SPE_FW190F8"];
+
+// US Army
+_side = INDEPENDENT;
+ZMM_GUERMan = ["SPE_US_Rangers_SquadLead","SPE_US_Rangers_HMGunner","SPE_US_Rangers_rifleman","SPE_US_Rangers_medic","SPE_US_Rangers_rifleman","SPE_US_Rangers_AHMGunner","SPE_US_Rangers_rifleman","SPE_US_Rangers_grenadier","SPE_US_Rangers_Rifleman_AmmoBearer","SPE_US_Rangers_rifleman"];
+_Truck = ["SPE_US_M3_Halftrack_Unarmed"];
+_Light = ["SPE_US_M3_Halftrack"];
+_Medium = ["SPE_US_M16_Halftrack"];
+_Heavy = ["SPE_M10","SPE_M4A1_75"];
+_CAS = ["SPE_P47"];
+
+// French Revolutionaries
+_side = INDEPENDENT;
+ZMM_GUERMan = ["SPE_FR_SquadLead","SPE_FR_Rifleman_Carbine","SPE_FR_Autorifleman","SPE_FR_Rifleman","SPE_FR_Assist_SquadLead","SPE_FR_Rifleman_Carbine","SPE_FR_AT_Soldier","SPE_FR_Rifleman","SPE_FR_Grenadier","SPE_FR_Rifleman"];
+_Truck = ["SPE_FFI_OpelBlitz"];
+_Light = ["SPE_FR_M3_Halftrack"];
+_Medium = ["SPE_FR_M16_Halftrack"];
+_Heavy = ["SPE_FR_M10","SPE_FR_M4A0_75_Early"];
+_CAS = ["SPE_P47"];
+
 */
 
 if isNil "_side" exitWith { systemChat "QRFSpawn.sqf - ERROR - No Side defined!"; diag_log "QRFSpawn.sqf - ERROR - No Side defined!"; };
@@ -403,6 +444,7 @@ zmm_fnc_spawnUnit = {
 
 	diag_log format["[QRF] SpawnUnit - Passed %1: %2 [%3] Try:%4", _targetPos, _unitClass, _side, _tries];
 
+	private _startClass = _unitClass;
 	private _reinfGrp = grpNull;
 	private _grpVeh = objNull;
 	private _vehType = "";
@@ -445,7 +487,7 @@ zmm_fnc_spawnUnit = {
 	// Don't spawn object if too close to any players.
 	if ({ alive _x && _x distance2D _startingPos < (if _isAir then {1000} else {500})} count allPlayers > 0 && isMultiplayer) exitWith { 
 		sleep 30;
-		[_targetPos, _posArray, _side, _unitClass, _tries + 1] call zmm_fnc_spawnUnit;
+		[_targetPos, _posArray, _side, _startClass, _tries + 1] call zmm_fnc_spawnUnit;
 	};
 
 	if (_unitClass isEqualType "") then {
