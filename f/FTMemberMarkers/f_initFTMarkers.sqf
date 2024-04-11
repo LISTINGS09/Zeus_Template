@@ -60,13 +60,13 @@ _f_fnc_drawFTMarker = {
 		
 		// No text if we're zoomed out.
 		if (ctrlMapScale (_this#0) > 0.02) then { _text = "" };
-		
+				
 		if (_iconShape != "") then {
 			(_this select 0) drawIcon
 			[
 				_iconShape,
 				_iconColor,
-				visiblePosition vehicle _x,
+				if !(alive _x) then { [0,0,0] } else { visiblePosition vehicle _x },
 				_iconSize,
 				_iconSize,
 				_iconDir,
@@ -77,7 +77,7 @@ _f_fnc_drawFTMarker = {
 				'right'
 			]
 		};
-	} forEach (units player) select { alive _x };
+	} forEach (units player);
 };
 
 if (!isNil "f_eh_ftmap") then { findDisplay 12 displayCtrl 51 ctrlRemoveEventHandler ["Draw", f_eh_ftmap] };

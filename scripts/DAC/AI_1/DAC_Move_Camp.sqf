@@ -44,8 +44,8 @@ while {_run > 0} do
 					waitUntil {((getDir DAC_StartDummy) > 170)};
 					if(_eventid > 0) then {_EventList = ((([_eventid] call DAC_fConfigEvents) select 4) select 1)};
 					switch (_groupside) do {
-						case 0:	{_rCamp = missionNamespace getVariable ["DAC_Spawn_CampsE",[]];
-						case 1:	{_rCamp = missionNamespace getVariable ["DAC_Spawn_CampsW",[]];
+						case 0:	{_rCamp = missionNamespace getVariable ["DAC_Spawn_CampsE",[]] };
+						case 1:	{_rCamp = missionNamespace getVariable ["DAC_Spawn_CampsW",[]] };
 						case 2:	{
 									if(DAC_Res_Side == 0) then {
 										_rCamp = missionNamespace getVariable ["DAC_Spawn_CampsE",[]];

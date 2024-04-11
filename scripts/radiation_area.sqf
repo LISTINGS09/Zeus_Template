@@ -1,18 +1,42 @@
-// By: 2600K
+// v1.1 by 2600K
 // Radiation script applies effect and damages player
 // Can be reversed so 'hazard areas' become safe zones and the entire world is radioactive.
 // _nul = [TR_AREA_1,TR_AREA_2] execVM "scripts\radiation_area.sqf";
 //
 // To include a zone mid-mission (server side)
 // missionNamespace setVariable ["ZRA_Areas", (missionNamespace getVariable ["ZRA_Areas",[]]) + [TR_AREA_1], true];
+ZRA_version = 1.2;
 if !hasInterface exitWith {};
 
 sleep 1;
 
 // Variables
-ZRA_Damage = 0.05; // Base damage per loop
-ZRA_Loop = true;
-ZRA_Debug = false;
+if (isNil "ZRA_Damage") then { ZRA_Damage = 0.05 }; // Base damage per loop
+if (isNil "ZRA_Loop") then { ZRA_Loop = true };
+if (isNil "ZRA_Debug") then { ZRA_Debug = false };
+if (isNil "ZRA_Timer") then { ZRA_Timer = 5 };
+
+// If this has already been called, just add the supplied zones.
+if !(isNil "ZRA_Areas") exitWith { 
+	ZRA_Loop = true;
+	
+	{
+		if (_x isEqualType "") then { 
+			if (getMarkerType _x != "") then {
+				ZRA_Areas pushBackUnique _x;
+			} else {
+				["ERROR",format["Marker %1 was not found in mission!", _x]] call ZRA_logIssue;
+			};
+		};
+		if (_x isEqualType objNull) then { 
+			if ((missionNamespace getVariable [str _x, objNull]) != objNull) then {
+				ZRA_Areas pushBackUnique _x;
+			} else {
+				["ERROR",format["Object %1 was not found in mission!", str _x]] call ZRA_logIssue;
+			};
+		};
+	} forEach _this;
+};
 
 // Functions
 ZRA_getPlayerPPE = {
@@ -20,14 +44,14 @@ ZRA_getPlayerPPE = {
 	_protection = 0;
 	
 	// Protective Classes
-	_ppeEyes = ["G_RegulatorMask_F","G_AirPurifyingRespirator_01_F","G_AirPurifyingRespirator_01_nofilter_F","G_AirPurifyingRespirator_02_black_F","G_AirPurifyingRespirator_02_olive_F","G_AirPurifyingRespirator_02_sand_F"]; // Goggles
+	_ppeEyes = ["gm_ge_facewear_m65","gm_gc_army_facewear_schm41m","G_RegulatorMask_F","G_AirPurifyingRespirator_01_F","G_AirPurifyingRespirator_01_nofilter_F","G_AirPurifyingRespirator_02_black_F","G_AirPurifyingRespirator_02_olive_F","G_AirPurifyingRespirator_02_sand_F"]; // Goggles
 	_ppeHead = ["H_HelmetO_ViperSP_hex_F","H_HelmetO_ViperSP_ghex_F"]; // Helmet
 	_ppeVest = ["V_RebreatherIA","V_RebreatherIR","V_RebreatherB"]; // Vest
 	_ppeBody = ["U_C_CBRN_Suit_01_Blue_F","U_B_CBRN_Suit_01_MTP_F","U_B_CBRN_Suit_01_Tropic_F","U_C_CBRN_Suit_01_White_F","U_B_CBRN_Suit_01_Wdl_F","U_I_CBRN_Suit_01_AAF_F","U_I_E_CBRN_Suit_01_EAF_F"]; // Uniforms
 	_ppeBack = ["B_CombinationUnitRespirator_01_F","B_SCBA_01_F"]; // Backpacks
 
 	// Protection Values
-	_ppeEyesValue = 0.4;
+	_ppeEyesValue = 1;
 	_ppeHeadValue = 1;
 	_ppeVestValue = 0.6;
 	_ppeBodyValue = 0.6;
@@ -47,7 +71,7 @@ ZRA_getPlayerPPE = {
 	
 	// Apply protection if player is in vehicle
 	if (vehicle player != player) then {
-		 _protection = _protection + 0.5;
+		 _protection = _protection + 1;
 	};
 
 	_protection
@@ -65,17 +89,18 @@ ZRA_logIssue = {
 
 // Get a list of valid Hazard Zones
 ZRA_Areas = [];
+
 {
 	if (_x isEqualType "") then { 
 		if (getMarkerType _x != "") then {
-			ZRA_Areas pushBack _x;
+			ZRA_Areas pushBackUnique _x;
 		} else {
 			["ERROR",format["Marker %1 was not found in mission!", _x]] call ZRA_logIssue;
 		};
 	};
 	if (_x isEqualType objNull) then { 
 		if ((missionNamespace getVariable [str _x, objNull]) != objNull) then {
-			ZRA_Areas pushBack _x;
+			ZRA_Areas pushBackUnique _x;
 		} else {
 			["ERROR",format["Object %1 was not found in mission!", str _x]] call ZRA_logIssue;
 		};
@@ -98,20 +123,15 @@ ZRA_ppColor ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0]];
 ZRA_ppColor ppEffectCommit 0;
 ZRA_ppColor ppEffectEnable true;
 
-
 // MAIN LOOP
 ["DEBUG",format["Zones Present: %1", count ZRA_Areas]] call ZRA_logIssue;
 ["DEBUG",format["Protection value: %1", call ZRA_getPlayerPPE]] call ZRA_logIssue;
 
 [] spawn {
-	while {ZRA_Loop} do {
-		sleep 5;
-		
-		_inArea = false;
-		
-		{
-			if (player inArea _x) exitWith { _inArea = true };
-		} forEach ZRA_Areas;
+	sleep ZRA_Timer;
+	
+	while {ZRA_Loop} do {	
+		_inArea = (ZRA_Areas findIf { player inArea _x }) >= 0;
 
 		if (alive player && _inArea) then {
 			// Player is inside a zone
@@ -130,12 +150,13 @@ ZRA_ppColor ppEffectEnable true;
 				
 				if (_percent >= 90) then {
 					ZRA_ppBlur ppEffectAdjust [1];
-					ZRA_ppBlur ppEffectCommit 10;
+					ZRA_ppBlur ppEffectCommit 3;
 				} else {
 					ZRA_ppBlur ppEffectAdjust [0];
 					ZRA_ppBlur ppEffectCommit 3;
 				};
-				
+
+				// ?? Tones
 				ZRA_ppColor ppEffectAdjust [
 					1, // brightness
 					1, // contrast
@@ -144,7 +165,7 @@ ZRA_ppColor ppEffectEnable true;
 					[0, 1, 0, 0.9], // [colorizeR, colorizeG, colorizeB, colorizeA]
 					[0, 0, 0, 0] // [weightR, weightG, weightB, 0]
 				]; 
-				ZRA_ppColor ppEffectCommit 10;
+				ZRA_ppColor ppEffectCommit 3;
 
 				ZRA_ppGrain ppEffectAdjust [
 					0.15, // intensity
@@ -156,17 +177,20 @@ ZRA_ppColor ppEffectEnable true;
 				];
 				ZRA_ppGrain ppEffectCommit 3;
 
-				
-				
 				// Assign Damage
 				if (_damage > 0) then {
-					player setDamage (getDammage player) + _damage;
+					if ("ace_main" in activatedAddons) then {
+						[player, _damage, "Body"] call ace_medical_fnc_addDamageToUnit;
+					} else {
+						player setDamage (getDammage player) + _damage;
+					};
 					_rand = (floor random 18) + 1;
-					_sound = format["A3\sounds_f\characters\human-sfx\P%1\Soundbreathinjured_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], ceil random 5];
-					playSound3D [_sound, player, false, getPosASL player, 1.5, 1, 40];
+					_sound = format["A3\sounds_f\characters\human-sfx\P%1\Soundbreathinjured_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 3) + 1];
+					playSound3D [_sound, player, false, getPosASL player, 1.5, 1, 50];
 				} else {
 					if (goggles player != "") then {
-						playSound3D [format["A3\sounds_f\characters\human-sfx\diver-breath-%1.wss", selectRandom [1,3]], player, false, getPosASL player, 0.5, 1, 10];
+						_sound = format["a3\sounds_f\characters\human-sfx\p%1\water_breath_0%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 5) + 1];
+						playSound3D [_sound, player, false, getPosASL player, 1, 1 + random 0.2, 25];
 					};
 				};
 			};
@@ -176,11 +200,13 @@ ZRA_ppColor ppEffectEnable true;
 
 			// Remove Effects
 			ZRA_ppBlur ppEffectAdjust [0];
-			ZRA_ppBlur ppEffectCommit 3;
+			ZRA_ppBlur ppEffectCommit 1;
 			ZRA_ppColor ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0]];
-			ZRA_ppColor ppEffectCommit 3;
+			ZRA_ppColor ppEffectCommit 1;
 			ZRA_ppGrain ppEffectAdjust [0, 0, 0, 0, 0];
-			ZRA_ppGrain ppEffectCommit 5;
+			ZRA_ppGrain ppEffectCommit 1;
 		};
+		
+		sleep ZRA_Timer;
 	};
 };

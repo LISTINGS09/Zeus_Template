@@ -151,18 +151,18 @@ _RATmag = "SPE_1Rnd_60mm_M6";
 _RATmag2 = "SPE_1Rnd_60mm_M6";
 
 // Medium AT
-_MAT = "launch_I_Titan_short_F";
-_MATmag1 = "Titan_AT";
-_MATmag2 = "Titan_AP";
+_MAT = "SPE_M1A1_Bazooka";
+_MATmag1 = "SPE_1Rnd_60mm_M6";
+_MATmag2 = "SPE_1Rnd_60mm_M6";
 
 // Surface Air
 _SAM = "launch_B_Titan_olive_F";
 _SAMmag = "Titan_AA";
 
 // Heavy AT
-_HAT = "launch_I_Titan_short_F";
-_HATmag1 = "Titan_AT";
-_HATmag2 = "Titan_AP";
+_HAT = "SPE_M1A1_Bazooka";
+_HATmag1 = "SPE_1Rnd_60mm_M6";
+_HATmag2 = "SPE_1Rnd_60mm_M6";
 
 // Sniper
 _SNrifle = ["SPE_M1903A4_Springfield"];

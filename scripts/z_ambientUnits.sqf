@@ -3,7 +3,7 @@
 // Generates Ambient Garrison and Patrols
 //
 // Usage: _nul = [] execVM "scripts\z_ambientUnits.sqf";
-ZAU_version = 0.7;
+ZAU_version = 0.8;
 if !isServer exitWith {};
 
 // Unit Variables
@@ -61,7 +61,7 @@ while {ZAU_Loop} do {
 	
 	//format["[ZAU] INIT Loop #%1 - Players %2 - Units %3", _loopNo, count _unitsToCheck, count ZAU_UnitsActive] call _fnc_log;
 
-	// Fade makrers over time to allow units to spawn there later
+	// Fade markers over time to allow units to spawn there later
 	{ 
 		if (_x find "mkr_ZAU_" > -1) then {
 			if ((_x find "mkr_ZAU_spawn_" > -1 || _x find "mkr_ZAU_tracker_" > -1) && markerAlpha _x > 0) then {

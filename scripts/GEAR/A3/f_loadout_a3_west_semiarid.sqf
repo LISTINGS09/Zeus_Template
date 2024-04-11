@@ -50,12 +50,12 @@ _defMags = 4;
 _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["arifle_MX_Black_F","arifle_MX_khk_F"];
+_rifle = ["arifle_MX_Black_F","arifle_MX_F"];
 _riflemag = "30rnd_65x39_caseless_black_mag";
 _riflemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["arifle_MXC_Black_F","arifle_MXC_khk_F"];
+_carbine = ["arifle_MXC_Black_F","arifle_MXC_F"];
 _carbinemag = "30rnd_65x39_caseless_black_mag";
 _carbinemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
@@ -70,7 +70,7 @@ _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = ["arifle_MX_GL_Black_F","arifle_MX_GL_khk_F"];
+_glrifle = ["arifle_MX_GL_Black_F","arifle_MX_GL_F"];
 _glriflemag = "30rnd_65x39_caseless_black_mag";
 _glriflemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 _glmag = "3Rnd_HE_Grenade_shell";
@@ -132,7 +132,7 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_MX_SW_Black_F","arifle_MX_SW_khk_F"];
+_AR = ["arifle_MX_SW_Black_F","arifle_MX_SW_F"];
 _ARmag = "100Rnd_65x39_caseless_black_mag";
 _ARmag_tr = "100Rnd_65x39_caseless_black_mag_Tracer";
 
@@ -142,11 +142,11 @@ _MMGmag = "130Rnd_338_Mag";
 _MMGmag_tr = "130Rnd_338_Mag";
 
 // Marksman rifle
-_DMrifle = ["arifle_MXM_Black_F","arifle_MXM_khk_F","srifle_DMR_03_khaki_F","srifle_DMR_03_F","srifle_DMR_06_olive_F"];
+_DMrifle = ["arifle_MXM_Black_F","arifle_MXM_F","srifle_DMR_03_khaki_F","srifle_DMR_03_F","srifle_DMR_06_olive_F"];
 _DMriflemag = "30Rnd_65x39_caseless_mag";
 
 // Rifleman AT
-_RAT = ["launch_MRAWS_olive_F","launch_NLAW_F"];
+_RAT = ["launch_MRAWS_sand_F","launch_NLAW_F"];
 _RATmag = "MRAWS_HEAT_F";
 _RATmag2 = "MRAWS_HE_F";
 

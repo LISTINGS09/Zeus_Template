@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=677;
+	toggles=549;
 	class ItemIDProvider
 	{
-		nextID=10967;
+		nextID=10970;
 	};
 	class MarkerIDProvider
 	{
@@ -16,7 +16,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=496;
+		nextID=504;
 	};
 	class Camera
 	{
@@ -705,7 +705,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=1366;
+		items=1367;
 		class Item0
 		{
 			dataType="Marker";
@@ -52906,7 +52906,7 @@ class Mission
 			{
 				name="TR_UPS_SYN";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -52923,7 +52923,7 @@ class Mission
 			{
 				name="TR_UPS_AAF";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -52962,7 +52962,7 @@ class Mission
 			{
 				name="TR_UPS_LDF";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -58859,7 +58859,7 @@ class Mission
 			{
 				name="TR_UPS_NATO";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -58876,7 +58876,7 @@ class Mission
 			{
 				name="TR_UPS_FIA";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -58893,7 +58893,7 @@ class Mission
 			{
 				name="TR_UPS_NATOP";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -64247,7 +64247,7 @@ class Mission
 			{
 				name="TR_UPS_NATOP_1";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -66419,7 +66419,7 @@ class Mission
 			{
 				name="TR_UPS_CSAT";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -66436,7 +66436,7 @@ class Mission
 			{
 				name="TR_UPS_CSATP";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -69874,7 +69874,7 @@ class Mission
 			{
 				name="TR_UPS_CSATP_1";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -71700,7 +71700,7 @@ class Mission
 			{
 				name="TR_UPS_CSATP_2";
 				condition="isMultiplayer";
-				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
+				onActivation="{ group _x enableDynamicSimulation false; _nul = [_x,thisTrigger,if (isNull objectParent leader _x) then {""RANDOM""} else {""""}] execVM ""scripts\UPS\UPS_Lite.sqf"" } forEach (synchronizedObjects thisTrigger);";
 				sizeA=800;
 				sizeB=800;
 				isRectangle=1;
@@ -74395,25 +74395,54 @@ class Mission
 		};
 		class Item1364
 		{
-			dataType="Group";
-			side="East";
+			dataType="Trigger";
+			position[]={8678,5,6685};
 			class Attributes
 			{
-				name="GrpOPF_MAT1_2";
+				name="TR_DAC_GUER";
+				condition="true";
+				onActivation="_nul = [""TR_DAC_GUER"",[1,0,0],[5+(10*(missionNamespace getVariable [""f_param_ZMMDiff"",1])),2,40,10],[4*(missionNamespace getVariable [""f_param_ZMMDiff"",1]),1,20,6],[2*(missionNamespace getVariable [""f_param_ZMMDiff"",1]),1,20,6],[],[2,2,2,0]] spawn DAC_Zone;";
+				sizeA=500;
+				sizeB=500;
+				isRectangle=1;
+				isServerOnly=1;
 			};
-			id=10865;
-			atlOffset=-5;
+			id=10967;
+			type="EmptyDetectorAreaR250";
 		};
 		class Item1365
 		{
-			dataType="Group";
-			side="East";
+			dataType="Trigger";
+			position[]={8730,5,4213};
 			class Attributes
 			{
-				name="GrpOPF_MAT1_3";
+				name="TR_DAC_WEST";
+				condition="true";
+				onActivation="_nul = [""TR_DAC_WEST"",[2,0,0],[5+(10*(missionNamespace getVariable [""f_param_ZMMDiff"",1])),2,40,10],[4*(missionNamespace getVariable [""f_param_ZMMDiff"",1]),1,20,6],[2*(missionNamespace getVariable [""f_param_ZMMDiff"",1]),1,20,6],[],[1,1,1,0]] spawn DAC_Zone;";
+				sizeA=500;
+				sizeB=500;
+				isRectangle=1;
+				isServerOnly=1;
 			};
-			id=10867;
-			atlOffset=-5;
+			id=10968;
+			type="EmptyDetectorAreaR250";
+		};
+		class Item1366
+		{
+			dataType="Trigger";
+			position[]={8730,5,1400};
+			class Attributes
+			{
+				name="TR_DAC_EAST";
+				condition="true";
+				onActivation="_nul = [""TR_DAC_EAST"",[3,0,0],[10+(10*(missionNamespace getVariable [""f_param_ZMMDiff"",1])),2,40,10],[6*(missionNamespace getVariable [""f_param_ZMMDiff"",1]),1,20,6],[3*(missionNamespace getVariable [""f_param_ZMMDiff"",1]),1,20,6],[],[0,4,0,0]] spawn DAC_Zone;";
+				sizeA=500;
+				sizeB=500;
+				isRectangle=1;
+				isServerOnly=1;
+			};
+			id=10969;
+			type="EmptyDetectorAreaR250";
 		};
 	};
 	class Connections

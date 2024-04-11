@@ -151,18 +151,18 @@ _RATmag = "SPE_1Rnd_PzFaust_60m";
 _RATmag2 = "SPE_1Rnd_PzFaust_60m";
 
 // Medium AT
-_MAT = "SPE_PzFaust_60m";
-_MATmag1 = "SPE_1Rnd_PzFaust_60m";
-_MATmag2 = "SPE_1Rnd_PzFaust_60m";
+_MAT = "SPE_M1A1_Bazooka";
+_MATmag1 = "SPE_1Rnd_60mm_M6";
+_MATmag2 = "SPE_1Rnd_60mm_M6";
 
 // Surface Air
 _SAM = "launch_B_Titan_olive_F";
 _SAMmag = "Titan_AA";
 
 // Heavy AT
-_HAT = "launch_I_Titan_short_F";
-_HATmag1 = "Titan_AT";
-_HATmag2 = "Titan_AP";
+_HAT = "SPE_M1A1_Bazooka";
+_HATmag1 = "SPE_1Rnd_60mm_M6";
+_HATmag2 = "SPE_1Rnd_60mm_M6";
 
 // Sniper
 _SNrifle = ["SPE_M1903A4_Springfield"];
@@ -280,7 +280,7 @@ switch (_typeOfUnit) do
 	case "co":
 	{
 		["g"] call _backpack;
-		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_glriflemag,_defMags];
 		_unit addMagazines [_glriflemag_tr,_defMags_tr];
 		_unit addMagazines [_glmag,3];
@@ -588,7 +588,7 @@ switch (_typeOfUnit) do
 	case "vc":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -600,7 +600,7 @@ switch (_typeOfUnit) do
 	case "vd":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -620,7 +620,7 @@ switch (_typeOfUnit) do
 	case "pp":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -631,7 +631,7 @@ switch (_typeOfUnit) do
 	case "pcc":
 	{
 		["cc"] call _backpack;
-		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -641,7 +641,7 @@ switch (_typeOfUnit) do
 	// LOADOUT: AIR VEHICLE CREW
 	case "pc":
 	{
-		_unit setUnitTrait ["engineer",true];
+		_unit setUnitTrait ["engineer",1];
 		_unit addMagazines [_smgmag,_defMags];
 		[_unit, _smg] call f_fnc_addWeapon;
 		_unit addMagazines [_smokegrenade,2];
@@ -652,8 +652,8 @@ switch (_typeOfUnit) do
 	case "eng":
 	{
 		[_typeOfUnit] call _backpack;
-		_unit setUnitTrait ["engineer",true];
-		_unit setUnitTrait ["explosiveSpecialist",true];
+		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["explosiveSpecialist",1];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];
@@ -668,8 +668,8 @@ switch (_typeOfUnit) do
 	case "engm":
 	{
 		[_typeOfUnit] call _backpack;
-		_unit setUnitTrait ["engineer",true];
-		_unit setUnitTrait ["explosiveSpecialist",true];
+		_unit setUnitTrait ["engineer",1];
+		_unit setUnitTrait ["explosiveSpecialist",1];
 		_unit addItem "MineDetector";
 		_unit addMagazines [_carbinemag,_defMags];
 		_unit addMagazines [_carbinemag_tr,_defMags_tr];

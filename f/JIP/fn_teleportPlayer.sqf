@@ -43,7 +43,8 @@ if (vehicle _refUnit != _refUnit) then {	// Member is in vehicle
 } else {
 	// No safe position? Move them directly to the unit.
 	if (isTouchingGround _refUnit) then {
-		player setPos (_refUnit modelToWorld [0,-0.1,0]); 
+		player setPos (_refUnit modelToWorld [0,-0.1,0]);
+		player setdir (player getDir _refUnit);
 		systemChat format["[JIP] Moved behind %1 (%2)",name _refUnit, groupId (group _refUnit), round (player distance2D _refUnit)];
 		
 		switch (stance _refUnit) do {
@@ -56,10 +57,12 @@ if (vehicle _refUnit != _refUnit) then {	// Member is in vehicle
 		
 		if (_pos isEqualTo []) then { 
 			// In the air? Set them to ground level.
-			player setPos [getPos _refUnit select 0, getPos _refUnit select 1, 0]; 
+			player setPos [getPos _refUnit select 0, getPos _refUnit select 1, 0];
+			player setdir (player getDir _refUnit);
 			systemChat format["[JIP] Moved below %1 (%2) - Empty position not found.",name _refUnit, groupId (group _refUnit), round (player distance2D _refUnit)];
 		} else {
 			player setPos _pos;
+			player setdir (player getDir _refUnit);
 			systemChat format["[JIP] Moved %3m from %1 (%2)",name _refUnit, groupId (group _refUnit), round (player distance2D _refUnit)];
 		};
 	};

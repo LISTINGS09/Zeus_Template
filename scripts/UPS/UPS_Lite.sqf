@@ -1,6 +1,5 @@
 //
 //  Urban Patrol Script Zeus Edition
-//  Version: 2.32
 //  Author: 2600K & Kronzky (www.kronzky.info / kronzky@gmail.com)
 //  BIS Forum: http://forums.bistudio.com/showthread.php?147904-Urban-Patrol-Script&highlight=Urban+Patrol+Script
 //
@@ -16,9 +15,11 @@
 //    NOAI          = Don't use enhanced AI for skills, evasive and flanking manoeuvres.
 //    SHOWMARKER    = Display the zone marker.
 //    TRACK         = Display a position and destination marker for each unit.
+//    COPY          = Duplicates group n times
 //
 //	  _nul = [this,"UPSZ","RANDOM"] execVM "scripts\UPS\UPS_Lite.sqf";
 //
+ZUP_version = 2.33;
 if !isServer exitWith {};
 
 // Global Script Variables
@@ -89,8 +90,7 @@ sleep 3 + random 3;
 // Update instance counter.
 missionNamespace setVariable ["ZAI_ID", (missionNamespace getVariable ["ZAI_ID", 0]) + 1];
 
-if (isNil "_grp") exitWith { ["ERROR", format["Invalid Object %1", _grp]] call _ZAI_fnc_LogMsg };
-if (_grp isKindOf "Logic") exitWith { ["ERROR", format["Logic Passed: %1", _grp]] call _ZAI_fnc_LogMsg };
+if (isNil "_grp") exitWith { ["ERROR", format["Invalid Group or Object %1", _grp]] call _ZAI_fnc_LogMsg };
 if (_grp isEqualType objNull) then { _grp = group _grp };
 if ({alive _x} count units _grp == 0) then { ["ERROR", format["No living units in %1", _grp]] call _ZAI_fnc_LogMsg };
 
@@ -124,7 +124,7 @@ if (!isNull _grpVehicle) then { _grp selectLeader driver _grpVehicle; [leader _g
 _grpType = ([(["","Man"] select _isMan), (["","Air"] select _isAir), (["","Ship"] select _isBoat), (["","Vehicle"] select _isCar), (["","Armoured"] select _isTank), (["","Static"] select _isStatic), (["","Artillery"] select _isArty) ] - [""]);
 _grp setVariable ["ZAI_Type", _grpType apply { toUpper _x }];
 _grp setVariable ["ZAI_Vehicle", _grpVehicle];
-["DEBUG", format["[%1] was detected as %2 %3", groupID _grp, _grpType  joinString ", ", if (!isNull _grpVehicle) then { format["(%1)", typeOf _grpVehicle] } else {  format["(%1)", typeOf leader _grp] }]] call _ZAI_fnc_LogMsg;
+["DEBUG", format["[%1] was detected as %2 %3 %4", groupID _grp, _grpType  joinString ", ", if (!isNull _grpVehicle) then { format["(%1)", typeOf _grpVehicle] } else {  format["(%1)", typeOf leader _grp] }, _params]] call _ZAI_fnc_LogMsg;
 
 if _isAir then { _closeEnough = 1000 }; // Tolerance high for choppers & planes
 //if _isStatic then { [_grp, "Task", "STATIC"] call _ZAI_fnc_setGroupVariable; }; // Statics won't be tasked.
@@ -334,6 +334,32 @@ if (_trackGrp) then {
 
 	addMissionEventHandler ["GroupIconOverLeave", { { deleteMarkerLocal _x; } forEach (allMapMarkers select { ["gIcon_",_x] call BIS_fnc_inString }); hintSilent "" }];
 };	
+
+// duplicate team
+if (_params findIf { "COPY" in _x } > -1) then {
+	private _num = parseNumber (((_params select (_params findIf { "COPY" in _x })) splitString ":") select 1);
+
+	if (_num < 1) exitWith { ["DEBUG", format["[%1] Cannot COPY - Invalid Number", _grpIDx]] call _ZAI_fnc_LogMsg; };
+	if !_isMan exitWith { ["DEBUG", format["[%1] Cannot COPY - Vehicles are not supported", _grpIDx]] call _ZAI_fnc_LogMsg; };
+	
+	for "_i" from 1 to _num do {
+		private _grpN = createGroup [side _grp, true];
+
+		{
+			private _unitO = _x;
+			[_unitO, [missionNamespace, "var_ups_tempGear"]] call BIS_fnc_saveInventory;
+			
+			private _unitN = _grpN createUnit [typeOf _x, [0,0,0], [], 0, "FORM"];
+			[_unitN] joinSilent _grpN;
+			
+			[_unitN, [missionNamespace, "var_ups_tempGear"]] call BIS_fnc_loadInventory;
+			
+			sleep 0.5;
+		} forEach (units _grp);
+		
+		[_grpN, _areaMarker, "RANDOM"] execVM "scripts\UPS\UPS_Lite.sqf";
+	};
+};
 
 // UPS Loop Common Variables
 _lastDamage = 0;

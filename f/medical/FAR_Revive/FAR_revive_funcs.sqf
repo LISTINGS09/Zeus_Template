@@ -87,49 +87,6 @@ FAR_fnc_PlayerActions = {
 	};
 };
 
-FAR_fnc_RagDoll = {
-	params[["_unit", player]];
-	
-	if ((eyePos _unit)#2 <= 0.4 || isPlayer _unit || vehicle _unit != _unit) exitWith { _unit setUnconscious true  };
-	
-	[_unit, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory;
-	
-	private _tempMan = (createGroup [side group _unit, true]) createUnit ["C_man_1", [0,0,0], [], 0, "NONE"];
-	
-	_unit hideObjectGlobal true;
-	
-	if (!isNull _tempMan) then {
-		[_tempMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory;
-		[_tempMan, animationState _unit] remoteExec ["switchMove"];
-		_tempMan setposASL getPosASL _unit;
-		_tempMan setDir getDir _unit;
-		_tempMan setVelocity velocity _unit;
-		_tempMan setUnconscious true;
-		
-		_unit setUnconscious true;
-		[_unit, "UnconsciousReviveDefault"] remoteExec ["switchMove"];
-		
-		if (_unit isEqualTo player) then { _tempMan switchCamera cameraView };
-		
-		for "_i" from 1 to 50 do {
-			if (((_tempMan selectionPosition "Neck")#2) < 0.2) exitWith {};
-			sleep 0.1;
-		};
-		
-		uiSleep 4;
-		
-		_unit setVelocity [0,0,0];
-		_unit setposASL getPosASL _tempMan;
-		_unit setDir getDir _tempMan;
-		_unit hideObjectGlobal false;
-		
-		if (_unit isEqualTo player) then { player switchCamera cameraView };
-		
-		_tempMan setPos [0,0,0];
-		deleteVehicle _tempMan;
-	};
-};
-
 FAR_fnc_DeathMessage = {
 	params ["_killed", ["_killer", objNull], ["_type", "killed"]];
 	
@@ -154,58 +111,10 @@ FAR_fnc_DeathMessage = {
 	};
 };
 
-FAR_fnc_FixRagdoll = {
-	private _view = cameraView;
-	private _oldMan = player;
-	
-	if (vehicle _oldMan != _oldMan) exitWith { systemChat "[REVIVE] Error - Cannot fix while in vehicle!" };
-	if (lifeState _oldMan != "HEALTHY") exitWith { systemChat "[REVIVE] Error - Cannot fix while injured!" };
-	
-	private _newMan = (group _oldMan) createUnit [typeOf _oldMan, [0,0,0], [], 0, "NONE"];
-	
-	if (!isNull _newMan) then {
-		_newMan setDir getDir _oldMan;
-				
-		{ _x params ["_varId","_varVal"]; _newMan setVariable [_varId, _varVal] } forEach (allVariables _oldMan);
-		
-		_newMan assignTeam (assignedTeam _oldMan);
-		
-		[_oldMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory;
-		[_newMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory;
-
-		{ 
-			if !(((getObjectTextures _newMan) select _forEachIndex) isEqualTo _x) then { _newMan setObjectTextureGlobal [_forEachIndex, _x] };
-		} forEach (getObjectTextures _oldMan);
-				
-		_oldMan hideObjectGlobal true;
-		_newMan setposASL getPosASL _oldMan;
-		
-		selectPlayer _newMan;
-
-		waitUntil { _newMan == player };
-		
-		_newMan switchCamera _view;
-
-		[_newMan, animationState _oldMan] remoteExec ["switchMove"];
-		[_newMan, name _oldMan] remoteExec ["setName"];	
-		
-		if (leader _oldMan == _oldMan) then { group _newMan selectLeader _newMan };
-
-		_oldMan setDamage 1;
-		
-		deleteVehicle _oldMan;
-		
-		f_sqf_brief = execVM "f\briefing\briefing.sqf";
-		[player] spawn FAR_fnc_unitInit;
-		_oldMan removeEventHandler ["HandleDamage", FAR_EHID_HandleDamage];
-		FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
-				
-		systemChat format["[REVIVE] Ragdoll - Migrated %1 to a new unit", name player];
-	};
-};
-
 FAR_fnc_HandleDamage = {
 	params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint"];
+	
+	if !(local _unit) exitWith {nil};
 
 	if (alive _unit && 
 		_damage >= 1 && 
@@ -264,8 +173,8 @@ FAR_fnc_SetUnconscious = {
 			[_unit, "unconscious"] remoteExecCall ["playActionNow"];
 		};
 	} else {
-		waitUntil { sleep 1; velocity _unit isEqualTo [0,0,0] };
-		sleep 1;
+		waitUntil { uiSleep 1; (((velocity _unit)#0) isEqualTo 0 && ((velocity _unit)#1) isEqualTo 0) };
+		uiSleep 1;
 		_unit switchMove "unconsciousReviveDefault";
 	};
 	
@@ -277,7 +186,7 @@ FAR_fnc_SetUnconscious = {
 	// Casualty Count Update.
 	_unit spawn {
 		if (time < 60) exitWith {};
-		sleep random 5;
+		uiSleep random 5;
 		[group _this] remoteExecCall ["f_fnc_updateCas", 2];
 	};
 	

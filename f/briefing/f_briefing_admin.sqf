@@ -214,6 +214,7 @@ Set Unit Skill
 <execute expression=""systemChat 'Skill - Ranked'; { _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits"">Unit Rank</execute> | 
 <execute expression=""systemChat 'Skill - Default';{ _x setSkill 0.4 } forEach allUnits"">Default</execute>
 <br/>
+Spectator <execute expression=""f_var_isAdmin = true; [true] call f_fnc_spectateInit;"">Start</execute> | <execute expression=""[false] call f_fnc_spectateInit;"">Stop</execute><br/>
 <br/>
 Reveal Players to AI (Fair): 
 <execute expression=""systemChat 'Starting Reveal'; 

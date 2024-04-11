@@ -1,5 +1,5 @@
 /*
-ARMA3 - FILL HOUSE SCRIPT v1.12 - by 26K, SPUn & lostvar
+ARMA3 - FILL HOUSE SCRIPT v1.14 - by 26K, SPUn & lostvar
 
 Fills house or buildings in defined range with soldiers
 
@@ -35,7 +35,7 @@ _factionsFound = [];
 	]; 
 } forEach ("(configName _x iskindOf 'CAManBase') && getNumber(_x >> 'scope') == 2" configClasses (configFile >> "CfgVehicles"));
 _factionsFound sort TRUE; 
-copyToClipboard _factionsfound;
+copyToClipboard str _factionsfound;
 */
 
 if !isServer exitWith{};
@@ -66,6 +66,7 @@ _fSel = switch (_faction) do {
 	case "USAW": 	{ ["rhs_faction_usarmy_wd","rhs_EdSubcat_infantry_ucp"] };
 	case "USMCD": 	{ ["rhs_faction_usmc_d","rhs_EdSubcat_infantry"] };
 	case "USAW": 	{ ["rhs_faction_usmc_wd","rhs_EdSubcat_infantry"] };
+	// GM(WEST)
 	case "GER": 	{ ["gm_fc_ge","gm_esc_men_80_autumn"] };
 	case "GERW": 	{ ["gm_fc_ge","gm_esc_men_80_winter"] };
 	// SOG(WEST)
@@ -74,6 +75,10 @@ _fSel = switch (_faction) do {
 	case "MACV": 	{ ["B_MACV","vn_b_men_sog"] };
 	case "SF": 		{ ["B_MACV","vn_b_men_sf"] };
 	case "USA": 	{ ["B_MACV","vn_b_men_army"] };
+	// WS(WEST)
+	case "ION":		{ ["BLU_ION_lxWS","EdSubcat_Personnel"] };
+	case "UNA":		{ ["BLU_UN_lxWS","EdSubcat_Personnel"] };
+	case "TURAW":	{ ["BLU_TURA_lxWS","EdSubcat_Personnel"] };
 
 	// GUER
 	case "AAF": 	{ ["IND_F","EdSubcat_Personnel"] };
@@ -91,6 +96,9 @@ _fSel = switch (_faction) do {
 	case "ARVN": 	{ ["I_ARVN","vn_i_men_arvn"] };
 	case "ARVNSF": 	{ ["I_ARVN","vn_i_men_arvn_sf"] };
 	case "RANGER": 	{ ["I_ARVN","vn_i_men_arvn_ranger"] };
+	// WS(GUER)
+	case "SFIA":	{ ["IND_SFIA_lxWS","EdSubcat_Personnel"] };
+	case "TURA":	{ ["IND_TURA_lxWS","EdSubcat_Personnel"] };
 
 	// EAST
 	case "CHDKZE": 	{ ["rhsgref_faction_chdkz","rhsgref_EdSubcat_infantry"] };
@@ -108,6 +116,7 @@ _fSel = switch (_faction) do {
 	case "SPZ":		{ ["OPF_R_F","EdSubcat_Personnel"] };
 	case "TAKI": 	{ ["Taki_Opfor","EdSubcat_Personnel"] };
 	case "TLA": 	{ ["rhsgref_faction_tla","rhsgref_EdSubcat_infantry"] };
+	// GM(EAST)
 	case "EGER": 	{ ["gm_fc_gc","gm_esc_men_80"] };
 	case "EGERW": 	{ ["gm_fc_gc","gm_esc_men_80_winter"] };
 	// SOG(EAST)
@@ -119,6 +128,9 @@ _fSel = switch (_faction) do {
 	case "PAVN": 		{ ["O_PAVN","vn_o_men_nva"] };
 	case "PAVN65": 		{ ["O_PAVN","vn_o_men_nva_65"] };
 	case "PAVNDACONG": 	{ ["O_PAVN","vn_o_men_nva_dac_cong"] };
+	// WS(EAST)
+	case "SFIAE":		{ ["OPF_SFIA_lxWS","EdSubcat_Personnel"] };
+	case "TURAE":		{ ["OPF_TURA_lxWS","EdSubcat_Personnel"] };
 	
 	// CIV
 	case "ZOM": 	{ ["ZOMBIE_Faction","EdSubcat_Personnel"] };
@@ -150,51 +162,7 @@ _fnc_notInString = {
 	private _notInString = TRUE;
 	{
 		if (toLower _type find _x >= 0) exitWith { _notInString = FALSE };
-	} forEach [ 
-		"_story", 
-		"_vr", 
-		"competitor", 
-		"ghillie", 
-		"miller", 
-		"survivor", 
-		"crew", 
-		"diver", 
-		"pilot", 
-		"rangemaster", 
-		"uav", 
-		"unarmed", 
-		"officer", 
-		"ugv", 
-		"vn_o_men_nva_65_35",
-		"vn_o_men_nva_65_36",
-		"vn_o_men_nva_65_37",
-		"vn_o_men_nva_65_38",
-		"vn_o_men_nva_65_39",
-		"vn_o_men_nva_65_40",
-		"vn_o_men_nva_37",
-		"vn_o_men_nva_38",
-		"vn_o_men_nva_39",
-		"vn_o_men_nva_40",
-		"vn_o_men_nva_41",
-		"vn_o_men_nva_42",
-		"vn_b_men_army_13",
-		"vn_b_men_army_14",
-		"vn_b_men_army_23",
-		"vn_b_men_army_24",
-		"vn_b_men_army_25",
-		"vn_b_men_army_26",
-		"vn_b_men_army_28",
-		"vn_b_men_army_29",
-		"vn_i_men_army_13",
-		"vn_i_men_army_14",
-		"vn_i_men_army_23",
-		"vn_i_men_army_24",
-		"vn_i_men_army_25",
-		"vn_i_men_army_26",
-		"vn_i_men_ranger_13",
-		"vn_i_men_ranger_14",
-		"vn_i_men_ranger_22"
-		 ];
+	} forEach [ "_story", "_vr", "competitor", "ghillie", "miller", "survivor", "crew", "diver", "pilot", "rangemaster", "uav", "unarmed", "officer", "ugv" ];
 	
 	_notInString
 };
@@ -221,7 +189,7 @@ _bPoss = [];
 if(_radius > 1) then {
 	{
 		_bPoss append (_x buildingPos -1) select { count (_x nearEntities ["Man",0.5]) < 1 }; // Any pos not already occupied
-	} forEach (nearestObjects [_center, ["building"], _radius]);
+	} forEach (nearestObjects [_center, ["building","static"], _radius]);
 } else {
 	_bPoss = (nearestBuilding _center) buildingPos -1;
 };

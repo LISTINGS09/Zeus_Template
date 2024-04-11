@@ -21,7 +21,6 @@ ZHS_Side = EAST;
 ZHS_Config = [configFile >> "CfgGroups" >> "East" >> "OPF_G_F" >> "Infantry" >> "O_G_InfTeam_Light"]; // East
 //ZHS_Config = [configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam"]; // West
 //ZHS_Config = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry" >> "HAF_InfTeam"]; // Guer
-//ZHS_Config = [["vn_o_men_nva_dc_01", "vn_o_men_nva_dc_02", "vn_o_men_nva_dc_03", "vn_o_men_nva_dc_04", "vn_o_men_nva_dc_05", "vn_o_men_nva_dc_06", "vn_o_men_nva_dc_07", "vn_o_men_nva_dc_08", "vn_o_men_nva_dc_09", "vn_o_men_nva_dc_10", "vn_o_men_nva_dc_11", "vn_o_men_nva_dc_12"]]; //EAST SOC DAC CONG
 
 // Get the centre point
 switch (typeName _location) do {
@@ -57,19 +56,20 @@ _ZHS_fnc_spawnTeam = {
 	_grp
 };
 
-for "_i" from 1 to _number do {
+for "_i" from 0 to _number do {
 	if (count _units == 0) exitWith {};
 
-	_spawnPos = [_location, ZHS_SpawnDist, ZHS_SpawnDist + 200, 1] call BIS_fnc_findSafePos;
+	_spawnPos = [_location, ZHS_SpawnDist, ZHS_SpawnDist + 200, 1] call BIS_fnc_findSafePos
 	_spawnPos set [2,0];
 	_spawnGrp = [_spawnPos] call _ZHS_fnc_spawnTeam;
 
 	[_spawnGrp, group (selectRandom _units)] spawn BIS_fnc_Stalk;
 	
 	{	
-		_x allowFleeing 0;
-		_x disableAI "AUTOCOMBAT";
-		_x enableAttack false;
+		_x disableAI "COVER";
+		_x disableAI "FSM";
+		_x disableAI "SUPPRESSION";
 		_x setSpeedMode "FULL";
+		_x setUnitPos "UP";
 	} forEach units _spawnGrp;
 };

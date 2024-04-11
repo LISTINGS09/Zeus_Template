@@ -20,6 +20,9 @@ case "v_car":
 	_unit addMagazineCargoGlobal [_MMGmag_tr, 2];
 	_unit addMagazineCargoGlobal [_satchel, 2];
 	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),1]} else {_unit addMagazineCargoGlobal [_RATmag,1]}; // RHS Single shot RPGs
+	if !(isNil "_RATmag2") then {_unit addMagazineCargoGlobal [_RATmag2, 1]};
+	_unit addMagazineCargoGlobal [_MATmag1, 1];
+	if !(isNil "_MATmag2") then {_unit addMagazineCargoGlobal [_MATmag2,1]};
 	_unit addMagazineCargoGlobal [_grenade, 4];
 	_unit addMagazineCargoGlobal [_smokegrenade, 4];
 	_unit addMagazineCargoGlobal [_smokegrenadealt, 2];
@@ -54,7 +57,9 @@ case "v_tr":
 	_unit addMagazineCargoGlobal [_MMGmag_tr, 2];
 	_unit addMagazineCargoGlobal [_satchel, 4];
 	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),4]} else {_unit addMagazineCargoGlobal [_RATmag,4]}; // RHS Single shot RPGs
-	_unit addMagazineCargoGlobal [_MATmag1, 2];		
+	if !(isNil "_RATmag2") then {_unit addMagazineCargoGlobal [_RATmag2, 2]};
+	_unit addMagazineCargoGlobal [_MATmag1, 2];
+	if !(isNil "_MATmag2") then {_unit addMagazineCargoGlobal [_MATmag2,1]};
 	_unit addMagazineCargoGlobal [_grenade, 12];
 	_unit addmagazineCargoGlobal [_grenadealt,8];
 	_unit addMagazineCargoGlobal [_smokegrenade, 12];
@@ -75,8 +80,9 @@ case "v_ifv":
 	clearItemCargoGlobal _unit;
 	clearBackpackCargoGlobal _unit;
 	_unit addItemCargoGlobal ["ToolKit",1];
+	_unit addItemCargoGlobal ["MineDetector",1];
 	_unit addItemCargoGlobal [([_binos1,true] call f_fnc_arrayCheck),2];
-	_unit addWeaponCargoGlobal [([_carbine,true] call f_fnc_arrayCheck), 2];
+	_unit addWeaponCargoGlobal [([_rifle,true] call f_fnc_arrayCheck), 2];
 	_unit addMagazineCargoGlobal [_riflemag, 8];
 	_unit addMagazineCargoGlobal [_riflemag_tr, 6];
 	_unit addMagazineCargoGlobal [_glriflemag, 8];
@@ -90,7 +96,9 @@ case "v_ifv":
 	_unit addMagazineCargoGlobal [_MMGmag_tr, 1];
 	_unit addMagazineCargoGlobal [_satchel, 4];
 	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),2]} else {_unit addMagazineCargoGlobal [_RATmag,2]}; // RHS Single shot RPGs
-	_unit addMagazineCargoGlobal [_MATmag1, 1];
+	if !(isNil "_RATmag2") then {_unit addMagazineCargoGlobal [_RATmag2, 1]};
+	_unit addMagazineCargoGlobal [_MATmag1, 2];
+	if !(isNil "_MATmag2") then {_unit addMagazineCargoGlobal [_MATmag2, 1]};
 	_unit addMagazineCargoGlobal [_grenade, 8];
 	_unit addmagazineCargoGlobal [_grenadealt,6];
 	_unit addMagazineCargoGlobal [_smokegrenade, 8];
@@ -111,6 +119,7 @@ case "crate_small":
 	clearItemCargoGlobal _unit;
 	clearBackpackCargoGlobal _unit;
 	_unit addItemCargoGlobal ["ToolKit",1];
+	_unit addItemCargoGlobal ["MineDetector",1];
 	_unit addItemCargoGlobal [([_binos1,true] call f_fnc_arrayCheck),2];
 	_unit addMagazineCargoGlobal [_riflemag, 5];
 	_unit addMagazineCargoGlobal [_glriflemag_tr, 5];
@@ -119,6 +128,11 @@ case "crate_small":
 	_unit addMagazineCargoGlobal [_glsmoke, 4];
 	_unit addMagazineCargoGlobal [_satchel, 2];
 	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),1]} else {_unit addMagazineCargoGlobal [_RATmag,2]}; // RHS Single shot RPGs
+	if !(isNil "_RATmag2") then {_unit addMagazineCargoGlobal [_RATmag2, 1]};
+	_unit addMagazineCargoGlobal [_MATmag1, 2];
+	if !(isNil "_MATmag2") then {_unit addMagazineCargoGlobal [_MATmag2,1]};
+	_unit addMagazineCargoGlobal [_DMriflemag, 4];
+	_unit addMagazineCargoGlobal [_SNrifleMag, 2];
 	_unit addMagazineCargoGlobal [_grenade, 8];
 	_unit addMagazineCargoGlobal [_smokegrenade, 8];
 	_unit addMagazineCargoGlobal [_smokegrenadealt, 2];
@@ -136,6 +150,7 @@ case "crate_med":
 	clearItemCargoGlobal _unit;
 	clearBackpackCargoGlobal _unit;
 	_unit addItemCargoGlobal ["ToolKit",1];
+	_unit addItemCargoGlobal ["MineDetector",1];
 	_unit addItemCargoGlobal [([_binos1,true] call f_fnc_arrayCheck),4];
 	_unit addMagazineCargoGlobal [_riflemag, 6];
 	_unit addMagazineCargoGlobal [_riflemag_tr, 4];
@@ -151,8 +166,12 @@ case "crate_med":
 	_unit addMagazineCargoGlobal [_satchel, 4];
 	_unit addMagazineCargoGlobal [_glmag, 16];
 	_unit addMagazineCargoGlobal [_glsmoke,16];
-	_unit addMagazineCargoGlobal [_satchel, 4];
 	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),4]} else {_unit addMagazineCargoGlobal [_RATmag,6]}; // RHS Single shot RPGs
+	if !(isNil "_RATmag2") then { _unit addMagazineCargoGlobal [_RATmag2, 3] };
+	_unit addMagazineCargoGlobal [_MATmag1, 3];
+	if !(isNil "_MATmag2") then { _unit addMagazineCargoGlobal [_MATmag2, 2] };
+	_unit addMagazineCargoGlobal [_DMriflemag, 8];
+	_unit addMagazineCargoGlobal [_SNrifleMag, 4];
 	_unit addMagazineCargoGlobal [_grenade, 12];
 	_unit addMagazineCargoGlobal [_smokegrenade, 16];
 	_unit addMagazineCargoGlobal [_smokegrenadealt, 8];
@@ -169,6 +188,9 @@ case "crate_large":
 	clearItemCargoGlobal _unit;
 	clearBackpackCargoGlobal _unit;
 	_unit addItemCargoGlobal ["ToolKit",1];
+	_unit addItemCargoGlobal ["MineDetector",2];
+	_unit addItemCargoGlobal [_medkit,1];
+	_unit addItemCargoGlobal [_nvg,2];
 	_unit addItemCargoGlobal [([_binos1,true] call f_fnc_arrayCheck),8];
 	_unit addMagazineCargoGlobal [_riflemag, 8];
 	_unit addMagazineCargoGlobal [_riflemag_tr, 8];
@@ -181,15 +203,19 @@ case "crate_large":
 	_unit addMagazineCargoGlobal [_armag_tr, 4];
 	_unit addMagazineCargoGlobal [_MMGmag, 4];
 	_unit addMagazineCargoGlobal [_MMGmag_tr, 4];
-	_unit addMagazineCargoGlobal [_satchel, 4];
+	_unit addMagazineCargoGlobal [_satchel, 8];
 	_unit addMagazineCargoGlobal [_glmag, 24];
 	_unit addMagazineCargoGlobal [_glsmoke,24];
-	_unit addMagazineCargoGlobal [_satchel, 8];
-	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),6]} else {_unit addMagazineCargoGlobal [_RATmag,8]}; // RHS Single shot RPGs
+	if (isNil "_RATmag") then {_unit addWeaponCargoGlobal [([_rat,true] call f_fnc_arrayCheck),6]} else {_unit addMagazineCargoGlobal [_RATmag, 8]}; // RHS Single shot RPGs
+	if !(isNil "_RATmag2") then { _unit addMagazineCargoGlobal [_RATmag2, 4] };
+	_unit addMagazineCargoGlobal [_MATmag1, 4];
+	if !(isNil "_MATmag2") then { _unit addMagazineCargoGlobal [_MATmag2, 3] };
+	_unit addMagazineCargoGlobal [_DMriflemag, 12];
+	_unit addMagazineCargoGlobal [_SNrifleMag, 6];
 	_unit addMagazineCargoGlobal [_grenade, 20];
 	_unit addMagazineCargoGlobal [_smokegrenade, 20];
 	_unit addMagazineCargoGlobal [_smokegrenadealt, 10];
 	_unit addMagazineCargoGlobal [_glflare,25];
 	_unit addMagazineCargoGlobal [_chem, 20];
-	_unit addItemCargoGlobal [_firstaid, 75];
+	_unit addItemCargoGlobal [_firstaid, 75];	
 };

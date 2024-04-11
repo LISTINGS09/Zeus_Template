@@ -435,7 +435,7 @@ _text = _text + "<br/><br/><font size='18' color='#80FF00'>MISC ITEMS (#):</font
 	private _code = "";
 	// Handle NVGs
 	if (toLower getText (configFile >> "CfgWeapons" >> _x >> "simulation") isEqualTo "nvgoggles") then {
-		_code = format["[<font><execute expression=""if ([] call f_fnc_inStartLocation) then {if !('%1' in assignedItems player) then {systemChat '[GEAR] Equipped %2'; player linkItem '%1';};};"">Add</execute></font>] [<font><execute expression=""if ([] call f_fnc_inStartLocation) then {if ('%1' in assignedItems player) then {systemChat '[GEAR] Removed %2'; player unlinkItem '%1';};};"">Remove</execute></font>]",_x,[getText (configFile >> "CfgWeapons" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString];
+		_code = format["[<font><execute expression=""if !('%1' in assignedItems player) then {systemChat '[GEAR] Equipped %2'; player linkItem '%1';};"">Add</execute></font>] [<font><execute expression=""if ('%1' in assignedItems player) then {systemChat '[GEAR] Removed %2'; player unlinkItem '%1';};"">Remove</execute></font>]",_x,[getText (configFile >> "CfgWeapons" >> _x >> "displayName"),_stringFilter] call BIS_fnc_filterString];
 	};	
 	_text = _text + format["%2 %3 %1<br/>",getText (configFile >> "CfgWeapons" >> _x >> "displayName"),[_x,30] call _fnc_itemPicture,_code];
 } forEach (assignedItems player - ["Rangefinder","Binocular","Laserdesignator","ACE_Vector"]);

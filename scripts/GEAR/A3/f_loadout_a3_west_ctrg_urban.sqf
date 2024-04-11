@@ -114,8 +114,8 @@ _chemalt = "Chemlight_red";
 
 // Backpacks
 _bagsmall = "B_AssaultPack_blk";
-_bagmedium = "B_ViperLightHarness_blk_F";
-_baglarge =  "B_ViperHarness_blk_F";
+_bagmedium = "B_FieldPack_blk";
+_baglarge =  "B_Carryall_blk";
 _bagmediumdiver =  "B_AssaultPack_blk";		// used by divers
 _baguav = "B_UAV_01_backpack_F";			// used by UAV operator
 _baghmgg = "B_HMG_01_weapon_F";				// used by Heavy MG gunner
