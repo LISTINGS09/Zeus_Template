@@ -1,8 +1,8 @@
 // F3 - Casualties Update
 // Updates the respawn marker with colour-code or counter
-// [group _this] remoteExecCall ["f_fnc_updateCas", 2];
+// [group _this, 1] remoteExecCall ["f_fnc_updateCas", 2];
 // [east] remoteExecCall ["f_fnc_updateCas", 2];
-params [["_group", civilian]];
+params [["_group", civilian], ["_value", 1]];
 
 {
 	_x params ["_sideVar", "_markerVar"];
@@ -11,7 +11,7 @@ params [["_group", civilian]];
 	private _side = if (_group isEqualType west) then { _group } else { side _group };
 	
 	if (_side == _sideVar) exitWith {
-		private _casVar = (missionNamespace getVariable [format["f_var_casualtyCount_%1",_sideVar], 0]) + 1;
+		private _casVar = ((missionNamespace getVariable [format["f_var_casualtyCount_%1",_sideVar], 0]) + _value) max 0;
 		private _casCap = missionNamespace getVariable["f_param_CasualtiesCap", 80];
 		missionNamespace setVariable [format["f_var_casualtyCount_%1", _sideVar], _casVar, true];
 		
@@ -21,7 +21,7 @@ params [["_group", civilian]];
 		
 		if (missionNamespace getVariable["f_param_CasualtiesShow", false]) then { _markerVar setMarkerText format["Casualties: %1", _casVar] };
 		
-		if (_group isEqualType grpNull) then { _group setVariable ["f_var_casualtyCount", (_group getVariable ["f_var_casualtyCount",0]) + 1, true]; };
+		if (_group isEqualType grpNull) then { _group setVariable ["f_var_casualtyCount", (_group getVariable ["f_var_casualtyCount",0]) + _value, true]; };
 		
 		true
 	};

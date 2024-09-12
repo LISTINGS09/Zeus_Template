@@ -209,11 +209,6 @@ _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
 <br/>
 <execute expression=""systemChat 'Generating Task List'; [] call fnc_AdminTasking;"">Show Task Control</execute><br/>
 <br/>
-Set Unit Skill 
-<execute expression=""systemChat 'Skill - Ultra'; { _x setSkill 1 } forEach allUnits"">Ultra</execute> | 
-<execute expression=""systemChat 'Skill - Ranked'; { _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits"">Unit Rank</execute> | 
-<execute expression=""systemChat 'Skill - Default';{ _x setSkill 0.4 } forEach allUnits"">Default</execute>
-<br/>
 Spectator <execute expression=""f_var_isAdmin = true; [true] call f_fnc_spectateInit;"">Start</execute> | <execute expression=""[false] call f_fnc_spectateInit;"">Stop</execute><br/>
 <br/>
 Reveal Players to AI (Fair): 
@@ -601,5 +596,20 @@ if (f_var_CustomNotes != "") then {
 // ADMIN BRIEFING
 // This is a generic section displayed only to the ADMIN
 _adminIntro ="<br/><font size='18' color='#80FF00'>ADMIN SECTION</font><br/><br/>This briefing section can only be seen by server administrators.<br/><br/>";
+
+_adminIntro = _adminIntro + "<br/><font color='#80FF00'>CASUALTY COUNTER</font><br/>";
+
+{
+	_x params ["_sideStr", "_sideVar"];
+	
+	_adminIntro = _adminIntro + format [
+		"[<font color='#CF142B'><execute expression=""[%1, -1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">-1</execute></font>] [<font color='#0080ff'><execute expression=""[%1, -99] remoteExecCall ['f_fnc_updateCas', 2];  systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">Reset</execute></font>] [<font color='#80FF00'><execute expression=""[%1, 1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">+1</execute></font>] %1 Casuaties<br/>", _sideStr, _sideVar
+	];
+} forEach [["West", west], ["East", east], ["Independent", independent], ["Civilian", civilian]];
+
+_adminIntro = _adminIntro + "<br/><font color='#80FF00'>AI SKILL</font><br/>Set Unit Skill<br/>
+<execute expression=""systemChat 'Skill - Ultra'; { _x setSkill 1 } forEach allUnits"">Ultra</execute> | 
+<execute expression=""systemChat 'Skill - Ranked'; { _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits"">Unit Rank</execute> | 
+<execute expression=""systemChat 'Skill - Default';{ _x setSkill 0.4 } forEach allUnits"">Default</execute><br/>";
 
 player createDiaryRecord ["ZeuAdmin", ["Admin Menu",_adminIntro]];

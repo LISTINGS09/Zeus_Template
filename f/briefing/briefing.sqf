@@ -48,15 +48,8 @@ if (serverCommandAvailable "#kick" || !isMultiplayer || _incAdmin) then {
 	["briefing.sqf","Briefing for admin included","DEBUG"] call f_fnc_logIssue;
 };
 
-player createDiaryRecord ["Diary", ["",""]];
-
-//player removeDiaryRecord ["Diary", "Administration"];
-//player removeDiaryRecord ["Diary", "Mission"];
-
 // Briefing from mission file
 #include "..\..\mission\briefing.sqf";
-
-player createDiaryRecord ["Diary", ["",""]];
 
 // Default non-commanders to group, commanders to side.
 if (leader player == player) then { setCurrentChannel 1 } else { setCurrentChannel 3 };

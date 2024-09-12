@@ -1,10 +1,7 @@
-// Farooq's Revive 2.4 (2600K Edit)
+// Farooq's Revive 3.0 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
-if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE };	// Heavy hits to head and body will instantly kill.
-if (isNil "FAR_var_DeathChance") 	then { FAR_var_DeathChance = 	15 };		// Percent to randomly survive an instant kill (head and body).
-if (isNil "FAR_var_DeathDmgHead") 	then { FAR_var_DeathDmgHead = 	1.2 };		// Kill when damage to the head is over this value.
-if (isNil "FAR_var_DeathDmgBody") 	then { FAR_var_DeathDmgBody = 	2 };		// Kill when damage to the body is over this value.
+if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE } else { FAR_var_InstantDeath = [FALSE,TRUE] select FAR_var_InstantDeath; };	// Heavy hits to head and body will instantly kill.
 if (isNil "FAR_var_BleedOut") 		then { FAR_var_BleedOut = 		180 };		// Seconds until unconscious unit bleeds out and dies. Set to 0 to disable.
 if (isNil "FAR_var_reduceBleedOut")	then { FAR_var_reduceBleedOut = 30 };		// When you die, decrease the bleed out time by this much.
 if (isNil "FAR_var_RespawnBagTime") then { FAR_var_RespawnBagTime = 180 };		// Time for player to respawn (if allowed). Set to 0 or less to disable.
@@ -29,10 +26,6 @@ FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage",
 // Player Initialization
 [] spawn {
     waitUntil { !isNull player };
-	
-	// Persistent after respawn - Don't add it again if present
-	if !(isNil "FAR_EHID_HandleDamage") then { player removeEventHandler ["HandleDamage", FAR_EHID_HandleDamage] };
-	FAR_EHID_HandleDamage = player addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
 	
 	[player] spawn FAR_fnc_unitInit;
 	

@@ -76,6 +76,7 @@ if (_flagMarker in allMapMarkers) then {
 
 	// TODO: Add ability to choose traits	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [player getVariable ["f_var_assignGear","r"],player] spawn f_fnc_assignGear }, nil, 0.5, true, true, "", "true"];
+	f_obj_spawnFlag addAction ["<t color='#FF8000'>Switch Class</t>", "f\misc\f_unitType.sqf", nil, 0.4, true, true, "", "true"];
 	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Create Gear Guide</t>", {
 		private _create = false;

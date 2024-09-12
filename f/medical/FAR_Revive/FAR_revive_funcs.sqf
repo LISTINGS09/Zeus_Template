@@ -1,8 +1,11 @@
 FAR_fnc_unitInit = {
 	params [["_unit", player]];
 	
+	if !(isNil "FAR_EHID_HandleDamage") then { _unit removeEventHandler ["HandleDamage", FAR_EHID_HandleDamage] };
+	FAR_EHID_HandleDamage = _unit addEventHandler ["HandleDamage", FAR_fnc_HandleDamage]; 
+	
 	if (!isNil "FAR_EHID_HandleDeath") then { _unit removeEventHandler ["Killed", FAR_EHID_HandleDeath] };
-	FAR_EHID_HandleDeath = _unit addEventHandler ["Killed", FAR_fnc_HandleDeath]; // Used in instant death
+	FAR_EHID_HandleDeath = _unit addEventHandler ["Killed", FAR_fnc_HandleDeath]; 
 	
 	_unit setVariable ["FAR_var_isDragged", false, true];
 	_unit setVariable ["FAR_var_isDragging", false, true];
@@ -112,29 +115,56 @@ FAR_fnc_DeathMessage = {
 };
 
 FAR_fnc_HandleDamage = {
-	params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint"];
+	params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint", "_directHit", "_context"];
+		
+	if !(local _unit) exitWith {_damage};
+	if (!isDamageAllowed _unit || !alive _unit || _damage < 0.1) exitWith {0};
 	
-	if !(local _unit) exitWith {nil};
+	//diag_log format ["%1 | %2 | %3 | %4 | %5 | %6 | %7 | %8 | %9 | %10", _unit, _selection, _damage, _source, _projectile, _hitIndex, _instigator, _hitPoint, _directHit, _context ];
+	
+	// Full credits; https://github.com/ferstaberinde/F3
+	
+	private _currentDamage = damage _unit;
+	if (_selection != "") then { _currentDamage = _unit getHit _selection };
 
-	if (alive _unit && 
-		_damage >= 1 && 
-		!(lifeState _unit == "INCAPACITATED") && 
-		_selection in ["","head","face_hub","neck","spine1","spine2","spine3","pelvis","body"]
-	) then {
-		// systemChat format["U: %1  S: %2  D: %3  K1: %4  P: %5  I: %6  K2: %7  H: %8", _unit, _selection, _damage, _source, _projectile, _hitIndex, _instigator, _hitPoint];
-		// If not instant death check allowed values, otherwise just make them unconscious
-		if ((random 100 < FAR_var_DeathChance  && (_damage < FAR_var_DeathDmgHead && _selection in ["head", "face_hub"] || _damage < FAR_var_DeathDmgBody && _selection == "")) || { !FAR_var_InstantDeath }) then {
-			_unit allowDamage false;
-			[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
-			0
-		};
+	private _hitSize = _damage - _currentDamage;
+	private _newDamage = _damage;
+	private _newHit = _hitSize; 
+	
+	if (lifeState _unit == "INCAPACITATED") then { _newHit = 0.25 * _hitSize };
+	
+	private _damageReductionThreshold = 0.35;  
+	if (_hitSize > (_damageReductionThreshold * 0.85)) then {
+		_newHit = ((_hitSize*(1/_damageReductionThreshold))^0.3)*_damageReductionThreshold*0.9;
 	};
+	
+	_newDamage = _currentDamage + _newHit;
+	
+	if (_hitIndex == -1) then {
+		if (_newDamage > 0.99) then {
+			private _certainDeath = random 1 < _newHit;
+						
+			if (FAR_var_InstantDeath && _certainDeath) then {
+				_newDamage = _newDamage max 100;
+			} else {
+				[_unit, if (isNull _instigator) then { _source } else { _instigator }] spawn FAR_fnc_SetUnconscious;
+				
+				_newDamage = 0.95;
+			};
+		};
+	} else {
+		_newDamage = _newDamage min 0.95;
+	};
+
+	_newDamage	
 };
 
 FAR_fnc_HandleDeath = {
 	params ["_unit", "_killer", "_instigator"];
 	
 	_target = if (_instigator == objNull) then { _killer } else { _instigator };
+	
+	_unit setVariable ["FAR_var_UnitName", name _unit, true];
 	
 	// Player EH won't fire for AI so increase casualty counter.
 	if !(isPlayer _unit) then {
@@ -153,17 +183,17 @@ FAR_fnc_HandleDeath = {
 FAR_fnc_SetUnconscious = {
 	params ["_unit", ["_killer", objNull]];
 	
+	if (lifeState _unit == "INCAPACITATED" || !alive _unit || !local _unit) exitWith {};
+	
+	systemChat format["FAR_fnc_SetUnconscious [ %1 | %2 ]", _unit, lifeState _unit];
+	
+	_unit allowDamage false;
 	_unit setUnconscious true;
+	_unit setCaptive true;
 		
 	_rand = (floor random 18) + 1;
 	playSound3D [format["A3\sounds_f\characters\human-sfx\P%1\Hit_Max_%2.wss", format["0%1",_rand] select [(count format["0%1",_rand]) - 2,2], (floor random 3) + 1], _unit, false, getPosASL _unit, 1.5, 1, 50];
-	
-	_unit setCaptive true;
-	_unit setDamage 0;
-			
-	// Allow the downed unit to be damaged?
-	if (FAR_var_InstantDeath) then { _unit allowDamage true } else { _unit allowDamage false };
-	
+				
 	// Eject unit if inside vehicle and is destroyed
 	if (vehicle _unit != _unit) then {
 		if (!alive vehicle _unit || (vehicle _unit) isKindOf "StaticWeapon") then {
@@ -177,9 +207,12 @@ FAR_fnc_SetUnconscious = {
 		uiSleep 1;
 		_unit switchMove "unconsciousReviveDefault";
 	};
-	
+		
 	// If the unit was killed (instant death) exit.
 	if (!alive _unit) exitWith {};
+	
+	// Allow the downed unit to be damaged?
+	if (FAR_var_InstantDeath) then { _unit allowDamage true };
 	
 	if (FAR_var_AICanHeal && !isMultiPlayer) then { [_unit] spawn FAR_fnc_AIHeal };
 	
@@ -358,6 +391,7 @@ FAR_fnc_SetUnconscious = {
 		
 		// Clear the "medic nearby" hint
 		hintSilent "";
+		{_unit setHitPointDamage [_x,0]} forEach (getAllHitPointsDamage _unit select 0);
 		_unit setDamage 0;
 		_unit forceWalk false;
 		_unit allowDamage true;
@@ -393,57 +427,6 @@ FAR_fnc_SetUnconscious = {
 	// Reset variables
 	_unit setVariable ["FAR_var_isStable", false, true];
 	_unit setVariable ["FAR_var_isDragged", false, true];
-};
-
-FAR_fnc_ReviveUnit = {
-	params[["_unit", player]];
-	
-	//if (!isPlayer _unit) exitWith { _unit setUnconscious false };
-		
-	private _view = cameraView;
-	private _oldMan = _unit;
-	private _newMan = (group _oldMan) createUnit [typeOf _oldMan, [0,0,0], [], 0, "NONE"];
-	
-	_newMan disableAI "ALL";
-		
-	_newMan setUnconscious true;
-	_newMan switchMove "UnconsciousReviveDefault";
-	_newMan setDir getDir _oldMan;
-	
-	// Migrate Info
-	{ _x params ["_varId", "_varVal"]; if (!isNil "_varVal") then { _newMan setVariable [_varId, _varVal] } } forEach (allVariables _oldMan);  // Variables
-	{ _newMan setUnitTrait [_x#0, _x#1] } forEach (getAllUnitTraits _oldMan);  // Traits
-	_newMan assignTeam (assignedTeam _oldMan); // Team Colour
-		
-	_oldMan hideObjectGlobal true;
-	_newMan setposASL getPosASL _oldMan;
-	
-	[_oldMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_saveInventory; // Gear
-		
-	selectPlayer _newMan;
-
-	waitUntil { _newMan == player };
-	
-	[_newMan, [missionNamespace, "f_var_savedGear"]] call BIS_fnc_loadInventory; // Gear
-		
-	_newMan switchCamera _view;
-	_newMan setUnconscious false;
-	[_newMan, name _oldMan] remoteExec ["setName"];	
-		
-	if (leader _oldMan == _oldMan) then { group _newMan selectLeader _newMan };
-	
-	deleteVehicle _oldMan;
-		
-	_newMan setCaptive false;
-	_newMan setUnconscious false;
-	
-	[] call FAR_fnc_unitInit;
-	
-	[_unit, "AmovPpneMstpSnonWnonDnon"] remoteExec ["switchMove"];
-
-	if (currentWeapon _unit == secondaryWeapon _unit && {currentWeapon _unit != ""}) then {
-		[_unit, "AmovPknlMstpSrasWlnrDnon"] remoteExec ["switchMove"];
-	};
 };
 
 FAR_fnc_CheckRevive = {
@@ -483,15 +466,8 @@ FAR_fnc_Revive = {
 	if (!_underwater) then {
 		_caller playMove format["AinvP%1MstpSlayW%2Dnon_medicOther", ["knl","pne"] select (stance _caller == "PRONE"), [["rfl","pst"] select (currentWeapon _caller isEqualTo handgunWeapon _caller), "non"] select (currentWeapon _caller isEqualTo "")];
 	};
-	_cursorTarget setVariable ["FAR_var_isDragged", false, true];
 	
-	/*
-	// Play sound
-	if (isArray (_config >> "sounds")) then {
-		selectRandom getArray (_config >> "sounds") params ["_sound", ["_volume", 1], ["_pitch", 1], ["_distance", 10]];
-		playSound3D [_sound, objNull, false, getPosASL _caller, _volume, _pitch, _distance];
-	};
-	*/
+	_cursorTarget setVariable ["FAR_var_isDragged", false, true];
 			
 	uiSleep 4;
 			
@@ -605,7 +581,7 @@ FAR_fnc_CheckBag = {
 		!(_caller nearObjects ["CAManBase", 2.5] select { lifeState _x in ['DEAD','DEAD-RESPAWN'] && !(isObjectHidden _x) } isEqualTo []) && 
 		{count (FAR_var_Medkit arrayIntersect (items _caller)) > 0}) 
 	exitWith { 
-		_caller setUserActionText [FAR_act_Bag , format["<t color='#FF0000'>Bag Body%1</t>", if (name _cursorTarget != "Error: No unit" && lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN']) then { format[" (%1)", name _cursorTarget] } else {""}], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa'/>"];
+		_caller setUserActionText [FAR_act_Bag , format["<t color='#FF0000'>Bag Body%1</t>", if (name _cursorTarget != "Error: No unit" && lifeState _cursorTarget in ['DEAD','DEAD-RESPAWN']) then { format[" (%1)", _cursorTarget getVariable ["FAR_var_UnitName", name _cursorTarget]] } else {""}], "<img size='3' image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa'/>"];
 		true 
 	};
 	

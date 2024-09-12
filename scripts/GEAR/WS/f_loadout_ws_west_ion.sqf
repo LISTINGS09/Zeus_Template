@@ -51,12 +51,12 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_SPAR_01_blk_F","arifle_XMS_Base_lxWS"];
-_riflemag = "30Rnd_556x45_Stanag_Sand";
+_riflemag = "30Rnd_556x45_Stanag";
 _riflemag_tr = "30Rnd_556x45_Stanag_Sand_Tracer_Yellow";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["arifle_SPAR_01_blk_F","arifle_XMS_Base_lxWS"];
-_carbinemag = "30Rnd_556x45_Stanag_Sand";
+_carbinemag = "30Rnd_556x45_Stanag";
 _carbinemag_tr = "30Rnd_556x45_Stanag_Sand_Tracer_Yellow";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
@@ -71,7 +71,7 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["arifle_SPAR_01_GL_blk_F","arifle_XMS_GL_lxWS"];
-_glriflemag = "30Rnd_556x45_Stanag_Sand";
+_glriflemag = "30Rnd_556x45_Stanag";
 _glriflemag_tr = "30Rnd_556x45_Stanag_Sand_Tracer_Yellow";
 _glmag = "1Rnd_HE_Grenade_shell";
 

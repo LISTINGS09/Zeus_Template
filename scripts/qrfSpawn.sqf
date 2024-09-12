@@ -425,6 +425,40 @@ _Medium = ["SPE_FR_M16_Halftrack"];
 _Heavy = ["SPE_FR_M10","SPE_FR_M4A0_75_Early"];
 _CAS = ["SPE_P47"];
 
+***************************
+*** REACTION FORCES / WS ***
+***************************
+
+// WEST - ION
+_side = WEST;
+ZMM_WESTMan = ["B_ION_TL_lxWS","B_ION_Soldier_lxWS","B_ION_soldier_AR_lxWS","B_ION_Soldier_lxWS","B_ION_Soldier_GL_lxWS","B_ION_Soldier_lxWS","B_ION_shot_lxWS",selectRandom["B_ION_medic_lxWS","B_ION_marksman_lxWS"]];
+_Truck = ["B_ION_Truck_02_covered_lxWS"];
+_Light = ["B_ION_Pickup_mmg_rf","B_ION_Offroad_armed_lxWS"];
+_Medium = ["B_ION_APC_Wheeled_02_hmg_lxWS"];
+_Heavy = ["B_ION_APC_Wheeled_01_command_lxWS"];
+_Air = ["B_ION_Heli_EC_01_RF"];
+_CAS = ["B_ION_Heli_Light_02_dynamicLoadout_lxWS"];
+
+// WS - SFIA
+_side = EAST; 
+ZMM_EASTMan = ["O_SFIA_Soldier_TL_lxWS","O_SFIA_soldier_lxWS","O_SFIA_soldier_at_lxWS","O_SFIA_soldier_lxWS","O_SFIA_Soldier_AR_lxWS","O_SFIA_medic_lxWS",selectRandom["O_SFIA_sharpshooter_lxWS","O_SFIA_medic_lxWS"]]; 
+_Truck = ["O_SFIA_Truck_02_transport_lxWS"];
+_Light = ["O_SFIA_Offroad_AT_lxWS","O_SFIA_Offroad_armed_lxWS"];
+_Medium = ["O_SFIA_Truck_02_aa_lxWS","O_SFIA_APC_Wheeled_02_hmg_lxWS"];
+_Heavy = ["O_SFIA_MBT_02_cannon_lxWS","O_SFIA_APC_Tracked_02_30mm_lxWS","O_SFIA_APC_Tracked_02_AA_lxWS"];
+_Air = ["O_SFIA_Heli_EC_02_RF"];
+_CAS = ["O_SFIA_Heli_Attack_02_dynamicLoadout_lxWS"];
+
+// WS - TURA
+_side = EAST; 
+ZMM_EASTMan = ["O_Tura_enforcer_lxWS","O_Tura_hireling_lxWS","O_Tura_watcher_lxWS","O_Tura_defector_lxWS","O_Tura_deserter_lxWS",selectRandom["O_Tura_scout_lxWS","O_Tura_medic2_lxWS","O_Tura_thug_lxWS"]];
+_Truck = ["O_SFIA_Truck_02_transport_lxWS"];
+_Light = ["O_Tura_Offroad_armor_AT_lxWS","O_Tura_Offroad_armor_armed_lxWS"];
+_Medium = ["O_Tura_Truck_02_aa_lxWS","O_SFIA_APC_Wheeled_02_hmg_lxWS"];
+_Heavy = ["O_SFIA_APC_Wheeled_02_hmg_lxWS"];
+_Air = ["O_SFIA_Heli_EC_02_RF"];
+_CAS = ["O_SFIA_Heli_Attack_02_dynamicLoadout_lxWS"];
+
 */
 
 if isNil "_side" exitWith { systemChat "QRFSpawn.sqf - ERROR - No Side defined!"; diag_log "QRFSpawn.sqf - ERROR - No Side defined!"; };
