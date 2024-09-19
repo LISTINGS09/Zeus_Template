@@ -184,9 +184,7 @@ FAR_fnc_SetUnconscious = {
 	params ["_unit", ["_killer", objNull]];
 	
 	if (lifeState _unit == "INCAPACITATED" || !alive _unit || !local _unit) exitWith {};
-	
-	systemChat format["FAR_fnc_SetUnconscious [ %1 | %2 ]", _unit, lifeState _unit];
-	
+		
 	_unit allowDamage false;
 	_unit setUnconscious true;
 	_unit setCaptive true;
