@@ -1,6 +1,6 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script
 // [] execVM "scripts\civPopulation.sqf";
-ZCS_version = 2.6;
+ZCS_version = 2.7;
 if !isServer exitWith {};
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
@@ -247,7 +247,13 @@ ZCS_fnc_SpawnHunter = {
 	
 	[_hunter] call ZCS_fnc_DressUnit;
 	
-	selectRandom [["hgun_Rook40_F","16Rnd_9x21_Mag"],["hgun_Pistol_heavy_01_F","11Rnd_45ACP_Mag"],["SMG_05_F","30Rnd_9x21_Mag_SMG_02"],["hgun_PDW2000_Holo_F","30Rnd_9x21_Mag"],["SMG_02_ACO_F","30Rnd_9x21_Mag_SMG_02"],["SMG_03C_TR_khaki","50Rnd_570x28_SMG_03"]] params ["_weapon", "_ammo"];
+	private _copyUnit = selectRandom (allUnits select { side group _x isEqualTo side _enemyGroup && count primaryWeaponMagazine _x > 0 });	
+	
+	if (isNil "_copyUnit") exitWith {};
+	
+	private _weapon = primaryWeapon _copyUnit;
+	private _ammo = primaryWeaponMagazine _copyUnit;
+
 	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
 	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
 	if (random 1 <= 0.9) then {
@@ -282,7 +288,13 @@ ZCS_fnc_SpawnBomber = {
 	[_bomber] joinSilent _enemyGroup; // BugFix - createUnit group is ignored?
 	
 	[_bomber] spawn ZCS_fnc_DressUnit;
-	_bomber addBackpack selectRandom ["B_Messenger_Black_F","B_Messenger_Gray_F"];
+	
+	private _copyUnit = selectRandom (allUnits select { side group _x isEqualTo side _enemyGroup && backpack _x != "" });	
+	
+	if (isNil "_copyUnit") exitWith {};
+	
+	
+	_bomber addBackpack (backpack _copyUnit);
 	
 	private _ied1 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
 	private _ied2 = "DemoCharge_Remote_Ammo" createVehicle [0,0,0];
