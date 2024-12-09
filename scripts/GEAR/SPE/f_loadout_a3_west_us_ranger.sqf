@@ -103,7 +103,7 @@ _binos1 = "SPE_Binocular_US";
 _binos2 = "SPE_Binocular_US";
 
 // Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles_INDEP";
+_nvg = "SPE_US_FL_TL122";
 
 // UAV Terminal
 _uavterminal = "B_UavTerminal";	  // BLUFOR - FIA
@@ -247,7 +247,7 @@ if (_isMan) then {
 	// ADD UNIVERSAL ITEMS
 	// Add items universal to all units of this faction
 
-	//_unit linkItem _nvg;			// Add and equip the faction's nvg
+	_unit linkItem _nvg;			// Add and equip the faction's nvg
 	_unit addItem _firstaid;		// Add a single first aid kit (FAK)
 	_unit linkItem "ItemMap";		// Add and equip the map
 	_unit linkItem "SPE_US_ItemCompass";	// Add and equip a compass
