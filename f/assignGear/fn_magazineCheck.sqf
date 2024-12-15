@@ -42,7 +42,7 @@ private _magsNew = switch (_weaponNew) do {
 	case "arifle_AKM_F": { ["30Rnd_762x39_AK12_Mag_F","30Rnd_762x39_AK12_Mag_Tracer_F"] };
 	case "arifle_MSBS65_F";
 	case "arifle_MSBS65_black_F";
-	case "arifle_MSBS65_camo_F"
+	case "arifle_MSBS65_camo_F";
 	case "arifle_MSBS65_sand_F";
 	case "arifle_MSBS65_GL_F";
 	case "arifle_MSBS65_GL_black_F";
@@ -51,7 +51,7 @@ private _magsNew = switch (_weaponNew) do {
 	case "arifle_MSBS65_UBS_F";
 	case "arifle_MSBS65_UBS_black_F";
 	case "arifle_MSBS65_UBS_camo_F";
-	case "arifle_MSBS65_UBS_sand_F":	{ ["30Rnd_65x39_caseless_msbs_mag","30Rnd_65x39_caseless_msbs_mag_Tracer"] };
+	case "arifle_MSBS65_UBS_sand_F": { ["30Rnd_65x39_caseless_msbs_mag","30Rnd_65x39_caseless_msbs_mag_Tracer"] };
 	default { getArray (configFile >> "CfgWeapons" >> _weaponNew >> "magazines") };
 };
 
