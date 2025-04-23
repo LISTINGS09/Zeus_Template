@@ -15,15 +15,15 @@ _scope2 = ["optic_MRCO","optic_Arco","optic_Hamr","optic_ERCO_snd_F","optic_ERCO
 _scope3 = ["optic_SOS","optic_AMS","optic_AMS_snd","optic_NVS"]; // Medium
 _scope4 = ["optic_LRPS_tna_F","optic_LRPS","optic_AMS","optic_AMS_snd","optic_Nightstalker"]; // High
 
-_bipod1 = ["bipod_01_F_snd","bipod_01_F_blk"];
+_bipod1 = ["bipod_01_F_blk"];
 
 // Default setup
-_attachments = [_attach1,_scope1,_bipod1]; // The default attachment set for most units, overwritten in the individual unitType
+_attachments = [_attach1,_scope1]; // The default attachment set for most units, overwritten in the individual unitType
 
 // Predefined Class Attachment Setup
-_attach_co = [_attach1,_scope2,_bipod1];
-_attach_dc = [_attach1,_scope2,_bipod1]; // Also SL!
-_attach_fl = [_attach1,_scope2,_bipod1];
+_attach_co = [_attach1,_scope2];
+_attach_dc = [_attach1,_scope2]; // Also SL!
+_attach_fl = [_attach1,_scope2];
 _attach_mg = [_attach1,_scope1,_bipod1];
 _attach_dm = [_scope3,_bipod1];
 _attach_sn = [_scope4,_bipod1];
@@ -52,17 +52,17 @@ _defMags_tr = 3;
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_SLR_V_lxWS"];
 _riflemag = "30Rnd_762x51_slr_lxWS";
-_riflemag_tr = "30Rnd_762x51_slr_lxWS";
+_riflemag_tr = "30Rnd_762x51_slr_tracer_green_lxWS";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["arifle_Galat_lxWS"];
+_carbine = ["arifle_Galat_lxWS","arifle_SLR_Para_lxWS"];
 _carbinemag = "30Rnd_762x39_AK12_Mag_F";
 _carbinemag_tr = "30Rnd_762x39_AK12_Mag_Tracer_F";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = "SMG_01_F";
-_smgmag = "30Rnd_45ACP_Mag_SMG_01";
-_smgmag_tr = "30Rnd_45ACP_Mag_SMG_01_Tracer_Red";
+_smg = "arifle_SLR_Para_lxWS";
+_smgmag = "30Rnd_762x51_slr_lxWS";
+_smgmag_tr = "30Rnd_762x51_slr_tracer_green_lxWS";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -72,7 +72,7 @@ _diverMag2 = "20Rnd_556x45_UW_mag";
 // Rifle with GL and HE grenades (CO, DC, FTLs)
 _glrifle = ["arifle_SLR_V_GL_lxWS"];
 _glriflemag = "30Rnd_762x51_slr_lxWS";
-_glriflemag_tr = "30Rnd_762x51_slr_lxWS";
+_glriflemag_tr = "30Rnd_762x51_slr_tracer_green_lxWS";
 _glmag = "1Rnd_40mm_HE_lxWS";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -132,14 +132,14 @@ _baghsamag = "O_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_Galat_lxWS"];
+_AR = ["arifle_Galat_lxWS","LMG_S77_Compact_lxWS"];
 _ARmag = "75Rnd_762x39_Mag_F";
 _ARmag_tr = "75Rnd_762x39_Mag_Tracer_F";
 
 // Medium MG
-_MMG = "LMG_Zafir_F";
-_MMGmag = "150Rnd_762x54_Box";
-_MMGmag_tr = "150Rnd_762x54_Box_Tracer";
+_MMG = "LMG_S77_lxWS";
+_MMGmag = "100Rnd_762x51_S77_Red_lxWS";
+_MMGmag_tr = "100Rnd_762x51_S77_Red_Tracer_lxWS";
 
 // Marksman rifle
 _DMrifle = ["srifle_DMR_05_blk_F","srifle_DMR_07_blk_F"];
