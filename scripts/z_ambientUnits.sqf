@@ -3,7 +3,7 @@
 // Generates Ambient Garrison and Patrols
 //
 // Usage: _nul = [] execVM "scripts\z_ambientUnits.sqf";
-ZAU_version = 1.0;
+ZAU_version = 1.2;
 if !isServer exitWith {};
 
 // Unit Variables
@@ -28,9 +28,35 @@ private _side = INDEPENDENT;
 ZMM_GUERMan = ["I_C_Soldier_Para_7_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F"]; // GUER - SYNDIKAT (VANILLA)
 ZMM_GUERMan = ["I_Soldier_F","I_Soldier_LAT2_F","I_Soldier_F","I_Soldier_GL_F","I_Soldier_F","I_Soldier_AR_F","I_Soldier_F",selectRandom["I_Soldier_AA_F","I_Soldier_AT_F"]]; // GUER - AAF (VANILLA)
 ZMM_GUERMan = ["I_E_Soldier_F","I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldier_AR_F","I_E_Soldier_F","I_E_Soldier_TL_F","I_E_Soldier_F",selectRandom["I_E_Soldier_AA_F","I_E_Soldier_AT_F"]]; // GUER - LDF (VANILLA)
+
+
+// GMX
+
+private _side = WEST;
+ZMM_WESTMan = ["gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_machinegunner_pk_digittsko","gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_antitank_trg21_pzf3_digittsko","gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_squadleader_trg21_digittsko"]; // GMX CDF - 2022
+ZMM_WESTMan = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"]; // West Germany - Summer
+ZMM_WESTMan = ["gm_ge_army_machinegunner_mg3_parka_80_win","gm_ge_army_rifleman_g3a3_parka_80_win","gm_ge_army_squadleader_g3a3_p2a1_parka_80_win","gm_ge_army_grenadier_g3a3_parka_80_win"]; // West Germany - Winter
+ZMM_WESTMan = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"]; // West Germany - Tropical
+ZMM_WESTMan = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"]; // West Germany - Desert
+ZMM_WESTMan = ["gmx_cdf_army_antitank_ak74_rpg7_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_machinegunner_rpk_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_squadleader_ak74_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_rifleman_ak74_ttsko"]; // GMX CDF - 1980
+
+private _side = EAST;
+ZMM_EASTMan = ["gm_gc_army_antitank_mpiak74n_rpg7_80_win","gm_gc_army_machinegunner_pk_80_win","gm_gc_army_rifleman_mpiak74n_80_win","gm_gc_army_squadleader_mpiak74n_80_win"]; // East Germany - Winter
+ZMM_EASTMan = ["gm_gc_army_rifleman_mpiak74n_80_str","gm_gc_army_squadleader_mpiak74n_80_str","gm_gc_army_machinegunner_pk_80_str","gm_gc_army_antitank_mpiak74n_rpg7_80_str","gm_gc_army_squadleader_mpiak74n_80_str"]; // East Germany - Summer
+ZMM_EASTMan = ["gm_pl_army_rifleman_akm_80_win","gm_pl_army_squadleader_akm_80_win","gm_pl_army_machinegunner_pk_80_win","gm_pl_army_antitank_akm_rpg7_80_win"]; // Poland - Winter
+ZMM_EASTMan = ["gm_pl_army_rifleman_akm_80_autumn_moro","gm_pl_army_squadleader_akm_80_autumn_moro","gm_pl_army_machinegunner_pk_80_autumn_moro","gm_pl_army_antitank_akm_rpg7_80_autumn_moro"]; // Poland - Summer
+ZMM_EASTMan = ["gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_squadleader_akm_win","gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_antitank_akm_rpg7_mix","gmx_chdkz_army_machinegunner_rpk_mix","gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_grenadier_akm_pallad_mix"];	// GMX ChDkz
+
+private _side = INDEPENDENT;
+ZMM_GUERMan = ["I_Soldier_F","I_Soldier_LAT_F","I_Soldier_GL_F","I_Soldier_AR_F"];	// GMX AAF 1990
+ZMM_GUERMan = ["gm_xx_army_squadleader_m16a1_80_grn","gm_xx_army_rifleman_01_akm_alp","gm_xx_army_machinegunner_rpk_80_oli","gm_xx_army_assault_ak74nk_80_wdl","gm_xx_army_antitank_hk53a2_rpg7_80_oli"];	 // GM Revolutionaries
+
 */
 
 sleep 5;
+
+// Disable script if difficulty is explicitly disabled
+if ((missionNamespace getVariable ["f_param_ZMMDiff", 1]) <= 0) exitWith {};
 
 // User Variables
 if (isNil "ZAU_Debug" ) 		then { ZAU_Debug = false };		// Show Markers
@@ -42,6 +68,8 @@ if (isNil "ZAU_UnitsGarrison" ) then { ZAU_UnitsGarrison = [2,4] select ((count 
 if (isNil "ZAU_UnitsPatrol" ) 	then { ZAU_UnitsPatrol = [2,4] select ((count allPlayers) >= 10) }; 	// # of units in patrols
 if (isNil "ZAU_SleepTime" ) 	then { ZAU_SleepTime = 30 }; 	// Seconds between checks
 if (isNil "ZAU_SafeAreas" ) 	then { ZAU_SafeAreas = ((allMapMarkers select { "cover" in toLower _x || "safezone" in toLower _x}) - ["bis_fnc_moduleCoverMap_border"]) + (missionNamespace getVariable ["ZCS_var_BlackList",[]]) };
+if (isNil "ZAU_FadeMarker" ) 	then { ZAU_FadeMarker = false };// Allow locations to be repopulated
+
 // Script Variables
 ZAU_Loop = true;
 ZAU_UnitsActive = [];
@@ -63,7 +91,7 @@ while {ZAU_Loop} do {
 
 	// Fade markers over time to allow units to spawn there later
 	{ 
-		if (_x find "mkr_ZAU_" > -1) then {
+		if (_x find "mkr_ZAU_" > -1 && {ZAU_FadeMarker}) then {
 			if ((_x find "mkr_ZAU_spawn_" > -1 || _x find "mkr_ZAU_tracker_" > -1) && markerAlpha _x > 0) then {
 				_x setMarkerAlphaLocal (markerAlpha _x - 0.01)
 			} else {
@@ -223,7 +251,7 @@ while {ZAU_Loop} do {
 			};
 			
 			ZAU_Count = (missionNamespace getVariable ["ZAU_Count", 0]) + 1;
-			_patrolGroup setGroupIdGlobal [format["ZAU_PATROL_%1", missionNamespace getVariable ["ZAU_Count", 0]]];
+			_patrolGroup setGroupIdGlobal [format["ZAU_FREE_%1", missionNamespace getVariable ["ZAU_Count", 0]]];
 			
 			sleep 1;
 		};
