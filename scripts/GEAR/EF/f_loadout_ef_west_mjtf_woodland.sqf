@@ -7,11 +7,11 @@ _attach1 = ["acc_pointer_IR","acc_flashlight"];
 _attach2 = "";
 
 _flashHider = "";
-_silencer1 = ["ef_snds_mxar_khk","ef_snds_mxar","muzzle_snds_H_khk_F","muzzle_snds_h","muzzle_snds_M"]; // Rifleman
+_silencer1 = ["ef_snds_mxar","ef_snds_mxar_khk","muzzle_snds_H_khk_F","muzzle_snds_h","muzzle_snds_M"]; // Rifleman
 _silencer2 = ["muzzle_snds_H_khk_F","muzzle_snds_h","muzzle_snds_338_black"]; // MG
 
-_scope1 = ["optic_Holosight_khk_F","ef_optic_microsight_khk","optic_ACO","optic_ACO_grn","optic_Holosight_blk_F"]; // CQB
-_scope2 = ["ef_optic_mbs_khk","ef_optic_mbs","optic_ERCO_blk_F","optic_ERCO_khk_F","optic_Hamr","optic_Hamr_khk_F","optic_MRCO"]; // Low
+_scope1 = ["optic_Holosight_blk_F","optic_Holosight_khk_F","ef_optic_microsight_khk","optic_ACO","optic_ACO_grn"]; // CQB
+_scope2 = ["ef_optic_mbs","ef_optic_mbs_khk","optic_ERCO_blk_F","optic_ERCO_khk_F","optic_Hamr","optic_Hamr_khk_F","optic_MRCO"]; // Low
 _scope3 = ["optic_SOS","optic_SOS_khk_F","optic_AMS","optic_NVS"]; // Medium
 _scope4 = ["optic_LRPS","optic_AMS_khk","optic_AMS","optic_Nightstalker"]; // High
 
@@ -50,19 +50,19 @@ _defMags = 4;
 _defMags_tr = 4;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = ["ef_arifle_mxar_khk","arifle_MX_khk_F","arifle_MX_Black_F"];
-_riflemag = "30rnd_65x39_caseless_khaki_mag";
-_riflemag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
+_rifle = ["ef_arifle_mxar_black","ef_arifle_mxar_khk","arifle_MX_khk_F","arifle_MX_Black_F"];
+_riflemag = "30rnd_65x39_caseless_black_mag";
+_riflemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
-_carbine = ["ef_arifle_mxar_khk","arifle_MX_khk_F","arifle_MX_Black_F"];
-_carbinemag = "30rnd_65x39_caseless_khaki_mag";
-_carbinemag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
+_carbine = ["ef_arifle_mxar_black","ef_arifle_mxar_khk","arifle_MX_khk_F","arifle_MX_Black_F"];
+_carbinemag = "30rnd_65x39_caseless_black_mag";
+_carbinemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
-_smg = ["arifle_MXC_khk_F","arifle_MXC_Black_F"];
-_smgmag = "30rnd_65x39_caseless_khaki_mag";
-_smgmag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
+_smg = ["arifle_MXC_Black_F","arifle_MXC_khk_F"];
+_smgmag = "30rnd_65x39_caseless_black_mag";
+_smgmag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 
 // Diver
 _diverWep = "arifle_SDAR_F";
@@ -70,9 +70,9 @@ _diverMag1 = "30Rnd_556x45_Stanag";
 _diverMag2 = "20Rnd_556x45_UW_mag";
 
 // Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = ["ef_arifle_mxar_gl_khk","arifle_MX_GL_khk_F","arifle_MX_GL_Black_F"];
-_glriflemag = "30rnd_65x39_caseless_khaki_mag";
-_glriflemag_tr = "30rnd_65x39_caseless_khaki_mag_tracer";
+_glrifle = ["ef_arifle_mxar_gl_black","ef_arifle_mxar_gl_khk","arifle_MX_GL_khk_F","arifle_MX_GL_Black_F"];
+_glriflemag = "30rnd_65x39_caseless_black_mag";
+_glriflemag_tr = "30rnd_65x39_caseless_black_mag_tracer";
 _glmag = "1Rnd_HE_Grenade_shell";
 
 // Smoke for FTLs, Squad Leaders, etc
@@ -132,9 +132,9 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 // UNIQUE, ROLE-SPECIFIC EQUIPMENT
 
 // Automatic Rifleman
-_AR = ["arifle_MX_SW_khk_F","arifle_MX_SW_Black_F"];
-_ARmag = "100rnd_65x39_caseless_khaki_mag";
-_ARmag_tr = "100rnd_65x39_caseless_khaki_mag_tracer";
+_AR = ["arifle_MX_SW_Black_F","arifle_MX_SW_khk_F"];
+_ARmag = "100rnd_65x39_caseless_black_mag";
+_ARmag_tr = "100rnd_65x39_caseless_black_mag_tracer";
 
 // Medium MG
 _MMG = "MMG_02_black_F";
@@ -142,8 +142,8 @@ _MMGmag = "130Rnd_338_Mag";
 _MMGmag_tr = "130Rnd_338_Mag";
 
 // Marksman rifle
-_DMrifle = ["arifle_MXM_khk_F","srifle_DMR_03_F","arifle_SPAR_03_blk_F","arifle_SPAR_03_khk_F","srifle_DMR_02_camo_F","srifle_DMR_06_camo_F","srifle_DMR_03_khaki_F"];
-_DMriflemag = "30rnd_65x39_caseless_khaki_mag";
+_DMrifle = ["arifle_MXM_Black_F","arifle_MXM_khk_F","srifle_DMR_03_F","arifle_SPAR_03_blk_F","arifle_SPAR_03_khk_F","srifle_DMR_02_camo_F","srifle_DMR_06_camo_F","srifle_DMR_03_khaki_F"];
+_DMriflemag = "30rnd_65x39_caseless_black_mag";
 
 // Rifleman AT
 _RAT = ["launch_MRAWS_green_rail_F","launch_NLAW_F"];
@@ -213,11 +213,11 @@ _pilotRig = ["V_TacVest_blk"];
 _pilotGlasses = [];
 
 // Crewman
-_crewUniform = ["ef_U_B_MarineCombatUniform_des_3"];
+_crewUniform = ["EF_U_B_MarineCombatUniform_Wdl_3"];
 _crewHelmet = ["ef_H_HelmetCrew_coy"];
 _crewRig = ["EF_V_AAV_Coy"];
 _crewGlasses = [];
-
+ 
 // Ghillie
 _ghillieUniform = ["U_B_GhillieSuit"]; //DLC alternatives: ["U_B_FullGhillie_lsh","U_B_FullGhillie_ard","U_B_FullGhillie_sard"];
 _ghillieHelmet = [];

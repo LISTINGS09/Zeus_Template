@@ -151,7 +151,7 @@ _RATmag = "MRAWS_HEAT_F";
 _RATmag2 = "MRAWS_HE_F";
 
 // Medium AT
-_MAT = ["launch_O_Titan_short_F","launch_O_verona_brown_F"];
+_MAT = ["launch_O_Titan_short_F","launch_O_Vorona_brown_F"];
 _MATmag1 = "Titan_AT";
 _MATmag2 = "Titan_AP";
 

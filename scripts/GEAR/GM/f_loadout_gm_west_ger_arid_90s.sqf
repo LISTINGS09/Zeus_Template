@@ -103,7 +103,7 @@ _binos1 = "Binocular";
 _binos2 = "gm_lp7_oli";
 
 // Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles_OPFOR";
+_nvg = "gm_ferod51_oli";
 
 // UAV Terminal
 _uavterminal = "B_UavTerminal";	  // BLUFOR - FIA

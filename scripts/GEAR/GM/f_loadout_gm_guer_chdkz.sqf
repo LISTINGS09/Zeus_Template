@@ -103,7 +103,7 @@ _binos1 = "gm_df7x40_blk";
 _binos2 = "gm_lp7_oli";
 
 // Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles_OPFOR";
+_nvg = "gm_nsg66_oli";
 
 // UAV Terminal
 _uavterminal = "O_UavTerminal";	  // BLUFOR - FIA
@@ -248,6 +248,7 @@ if (_isMan) then {
 	// ADD UNIVERSAL ITEMS
 	// Add items universal to all units of this faction
 
+	_unit linkItem _nvg;			// Add and equip the faction's nvg
 	_unit addItem _firstaid;		// Add a single first aid kit (FAK)
 	_unit linkItem "ItemMap";		// Add and equip the map
 	_unit linkItem "ItemCompass";	// Add and equip a compass

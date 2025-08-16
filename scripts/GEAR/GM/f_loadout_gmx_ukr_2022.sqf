@@ -103,7 +103,7 @@ _binos1 = "Rangefinder";
 _binos2 = "Laserdesignator_01_khk_F";
 
 // Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles_OPFOR";
+_nvg = "gm_ferod51_oli";
 
 // UAV Terminal
 _uavterminal = "B_UavTerminal";	  // BLUFOR - WEST GER
@@ -248,12 +248,12 @@ if (_isMan) then {
 	// ADD UNIVERSAL ITEMS
 	// Add items universal to all units of this faction
 
+	_unit linkItem _nvg;			// Add and equip the faction's nvg
 	_unit addItem _firstaid;		// Add a single first aid kit (FAK)
 	_unit linkItem "ItemMap";		// Add and equip the map
 	_unit linkItem "ItemCompass";	// Add and equip a compass
 	_unit linkItem "ItemRadio";		// Add and equip A3's default radio
 	_unit linkItem "ItemWatch";		// Add and equip a watch
-	_unit linkItem _nvg;			// Add and equip NVGs
 	_unit addItem "H_Booniehat_mgrn";
 };
 
