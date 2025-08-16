@@ -92,7 +92,7 @@ _diaryText = _diaryText + format["<br/>Forecast: <font color='#00FFFF'>%1</font>
 // If short view distance be default, then don't allow to override.
 	_diaryText = _diaryText + format["View Distance: <font color='#00FFFF'>%1 meters</font>", viewDistance];
 	if (missionNamespace getVariable ["f_param_viewDistance", true]) then {
-		_diaryText = _diaryText + format["[<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance increased to ' + str viewDistance + 'm');"">Increase</execute>]
+		_diaryText = _diaryText + format[" [<execute expression=""setViewDistance (viewDistance + 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance increased to ' + str viewDistance + 'm');"">Increase</execute>]
 		[<execute expression=""setViewDistance (viewDistance - 500); setObjectViewDistance (viewDistance + 100); systemChat ('Distance decreased to ' + str viewDistance + 'm');"">Decrease</execute>]<br/>", 
 		viewDistance
 	];

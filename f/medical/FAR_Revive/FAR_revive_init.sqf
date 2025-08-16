@@ -20,8 +20,8 @@ if (side group player in FAR_var_SkipSide) exitWith {};
 // Create PP effects
 FAR_eff_ppVig = ppEffectCreate ["ColorCorrections", 1633];
 FAR_eff_ppBlur = ppEffectCreate ["DynamicBlur", 525];
-FAR_var_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80","vn_b_item_medikit_01","SPE_US_Medkit","SPE_GER_Medkit"];
-FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress","vn_b_item_firstaidkit","vn_o_item_firstaidkit","SPE_US_FirstAidKit","SPE_GER_FirstAidKit"];
+FAR_var_Medkit = ["Medikit","gm_gc_army_medkit","gm_ge_army_medkit_80","vn_b_item_medikit_01","SPE_US_Medkit","SPE_GER_Medkit","SPEX_CW_Medkit"];
+FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage","gm_ge_army_gauzeBandage","gm_ge_army_gauzeCompress","vn_b_item_firstaidkit","vn_o_item_firstaidkit","SPE_US_FirstAidKit","SPE_GER_FirstAidKit","SPEX_CW_FirstAidKit"];
 
 // Player Initialization
 [] spawn {

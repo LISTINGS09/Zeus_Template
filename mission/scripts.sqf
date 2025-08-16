@@ -4,6 +4,7 @@ player addRating 100000;
 showSubtitles false; // No radio calls
 "Group" setDynamicSimulationDistance 1200;
 "Vehicle" setDynamicSimulationDistance 2500;
+player setVehicleReportRemoteTargets true; // Enable player DataLink
 //enableEngineArtillery false; 	// Disable Artillery Computer
 //onMapSingleClick "_shift";	// Disable Map Clicking
 //setApertureNew [1.5, 8, 14, 1]; // Less Dark Night
@@ -16,6 +17,8 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 // F3 - Map Click Teleport - [NoOfUses,ActionTimeOut,["UnitsToGiveAction"],TeleportHeight]
 // [1,600,true,[],3000] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";	// Teleport Group, Leaders Only, Set for HALO (3000m Height)
 // [] execVM "f\mapClickTeleport\f_mapClickTeleportAction.sqf";						// Use Defaults (Teleport Group, Leaders Only, Land Teleport)
+// f_param_fastTravel = 1; // Enable Fast Travel from Spawn Flag
+// f_param_haloTravel = 1; // Enable HALO Travel from Spawn Flag
 // ====================================================================================
 // [RESISTANCE,"acc_flashlight"] execVM "scripts\flashLight.sqf";	// AI Flashlights
 // DAC_Basic_Value = 0; execVM "scripts\DAC\DAC_Config_Creator.sqf";	// DAC
