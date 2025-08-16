@@ -1,6 +1,6 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script
 // [] execVM "scripts\civPopulation.sqf";
-ZCS_version = 2.7;
+ZCS_version = 2.8;
 if !isServer exitWith {};
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
@@ -38,7 +38,9 @@ ZCS_var_UnitClass = switch (toLower worldName) do {
 	case "gm_weferlingen_winter";
 	case "gm_weferlingen_summer": { [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
 	case "sefrouramal": { [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"] };
-	case "spe_normandy": { [ "SPE_CIV_Citizen_1_tie","SPE_CIV_Citizen_2","SPE_CIV_Citizen_3_trop","SPE_CIV_Citizen_4","SPE_CIV_Citizen_5_tropSPE_CIV_Citizen_6","SPE_CIV_Citizen_7","SPE_CIV_Swetr_1","SPE_CIV_Swetr_2","SPE_CIV_Swetr_2_vest","SPE_CIV_Swetr_4","SPE_CIV_Swetr_5","SPE_CIV_Worker_Coverall_1","SPE_CIV_Worker_Coverall_2","SPE_CIV_Worker_3"] };	
+	case "spe_mortain";
+	case "spe_normandy";
+	case "spex_carentan": { [ "SPE_CIV_Citizen_1_tie","SPE_CIV_Citizen_2","SPE_CIV_Citizen_3_trop","SPE_CIV_Citizen_4","SPE_CIV_Citizen_5_tropSPE_CIV_Citizen_6","SPE_CIV_Citizen_7","SPE_CIV_Swetr_1","SPE_CIV_Swetr_2","SPE_CIV_Swetr_2_vest","SPE_CIV_Swetr_4","SPE_CIV_Swetr_5","SPE_CIV_Worker_Coverall_1","SPE_CIV_Worker_Coverall_2","SPE_CIV_Worker_3"] };	
 	default { [ "C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F","C_man_polo_6_F","C_journalist_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro","C_Man_casual_4_v2_F_asia","C_Man_casual_3_F_asia","C_Man_casual_4_F_euro","C_Man_casual_5_F_euro","C_Man_casual_6_F_euro"]; }; // Vanilla
 };
 
