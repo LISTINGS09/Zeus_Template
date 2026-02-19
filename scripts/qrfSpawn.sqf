@@ -10,7 +10,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
-ZQR_version = 1.38;
+ZQR_version = 1.39;
 if !isServer exitWith {};
 
 params [
@@ -31,9 +31,9 @@ if !(_location isEqualType []) exitWith { systemChat "[QRF] ERROR Invalid Object
 
 /*
 
-**********************
-*** VANILLA GROUPS ***
-**********************
+//**********************
+//*** VANILLA GROUPS ***
+//**********************
 
 // WEST - NATO TANOA (VANILLA)
 _side = WEST;
@@ -91,18 +91,18 @@ ZMM_EASTMan = ["O_T_Soldier_F","O_T_Soldier_LAT_F","O_T_Soldier_F","O_T_Soldier_
 _Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_Reinforcements"];
 _Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
 _Medium = [["O_T_APC_Wheeled_02_rcws_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
-_Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
-_Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_bench_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_command_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
+_Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_covered_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
 _CAS = [["O_T_VTOL_02_infantry_dynamicLoadout_F","_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
 
 // EAST - CSAT (VANILLA)
 _side = EAST;
 ZMM_EASTMan = ["O_Soldier_F","O_Soldier_LAT_F","O_Soldier_F","O_Soldier_GL_F","O_Soldier_F","O_Soldier_AR_F","O_Soldier_F",selectRandom["O_Soldier_AA_F","O_Soldier_AT_F"]];
 _Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized" >> "OIA_MotInf_Reinforce"];
-_Light = ["O_MRAP_02_hmg_F","O_LSV_02_armed_F"];
+_Light = ["O_MRAP_02_gmg_F","O_MRAP_02_hmg_F","O_LSV_02_AT_F","O_LSV_02_armed_F"];
 _Medium = [["O_APC_Wheeled_02_rcws_v2_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_APC_Tracked_02_cannon_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
-_Heavy = [["O_APC_Tracked_02_AA_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_02_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_04_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
-_Air = ["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_bench_F"];
+_Heavy = [["O_APC_Tracked_02_AA_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_02_railgun_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_02_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_04_command_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
+_Air = ["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_covered_F"];
 _CAS = [["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Hex',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F", "_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
 
 // EAST - SPETSNAZ (VANILLA)
@@ -155,9 +155,9 @@ _Heavy = [["I_E_APC_tracked_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,
 _Air = ["I_E_Heli_light_03_unarmed_F"];
 _CAS = ["I_E_Heli_light_03_dynamicLoadout_F"];
 
-********************
-*** ADDON GROUPS ***
-********************
+//********************
+//*** ADDON GROUPS ***
+//********************
 
 // WEST - CDF (RHS)
 _side = WEST;
@@ -250,9 +250,9 @@ _Air = [["RHS_Mi8mt_vvs","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
 _CAS = [["RHS_Mi8MTV3_vvs","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
 
 
-***************************
-*** GLOBAL MOBILISATION ***
-***************************
+//***************************
+//*** GLOBAL MOBILISATION ***
+//***************************
 
 // East Germany - Winter
 _side = EAST;
@@ -262,7 +262,7 @@ _Light = ["gm_gc_army_brdm2_olw"];
 _Medium = ["gm_gc_army_bmp1sp2_olw","gm_gc_army_btr60pa_olw"];
 _Heavy = ["2gm_gc_army_t55a_olw","gm_gc_army_zsu234v1_olw"];
 _Air = [["gm_gc_airforce_mi2p","[_grpVeh,['gm_gc_un',1]] call BIS_fnc_initVehicle;"]];
-_CAS = [];
+_CAS = [["gm_gc_airforce_mi2urn","[_grpVeh,['gm_gc_un',1]] call BIS_fnc_initVehicle;"]];
 
 // East Germany - Summer
 _side = EAST;
@@ -272,7 +272,7 @@ _Light = ["gm_gc_army_brdm2"];
 _Medium = ["gm_gc_army_bmp1sp2","gm_gc_army_btr60pa"];
 _Heavy = ["2gm_gc_army_t55a","gm_gc_army_zsu234v1"];
 _Air = ["gm_gc_airforce_mi2p"];
-_CAS = [];
+_CAS = ["gm_gc_airforce_mi2urn"];
 
 // West Germany - Summer
 _side = WEST;
@@ -281,8 +281,8 @@ _Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army" >> "gm_motorizedin
 _Light = ["gm_ge_army_iltis_milan"];
 _Medium = ["gm_ge_army_fuchsa0_engineer","gm_ge_army_m113a1g_apc"];
 _Heavy = ["gm_ge_army_Leopard1a3","gm_ge_army_gepard1a1"];
-_Air = [];
-_CAS = [];
+_Air = [["gm_ge_army_bo105p1m_vbh_swooper","[_grpVeh,['gm_ge_oli',1]] call BIS_fnc_initVehicle;"]];
+_CAS = [["gm_ge_army_bo105p_pah1","[_grpVeh,['gm_ge_oli',1]] call BIS_fnc_initVehicle;"]];
 
 // West Germany - Winter
 _side = WEST;
@@ -291,8 +291,8 @@ _Truck = [configFile >> "CfgGroups" >> "West" >> "gm_ge_army_win" >> "gm_motoriz
 _Light = ["gm_ge_army_iltis_milan_win"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_win","gm_ge_army_m113a1g_apc_win"];
 _Heavy = ["gm_ge_army_Leopard1a1a1_win","gm_ge_army_gepard1a1_win"];
-_Air = [];
-_CAS = [];
+_Air = [["gm_ge_army_bo105p1m_vbh_swooper","[_grpVeh,['gm_ge_un',1]] call BIS_fnc_initVehicle;"]];
+_CAS = [["gm_ge_army_bo105p_pah1","[_grpVeh,['gm_ge_un',1]] call BIS_fnc_initVehicle;"]];
 
 // West Germany - Tropical
 _side = WEST;
@@ -301,8 +301,8 @@ _Truck = [["gm_ge_army_u1300l_cargo","[_grpVeh,['gm_ge_trp',1]] call BIS_fnc_ini
 _Light = ["gm_ge_army_iltis_milan_trp"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_trp","gm_ge_army_m113a1g_apc_trp"];
 _Heavy = ["gm_ge_army_Leopard1a3_trp","gm_ge_army_gepard1a1_trp"];
-_Air = [];
-_CAS = [];
+_Air = [["gm_ge_army_bo105p1m_vbh_swooper","[_grpVeh,['gm_ge_oli',1]] call BIS_fnc_initVehicle;"]];
+_CAS = [["gm_ge_army_bo105p_pah1","[_grpVeh,['gm_ge_oli',1]] call BIS_fnc_initVehicle;"]];
 
 // West Germany - Desert
 _side = WEST;
@@ -311,8 +311,8 @@ _Truck = [["gm_ge_army_u1300l_cargo","[_grpVeh,['gm_ge_des',1]] call BIS_fnc_ini
 _Light = ["gm_ge_army_iltis_milan_des"];
 _Medium = ["gm_ge_army_fuchsa0_engineer_des","gm_ge_army_m113a1g_apc_des"];
 _Heavy = ["gm_ge_army_Leopard1a3_des","gm_ge_army_gepard1a1_des"];
-_Air = [];
-_CAS = [];
+_Air = [["gm_ge_army_bo105p1m_vbh_swooper","[_grpVeh,['gm_ge_oli',1]] call BIS_fnc_initVehicle;"]];
+_CAS = [["gm_ge_army_bo105p_pah1","[_grpVeh,['gm_ge_oli',1]] call BIS_fnc_initVehicle;"]];
 
 // Poland - Winter
 _side = EAST;
@@ -321,8 +321,8 @@ _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army_win" >> "gm_motoriz
 _Light = ["gm_pl_army_brdm2_olw"];
 _Medium = ["gm_pl_army_bmp1sp2_olw","gm_pl_army_ot64a_olw"];
 _Heavy = ["gm_pl_army_zsu234v1_olw","gm_pl_army_pt76b_olw","gm_pl_army_t55_olw"];
-_Air = [];
-_CAS = [];
+_Air = [["gm_pl_airforce_mi2p","[_grpVeh,['gm_pl_un',1]] call BIS_fnc_initVehicle;"]];
+_CAS = [["gm_pl_airforce_mi2urn","[_grpVeh,['gm_pl_un',1]] call BIS_fnc_initVehicle;"]];
 
 // Poland - Summer
 _side = EAST;
@@ -331,8 +331,8 @@ _Truck = [configFile >> "CfgGroups" >> "East" >> "gm_pl_army" >> "gm_motorizedin
 _Light = ["gm_pl_army_brdm2"];
 _Medium = ["gm_pl_army_bmp1sp2","gm_pl_army_ot64a"];
 _Heavy = ["gm_pl_army_zsu234v1","gm_pl_army_pt76b","gm_pl_army_t55"];
-_Air = [];
-_CAS = [];
+_Air = ["gm_pl_airforce_mi2p"];
+_CAS = ["gm_pl_airforce_mi2urn"];
 
 // GMX CDF - 1980
 _side = WEST;
@@ -385,26 +385,26 @@ _Air = ["gmx_chdkz_mi2p_wdl"];
 _CAS = ["gmx_chdkz_mi2urn_wdl"];
 
 
-***************************
-*** SPEADHEAD ***
-***************************
+//*****************
+//*** SPEADHEAD ***
+//*****************
 
 // Germany (Sturmtroopers)
 _side = WEST;
 ZMM_WESTMan = ["SPE_sturmtrooper_SquadLead","SPE_sturmtrooper_mgunner","SPE_sturmtrooper_rifleman","SPE_sturmtrooper_medic","SPE_sturmtrooper_rifleman","SPE_sturmtrooper_stggunner","SPE_sturmtrooper_rifleman","SPE_sturmtrooper_amgunner","SPE_sturmtrooper_LAT_rifleman","SPE_sturmtrooper_ober_grenadier","SPE_sturmtrooper_rifleman"];
 _Truck = ["SPE_ST_OpelBlitz"];
-_Light = ["SPE_ST_SdKfz250_1"];
-_Medium = ["SPE_ST_PzKpfwIII_J","SPE_ST_OpelBlitz_Flak38"];
-_Heavy = ["SPE_ST_PzKpfwIII_M","SPE_ST_PzKpfwIV_G"];
+_Light = [["SPE_GER_R200_MG34","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_SdKfz250_1","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
+_Medium = [["SPE_OpelBlitz_Flak38","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_StuH_42","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_ST_PzKpfwIII_J","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_PzKpfwIV_G","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["SPE_Jagdpanther_G1","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_PzKpfwV_G","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_PzKpfwVI_H1","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
 _CAS = ["SPE_FW190F8"];
 
 /// Germany (Wehrmacht)
 _side = WEST;
 ZMM_WESTMan = ["SPE_GER_SquadLead","SPE_GER_rifleman","SPE_GER_mgunner","SPE_GER_medic","SPE_GER_rifleman","SPE_GER_amgunner","SPE_GER_rifleman","SPE_GER_LAT_Rifleman","SPE_GER_ober_grenadier","SPE_GER_rifleman"];
 _Truck = ["SPE_OpelBlitz"];
-_Light = ["SPE_SdKfz250_1"];
-_Medium = ["SPE_OpelBlitz_Flak38","SPE_PzKpfwIII_J"];
-_Heavy = ["SPE_PzKpfwIII_M","SPE_PzKpfwIV_G"];
+_Light = [["SPE_GER_R200_MG34","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_SdKfz250_1","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
+_Medium = [["SPE_OpelBlitz_Flak38","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_StuH_42","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_ST_PzKpfwIII_J","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_PzKpfwIV_G","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["SPE_Jagdpanther_G1","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_PzKpfwV_G","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"],["SPE_PzKpfwVI_H1","[_grpVeh,['Camo1',1]] call BIS_fnc_initVehicle;"]];
 _CAS = ["SPE_FW190F8"];
 
 // US Army
@@ -414,20 +414,23 @@ _Truck = ["SPE_US_M3_Halftrack_Unarmed"];
 _Light = ["SPE_US_M3_Halftrack"];
 _Medium = ["SPE_US_M16_Halftrack"];
 _Heavy = ["SPE_M10","SPE_M4A1_75"];
+_Air = ["SPEX_C47_Skytrain"];
 _CAS = ["SPE_P47"];
 
 // French Revolutionaries
 _side = INDEPENDENT;
 ZMM_GUERMan = ["SPE_FR_SquadLead","SPE_FR_Rifleman_Carbine","SPE_FR_Autorifleman","SPE_FR_Rifleman","SPE_FR_Assist_SquadLead","SPE_FR_Rifleman_Carbine","SPE_FR_AT_Soldier","SPE_FR_Rifleman","SPE_FR_Grenadier","SPE_FR_Rifleman"];
 _Truck = ["SPE_FFI_OpelBlitz"];
-_Light = ["SPE_FR_M3_Halftrack"];
-_Medium = ["SPE_FR_M16_Halftrack"];
-_Heavy = ["SPE_FR_M10","SPE_FR_M4A0_75_Early"];
+_Light = [["SPE_GER_R200_MG34","[_grpVeh,['Panzergrau',1]] call BIS_fnc_initVehicle;"],["SPE_SdKfz250_1","[_grpVeh,['Panzergrau',1]] call BIS_fnc_initVehicle;"]];
+_Medium = [["SPE_SdKfz250_1","[_grpVeh,['Panzergrau',1]] call BIS_fnc_initVehicle;"],["SPE_OpelBlitz_Flak38","[_grpVeh,['Panzergrau',1]] call BIS_fnc_initVehicle;"],["SPE_SdKfz250_1","[_grpVeh,['Panzergrau',1]] call BIS_fnc_initVehicle;"]];
+_Heavy = [["SPE_PzKpfwIII_J","[_grpVeh,['Panzergrau',1]] call BIS_fnc_initVehicle;"]];
+_Air = [["SPEX_C47_Skytrain","[_grpVeh,['bare',1]] call BIS_fnc_initVehicle;"]];
 _CAS = ["SPE_P47"];
 
-***************************
-*** REACTION FORCES / WS ***
-***************************
+
+//**********************
+//*** WESTERN SAHARA ***
+//**********************
 
 // WEST - ION
 _side = WEST;
@@ -459,6 +462,31 @@ _Heavy = ["O_SFIA_APC_Wheeled_02_hmg_lxWS"];
 _Air = ["O_SFIA_Heli_EC_02_RF"];
 _CAS = ["O_SFIA_Heli_Attack_02_dynamicLoadout_lxWS"];
 
+
+//****************************
+//*** EXPEDITIONARY FORCES ***
+//****************************
+
+// WEST - MJTF (Desert)
+_side = WEST;
+ZMM_WESTMan = ["EF_B_Marine_R_Des","EF_B_Marine_LAT2_Des","EF_B_Marine_R_Des","EF_B_Marine_TL_Des","EF_B_Marine_R_Des","EF_B_Marine_AR_Des","EF_B_Marine_R_Des",selectRandom["EF_B_Marine_Mark_Des","EF_B_Marine_Medic_Des","EF_B_Marine_Exp_Des","EF_B_Marine_AA_Des","EF_B_Marine_AT_Des"]]; // WEST - MTJF (ARID)
+_Truck = ["EF_B_Truck_01_covered_MJTF_Des"];
+_Light = ["EF_B_MRAP_01_FSV_MJTF_Des","EF_B_MRAP_01_gmg_MJTF_Des","EF_B_MRAP_01_hmg_MJTF_Des"];
+_Medium = ["EF_B_AAV9_MJTF_Des","EF_B_AAV9_50mm_MJTF_Des"];
+_Heavy = ["EF_B_MBT_01_TUSK_MJTF_Des"];
+_Air = ["EF_B_Heli_Transport_01_MJTF_Des"];
+_CAS = ["EF_B_Heli_Attack_01_dynamicLoadout_MJTF_Des"];
+
+// WEST - MJTF (Woodland)
+_side = EAST; 
+ZMM_WESTMan = ["EF_B_Marine_R_Wdl","EF_B_Marine_LAT2_Wdl","EF_B_Marine_R_Wdl","EF_B_Marine_TL_Wdl","EF_B_Marine_R_Wdl","EF_B_Marine_AR_Wdl","EF_B_Marine_R_Wdl",selectRandom["EF_B_Marine_Mark_Wdl","EF_B_Marine_Medic_Wdl","EF_B_Marine_Exp_Wdl","EF_B_Marine_AA_Wdl","EF_B_Marine_AT_Wdl"]]; // WEST - MTJF (WOODLAND)
+_Truck = ["EF_B_Truck_01_covered_MJTF_Wdl"];
+_Light = ["EF_B_MRAP_01_FSV_MJTF_Wdl","EF_B_MRAP_01_gmg_MJTF_Wdl","EF_B_MRAP_01_hmg_MJTF_Wdl"];
+_Medium = ["EF_B_AAV9_MJTF_Wdl","EF_B_AAV9_50mm_MJTF_Wdl"];
+_Heavy = ["EF_B_MBT_01_TUSK_MJTF_Wdl"];
+_Air = ["EF_B_Heli_Transport_01_MJTF_Wdl"];
+_CAS = ["EF_B_Heli_Attack_01_dynamicLoadout_MJTF_Wdl"];
+
 */
 
 if isNil "_side" exitWith { systemChat "QRFSpawn.sqf - ERROR - No Side defined!"; diag_log "QRFSpawn.sqf - ERROR - No Side defined!"; };
@@ -477,7 +505,7 @@ zmm_fnc_spawnUnit = {
 	if (_tries > 10) exitWith {};
 
 	diag_log format["[QRF] SpawnUnit - Passed %1: %2 [%3] Try:%4", _targetPos, _unitClass, _side, _tries];
-
+	
 	private _startClass = _unitClass;
 	private _reinfGrp = grpNull;
 	private _grpVeh = objNull;
@@ -556,6 +584,7 @@ zmm_fnc_spawnUnit = {
 			
 			_reinfGrp selectLeader effectiveCommander _grpVeh;
 		} else {
+			// TODO: Make this unqiue to sideMEN?
 			createVehicleCrew _grpVeh;
 			
 			// Convert crew if using another faction vehicle.
@@ -582,6 +611,9 @@ zmm_fnc_spawnUnit = {
 			_reinfGrp selectLeader effectiveCommander _grpVeh;
 		};
 	};
+	
+	// Allow auto deleting of group
+	if (!isNull _reinfGrp) then { _reinfGrp deleteGroupWhenEmpty true };
 
 	// Run custom init for vehicle (set camos etc).
 	if !(isNil "_customInit") then { 
@@ -716,11 +748,15 @@ zmm_fnc_spawnUnit = {
 			_newWP setWaypointType "SAD";
 			_newWP = _paraGrp addWaypoint [_targetPos, 100];
 			_newWP setWaypointType "GUARD";
-			_reinfGrp = _paraGrp;
+			_reinfGrp = _paraGrp;			
+			_reinfGrp deleteGroupWhenEmpty true;
 		};
 	};
-
-	if (!isNull _reinfGrp) then { _reinfGrp deleteGroupWhenEmpty true };
+			
+	private _uid = (missionNamespace getVariable ["ZQR_count", 0]) + 1;	
+	ZQR_count = _uid;
+	
+	_garrisonGroup setGroupIdGlobal [format["ZQR_W%1_%2", missionNamespace getVariable ["ZQR_wave", 0], _uid]];
 
 	{ _x addCuratorEditableObjects [(units _reinfGrp) + [_grpVeh], true] } forEach allCurators;
 
@@ -939,13 +975,13 @@ for [{_wave = 1}, {_wave < _waveMax}, {_wave = _wave + 1}] do {
 	};
 	
 	diag_log text format["[QRF] Spawning - Wave %1/%2", _wave, _waveMax];
+	ZQR_wave = _wave;
 	
 	switch (_wave) do {
 		case 1: {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
 			[_location, _spawnLand, _side, 4] call zmm_fnc_spawnUnit;
-			
 		};
 		case 2: {
 			[_location, _spawnRoad, _side, selectRandom (_Light + _Truck)] call zmm_fnc_spawnUnit;
