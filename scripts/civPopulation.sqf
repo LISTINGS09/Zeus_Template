@@ -1,6 +1,6 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script
 // [] execVM "scripts\civPopulation.sqf";
-ZCS_version = 2.8;
+ZCS_version = 3.1;
 if !isServer exitWith {};
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
@@ -18,7 +18,6 @@ if (isNil "ZCS_var_HideMrk") then { ZCS_var_HideMrk = false };
 if (isNil "ZCS_var_LOWTasks") then { ZCS_var_LOWTasks = true };
 if (isNil "ZCS_var_Debug") then { ZCS_var_Debug = false };
 
-
 // Define custom gear if needed here - Empty array below will not override class gear, use [""] to force remove gear.
 ZCS_var_UnitGear = [
 	[], // Headgear
@@ -29,19 +28,20 @@ ZCS_var_UnitGear = [
 	[] // Items
 ];
 
-ZCS_var_UnitClass = switch (toLower worldName) do {
-	case "tanoa": { [ "C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_v2_F_tanoan","C_Man_casual_5_v2_F_tanoan","C_Man_casual_6_v2_F_tanoan","C_Man_casual_7_F_tanoan","C_Man_casual_8_F_tanoan","C_Man_casual_9_F_tanoan","C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan","C_Man_casual_6_F_tanoan","C_Man_smart_casual_1_F_tanoan","C_Man_smart_casual_2_F_tanoan" ] };
-	case "enoch": { [ "C_Man_1_enoch_F","C_Man_2_enoch_F","C_Man_3_enoch_F","C_Man_4_enoch_F","C_Man_5_enoch_F","C_Man_6_enoch_F","C_Farmer_01_enoch_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro" ] }; // Livonia
-	case "cam_lao_nam";
-	case "vn_khe_sanh";
-	case "vn_the_bra": { [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"] };
-	case "gm_weferlingen_winter";
-	case "gm_weferlingen_summer": { [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
-	case "sefrouramal": { [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"] };
-	case "spe_mortain";
-	case "spe_normandy";
-	case "spex_carentan": { [ "SPE_CIV_Citizen_1_tie","SPE_CIV_Citizen_2","SPE_CIV_Citizen_3_trop","SPE_CIV_Citizen_4","SPE_CIV_Citizen_5_tropSPE_CIV_Citizen_6","SPE_CIV_Citizen_7","SPE_CIV_Swetr_1","SPE_CIV_Swetr_2","SPE_CIV_Swetr_2_vest","SPE_CIV_Swetr_4","SPE_CIV_Swetr_5","SPE_CIV_Worker_Coverall_1","SPE_CIV_Worker_Coverall_2","SPE_CIV_Worker_3"] };	
-	default { [ "C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F","C_man_polo_6_F","C_journalist_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro","C_Man_casual_4_v2_F_asia","C_Man_casual_3_F_asia","C_Man_casual_4_F_euro","C_Man_casual_5_F_euro","C_Man_casual_6_F_euro"]; }; // Vanilla
+// Guess the Addon if it was not defined;
+if (isNil "ZCS_var_UnitClass") then {
+	if ("gm_core" in activatedAddons) exitWith { ZCS_var_UnitClass = [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
+	if ("vn_data_f" in activatedAddons) exitWith { ZCS_var_UnitClass = [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"] };
+	if ("ww2_spe_core_c_data_c" in activatedAddons) exitWith { ZCS_var_UnitClass = [ "SPE_CIV_Citizen_1_tie","SPE_CIV_Citizen_2","SPE_CIV_Citizen_3_trop","SPE_CIV_Citizen_4","SPE_CIV_Citizen_5_tropSPE_CIV_Citizen_6","SPE_CIV_Citizen_7","SPE_CIV_Swetr_1","SPE_CIV_Swetr_2","SPE_CIV_Swetr_2_vest","SPE_CIV_Swetr_4","SPE_CIV_Swetr_5","SPE_CIV_Worker_Coverall_1","SPE_CIV_Worker_Coverall_2","SPE_CIV_Worker_3"] };
+
+	if (isNil "ZCS_var_UnitClass") then {
+		ZCS_var_UnitClass = switch (toLower worldName) do {
+			case "tanoa": { [ "C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_v2_F_tanoan","C_Man_casual_5_v2_F_tanoan","C_Man_casual_6_v2_F_tanoan","C_Man_casual_7_F_tanoan","C_Man_casual_8_F_tanoan","C_Man_casual_9_F_tanoan","C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan","C_Man_casual_6_F_tanoan","C_Man_smart_casual_1_F_tanoan","C_Man_smart_casual_2_F_tanoan" ] };
+			case "enoch": { [ "C_Man_1_enoch_F","C_Man_2_enoch_F","C_Man_3_enoch_F","C_Man_4_enoch_F","C_Man_5_enoch_F","C_Man_6_enoch_F","C_Farmer_01_enoch_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro" ] }; // Livonia
+			case "sefrouramal": { [ "C_Djella_01_lxWS","C_Tak_02_A_lxWS","C_Tak_03_A_lxWS","C_Tak_01_A_lxWS"]; }; // WS
+			default { [ "C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F","C_man_polo_6_F","C_journalist_F","C_Man_casual_9_F_afro","C_Man_casual_8_F_afro","C_Man_casual_7_F_afro","C_Man_casual_6_v2_F_afro","C_Man_casual_4_v2_F_asia","C_Man_casual_3_F_asia","C_Man_casual_4_F_euro","C_Man_casual_5_F_euro","C_Man_casual_6_F_euro"]; }; // Vanilla
+		};
+	};
 };
 
 // Do not edit anything beneath this line!
@@ -254,10 +254,10 @@ ZCS_fnc_SpawnHunter = {
 	if (isNil "_copyUnit") exitWith {};
 	
 	private _weapon = primaryWeapon _copyUnit;
-	private _ammo = primaryWeaponMagazine _copyUnit;
+	private _ammo = (primaryWeaponMagazine _copyUnit)#0;
 
-	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
-	uniformContainer _hunter addItemCargo ["HandGrenade", 1];
+	uniformContainer _hunter addItemCargo ["HandGrenade", 2];
+	
 	if (random 1 <= 0.9) then {
 		uniformContainer _hunter addMagazineCargo [_ammo, 3];
 		_hunter addWeapon _weapon;
@@ -322,7 +322,9 @@ ZCS_fnc_SpawnBomber = {
 	[_bomber] spawn {
 		params ["_unit"];
 		
-		waitUntil { sleep 1; playSound3D ["A3\sounds_f\sfx\beep_target.wss", _unit, false, getPosASL _unit, 1, 0.5, 100]; (!alive _unit || allPlayers findIf { alive _x && _unit distance _x < 5 } >= 0) };
+		private _noBeep = ((missionNamespace getVariable ["ZZM_Template",""]) in ["GM","VN","SPE"]);
+		
+		waitUntil { sleep 1; if !(_noBeep) then { playSound3D ["A3\sounds_f\sfx\beep_target.wss", _unit, false, getPosASL _unit, 1, 0.5, 100] }; (!alive _unit || allPlayers findIf { alive _x && _unit distance _x < 5 } >= 0) };
 
 		if(random 1 > 0.2) then {
 			_exp = "HelicopterExploSmall" createVehicle (getPos _unit);
