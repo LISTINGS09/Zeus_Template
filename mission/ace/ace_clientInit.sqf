@@ -19,7 +19,7 @@ _typeofUnit = player getVariable ["f_var_assignGear", "r"];
 // Add basic items to all units
 (uniformContainer player) addItemCargoGlobal ["ACE_CableTie",4];
 (uniformContainer player) addItemCargoGlobal ["ACE_fieldDressing",8];
-(uniformContainer player) addItemCargoGlobal ["ACE_morphine",2];
+(uniformContainer player) addItemCargoGlobal ["ACE_painkillers",2];
 (uniformContainer player) addItemCargoGlobal ["ACE_tourniquet",1];
 if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1) then { (uniformContainer player) addItemCargoGlobal ["ACE_elasticBandage",8]; };
 

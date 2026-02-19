@@ -116,11 +116,11 @@ f_fnc_addMagazineItem = {
 			};
 		} else {
 			private _mags = (magazines player) select { _x in _itemTypeArr && _x != _item };
+			
+			if (count _mags isEqualTo 0) exitWith { systemChat format['[GEAR] Cannot add %1 - Nothing to replace.', getText (configFile >> "CfgMagazines" >> _item >> "displayName")]; };
 			{
-				if (player canAdd _item) then {
-					[_x,-1,_itemNoMax] call f_fnc_addMagazineItem;
-					[_item,1,_itemNoMax] call f_fnc_addMagazineItem;
-				};
+				[_x,-1,_itemNoMax] call f_fnc_addMagazineItem;
+				[_item,1,_itemNoMax] call f_fnc_addMagazineItem;
 			} forEach _mags;
 		};
 	} else {
@@ -283,7 +283,7 @@ private _textTS = "";
 f_var_signalHType = ((missionNamespace getVariable [format["f_var_%1_gear_smokeTH",_side],[]]) + (missionNamespace getVariable [format["f_var_%1_gear_flareTH",_side],[]])) - [""];
 f_var_signalHMax = {_x in f_var_signalHType } count (magazines player);
 
-if (f_var_signalHMax > 0 && count f_var_signalHType > 0) then {
+if (f_var_signalHMax > 0 && count f_var_signalHType > 0 && (date#0 > 2000) && !("ww2_spe_core_c_data_c" in activatedAddons)) then {
 	private _irGrenade = switch (TRUE) do {
 			case ("B_IR_Grenade" in magazines player): {"B_IR_Grenade"};
 			case ("O_IR_Grenade" in magazines player): {"O_IR_Grenade"};

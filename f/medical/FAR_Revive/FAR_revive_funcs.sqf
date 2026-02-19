@@ -17,9 +17,61 @@ FAR_fnc_unitInit = {
 	if !(isPlayer _unit) exitWith {};
 	
 	if (!isNil "FAR_EHID_Respawn") then { _unit removeEventHandler ["Respawn", FAR_EHID_Respawn] };
-	FAR_EHID_Respawn = _unit addEventHandler ["Respawn", { [] spawn FAR_fnc_unitInit; if (captive player) then { player setCaptive false }; if (FAR_var_SpawnInMedical) then { [] spawn FAR_fnc_TeleportNearestVehicle }; }];
+	FAR_EHID_Respawn = _unit addEventHandler [
+		"Respawn", 
+		{ 
+			params ["_unit", "_corpse"];
+			[_unit] spawn FAR_fnc_unitInit; 
+			if (captive player) then { player setCaptive false };
+			if (FAR_var_SpawnInMedical) then { [] spawn FAR_fnc_TeleportNearestVehicle }; 
+		}
+	];
 	
 	[_unit] spawn FAR_fnc_PlayerActions;
+};
+
+FAR_fnc_Debug = {
+	private _text = "";
+	private _cursorTarget = cursorTarget; // Can't be passed in addAction arguments!
+	
+	if (_cursorTarget isKindOf "CAManBase" && { alive _cursorTarget }) then { 
+		_text = _text + format["<br/>TARGET (%1):<br/>", name _cursorTarget];
+		_text = _text + format["Life State:<t color='#00FFFF'>%1</t><br/>", lifeState _cursorTarget];
+		_text = _text + format["Dragged: %1<br/>", ["<t color='#F00000'>No</t>","<t color='#00F000'>Yes</t>"] select (_cursorTarget getVariable ["FAR_var_isDragged", false])];
+		_text = _text + format["Stablised: %1<br/>", ["<t color='#F00000'>No</t>","<t color='#00F000'>Yes</t>"] select (_cursorTarget getVariable ["FAR_var_isStable", false])];
+		_text = _text + format["Medkits: <t color='#FF7F00'>%1</t> FAKs: <t color='#FF7F00'>%2</t><br/>", count (FAR_var_Medkit arrayIntersect (items _cursorTarget)), count (FAR_var_FAK arrayIntersect (items _cursorTarget))];
+	};
+	
+	_text = _text + format["<br/>PLAYER (%1):<br/>", name player];
+	_text = _text + format["Life State: <t color='#00FFFF'>%1</t><br/>", lifeState player];
+	_text = _text + format["Dragging: %1<br/>", ["<t color='#F00000'>No</t>","<t color='#00F000'>Yes</t>"] select (player getVariable ["FAR_var_isDragging", false])];
+	_text = _text + format["Is Medic: %1<br/>", ["<t color='#F00000'>No</t>","<t color='#00F000'>Yes</t>"] select (player getUnitTrait "Medic" || (getNumber (configFile >> "CfgVehicles" >> typeOf player >> "attendant") == 1))];
+	_text = _text + format["Medkits: <t color='#FF7F00'>%1</t> FAKs: <t color='#FF7F00'>%2</t><br/>", count (FAR_var_Medkit arrayIntersect (items player)), count (FAR_var_FAK arrayIntersect (items player))];
+	
+	private _missingActions = [];
+	{
+		if !((missionNamespace getVariable [_x,""]) isEqualType 0) then { _missingActions pushBack _x } 
+	} forEach ["FAR_act_Revive", "FAR_act_Bag", "FAR_act_Stabilise", "FAR_act_Dragging", "FAR_act_Carry", "FAR_act_UnitLoad"];
+	
+	if (count _missingActions > 0) then {
+		_text = _text + format["Missing Actions: <t color='#F00000'>%1</t><br/>", _missingActions];
+	};
+	
+	hintSilent parseText _text
+};
+
+FAR_fnc_ReviveDebug = {
+	private _text = "";
+	
+	if (missionNamespace getVariable ["FAR_fnc_CheckRevive",0] isEqualType 0) exitWith { systemChat "[FAR] You are missing the Revive addAction, did you respawn? Report the issue to 26K and REJIP" };
+	
+	if (FAR_var_ReviveMode == 0 && !(player getUnitTrait "Medic")) exitWith { systemChat "[FAR] You do not have the 'Medic' trait" };	
+	if (FAR_var_ReviveMode == 1 && (count ((FAR_var_Medkit + FAR_var_FAK) arrayIntersect (items player))) < 1) exitWith { systemChat "[FAR] You have no valid FAKs or Medkit items" };
+	if (FAR_var_ReviveMode == 2 && (count (FAR_var_Medkit arrayIntersect (items player)) < 1)) exitWith { systemChat "[FAR] You have no valid Medkit items" };
+
+	if (player nearObjects ["CAManBase", 5] select { lifeState _x in ['INCAPACITATED'] } isEqualTo []) exitWith { systemChat "[FAR] No-one is unconscious nearby to revive" };
+	
+	systemChat '[FAR] Try moving, sometimes bodies/weapons block interaction';
 };
 
 FAR_fnc_unitRemove = {
@@ -28,7 +80,7 @@ FAR_fnc_unitRemove = {
 	// Remove Actions
 	{
 		if ((missionNamespace getVariable [_x,""]) isEqualType 0) then { _unit removeAction (missionNamespace getVariable _x) } 
-	} forEach ["FAR_act_Revive", "FAR_act_Bag", "FAR_act_Stabilise", "FAR_act_Dragging", "FAR_act_Carry", "FAR_act_Release", "FAR_act_UnitLoad", "FAR_act_UnitUnload"];
+	} forEach ["FAR_act_Revive", "FAR_act_Bag", "FAR_act_Stabilise", "FAR_act_Dragging", "FAR_act_Carry", "FAR_act_Release", "FAR_act_UnitLoad"];
 	
 	// Remove Effects
 	{ _x ppEffectEnable false } forEach [FAR_eff_ppVig, FAR_eff_ppBlur];
@@ -45,7 +97,6 @@ FAR_fnc_unitRemove = {
 		_x removeAllEventHandlers "Killed";
 		_x removeAllEventHandlers "Respawn";
 		_x removeAllEventHandlers "HandleDamage";
-		
 	} forEach (switchableUnits - [_unit]);
 };
 
@@ -56,7 +107,7 @@ FAR_fnc_PlayerActions = {
 	if (!isNil "_newUnit") then {
 		{
 			if ((missionNamespace getVariable [_x,""]) isEqualType 0) then { _unit removeAction (missionNamespace getVariable _x) } 
-		} forEach ["FAR_act_Revive", "FAR_act_Bag", "FAR_act_Stabilise", "FAR_act_Dragging", "FAR_act_Carry", "FAR_act_Release", "FAR_act_UnitLoad", "FAR_act_UnitUnload"];
+		} forEach ["FAR_act_Revive", "FAR_act_Bag", "FAR_act_Stabilise", "FAR_act_Dragging", "FAR_act_Carry", "FAR_act_Release", "FAR_act_UnitLoad"];
 		
 		{ _x ppEffectEnable false } forEach [FAR_eff_ppVig, FAR_eff_ppBlur];
 		
@@ -639,13 +690,11 @@ FAR_fnc_IsFriendlyMedic = {
 };
 
 FAR_fnc_CheckFriendlies = {
-	private ["_unit", "_units", "_medics", "_hintMsg"];
-
-	_units = (position player) nearEntities [["Man", "Air", "Car"], 300];
-	//_units = nearestObjects [getPos player, ["Man", "Car", "Air", "Ship"], 300];
-	_medics = [];
-	_dist = 300;
-	_hintMsg = "";
+	private _unit = objNull;
+	private _units = (position player) nearEntities [["Man", "Air", "Car"], 300];
+	private _medics = [];
+	private _dist = 300;
+	private _hintMsg = "";
 	
 	// Find nearby friendly medics
 	if (count _units > 1) then {

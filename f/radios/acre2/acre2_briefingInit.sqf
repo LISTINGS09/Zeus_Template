@@ -1,15 +1,20 @@
 params ["_groupFreqIndex", "_groupLRFreqIndex","_presetSRArray","_presetLRArray","_preset"];
 
+// Set Radio ClassNames
+_SRclassName = missionNamespace getVariable ["f_radios_settings_acre2_standardSRRadio","ACRE_PRC343"];
+_LRclassName = missionNamespace getVariable ["f_radios_settings_acre2_standardLRRadio","ACRE_PRC152"];
+_EXclassName = missionNamespace getVariable ["f_radios_settings_acre2_extraRadio", _LRclassName];
+
 private _radioText = "<br/><font size='18' color='#80FF00'>RADIO OPERATION</font><br/>";
 // Populate any missing radio defaults missed from radios.sqf
 private _fRadiosShortRange = (missionNamespace getVariable ["f_radios_settings_riflemanRadio",["all"]]) + (missionNamespace getVariable ["f_radios_settings_personalRadio",["leaders"]]);
-private _srRadio = getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_standardSRRadio >> "displayName");
+private _srRadio = getText (configFile >> "CfgWeapons" >> _SRclassName >> "displayName");
 
 private _fRadiosLongRange = missionNamespace getVariable ["f_radios_settings_longRangeUnits",["leaders"]];
-private _lrRadio = getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_standardLRRadio >> "displayName");
+private _lrRadio = getText (configFile >> "CfgWeapons" >> _LRclassName >> "displayName");
 
 private _fRadiosExtraRadio = missionNamespace getVariable ["f_radios_settings_acre2_extraRadios",[]];
-private _exRadio = getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_extraRadio >> "displayName");
+private _exRadio = getText (configFile >> "CfgWeapons" >> _EXclassName >> "displayName");
 
 private _languages = [];
 private _unitMap = createHashMapFromArray [ ["leaders","Leaders"],["vc","Vehicle Crew"], ["pp","Pilots"], ["dc","SL"]

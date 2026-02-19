@@ -267,7 +267,7 @@ _backpack = {
 	if (count _this > 1) then {_loadout = _this select 1};
 	switch (_typeOfBackPack) do
 	{
-		#include "f_backpack_CDF.sqf";
+		#include "f_backpack.sqf";
 	};
 };
 

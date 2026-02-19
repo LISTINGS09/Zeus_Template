@@ -15,6 +15,11 @@ if (playerSide in [west, east, independent] && {f_radios_settings_acre2_SplitFre
 	};
 };
 
+// Set Radio ClassNames
+_SRclassName = missionNamespace getVariable ["f_radios_settings_acre2_SRclassName","ACRE_PRC343"];
+_LRclassName = missionNamespace getVariable ["f_radios_settings_acre2_LRclassName","ACRE_PRC152"];
+_EXclassName = missionNamespace getVariable ["f_radios_settings_acre2_extraRadio", _LRclassName];
+
 // BABEL
 // Check and set languages for customized unit (ex. translator)
 private _spokenLanguages = player getVariable ["f_var_acreLanguages", []];
@@ -29,7 +34,7 @@ _spokenLanguages call acre_api_fnc_babelSetSpokenLanguages;
 
 {
 	[_x,_presetName] call acre_api_fnc_setPreset;
-} forEach [f_radios_settings_acre2_standardSRRadio, f_radios_settings_acre2_standardLRRadio, f_radios_settings_acre2_extraRadio];
+} forEach [_SRclassName, _LRclassName, _EXclassName];
 
 private _presetSRArray = missionNamespace getVariable [format["f_radios_settings_acre2_sr_groups_%1", playerSide],[]];
 private _presetLRArray = missionNamespace getVariable [format["f_radios_settings_acre2_lr_groups_%1", playerSide],[]];
@@ -59,7 +64,7 @@ private _fRadiosLongRange = missionNamespace getVariable ["f_radios_settings_lon
 private _fRadiosExtraRadio = missionNamespace getVariable ["f_radios_settings_acre2_extraRadios",[]];
 private _typeofUnit = player getVariable ["f_var_assignGear", "r"]; // Wait for gear assignation to take place
 
-if(!f_radios_settings_disableAllRadios) then {
+if(!(missionNamespace getVariable ["f_radios_settings_disableAllRadios", false])) then {
 	// Wait for ACRE2 to initialise any radios the unit has in their inventory, and then
 	// remove them to ensure that duplicate radios aren't added by accident.
     waitUntil{uiSleep 0.3; !("ItemRadio" in (items player + assignedItems player))};
@@ -72,37 +77,36 @@ if(!f_radios_settings_disableAllRadios) then {
 	
 	// Everyone gets a short-range radio by default
 	if ((player getVariable ["f_var_radioAddSR", true]) && (_typeofUnit in _fRadiosShortRange || "all" in _fRadiosShortRange || (player == leader (group player) && "leaders" in _fRadiosShortRange))) then {
-		uniformContainer player addItemCargoGlobal [f_radios_settings_acre2_standardSRRadio, 1];
+		uniformContainer player addItemCargoGlobal [_SRclassName, 1];
 	};
 
 	// If unit is in the above list, add a 148
 	if((player getVariable ["f_var_radioAddLR", true]) && (_typeofUnit in _fRadiosLongRange || "all" in _fRadiosLongRange || (player == leader (group player) && "leaders" in _fRadiosLongRange))) then {
-		uniformContainer player addItemCargoGlobal [f_radios_settings_acre2_standardLRRadio, 1];
+		uniformContainer player addItemCargoGlobal [_LRclassName, 1];
 	};
 	
 	// If unit is in the list of units that receive an extra long-range radio, add another 148
 	if((player getVariable ["f_var_radioAddAR", true]) && (_typeofUnit in _fRadiosExtraRadio || "all" in _fRadiosExtraRadio)) then {
-		uniformContainer player addItemCargoGlobal [f_radios_settings_acre2_extraRadio, 1];
+		uniformContainer player addItemCargoGlobal [_EXclassName, 1];
 	};
 };
 
 // ASSIGN DEFAULT CHANNELS TO RADIOS
 // Depending on the squad joined, each radio is assigned a default starting channel
-[_groupSRChannelIndex,_groupLRChannelIndex] spawn {
-	params ["_SRChIndx","_LRChIndx"];
-    private ["_radioSR","_radioLR","_hasSR","_hasLR","_hasExtra"];
+[_groupSRChannelIndex,_groupLRChannelIndex, _SRclassName, _LRclassName] spawn {
+	params ["_SRChIndx","_LRChIndx", "_SRclassName", "_LRclassName"];
 
     waitUntil {uiSleep 0.1; [] call acre_api_fnc_isInitialized};
-	
-    _radioSR = [f_radios_settings_acre2_standardSRRadio] call acre_api_fnc_getRadioByType;
-    _radioLR = [f_radios_settings_acre2_standardLRRadio] call acre_api_fnc_getRadioByType;
+
+    private _radioSR = [_SRclassName] call acre_api_fnc_getRadioByType;
+    private _radioLR = [_LRclassName] call acre_api_fnc_getRadioByType;
 	
 	//Show Radio Nets:
-	_hasSR = false;
-	_hasLR = false;
+	private _hasSR = false;
+	private _hasLR = false;
 	{
-		if (_x isKindOf [f_radios_settings_acre2_standardSRRadio, configFile >> "CfgWeapons"]) then {_hasSR = true;};
-		if (_x isKindOf [f_radios_settings_acre2_standardLRRadio, configFile >> "CfgWeapons"]) then {_hasLR = true;};
+		if (_x isKindOf [_SRclassName, configFile >> "CfgWeapons"]) then {_hasSR = true;};
+		if (_x isKindOf [_LRclassName, configFile >> "CfgWeapons"]) then {_hasLR = true;};
 	} forEach (items player);
 
     if (_SRChIndx == -1 && {_hasSR}) then {
@@ -112,13 +116,13 @@ if(!f_radios_settings_disableAllRadios) then {
     };
 	
     if (_hasSR && _SRChIndx >= 0) then {
-		player groupChat format["[ACRE] %1: Tuned to %3.",getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_standardSRRadio >> "descriptionShort"), _SRChIndx+1, groupId group player];
+		player groupChat format["[ACRE] %1: Tuned to %3.",getText (configFile >> "CfgWeapons" >> _SRclassName >> "descriptionShort"), _SRChIndx+1, groupId group player];
         [_radioSR, (_SRChIndx + 1)] call acre_api_fnc_setRadioChannel;
     };
 
     if (_hasLR) then {	
 		private _LRChName = ((missionNamespace getVariable [format["f_radios_settings_acre2_lr_groups_%1", playerSide],f_radios_settings_longRangeGroups]) select _LRChIndx) select 0;
-		player groupChat format["[ACRE] %1: Tuned to %3.",getText (configFile >> "CfgWeapons" >> f_radios_settings_acre2_standardLRRadio >> "descriptionShort"), _LRChIndx + 1, _LRChName];
+		player groupChat format["[ACRE] %1: Tuned to %3.",getText (configFile >> "CfgWeapons" >> _LRclassName >> "descriptionShort"), _LRChIndx + 1, _LRChName];
         [_radioLR, (_LRChIndx + 1)] call acre_api_fnc_setRadioChannel;
     };
 };

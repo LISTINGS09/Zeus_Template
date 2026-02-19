@@ -37,8 +37,11 @@ private  _stringFilter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01
 			(allGroups select { groupId _x == '%1' and side _x == side group player }) params [['_group', grpNull]];
 			
 			if (!isNull _group) then {
+				systemChat '%4 joining %1';
 				[[player], _group] remoteExec ['joinSilent',leader _group];
 				'%4 joined %1' remoteExec ['systemChat',_group];
+			} else {
+				systemChat 'Unable to join %1, no group currently exists!';
 			};
 		};
 	"">%1</execute></font> - %2",_groupName, name leader _x,_color, name player] + "<br />";

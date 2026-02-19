@@ -15,6 +15,44 @@ player createDiarySubject ["ZeuAdmin","** Admin **"];
 
 // ====================================================================================
 
+/*
+// ZAU Script
+if (fileExists 'scripts\z_ambientUnits.sqf') then { 	
+	private _zauText = "<br/><font size='18' color='#80FF00'>Zeus Ambient Units</font><br/>";
+	
+	_zauText = _zauText + format["Version: %1", (missionNamespace getVariable  ["ZAU_version","Unknown"])] + "<br/><br/>";
+	_zauText = _zauText + "<br/>
+	<execute expression=""systemChat 'ZAU - Script Disabled'; { ZAU_Loop = false } remoteExec ['BIS_fnc_spawn', 2];"">Disable ZAU</execute> | 
+	<execute expression=""systemChat 'ZAU - Script Starting'; { [] execVM 'scripts\z_ambientUnits.sqf' } remoteExec ['BIS_fnc_spawn', 2];"">Enable ZAU</execute><br/>
+	<execute expression=""if (isNil 'ZAU_UnitsActive') then { { missionNamespace setVariable ['ZAU_UnitsActive', 0, true] } remoteExec ['BIS_fnc_spawn', 2]; } else { systemChat format['ZAU Active Units: %1',ZAU_UnitsActive] };"">Count Active Units</execute><br/>
+	";
+	
+//	"ZAU_DistMax"	"ZAU_DistMin"	"ZAU_UnitsMax"	"ZAU_UnitsChance"	"ZAU_UnitsGarrison"	"ZAU_SleepTime"		
+	player createDiaryRecord ["ZeuAdmin", ["Script - ZAU",_zauText]]; 
+};
+*/
+
+/*
+// QRF Script
+if (fileExists 'scripts\qrfSpawn.sqf') then { 	
+	private _zqrfText = "<br/><font size='18' color='#80FF00'>Zeus QRF</font><br/>";
+	
+	_zqrfText = _zqrfText + format["Version: %1", (missionNamespace getVariable  ["ZQR_version","Unknown"])] + "<br/><br/>";
+	
+	if (!isNil "TR_QRF") then {
+	
+	};
+	
+	_zqrfText = _zqrfText + "<br/><font color='#80FF00'>AI SKILL</font><br/>Set Unit Skill<br/>
+	<execute expression=""systemChat 'ZAU - Script Disabled'; { ZAU_Loop = false } remoteExec ['BIS_fnc_spawn', 2];"">Disable ZAU</execute> | 
+	<execute expression=""systemChat 'ZAU - Script Starting'; { [] execVM 'scripts\z_ambientUnits.sqf' } remoteExec ['BIS_fnc_spawn', 2];"">Enable ZAU</execute><br/>
+	<execute expression=""if (isNil 'ZAU_UnitsActive') then { { missionNamespace setVariable ['ZAU_UnitsActive', 0, true] } remoteExec ['BIS_fnc_spawn', 2]; } else { systemChat format['ZAU Active Units: %1',ZAU_UnitsActive] };"">Count Active Units</execute><br/>
+	";
+
+	player createDiaryRecord ["ZeuAdmin", ["Script - QRF",_zqrfText]];
+};
+*/
+
 // ADD ZEUS SUPPORT SECTION
 _missionZeus = format["
 <font size='18' color='#80FF00'>ZEUS SUPPORT</font><br/>
@@ -211,6 +249,8 @@ _missionDebug = "<font size='18' color='#80FF00'>DEBUG OPTIONS</font><br/><br/>
 <br/>
 Spectator <execute expression=""f_var_isAdmin = true; [true] call f_fnc_spectateInit;"">Start</execute> | <execute expression=""[false] call f_fnc_spectateInit;"">Stop</execute><br/>
 <br/>
+<execute expression=""systemChat 'Showing Mission Triggers'; [] execVM 'f\briefing\f_briefing_admin_trg.sqf';"">Reload Mission Triggers</execute><br/>
+<br/>
 Reveal Players to AI (Fair): 
 <execute expression=""systemChat 'Starting Reveal'; 
 { f_var_doReveal = true;
@@ -260,42 +300,45 @@ player createDiaryRecord ["ZeuAdmin", ["Debug",_missionDebug]];
 private _missionGear = "<font size='16' color='#80FF00'>Gear</font><br/>If you are in a vehicle, the vehicle will be used! If you are looking at a box then that will attempt to be used. Otherwise, a crate will be spawned according to the spawn mode.<br/><br/>";
 
 _missionGear = _missionGear + "
-Spawn Mode: <execute expression=""missionNamespace setVariable ['var_dropAmmo',false]; systemChat 'Spawn Mode: At Feet';"">At Feet</execute> | <execute expression=""missionNamespace setVariable ['var_dropAmmo',true]; systemChat 'Spawn Mode: Air Drop';"">Air Dropped</execute><br/><br/>
+Mode: <execute expression=""missionNamespace setVariable ['var_dropAmmo',false]; systemChat 'Spawn Mode: At Feet';"">Select At Feet</execute> | <execute expression=""missionNamespace setVariable ['var_dropAmmo',true]; systemChat 'Spawn Mode: Air Drop';"">Select Air Dropped</execute><br/><br/>
+<br/>
+If in a vehicle will fill that vehicles inventory. If looking at a container it will fill that container. If not looking at anything it will spawn a crate which will either be dropped or placed at your feet.<br/>
+<br/>
 <execute expression=""
 	private _gearType = 'v_car';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
 	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
-"">Car Inventory</execute><br/>
+"">Spawn Car Inventory</execute><br/>
 <execute expression=""
 	private _gearType = 'v_tr';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
 	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
-"">Truck Inventory</execute><br/>
+"">Spawn Truck Inventory</execute><br/>
 <execute expression="" 
 	private _gearType = 'v_ifv';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
 	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_Syndicate_Ammo_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
-"">IFV Inventory</execute><br/><br/>
-Supply Inventory <execute expression="" 
+"">Spawn IFV Inventory</execute><br/>
+<execute expression="" 
 	private _gearType = 'crate_small';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
 	if (isNull _gearTarget) then { _gearTarget = createVehicle ['Box_NATO_Support_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
-"">Small Box</execute> | 
+"">Spawn Small Crate</execute><br/>
 <execute expression="" 
 	private _gearType = 'crate_med';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
 	if (isNull _gearTarget) then { _gearTarget = createVehicle ['B_supplyCrate_F', player modelToWorld [0,2,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
-"">Medium Crate</execute> | 
+"">Spawn Medium Crate</execute><br/>
 <execute expression="" 
 	private _gearType = 'crate_large';
 	private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
@@ -597,19 +640,26 @@ if (f_var_CustomNotes != "") then {
 // This is a generic section displayed only to the ADMIN
 _adminIntro ="<br/><font size='18' color='#80FF00'>ADMIN SECTION</font><br/><br/>This briefing section can only be seen by server administrators.<br/><br/>";
 
-_adminIntro = _adminIntro + "<br/><font color='#80FF00'>CASUALTY COUNTER</font><br/>";
+private _playerSide = side group player;
+private _sideColor = ([_playerSide] call BIS_fnc_sideColor) call BIS_fnc_colorRGBAtoHTML;
+
+_adminIntro = _adminIntro + format["<br/><font color='#80FF00'>CASUALTY COUNTER</font><br/>Player Side: <font color='%1'>%2</font><br/><br/>", _sideColor, _playerSide];
+
+private _sideArr = ([["West", west], ["East", east], ["Independent", independent], ["Civilian", civilian]] select { _x#1 == _playerSide}) + 
+	([["West", west], ["East", east], ["Independent", independent], ["Civilian", civilian]] select { _x#1 != _playerSide});
 
 {
 	_x params ["_sideStr", "_sideVar"];
 	
 	_adminIntro = _adminIntro + format [
-		"[<font color='#CF142B'><execute expression=""[%1, -1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">-1</execute></font>] [<font color='#0080ff'><execute expression=""[%1, -99] remoteExecCall ['f_fnc_updateCas', 2];  systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">Reset</execute></font>] [<font color='#80FF00'><execute expression=""[%1, 1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat ('Counter Set to ' + str f_var_casualtyCount_%2);"">+1</execute></font>] %1 Casuaties<br/>", _sideStr, _sideVar
+		"[<font color='#FFFFFF'><execute expression=""systemChat ('Count: ' + str (missionNamespace getVariable ['f_var_casualtyCount_%2', 0]));"">Check</execute></font>] | [<font color='#CF142B'><execute expression=""[%1, -1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat 'Counter Decreased';"">-1</execute></font>] [<font color='#0080ff'><execute expression=""[%1, -99] remoteExecCall ['f_fnc_updateCas', 2];  systemChat 'Counter Reset';"">Reset</execute></font>] [<font color='#80FF00'><execute expression=""[%1, 1] remoteExecCall ['f_fnc_updateCas', 2]; systemChat 'Counter Increased';"">+1</execute></font>] %1 Casuaties%3<br/>", _sideStr, _sideVar, if (_sideVar == _playerSide) then { " <font color='#FF7F00'>** Player Side **</font>" } else { "" }
 	];
-} forEach [["West", west], ["East", east], ["Independent", independent], ["Civilian", civilian]];
+} forEach _sideArr;
 
 _adminIntro = _adminIntro + "<br/><font color='#80FF00'>AI SKILL</font><br/>Set Unit Skill<br/>
-<execute expression=""systemChat 'Skill - Ultra'; { _x setSkill 1 } forEach allUnits"">Ultra</execute> | 
-<execute expression=""systemChat 'Skill - Ranked'; { _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits"">Unit Rank</execute> | 
-<execute expression=""systemChat 'Skill - Default';{ _x setSkill 0.4 } forEach allUnits"">Default</execute><br/>";
+<execute expression=""systemChat 'Skill - Ultra'; {{ _x setSkill 1 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Ultra</execute> | 
+<execute expression=""systemChat 'Skill - Ranked'; {{ _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Unit Rank</execute> | 
+<execute expression=""systemChat 'Skill - Default'; {{ _x setSkill 0.4 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Default</execute> | 
+<execute expression=""systemChat 'Skill - Easy'; {{ _x setSkill 0.2 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Easy</execute><br/>";
 
 player createDiaryRecord ["ZeuAdmin", ["Admin Menu",_adminIntro]];

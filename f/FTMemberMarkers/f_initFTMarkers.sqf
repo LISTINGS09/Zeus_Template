@@ -42,12 +42,12 @@ _f_fnc_drawFTMarker = {
 			if ((_x getVariable["ACE_isUnconscious",false]) || lifeState _x == "INCAPACITATED") then {
 				_iconShape = "\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_forceRespawn_ca.paa";
 				_iconColor = [1,0.1,0.1,0.7];
-				_text = format ["%1 (Injured)", name _x];
+				_text = format ["%1 (Down)", name _x];
 				_iconDir = 0;
 			};
 			
 			// Show stabilised units if allowed
-			if (_x getVariable "FAR_var_isStable") then { 
+			if (_x getVariable "FAR_var_isStable") then {
 				_iconShape = "\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_revive_ca.paa";
 				_iconColor = [0.7,0.0,0.6,0.7];
 				_text = format ["%1 (Stable)", name _x];

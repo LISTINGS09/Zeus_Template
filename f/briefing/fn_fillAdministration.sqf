@@ -175,7 +175,7 @@ if (missionNamespace getVariable ["f_var_medical_level", 0] > 0 && (getMissionCo
 			["","A Medic may place a dead player in a <font color='#FF0080'>Body Bag</font color> to respawn that player. "] select (FAR_var_RespawnBagTime > 0),
 			["","Units should respawn at the nearest Medical Vehicle (if available). "] select FAR_var_SpawnInMedical];
 			
-			_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 AND lifeState player isEqualto 'HEALTHY') then { [] spawn { systemChat 'Fixing Ragdoll'; player switchMove ''; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { systemChat 'Fixing Uniform'; player setUnitLoadout (getUnitLoadout player) } };"">Uniform Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { player action ['SwitchWeapon', player, player, 100]; } };"">Weapon on Back</execute><br/>";
+			_diaryText = _diaryText + "<br/><execute expression=""if (time > 0 AND lifeState player isEqualto 'HEALTHY') then { [] spawn { systemChat 'Fixing Ragdoll'; player switchMove ''; player setUnconscious true; sleep 1; player setUnconscious false; } };"">Ragdoll Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { systemChat 'Fixing Uniform'; player setUnitLoadout (getUnitLoadout player) } };"">Uniform Fix</execute> | <execute expression=""if (time > 0) then { [] spawn { player action ['SwitchWeapon', player, player, 100]; } };"">Weapon on Back</execute> | <execute expression=""if (time > 0 AND lifeState player isEqualto 'HEALTHY') then { [] spawn { _nul = call FAR_fnc_ReviveDebug; } };"">Revive Help</execute><br/>";
 		};
 		
 		case 2: { // ACE
