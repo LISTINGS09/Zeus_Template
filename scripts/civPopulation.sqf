@@ -1,6 +1,6 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script
 // [] execVM "scripts\civPopulation.sqf";
-ZCS_version = 3.1;
+ZCS_version = 3.2;
 if !isServer exitWith {};
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
@@ -96,12 +96,24 @@ ZCS_fnc_FindDestPos = {
 		// Pick a building
 		_buildings = nearestObjects [_unitPos, ["house"], ZCS_var_MaxDist];
 		
+		if (time > ZCS_var_NextBuildingScan) then {
+			ZCS_var_CachedBuildings = [] call ZCS_fnc_NearBuildings;
+			ZCS_var_NextBuildingScan = time + 60;
+		};
+
+private _playerBuildings = ZCS_var_CachedBuildings;
+		
 		while { count _buildings > 0 && count _foundPosition == 0 && _tries < 10 } do {
 			_tries = _tries + 1;
 			
 			private _building = selectRandom _buildings;
-			private _buildings = _buildings - [_building];
+			_buildings = _buildings - [_building];
 			private _buildingPosList = _building buildingPos -1;
+			
+			private _buildingPosList = (_building buildingPos -1) select {
+				!surfaceIsWater _x &&
+				{ (_x select 2) > -1 }
+			};
 									
 			if (count _buildingPosList > 0 && (ZCS_var_BlackList findIf {getPos _building inArea _x} < 0)) exitWith {
 				_foundPosition = selectRandom _buildingPosList;
@@ -195,8 +207,16 @@ ZCS_fnc_SpawnUnit = {
 		
 		if (isPlayer _killer) then { 
 			missionNamespace setVariable ["ZCS_var_deadCivCount", (missionNamespace getVariable ["ZCS_var_deadCivCount",0])+1,true]; 
-			missionNamespace setVariable ["ZCS_var_EnemyChance", (missionNamespace getVariable ["ZCS_var_EnemyChance",0.05])+0.2, true];
-			missionNamespace setVariable ["ZCS_var_BomberChance", (missionNamespace getVariable ["ZCS_var_BomberChance",0.005])+0.05, true];
+			missionNamespace setVariable [
+				"ZCS_var_EnemyChance",
+				((missionNamespace getVariable ["ZCS_var_EnemyChance",0.05]) + 0.02) min 0.4,
+				true
+			];
+			missionNamespace setVariable [
+				"ZCS_var_BomberChance",
+				((missionNamespace getVariable ["ZCS_var_BomberChance",0.005]) + 0.005) min 0.08,
+				true
+			];
 			
 			if (ZCS_var_LOWTasks) then {
 				format["%1 (%2) killed Civilian (%3)",name _killer,groupId group _killer,name (_this select 0)] remoteExec ["systemChat",0];
@@ -318,6 +338,15 @@ ZCS_fnc_SpawnBomber = {
 	_bomber addEventHandler ["killed",{ { deleteVehicle _x } forEach attachedObjects (_this#0) }];
 
 	[_enemyGroup, group _huntPlayer] spawn BIS_fnc_Stalk;
+		
+	[_bomber, _huntPlayer] spawn {
+		params ["_unit","_target"];
+
+		while { alive _unit && alive _target } do {
+			_unit doMove (getPosATL _target);
+			sleep 5;
+		};
+	};
 	
 	[_bomber] spawn {
 		params ["_unit"];
@@ -341,9 +370,16 @@ sleep 0.5;
 ZCS_Count = 0;
 ZCS_CivList = []; // Items of type [unit, destination pos, last pos, isMoving, nextActionTime, isRunning].
 ZCS_var_Running = true;
+ZCS_var_CachedBuildings = [];
+ZCS_var_NextBuildingScan = 0;
 
 while { ZCS_var_Running } do {
-	private _playerBuildings = [] call ZCS_fnc_NearBuildings;
+	if (time > ZCS_var_NextBuildingScan) then {
+		ZCS_var_CachedBuildings = [] call ZCS_fnc_NearBuildings;
+		ZCS_var_NextBuildingScan = time + 60;
+	};
+
+	private _playerBuildings = +ZCS_var_CachedBuildings;
 	private _unitsCount = ceil (ZCS_var_UnitsPerBuilding * count _playerBuildings);
 	if (_unitsCount > ZCS_var_MaxGrpCount) then { _unitsCount = ZCS_var_MaxGrpCount; };
 
@@ -353,7 +389,7 @@ while { ZCS_var_Running } do {
 		
 		if (_pos isEqualTo []) exitWith {}; // No valid position
 		
-		private _spawnClose = ["respawn_east","respawn_west","respawn_guerrila","respawn_civilian"] findIf { getMarkerPos _x distance _pos < 1000 } > 0;
+		private _spawnClose = ["respawn_east","respawn_west","respawn_guerrila","respawn_civilian"] findIf { getMarkerPos _x distance _pos < 1000 } >= 0;
 		
 		if !(_spawnClose) then {
 			_newUnit = if (random 1 <= ZCS_var_EnemyChance) then {
@@ -415,10 +451,10 @@ while { ZCS_var_Running } do {
 			if ZCS_var_Debug then { diag_log text format["[ZCS] DEBUG - NewDestSet: %1 is %2 to %3", _unit, ["walking","running"] select _isRunning, _destPos] };
 		};
 		
-		_unit forceSpeed (if _isRunning then { -1 } else { 1 });
+		_unit forceSpeed (if (_isRunning) then { -1 } else { 2 + random 1 });
 
 		_x set [2, getPos _unit];
-	} forEach ZCS_CivList select { side _x == Civilian };
+	} forEach (ZCS_CivList select { side (_x#0) == civilian });
 	
 	if (diag_tickTime - (missionNamespace getVariable ["ZCS_var_LastCheck",0]) > 300) then {
 		if (ZCS_var_EnemyChance > 0.05) then { missionNamespace setVariable ["ZCS_var_EnemyChance", (ZCS_var_EnemyChance - 0.05) max 0.05, true ] };
