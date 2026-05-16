@@ -77,7 +77,7 @@ _side = WEST;
 ZMM_WEST_Man = ["B_GEN_Soldier_F","B_GEN_Commander_F","B_GEN_Soldier_F","B_GEN_Soldier_F"];
 Truck = ["B_GEN_Van_02_transport_F"];
 ZMM_WEST_Light = [["B_G_Offroad_01_armed_F","[_grpVeh,false,['HideDoor1',0,'HideDoor2',0,'HideDoor3',0,'HideBackpacks',1,'HideBumper1',0,'HideBumper2',1,'HideConstruction',0]] call BIS_fnc_initVehicle;_grpVeh setObjectTextureGlobal [0,'\A3\Soft_F_Exp\Offroad_01\Data\Offroad_01_ext_gen_CO.paa']"]];
-ZMM_WEST_Medium =[["O_MRAP_02_hmg_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];"]];
+ZMM_WEST_Medium = [["O_MRAP_02_hmg_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];"]];
 ZMM_WEST_Heavy = [["O_T_APC_Wheeled_02_rcws_v2_ghex_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [4,'#(rgb,8,8,3)color(0,0,0,1)'];"]];
 ZMM_WEST_Air = [["I_Heli_Transport_02_F","_grpVeh setObjectTextureGlobal [0,'a3\air_f_beta\Heli_Transport_02\Data\Skins\heli_transport_02_1_ion_co.paa'];_grpVeh setObjectTextureGlobal [1,'a3\air_f_beta\Heli_Transport_02\Data\Skins\heli_transport_02_2_ion_co.paa'];_grpVeh setObjectTextureGlobal [2,'a3\air_f_beta\Heli_Transport_02\Data\Skins\heli_transport_02_3_ion_co.paa'];"]];
 ZMM_WEST_Cas = [];
@@ -596,46 +596,54 @@ zmm_fnc_misc_logMsg = {
 
 zmm_fnc_qrf_spawnCrew = {
 	// zmm_fnc_qrf_spawnCrew
-	params ["_veh", "_side", ["_inclueCargo", false], ["_maxCargo", 12]];
+	params [
+		"_veh",
+		"_side",
+		["_includeCargo", false],
+		["_maxCargo", 12]
+	];
 
-	private _vehCfg = configFile >> "CfgVehicles" >> typeOf _veh;
-	private _difficulty = missionNamespace getVariable ["f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1]];
+	private _difficulty = missionNamespace getVariable [ "f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1] ];
 
 	private _crewPositions = (fullCrew [_veh, "", true]) apply { _x#1 };
 
-	private _crewCount = count (_crewPositions select { _x in ["driver","gunner","commander","turret"] });
+	private _crewCount = count ( _crewPositions select { _x in ["driver","gunner","commander","turret"] });
 
 	// Adjust for difficulty
-	_maxCargo = _maxCargo * _difficulty;
+	_maxCargo = round (_maxCargo * _difficulty);
 
-	if (_inclueCargo) then { 
-		private _cargoCount = count (_crewPositions select { _x in ["cargo"] });
-		// Cap the max size of the cargo
-		_crewCount = (count _crewPositions) + (_cargoCount min _maxCargo);
+	if (_includeCargo) then {
+		private _cargoCount = count ( _crewPositions select { _x isEqualTo "cargo" } );
+		_crewCount = _crewCount + (_cargoCount min _maxCargo);
 	};
 
-	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side],["O_Soldier_F"]];
+	private _enemyMen = missionNamespace getVariable [ format["ZMM_%1_Man", _side], ["O_Soldier_F"]];
 
-	private _crew = [];	
-	for "_i" from 0 to (_crewCount - 1) do {
-		_crew pushBack ( if (_i < 3) then { _enemyMen#0 } else { selectRandom _enemyMen } );
-	};
+	private _crew = [];
+	_crew resize _crewCount;
 
-	private _crewGrp = [[0,0,0], _side, _crew] call BIS_fnc_spawnGroup;
+	for "_i" from 0 to (_crewCount - 1) do { _crew set [ _i, if (_i < 3) then { _enemyMen#0 } else { selectRandom _enemyMen }] };
 
-	[_veh,[1, 0.8, 0.2]] remoteExec ["setVehicleTIPars"];
-	_crewGrp addVehicle _veh;	
+	private _crewGrp = [ _veh getPos [5, random 360], _side, _crew ] call BIS_fnc_spawnGroup;
+
+	[_veh, [1,0.8,0.2]] remoteExec ["setVehicleTIPars"];
+
+	_crewGrp addVehicle _veh;
+
 	{ _x moveInAny _veh } forEach units _crewGrp;
 
-	(driver _veh) assignAsDriver _veh;
-	(commander _veh) assignAsCommander _veh;
-	(gunner _veh) assignAsGunner _veh;
+	if !(isNull driver _veh) then { (driver _veh) assignAsDriver _veh };
+	if !(isNull commander _veh) then { (commander _veh) assignAsCommander _veh };
+	if !(isNull gunner _veh) then { (gunner _veh) assignAsGunner _veh };
 
 	_crewGrp deleteGroupWhenEmpty true;
+
 	_crewGrp
 };
 
 zmm_fnc_qrf_spawnGroup = {
+	// [getPos selectRandom allPlayers select { alive _x }, [[0,0,0]], EAST, selectRandom ZMM_GUER_CasP] call zmm_fnc_qrf_spawnGroup;
+	// [getPos (selectRandom (allPlayers select { alive _x })), [((selectRandom (allPlayers select { alive _x })) getPos [4000, random 360])], EAST, selectRandom ZMM_GUER_CasP] call zmm_fnc_qrf_spawnGroup;
 	// zmm_fnc_qrf_spawnGroup
 	params [
 		["_targetPos", []],			// Target Destination to stop at
@@ -1147,8 +1155,9 @@ zmm_fnc_misc_isArmed = {
 };
 
 zmm_fnc_misc_checkConfig = {
+	// zmm_fnc_misc_checkConfig
 	params [["_side", EAST]];
-	
+
 	private _toCheck = [];
 	_toCheck pushBack (missionNamespace getVariable [format["ZMM_%1_Truck",_side],[]]);
 	_toCheck pushBack (missionNamespace getVariable [format["ZMM_%1_Light",_side],[]]);
@@ -1162,7 +1171,7 @@ zmm_fnc_misc_checkConfig = {
 	_toCheck pushBack (missionNamespace getVariable [format["ZMM_%1_Convoy",_side],[]]);
 	_toCheck pushBack (missionNamespace getVariable [format["ZMM_%1_Static",_side],[]]);
 	_toCheck pushBack (missionNamespace getVariable [format["ZMM_%1_Util",_side],[]]);
-	
+
 	// Check Vehicles
 	{
 		{
@@ -1252,7 +1261,6 @@ zmm_fnc_qrf_createWave = {
 		case _hasSea: { ["sea", selectRandom _vehBoat] };
 		default { ["air", selectRandom _vehAirTransport] };
 	};
-
 
 	private _chanceHigh = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.5) min 0.5);
 	private _chanceLow = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.2) min 0.2);
