@@ -12,20 +12,20 @@ if !isServer exitWith {};
 /*
 // CHOOSE ONE SIDE AND ONE ARRAY OF MEN!
 
-private _side = WEST;
+ZAU_Side = WEST;
 ZMM_WEST_Man = ["B_T_Soldier_F","B_T_soldier_LAT_F","B_T_Soldier_F","B_T_soldier_AR_F","B_T_Soldier_F","B_T_Soldier_TL_F","B_T_Soldier_F",selectRandom["B_T_Soldier_AA_F","B_T_Soldier_AT_F"]]; // WEST - NATO TANOA (VANILLA)
 ZMM_WEST_Man = ["B_Soldier_F","B_soldier_LAT_F","B_Soldier_F","B_soldier_AR_F","B_Soldier_F","B_Soldier_TL_F","B_Soldier_F",selectRandom["B_Soldier_AA_F","B_Soldier_AT_F"]]; // WEST - NATO (VANILLA)
 ZMM_WEST_Man = ["B_W_Soldier_F","B_W_soldier_AR_F","B_W_Soldier_F","B_W_Soldier_TL_F","B_W_Soldier_F","B_W_Soldier_LAT2_F","B_W_Soldier_F",selectRandom["B_W_Soldier_AA_F","B_W_Soldier_AT_F"]]; // WEST - NATO (WOODLAND)
 ZMM_WEST_Man = ["B_G_Soldier_F","B_G_Soldier_LAT_F","B_G_Soldier_F","B_G_Soldier_SL_F","B_G_Soldier_F","B_G_Soldier_AR_F"]; // WEST - FIA (VANILLA)
 ZMM_WEST_Man = ["B_GEN_Soldier_F","B_GEN_Commander_F","B_GEN_Soldier_F","B_GEN_Soldier_F"]; // WEST - GENDARME (VANILLA)
 
-private _side = EAST;
+ZAU_Side = EAST;
 ZMM_EAST_Man = ["O_T_Soldier_F","O_T_Soldier_LAT_F","O_T_Soldier_F","O_T_Soldier_GL_F","O_T_Soldier_F","O_T_Soldier_AR_F","O_T_Soldier_F",selectRandom["O_T_Soldier_AA_F","O_T_Soldier_AT_F"]]; // EAST - CSAT TANOA (VANILLA)
 ZMM_EAST_Man = ["O_Soldier_F","O_Soldier_LAT_F","O_Soldier_F","O_Soldier_GL_F","O_Soldier_F","O_Soldier_AR_F","O_Soldier_F",selectRandom["O_Soldier_AA_F","O_Soldier_AT_F"]]; // EAST - CSAT (VANILLA)
 ZMM_EAST_Man = ["O_R_Soldier_TL_F","O_R_soldier_M_F","O_R_Soldier_AR_F","O_R_JTAC_F","O_R_medic_F","O_R_Soldier_LAT_F","O_R_Soldier_GL_F"]; // EAST - SPETSNAZ (VANILLA)
 ZMM_EAST_Man = ["O_G_Soldier_SL_F","O_G_Soldier_F","O_G_Soldier_AR_F","O_G_Soldier_F","O_G_Soldier_LAT_F","O_G_Soldier_F"]; // EAST - FIA (VANILLA)
 
-private _side = INDEPENDENT;
+ZAU_Side = INDEPENDENT;
 ZMM_GUER_Man = ["I_C_Soldier_Para_7_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F"]; // GUER - SYNDIKAT (VANILLA)
 ZMM_GUER_Man = ["I_Soldier_F","I_Soldier_LAT2_F","I_Soldier_F","I_Soldier_GL_F","I_Soldier_F","I_Soldier_AR_F","I_Soldier_F",selectRandom["I_Soldier_AA_F","I_Soldier_AT_F"]]; // GUER - AAF (VANILLA)
 ZMM_GUER_Man = ["I_E_Soldier_F","I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldier_AR_F","I_E_Soldier_F","I_E_Soldier_TL_F","I_E_Soldier_F",selectRandom["I_E_Soldier_AA_F","I_E_Soldier_AT_F"]]; // GUER - LDF (VANILLA)
@@ -33,7 +33,7 @@ ZMM_GUER_Man = ["I_E_Soldier_F","I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldie
 
 // GMX
 
-private _side = WEST;
+ZAU_Side = WEST;
 ZMM_WEST_Man = ["gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_machinegunner_pk_digittsko","gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_antitank_trg21_pzf3_digittsko","gmx_cdf2022_army_rifleman_trg21_digittsko","gmx_cdf2022_army_squadleader_trg21_digittsko"]; // GMX CDF - 2022
 ZMM_WEST_Man = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"]; // West Germany - Summer
 ZMM_WEST_Man = ["gm_ge_army_machinegunner_mg3_parka_80_win","gm_ge_army_rifleman_g3a3_parka_80_win","gm_ge_army_squadleader_g3a3_p2a1_parka_80_win","gm_ge_army_grenadier_g3a3_parka_80_win"]; // West Germany - Winter
@@ -41,14 +41,14 @@ ZMM_WEST_Man = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_
 ZMM_WEST_Man = ["gm_ge_army_grenadier_g3a3_80_ols","gm_ge_army_rifleman_g3a3_80_ols","gm_ge_army_squadleader_g3a3_p2a1_80_ols","gm_ge_army_machinegunner_mg3_80_ols"]; // West Germany - Desert
 ZMM_WEST_Man = ["gmx_cdf_army_antitank_ak74_rpg7_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_machinegunner_rpk_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_squadleader_ak74_ttsko","gmx_cdf_army_rifleman_ak74_ttsko","gmx_cdf_army_rifleman_ak74_ttsko"]; // GMX CDF - 1980
 
-private _side = EAST;
+ZAU_Side = EAST;
 ZMM_EAST_Man = ["gm_gc_army_antitank_mpiak74n_rpg7_80_win","gm_gc_army_machinegunner_pk_80_win","gm_gc_army_rifleman_mpiak74n_80_win","gm_gc_army_squadleader_mpiak74n_80_win"]; // East Germany - Winter
 ZMM_EAST_Man = ["gm_gc_army_rifleman_mpiak74n_80_str","gm_gc_army_squadleader_mpiak74n_80_str","gm_gc_army_machinegunner_pk_80_str","gm_gc_army_antitank_mpiak74n_rpg7_80_str","gm_gc_army_squadleader_mpiak74n_80_str"]; // East Germany - Summer
 ZMM_EAST_Man = ["gm_pl_army_rifleman_akm_80_win","gm_pl_army_squadleader_akm_80_win","gm_pl_army_machinegunner_pk_80_win","gm_pl_army_antitank_akm_rpg7_80_win"]; // Poland - Winter
 ZMM_EAST_Man = ["gm_pl_army_rifleman_akm_80_autumn_moro","gm_pl_army_squadleader_akm_80_autumn_moro","gm_pl_army_machinegunner_pk_80_autumn_moro","gm_pl_army_antitank_akm_rpg7_80_autumn_moro"]; // Poland - Summer
 ZMM_EAST_Man = ["gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_squadleader_akm_win","gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_antitank_akm_rpg7_mix","gmx_chdkz_army_machinegunner_rpk_mix","gmx_chdkz_army_rifleman_akm_mix","gmx_chdkz_army_grenadier_akm_pallad_mix"];	// GMX ChDkz
 
-private _side = INDEPENDENT;
+ZAU_Side = INDEPENDENT;
 ZMM_GUER_Man = ["I_Soldier_F","I_Soldier_LAT_F","I_Soldier_GL_F","I_Soldier_AR_F"];	// GMX AAF 1990
 ZMM_GUER_Man = ["gm_xx_army_squadleader_m16a1_80_grn","gm_xx_army_rifleman_01_akm_alp","gm_xx_army_machinegunner_rpk_80_oli","gm_xx_army_assault_ak74nk_80_wdl","gm_xx_army_antitank_hk53a2_rpg7_80_oli"];	 // GM Revolutionaries
 
@@ -74,7 +74,6 @@ if (isNil "ZAU_FadeMarker" ) 	then { ZAU_FadeMarker = false };// Allow locations
 // Script Variables
 ZAU_Loop = true;
 ZAU_UnitsActive = [];
-ZAU_Side = if (isNil "_side") then { CIVILIAN } else { _side };
 
 private _loopNo = 1;
 
@@ -247,8 +246,8 @@ while {ZAU_Loop} do {
 			if (
 				!(surfaceIsWater (getPosATL _x)) &&
 				{count _positions > 2}
-			) then {
-				if (isNil {_x getVariable "ZAU_BuildingPositions"} || isNil {_x getVariable "ZAU_BuildingSide"}) then { 
+			) then {	
+				if ((_x getVariable ["ZAU_BuildingSide", sideUnknown]) != _side) then {
 					_x setVariable ["ZAU_BuildingPositions", _positions];
 					_x setVariable ["ZAU_BuildingSide", _side];
 				};
