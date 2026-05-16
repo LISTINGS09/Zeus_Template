@@ -19,11 +19,11 @@
 //
 //	  _nul = [this,"UPSZ","RANDOM"] execVM "scripts\UPS\UPS_Lite.sqf";
 //
-ZUP_version = 2.33;
+ZUP_version = 2.36;
 if !isServer exitWith {};
 
 // Global Script Variables
-_cycle = 10; 		// Script Cycle Time (seconds)
+_cycle = 20; 		// Script Cycle Time (seconds)
 _safeDist = 200; 	// How far to move when under attack in meters
 _closeEnough = 50; 	// WP Completion Radius
 _shareDist = 400; 	// AI Comms Range in meters
@@ -31,6 +31,7 @@ _alertTime = 300; 	// AI Alert after spotting enemy
 _artyTime = 300;	// Arty delay between firing
 _artyRural = 100;	// Arty dispersion in rural areas
 _artyUrban = 50;	// Arty dispersion in urban areas
+_artyChance = 0.3;	// Arty chance to request
 _unitSkill = [['aimingAccuracy',0.2],['aimingShake',0.15],['aimingSpeed',0.05],['commanding',1],['courage',1],['general',1],['reloadSpeed',1],['spotDistance',1],['spotTime',0.85]]; // Average AI
 
 if (isNil "ZAI_Debug") then { ZAI_Debug = !isMultiplayer }; // Disable debug mode if not set
@@ -38,9 +39,18 @@ if (isNil "ZAI_Debug") then { ZAI_Debug = !isMultiplayer }; // Disable debug mod
 // Message Logging Function
 _ZAI_fnc_LogMsg = {
 	params [["_lev", ""], ["_msg", ""]];
-	if (ZAI_Debug || _lev != "DEBUG") then { 
-		systemChat format["UPS %1: %2",_lev, _msg];
-		diag_log text format["[UPS] %1: %2",_lev, _msg];
+
+	diag_log text format ["[ZMM] [%1] %2", _lev, _msg];
+
+	if (
+		(missionNamespace getVariable ["f_param_debugMode",0] == 1 || 
+		missionNamespace getVariable ["ZAI_Debug", false] || 
+		!( toUpper _lev isEqualTo "DEBUG")) || 
+		_lev isEqualTo "ERROR"
+	) then { 
+		format ["[ZMM] [%1] %2", _lev, _msg] remoteExec ["SystemChat"] 
+	} else {
+		systemChat format ["[ZMM] [%1] %2", _lev, _msg]
 	};
 };
 
@@ -251,88 +261,94 @@ if (_trackGrp) then {
 	
 	if !ZAI_Debug exitWith {};
 	
-	addMissionEventHandler ["GroupIconOverEnter", {
-		params [
-			"_is3D", "_group", "_waypointId",
-			"_posX", "_posY",
-			"_shift", "_control", "_alt"
-		];
-		
-		_fnc_MarkDot = { 
-			params ["_name","_pos","_color"];
-			_mkr = createMarkerLocal [_name, _pos];
-			_mkr setMarkerShapeLocal "ICON";
-			_mkr setMarkerTypeLocal "MIL_DOT";
-			_mkr setMarkerColorLocal _color;
-			_mkr setMarkerSizeLocal [.8,.8];
-		};
-		
-		_fnc_MarkLine = {
-			params ["_name","_from","_to","_color"];
-			_la = createMarkerLocal [_name, _from];
-			_la setMarkerShapelocal "RECTANGLE";
-			_la setMarkerColorlocal _color;
-			_ld = ((_from distance _to) / 2);
-			_lr = ((_to#0) - (_from#0)) atan2 ((_to#1) - (_from#1));
-			_lp = [(_from#0) + (Sin (_lr) * _ld),(_from#1) + (Cos (_lr) * _ld),0];
-			_la setMarkerSizelocal [_ld,1];
-			_la setMarkerPosLocal _lp;
-			_la setMarkerDirlocal (_lr - 90);
-		};
-		
-		//_sideColor = [side _group, true] call BIS_fnc_sideColor;
-		_wp = (wayPoints _group) select (currentWaypoint _group);
-		
-		_text = format["<br/><t size='1.25' font='TahomaB' color='#72E500'>%1 Group</t><br/>",groupId _group];
-		
-		_text = _text + format["%1 Units - %2", {alive _x } count units _group, (_group getVariable ["ZAI_Type", []]) joinString ", "];
-		_text = _text + "<t align='left'>";
-		_text = _text + format["Task: %1 (%2)<br/>",_group getVariable ["ZAI_Task", "-"], if (_group getVariable ["ZAI_WaitTime", time] >= time ) then { (_group getVariable ["ZAI_WaitTime", time]) - time } else { "-" }];
-		_text = _text + format["Combat: %1<br/>", combatMode leader _group];
-		_text = _text + format["Behaviour: (%1/%2)<br/>",_group getVariable ["ZAI_Behaviour", "-"], behaviour leader _group];
-		_text = _text + format["Speed: (%1/%2)<br/>",_group getVariable ["ZAI_Speed", "-"], speedMode leader _group];
-		_text = _text + format["Nearest Enemy: %1 (%2)<br/>",if (isNull (_group getVariable ["ZAI_EnemyUnit", objNull])) then { "None" } else { _group getVariable "ZAI_EnemyUnit" }, _group knowsAbout (_group getVariable ["ZAI_EnemyUnit", objNull])];
-		_text = _text + format["Attack Pos: %1 (Wait Time: %2)<br/>",_group getVariable ["ZAI_EnemyPos", []],_group getVariable ["ZAI_WaitTime", []]];
-		_text = _text + "<br/>";
-		
-		if (!isNil "_wp") then {
-			_text = _text + format["Current WP (#%1)<br/>Type: %2<br/>Combat: %3<br/>Speed: %4<br/>", (currentWaypoint _group), waypointType _wp, waypointBehaviour _wp, waypointSpeed _wp];
-		};
-		_text = _text + "</t><br/><br/>";
-		_text = _text + "<br/>";
-		
-		_lastPos = getPos leader _group;
-		
-		// Draw out wayPoints
-		{
-			_x params ["_grp","_wpID"];
+	if (isNil "ZAI_GroupIconEH") then {
+		ZAI_GroupIconEH = addMissionEventHandler ["GroupIconOverEnter", {
+			params [
+				"_is3D", "_group", "_waypointId",
+				"_posX", "_posY",
+				"_shift", "_control", "_alt"
+			];
 			
-			_color = switch (waypointBehaviour _x) do {
-				case "CARELESS": { "ColorWhite" };
-				case "SAFE": { "ColorGreen" };
-				case "AWARE": { "ColorOrange" };
-				case "COMBAT": { "ColorRed" };
-				case "STEALTH": { "ColorBlue" };
-				default { "ColorBlack" };
+			_fnc_MarkDot = { 
+				params ["_name","_pos","_color"];
+				_mkr = createMarkerLocal [_name, _pos];
+				_mkr setMarkerShapeLocal "ICON";
+				_mkr setMarkerTypeLocal "MIL_DOT";
+				_mkr setMarkerColorLocal _color;
+				_mkr setMarkerSizeLocal [.8,.8];
 			};
 			
-			[format["gIcon_wp_dot_%1", _forEachIndex], getWPPos _x, _color] call _fnc_MarkDot;
-			[format["gIcon_wp_line_%1", _forEachIndex], _lastPos, getWPPos _x, _color] call _fnc_MarkLine;
-
-			_lastPos = getWPPos _x;
-		} forEach (wayPoints _group select { _x#1 >= (currentWaypoint _group) });
-		
-		// Draw attack position
-		if !(_group getVariable ["ZAI_EnemyPos", []] in [[],[0,0,0]]) then {
-			_pos = _group getVariable ["ZAI_EnemyPos", []];
-			["gIcon_at_dot",_pos,"ColorRed"] call _fnc_MarkDot;
-			["gIcon_at_line",getPos leader _group,_pos,"ColorRed"] call _fnc_MarkLine;
-		};
+			_fnc_MarkLine = {
+				params ["_name","_from","_to","_color"];
+				_la = createMarkerLocal [_name, _from];
+				_la setMarkerShapelocal "RECTANGLE";
+				_la setMarkerColorlocal _color;
+				_ld = ((_from distance _to) / 2);
+				_lr = ((_to#0) - (_from#0)) atan2 ((_to#1) - (_from#1));
+				_lp = [(_from#0) + (Sin (_lr) * _ld),(_from#1) + (Cos (_lr) * _ld),0];
+				_la setMarkerSizelocal [_ld,1];
+				_la setMarkerPosLocal _lp;
+				_la setMarkerDirlocal (_lr - 90);
+			};
 			
-		hintSilent parseText _text;
-	}];
+			//_sideColor = [side _group, true] call BIS_fnc_sideColor;
+			_wp = (wayPoints _group) select (currentWaypoint _group);
+			
+			_text = format["<br/><t size='1.25' font='TahomaB' color='#72E500'>%1 Group</t><br/>",groupId _group];
+			
+			_text = _text + format["%1 Units - %2", {alive _x } count units _group, (_group getVariable ["ZAI_Type", []]) joinString ", "];
+			_text = _text + "<t align='left'>";
+			_text = _text + format["Task: %1 (%2)<br/>",_group getVariable ["ZAI_Task", "-"], if (_group getVariable ["ZAI_WaitTime", time] >= time ) then { (_group getVariable ["ZAI_WaitTime", time]) - time } else { "-" }];
+			_text = _text + format["Combat: %1<br/>", combatMode leader _group];
+			_text = _text + format["Behaviour: (%1/%2)<br/>",_group getVariable ["ZAI_Behaviour", "-"], behaviour leader _group];
+			_text = _text + format["Speed: (%1/%2)<br/>",_group getVariable ["ZAI_Speed", "-"], speedMode leader _group];
+			_text = _text + format["Nearest Enemy: %1 (%2)<br/>",if (isNull (_group getVariable ["ZAI_EnemyUnit", objNull])) then { "None" } else { _group getVariable "ZAI_EnemyUnit" }, _group knowsAbout (_group getVariable ["ZAI_EnemyUnit", objNull])];
+			_text = _text + format["Attack Pos: %1 (Wait Time: %2)<br/>",_group getVariable ["ZAI_EnemyPos", []],_group getVariable ["ZAI_WaitTime", []]];
+			_text = _text + "<br/>";
+			
+			if (!isNil "_wp") then {
+				_text = _text + format["Current WP (#%1)<br/>Type: %2<br/>Combat: %3<br/>Speed: %4<br/>", (currentWaypoint _group), waypointType _wp, waypointBehaviour _wp, waypointSpeed _wp];
+			};
+			_text = _text + "</t><br/><br/>";
+			_text = _text + "<br/>";
+			
+			_lastPos = getPos leader _group;
+			
+			// Draw out wayPoints
+			{
+				_x params ["_grp","_wpID"];
+				
+				_color = switch (waypointBehaviour _x) do {
+					case "CARELESS": { "ColorWhite" };
+					case "SAFE": { "ColorGreen" };
+					case "AWARE": { "ColorOrange" };
+					case "COMBAT": { "ColorRed" };
+					case "STEALTH": { "ColorBlue" };
+					default { "ColorBlack" };
+				};
+				
+				[format["gIcon_wp_dot_%1", _forEachIndex], getWPPos _x, _color] call _fnc_MarkDot;
+				[format["gIcon_wp_line_%1", _forEachIndex], _lastPos, getWPPos _x, _color] call _fnc_MarkLine;
 
-	addMissionEventHandler ["GroupIconOverLeave", { { deleteMarkerLocal _x; } forEach (allMapMarkers select { ["gIcon_",_x] call BIS_fnc_inString }); hintSilent "" }];
+				_lastPos = getWPPos _x;
+			} forEach (wayPoints _group select { _x#1 >= (currentWaypoint _group) });
+			
+			// Draw attack position
+			if !(_group getVariable ["ZAI_EnemyPos", []] in [[],[0,0,0]]) then {
+				_pos = _group getVariable ["ZAI_EnemyPos", []];
+				["gIcon_at_dot",_pos,"ColorRed"] call _fnc_MarkDot;
+				["gIcon_at_line",getPos leader _group,_pos,"ColorRed"] call _fnc_MarkLine;
+			};
+				
+			hintSilent parseText _text;
+		}];
+	};
+	
+	if (isNil "ZAI_GroupIconEHL") then {
+		ZAI_GroupIconEHL = addMissionEventHandler ["GroupIconOverLeave", {
+			{ deleteMarkerLocal _x; } forEach (allMapMarkers select { ["gIcon_",_x] call BIS_fnc_inString }); hintSilent "" 
+		}];
+	};
 };	
 
 // duplicate team
@@ -372,9 +388,13 @@ _grp deleteGroupWhenEmpty TRUE; // Don't keep the group when empty.
 
 _currCycle = _cycle;
 
-while {TRUE} do {
+while {
+	!isNull _grp &&
+	{alive _x} count units _grp > 0
+} do {
+	private _grpUnits = units _grp;
 	if (isNil "_grp") exitWith { ["DEBUG", format["[%1] Exiting - Null Group", _grpIDx]] call _ZAI_fnc_LogMsg }; // Group was deleted?
-	if (units _grp select { alive _x } isEqualTo []) exitWith { ["DEBUG", format["[%1] Exiting - All Dead!", _grpIDx]] call _ZAI_fnc_LogMsg; }; // No-one is alive.
+	if (_grpUnits select { alive _x } isEqualTo []) exitWith { ["DEBUG", format["[%1] Exiting - All Dead!", _grpIDx]] call _ZAI_fnc_LogMsg; }; // No-one is alive.
 	if ({isPlayer _x} count units _grp > 0) exitWith { _grp selectLeader ((units _grp select { isPlayer _x })#0); }; // Player is in the group, make them lead and exit.
 
 	private _wasHit = FALSE;
@@ -392,10 +412,10 @@ while {TRUE} do {
 				["DEBUG", format["[%1] Taken Damage (%2/%3)", _grpIDx, _newDamage, _lastDamage]] call _ZAI_fnc_LogMsg;
 				_lastDamage = _newDamage;
 				_wasHit = TRUE;
-				_currCycle = 1;
+				_currCycle = 0.25;
 			};
 		};
-	} forEach units _grp;
+	} forEach _grpUnits;
 	
 	// groups current position
 	_unitPos = getPos _grpLeader;
@@ -403,16 +423,17 @@ while {TRUE} do {
 	_foundEnemy = _grpLeader findNearestEnemy _unitPos;
 	
 	// Enemy was detected plan attack route
-	if (_grpLeader distance2D _foundEnemy < _shareDist) then {
-	
+	if (!isNull _foundEnemy && {_grpLeader distance2D _foundEnemy < _shareDist}) then {
 		// Final location depends of knowsAbout of enemy.
 		_enemyOffset = (21 - ((_grp knowsAbout _foundEnemy) * 5)) * 5;
 		_attackPos = _foundEnemy getPos [random _enemyOffset, random 360];
 		_attackPos set [2,0];
 		
 		// If no existing arty calls, request one.
-		if ({ _x distance _attackPos < _safeDist } count (missionNamespace getVariable [format["ZAI_%1_ArtyQueue", side _grp],[]]) == 0) then { 
-			missionNamespace setVariable [format["ZAI_%1_ArtyQueue", side _grp],(missionNamespace getVariable [format["ZAI_%1_ArtyQueue", side _grp],[]]) + [_attackPos]];
+		if ({ _x distance _attackPos < _safeDist } count (missionNamespace getVariable [format["ZAI_%1_ArtyQueue", side _grp],[]]) == 0) then {
+			if (random 1 <= _artyChance) then {
+				missionNamespace setVariable [format["ZAI_%1_ArtyQueue", side _grp],(missionNamespace getVariable [format["ZAI_%1_ArtyQueue", side _grp],[]]) + [_attackPos]];
+			};
 		};
 		
 		// Send to other non-infantry allies in range.
@@ -428,8 +449,10 @@ while {TRUE} do {
 				};
 				
 				if (_x knowsAbout _foundEnemy < _kb) then {
-					["DEBUG", format["[%1] Revealing %2 to %3 (%4 to %5)", _grpIDx, _foundEnemy, group _x, _x knowsAbout _foundEnemy, _kb]] call _ZAI_fnc_LogMsg;
-					(group _x) reveal [_foundEnemy, _kb];
+					if ((group _x) knowsAbout _foundEnemy < (_kb - 0.2)) then {
+						["DEBUG", format["[%1] Revealing %2 to %3 (%4 to %5)", _grpIDx, _foundEnemy, group _x, _x knowsAbout _foundEnemy, _kb]] call _ZAI_fnc_LogMsg;
+						(group _x) reveal [_foundEnemy, _kb];
+					};
 				};
 			} forEach (_alliedUnitList select { 
 				alive _x &&
@@ -440,8 +463,15 @@ while {TRUE} do {
 			});
 		};
 		
-		// Recently reacted, enemy going too fast or too far
-		if (time < _lastTime || (getPosATL _foundEnemy) # 0 > 25) exitWith {};
+		// Recently reacted or enemy invalid
+		if (
+			time < _lastTime ||
+			isNull _foundEnemy ||
+			!alive _foundEnemy
+		) exitWith {};
+		
+		// If they are flying don't chase them!
+		if ((getPosATL _foundEnemy) # 0 > 25) exitWith {};
 
 		["DEBUG", format["[%1] Spotted %2 - %3m", _grpIDx, name _foundEnemy, round (_grpLeader distance2D _foundEnemy)]] call _ZAI_fnc_LogMsg;
 		
@@ -455,9 +485,9 @@ while {TRUE} do {
 					_x setUnitPosWeak "DOWN";
 					_x doWatch _foundEnemy;
 					if (random 1 > 0.5) then { sleep 1; _x selectWeapon "throw"; _x forceWeaponFire ["SmokeShellMuzzle","SmokeShellMuzzle"] };
-				} forEach units _grp;
+				} forEach _grpUnits;
 				
-				(selectRandom units _grp) suppressFor (10 + random 10);
+				(selectRandom _grpUnits) suppressFor (10 + random 10);
 			};
 		};
 					
@@ -514,7 +544,7 @@ while {TRUE} do {
 		
 		// Infantry in contact, fight directly or run.
 		if (_wasHit && _isMan) then {
-			if (count units _grp > 2) then {
+			if (count _grpUnits > 2) then {
 				// Attack Enemy
 				_wp = _grp addWaypoint [_attackPos, 0];
 				_wp setWaypointType "SAD";
@@ -533,7 +563,7 @@ while {TRUE} do {
 				_wp setWaypointFormation "WEDGE";
 				_grp setCurrentWaypoint _wp;
 				_grp enableAttack false;
-				{ doStop _x; _x doFollow _grpLeader } forEach units _grp; // Regroup
+				{ doStop _x; _x doFollow _grpLeader } forEach _grpUnits; // Regroup
 				
 				[_grp, "Task", "RETREAT"] call _ZAI_fnc_setGroupVariable;
 			};
@@ -602,7 +632,18 @@ while {TRUE} do {
 				
 				// Infantry
 				if (!_water && _isMan && !(_roads isEqualTo []) && random 1 > 0.5) exitWith { _newGrpPos = getPos (_roads#0) };
-				if (!_water && _isMan) exitWith { _newGrpPos = _tempPos; };
+				
+				
+				if (!_water && _isMan) exitWith {
+					private _buildings = nearestObjects [_tempPos, ["House"], 75];
+					
+					if (count _buildings > 0 && random 1 > 0.4) then {
+						_newGrpPos = getPosATL (selectRandom _buildings);
+					} else {
+						_newGrpPos = _tempPos;
+					};
+				};
+				
 				
 				if (_tries > 25) exitWith { 
 					["WARNING", format["[%1] Tried %2 times to find WP [%3]",_grpIDx, _tries, _grpType]] call _ZAI_fnc_LogMsg;
@@ -629,7 +670,14 @@ while {TRUE} do {
 			
 			if (isNull _foundEnemy || !_combatArea) then { [_grp, "Task", "PATROL"] call _ZAI_fnc_setGroupVariable };
 			
-			if ("Man" in _grpType) then { _grpLeader commandMove _newGrpPos; { doStop _x; _x doFollow _grpLeader } forEach units _grp; }; // Regroup
+			// Slow down cycles as threat not present
+			if (_combatArea || !isNull _foundEnemy) then {
+				_currCycle = 2;
+			} else {
+				_currCycle = _cycle;
+			};
+			
+			if ("Man" in _grpType) then { _grpLeader commandMove _newGrpPos; { doStop _x; _x doFollow _grpLeader } forEach _grpUnits; }; // Regroup
 		} else {
 			// Go alert if unit wanders into a hot area.
 			if (_combatArea && combatBehaviour _grp == "SAFE") then {
@@ -693,18 +741,26 @@ while {TRUE} do {
 		_lastTime = time + _artyTime + (random _artyTime);
 		
 		if (sunOrMoon > 0.9) then {
-			private _tempSmoke = "SmokeShellRed" createVehicle (_artyTarget getPos [random 5, random 360]); 
+			for "_i" from 1 to 3 do {
+				_grpLeader commandArtilleryFire [(_artyTarget getPos [50, random 360]), "8Rnd_82mm_Mo_Smoke_white", 1];
+				sleep 5 + random 10;
+			};
+			//private _tempSmoke = "SmokeShellRed" createVehicle (_artyTarget getPos [random 5, random 360]);
 		} else {
 			for "_i" from 1 to 3 do {
+				_grpLeader commandArtilleryFire [(_artyTarget getPos [50, random 360]), "8Rnd_82mm_Mo_Flare_white_illumination", 1];
+				sleep 5 + random 10;
+			};
+			/*for "_i" from 1 to 3 do {
 				private _rPos = _artyTarget getPos [25, random 360];
 				_rPos set [2,150];
 				private _tempFlare = "F_20mm_Red" createVehicle _rPos;
 				_tempFlare setVelocity [0,0,-15];
 				sleep 3;
-			};
+			};*/
 		};
 		
-		sleep 30;
+		sleep 30 + random 30;
 		
 		for "_i" from 1 to 6 do {
 			_grpLeader commandArtilleryFire [(_artyTarget getPos [random _artyRadius, random 360]), (getArtilleryAmmo [vehicle _grpLeader] select 0), 1];
@@ -718,7 +774,11 @@ while {TRUE} do {
 	};
 
 	// Check for any AI Issues!
-	if (!_isStatic && !_holdMove && !dynamicSimulationEnabled _grp && !dynamicSimulationEnabled _grpVehicle) then {
+	if (
+		!_isStatic &&
+		!_holdMove &&
+		(!dynamicSimulationEnabled _grpVehicle || isNull _grpVehicle)
+	) then {
 		if ((_lastPos distance2D getPos _grpLeader) == 0 && !_wasHit) then {
 			_lastCount = _lastCount + 1;
 			
@@ -736,6 +796,7 @@ while {TRUE} do {
 				if (_lastCount == 30) exitWith {
 					vehicle _grpLeader setFuel 0.05;
 					_grp leaveVehicle vehicle _grpLeader;
+					{ unassignVehicle _x; doGetOut _x; } forEach _grpUnits;
 					["WARNING", format["[%1] Vehicle held for %2 cycles - Abandoning", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 			};
@@ -749,7 +810,7 @@ while {TRUE} do {
 				if (_lastCount == 15) exitWith {
 					{
 						_x setPos ([getPos _x, 1, 25, 2, 0, 0, 0, [], [getPos _x, getPos _x]] call BIS_fnc_findSafePos);
-					} forEach units _grp;
+					} forEach _grpUnits;
 					["WARNING", format["[%1] Leader held for %2 cycles - Moving to SafePos", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 				if (_lastCount MOD 5 == 0) then {
@@ -771,7 +832,7 @@ while {TRUE} do {
 	[_grp, "WaitTime", _lastTime] call _ZAI_fnc_setGroupVariable;
 	
 	// slowly increase the cycle duration after an incident
-	if (_currCycle < _cycle) then { _currCycle = _currCycle + 0.5};
+	if (_currCycle < _cycle) then { _currCycle = _currCycle + 1};
 	sleep _currCycle;
 };
 
