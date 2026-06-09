@@ -15,44 +15,6 @@ player createDiarySubject ["ZeuAdmin","** Admin **"];
 
 // ====================================================================================
 
-/*
-// ZAU Script
-if (fileExists 'scripts\z_ambientUnits.sqf') then { 	
-	private _zauText = "<br/><font size='18' color='#80FF00'>Zeus Ambient Units</font><br/>";
-	
-	_zauText = _zauText + format["Version: %1", (missionNamespace getVariable  ["ZAU_version","Unknown"])] + "<br/><br/>";
-	_zauText = _zauText + "<br/>
-	<execute expression=""systemChat 'ZAU - Script Disabled'; { ZAU_Loop = false } remoteExec ['BIS_fnc_spawn', 2];"">Disable ZAU</execute> | 
-	<execute expression=""systemChat 'ZAU - Script Starting'; { [] execVM 'scripts\z_ambientUnits.sqf' } remoteExec ['BIS_fnc_spawn', 2];"">Enable ZAU</execute><br/>
-	<execute expression=""if (isNil 'ZAU_UnitsActive') then { { missionNamespace setVariable ['ZAU_UnitsActive', 0, true] } remoteExec ['BIS_fnc_spawn', 2]; } else { systemChat format['ZAU Active Units: %1',ZAU_UnitsActive] };"">Count Active Units</execute><br/>
-	";
-	
-//	"ZAU_DistMax"	"ZAU_DistMin"	"ZAU_UnitsMax"	"ZAU_UnitsChance"	"ZAU_UnitsGarrison"	"ZAU_SleepTime"		
-	player createDiaryRecord ["ZeuAdmin", ["Script - ZAU",_zauText]]; 
-};
-*/
-
-/*
-// QRF Script
-if (fileExists 'scripts\qrfSpawn.sqf') then { 	
-	private _zqrfText = "<br/><font size='18' color='#80FF00'>Zeus QRF</font><br/>";
-	
-	_zqrfText = _zqrfText + format["Version: %1", (missionNamespace getVariable  ["ZQR_version","Unknown"])] + "<br/><br/>";
-	
-	if (!isNil "TR_QRF") then {
-	
-	};
-	
-	_zqrfText = _zqrfText + "<br/><font color='#80FF00'>AI SKILL</font><br/>Set Unit Skill<br/>
-	<execute expression=""systemChat 'ZAU - Script Disabled'; { ZAU_Loop = false } remoteExec ['BIS_fnc_spawn', 2];"">Disable ZAU</execute> | 
-	<execute expression=""systemChat 'ZAU - Script Starting'; { [] execVM 'scripts\z_ambientUnits.sqf' } remoteExec ['BIS_fnc_spawn', 2];"">Enable ZAU</execute><br/>
-	<execute expression=""if (isNil 'ZAU_UnitsActive') then { { missionNamespace setVariable ['ZAU_UnitsActive', 0, true] } remoteExec ['BIS_fnc_spawn', 2]; } else { systemChat format['ZAU Active Units: %1',ZAU_UnitsActive] };"">Count Active Units</execute><br/>
-	";
-
-	player createDiaryRecord ["ZeuAdmin", ["Script - QRF",_zqrfText]];
-};
-*/
-
 // ADD ZEUS SUPPORT SECTION
 _missionZeus = format["
 <font size='18' color='#80FF00'>ZEUS SUPPORT</font><br/>
@@ -346,15 +308,14 @@ If in a vehicle will fill that vehicles inventory. If looking at a container it 
 	[_gearType, _gearTarget, side group player] remoteExec ['f_fnc_assignGear', owner _gearTarget];
 	systemChat format['Gear: Filled %1 (%2)', typeOf _gearTarget, _gearType];
 "">Large Cargo Net</execute><br/>
-<br/>
-";
+<br/>";
 
 if ("acre_main" in activatedAddons) then {
-	private _missionGear = "<font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
+	_missionGear = _missionGear + "<br/><font size='16' color='#80FF00'>ACRE</font><br/>Clicking any of the below will automatically add the item to your uniform inventory.<br/><br/>";
 
 	{ 
 		if (isClass (configFile >> "CfgWeapons" >> _x)) then {
-			_missionGear = _missionGear + format["<img image='%4' height='40'/> <execute expression=""uniformContainer player addItemCargoGlobal ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/><br/><br/>", 
+			_missionGear = _missionGear + format["<img image='%4' height='20'/> <execute expression=""uniformContainer player addItemCargoGlobal ['%1', 1]; systemChat 'Added %2';"">%3</execute><br/>", 
 				_x,
 				getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
 				getText (configFile >> "CfgWeapons" >> _x >> "descriptionShort"),
@@ -362,6 +323,23 @@ if ("acre_main" in activatedAddons) then {
 			];
 		};
 	} forEach ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F","ACRE_SEM52SL","ACRE_SEM70","ACRE_BF888S"];															  
+};
+
+if ("ace_main" in activatedAddons) then {
+	_missionGear = _missionGear + "<br/><font size='16' color='#80FF00'>ACE</font><br/>Clicking any of the below will spawn the relevant crate.<br/><br/>";
+
+	{
+		if (isClass (configFile >> "CfgVehicles" >> _x)) then {
+			_missionGear = _missionGear + format["<execute expression="" 
+				private _gearTarget = if (vehicle player != player) then { vehicle player } else { if (cursorObject isKindOf 'AllVehicles' || cursorObject isKindOf 'Thing') then { cursorObject } else { objNull } };
+				if (isNull _gearTarget) then { _gearTarget = createVehicle ['%1', player modelToWorld [0,1,0], [], 0, 'NONE']; if (missionNamespace getVariable ['var_dropAmmo', false]) then { _gearTarget setPos (player modelToWorld [0,1, 150]); [objNull, _gearTarget] call BIS_fnc_curatorObjectEdited; }; };
+				systemChat 'Gear: Created %1 (%2)';"">%2</execute><br/>",
+				_x,
+				getText (configFile >> "CfgVehicles" >> _x >> "displayName"),
+				getText (configFile >> "CfgVehicles" >> _x >> "descriptionShort")
+			];
+		};
+	} forEach ["ACE_medicalSupplyCrate","ACE_medicalSupplyCrate_advanced"];															  
 };
 
 player createDiaryRecord ["ZeuAdmin", ["Gear",_missionGear]];															 
@@ -415,8 +393,18 @@ player createDiaryRecord ["ZeuAdmin", ["Triggers",_missionTrigger]];
 // ====================================================================================
 
 // FRAMEWORK SECTION
-_missionFramework = "<font size='18' color='#80FF00'>FRAMEWORK CONTROL</font><br/><br/>
-Lists the core features of the framework and allows for forced-start, re-runs or termination core components.<br/>
+_missionFramework = "<font size='18' color='#80FF00'>FRAMEWORK CONTROL</font><br/><br/>";
+
+_missionFramework = _missionFramework + format["<br/>Framework Version: <font color='#00FFFF'>v%1</font><br/>%2%3%4%5%6<br/>",
+	missionNamespace getVariable ["f_var_version","0.00"],
+	if (!isNil "ZMM_version") then { format["Mission Manager: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZMM_version","0.00"]] } else { "" },
+	if (!isNil "ZUP_version") then { format["Urban Patrol: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZUP_version","0.00"]] } else { "" },
+	if (!isNil "ZCS_version") then { format["Civilian Spawns: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZCS_version","0.00"]] } else { "" },
+	if (!isNil "ZRA_version") then { format["Radiation Areas: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZRA_version","0.00"]] } else { "" },
+	if (!isNil "ZAU_version") then { format["Ambient Units: <font color='#00FFFF'>v%1</font><br/>", missionNamespace getVariable ["ZAU_version","0.00"]] } else { "" }
+];
+
+_missionFramework = _missionFramework + "Lists the core features of the framework and allows for forced-start, re-runs or termination core components.<br/>
 <br/>
 Enhanced Logging: <font color='#80FF00'><execute expression=""f_param_debugMode = 1; publicVariable 'f_param_debugMode';hintSilent 'Logging: On';"">On</execute></font> | 
 <font color='#CF142B'><execute expression=""f_param_debugMode = 0; publicVariable 'f_param_debugMode';hintSilent 'Logging: Off';"">Off</execute></font><br/>
@@ -477,8 +465,16 @@ player createDiaryRecord ["ZeuAdmin", ["Framework",_missionFramework]];
 f_var_trans = 300; // Transiton time in seconds
 _missionWeather = "<font size='18' color='#80FF00'>TIME / WEATHER / VIEW</font><br/>
 <br/><font color='#80FF00'>TIME</font>
-<br/>Instantly skip time forward a given number of hours/minutes:
+<br/>Instantly change time a given number of hours/minutes:
 <br/>
+<execute expression=""-0.05 remoteExec ['skipTime', 2]; hintSilent 'Time: -5 Minutes';"">-5 Minutes</execute> | 
+<execute expression=""-0.5 remoteExec ['skipTime', 2]; hintSilent 'Time: -30 Minutes';"">-30 Minutes</execute> | 
+<execute expression=""-1 remoteExec ['skipTime', 2]; hintSilent 'Time: -1 hour';"">-1 Hour</execute> | 
+<execute expression=""-6 remoteExec ['skipTime', 2]; hintSilent 'Time: -6 hours';"">-6 Hours</execute> | 
+<execute expression=""-12 remoteExec ['skipTime', 2]; hintSilent 'Time: -12 hours';"">-12 Hours</execute> | 
+<execute expression=""-24 remoteExec ['skipTime', 2]; hintSilent 'Time: -24 hours';"">-24 Hours</execute>
+<br/>
+<execute expression=""0.05 remoteExec ['skipTime', 2]; hintSilent 'Time: +5 Minutes';"">+5 Minutes</execute> | 
 <execute expression=""0.5 remoteExec ['skipTime', 2]; hintSilent 'Time: +30 Minutes';"">+30 Minutes</execute> | 
 <execute expression=""1 remoteExec ['skipTime', 2]; hintSilent 'Time: +1 hour';"">+1 Hour</execute> | 
 <execute expression=""6 remoteExec ['skipTime', 2]; hintSilent 'Time: +6 hours';"">+6 Hours</execute> | 
@@ -657,9 +653,17 @@ private _sideArr = ([["West", west], ["East", east], ["Independent", independent
 } forEach _sideArr;
 
 _adminIntro = _adminIntro + "<br/><font color='#80FF00'>AI SKILL</font><br/>Set Unit Skill<br/>
-<execute expression=""systemChat 'Skill - Ultra'; {{ _x setSkill 1 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Ultra</execute> | 
-<execute expression=""systemChat 'Skill - Ranked'; {{ _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Unit Rank</execute> | 
-<execute expression=""systemChat 'Skill - Default'; {{ _x setSkill 0.4 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Default</execute> | 
-<execute expression=""systemChat 'Skill - Easy'; {{ _x setSkill 0.2 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 2];"">Easy</execute><br/>";
+<execute expression=""systemChat 'Skill - Ultra'; {{ _x setSkill 1 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 0];"">Ultra</execute> | 
+<execute expression=""systemChat 'Skill - Ranked'; {{ _x setSkill (if (leader _x == _x) then { 0.4 + random 0.2 } else { 0.2 + random 0.2 }) } forEach allUnits } remoteExec ['BIS_fnc_spawn', 0];"">Unit Rank</execute> | 
+<execute expression=""systemChat 'Skill - Default'; {{ _x setSkill 0.4 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 0];"">Default</execute> | 
+<execute expression=""systemChat 'Skill - Easy'; {{ _x setSkill 0.2 } forEach allUnits } remoteExec ['BIS_fnc_spawn', 0];"">Easy</execute><br/>";
+
+if (fileExists 'scripts\qrfSpawn.sqf') then {
+	_adminIntro = _adminIntro + "<br/><execute expression=""systemChat 'ZQRF Section Added'; [] execVM 'f\briefing\f_briefing_admin_zqrf.sqf';"">ZQRF Control</execute><br/>";
+};
+
+if (fileExists 'scripts\z_ambientUnits.sqf') then {
+	_adminIntro = _adminIntro + "<br/><execute expression=""systemChat 'ZAU Section Added'; [] execVM 'f\briefing\f_briefing_admin_zau.sqf';"">ZAU Control</execute><br/>";
+};
 
 player createDiaryRecord ["ZeuAdmin", ["Admin Menu",_adminIntro]];

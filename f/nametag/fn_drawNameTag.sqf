@@ -64,7 +64,7 @@ if (isNil "F_OVER_ONLY") then { F_OVER_ONLY = false };
 	if (missionNamespace getVariable ["f_var_ShowInjured", true]) then {
 		if (((player getUnitTrait "medic") || (getNumber (configFile >> "CfgVehicles" >> (typeOf player) >> "attendant") == 1)) && (damage _unit > 0.25)) then {
 			_icon = "\a3\ui_f\data\IGUI\Cfg\holdActions\holdAction_revive_ca.paa";
-			_colorIcon = [1,1,0.25,1];
+			_colorIcon = [1, (1 - (damage _unit)), 1/(1+((0.5^-5)*(damage _unit))), 1];
 		};
 	
 		// Show incapacitated units if allowed

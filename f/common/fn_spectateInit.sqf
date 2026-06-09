@@ -2,7 +2,7 @@ params [["_enable", true,[true]]];
 
 if (_enable) then {
 	if (toUpper (getText ((getMissionConfig "Header") >> "gameType")) == "COOP") then {
-		["Initialize", [player, [], false, true, true, true, true, false, true, true]] call BIS_fnc_EGSpectator; // Disable AI Spectating Until BIS fix performance.
+		["Initialize", [player, [east, west, independent], true, true, true, true, true, false, true, true]] call BIS_fnc_EGSpectator; // Disable AI Spectating Until BIS fix performance.
 	} else {
 		["Initialize", [player, [side group player], false, false, false, true, true, false, true, true]] call BIS_fnc_EGSpectator; // Disable 3P and other side spectating.
 	};

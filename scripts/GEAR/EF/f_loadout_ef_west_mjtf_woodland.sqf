@@ -683,7 +683,7 @@ switch (_typeOfUnit) do
 	};
 
 	// LOADOUT: ENGINEER (DEMO)
-	case "engd":
+	case "eng":
 	{
 		[_typeOfUnit] call _backpack;
 		_unit setUnitTrait ["engineer",true];

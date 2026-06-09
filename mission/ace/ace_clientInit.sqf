@@ -20,7 +20,8 @@ _typeofUnit = player getVariable ["f_var_assignGear", "r"];
 (uniformContainer player) addItemCargoGlobal ["ACE_CableTie",4];
 (uniformContainer player) addItemCargoGlobal ["ACE_fieldDressing",8];
 (uniformContainer player) addItemCargoGlobal ["ACE_painkillers",2];
-(uniformContainer player) addItemCargoGlobal ["ACE_tourniquet",1];
+(uniformContainer player) addItemCargoGlobal ["ACE_tourniquet",2];
+(uniformContainer player) addItemCargoGlobal ["ACE_splint",2];
 if (missionNamespace getVariable ["ace_medical_treatment_advancedBandages", 0] == 1) then { (uniformContainer player) addItemCargoGlobal ["ACE_elasticBandage",8]; };
 
 player setVariable ["ACE_hasEarPlugsIn", true, true];
@@ -35,7 +36,7 @@ if (_typeofUnit == "m" || (player getUnitTrait "medic")) then {
 	(unitBackpack player) addItemCargoGlobal ["ACE_tourniquet", 4];
 	(unitBackpack player) addItemCargoGlobal ["ACE_WaterBottle", 2];
 	
-	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 6]; };	// Fractures
+	if ((missionNamespace getVariable ["ace_medical_fractures", 0]) > 0) then { (unitBackpack player) addItemCargoGlobal ["ACE_splint", 8]; };	// Fractures
 	if ((missionNamespace getVariable ["ace_medical_treatment_locationPAK", 0]) != 4) then { (unitBackpack player) addItemCargoGlobal ["ACE_personalAidKit", 2]; }; // PAKs
 	if ((missionNamespace getVariable ["ace_medical_treatment_locationSurgicalKit", 0]) != 4 && (missionNamespace getVariable ["ace_medical_treatment_woundReopening", false])) then { (unitBackpack player) addItemCargoGlobal ["ACE_surgicalKit", 1] }; // Wound Reopening
 	if (missionNamespace getVariable ["ace_medical_treatment_advancedMedication", false]) then { (unitBackpack player) addItemCargoGlobal ["ACE_adenosine", 10]; }; // Advanced Medication
@@ -81,7 +82,7 @@ if (_typeofUnit == "engm" || (player getUnitTrait "explosiveSpecialist")) then {
 	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
 };
 
-if (_typeofUnit in ["sn","sp"]) then {
+if (_typeofUnit in ["sn","sp","dm"]) then {
 	(vestContainer player) addItemCargoGlobal ["ACE_ATragMX",1];
 	(vestContainer player) addItemCargoGlobal ["ACE_Kestrel4500",1];
 	(vestContainer player) addItemCargoGlobal ["ACE_RangeCard",1];

@@ -87,6 +87,8 @@ if (_flagMarker in allMapMarkers) then {
 		f_var_lastActionTime = time + 15;
 		systemChat format["Use the %1 to select individual HALO Location",if (isClass(configFile >> 'CfgPatches' >> 'ace_main')) then {'ACE Team Management'} else {'Action Menu'}]; 		
 	}, nil, 6, true, true, "", "missionNamespace getVariable ['f_param_haloTravel',0] != 0 && missionNamespace getVariable ['f_var_lastActionTime',0] < time"];
+	
+	f_obj_spawnFlag addAction ["<t color='#35BAF6'>Add Parachute</t>", "f\misc\f_autochute.sqf", nil, 0.5, true, true, "", "true"];
 
 	// TODO: Add ability to choose traits	
 	f_obj_spawnFlag addAction ["<t color='#FF8000'>Assign Gear (Default Class)</t>", { [player getVariable ["f_var_assignGear","r"],player] spawn f_fnc_assignGear }, nil, 0.5, true, true, "", "true"];

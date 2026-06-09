@@ -31,7 +31,7 @@ _f_fnc_drawFTMarker = {
 		
 		_text = format ["%1",name _x];
 
-		if (!isPlayer _x) then { 
+		if (!isPlayer _x) then {
 			_text = "AI";
 			_iconColor set [3,0.5];
 		};

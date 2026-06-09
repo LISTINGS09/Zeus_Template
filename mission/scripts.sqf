@@ -6,7 +6,7 @@ f_var_AuthorUID = '76561197970695190'; // Allows GUID to access Admin/Zeus featu
 // Client Settings
 if (hasInterface) then {
 	player addRating 100000;
-	[player, "NoVoice"] remoteExec ["setSpeaker", 0, netId player]; // No player voice
+	[player, "NoVoice"] remoteExec ["setSpeaker", 0, player]; // No player voice
 	player setVehicleReportRemoteTargets true; // Enable player DataLink	
 };
 
