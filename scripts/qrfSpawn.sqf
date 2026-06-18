@@ -11,7 +11,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
-ZQR_version = 1.4;
+ZQR_version = 1.6;
 if !isServer exitWith {};
 
 params [
@@ -589,9 +589,17 @@ ZQR_WaveDetail = [
 
 // CORE Functions - Don't touch these!
 zmm_fnc_misc_logMsg = {
-	params ["_lev", "_msg"];
-	diag_log text format ["[QRF] [%1] %2", _lev, _msg];
-	if ((missionNamespace getVariable ["f_param_debugMode",0] == 1 || missionNamespace getVariable ["ZMM_Debug", false] || !( toUpper _lev isEqualTo "DEBUG")) || _lev isEqualTo "ERROR") then { format ["[QRF] [%1] %2", _lev, _msg] remoteExec ["SystemChat"] } else { systemChat format ["[QRF] [%1] %2", _lev, _msg] };
+	params [["_lev", "INFO"], ["_msg", ""]];
+
+	if ( missionNamespace getVariable ["ZQR_Debug", false] || !(toUpper _lev isEqualTo "DEBUG") ) then { 
+		diag_log text format ["[QRF] [%1] %2", _lev, _msg];
+	};
+	
+	if ( missionNamespace getVariable ["ZQR_Debug", false] || toUpper _lev isEqualTo "ERROR" ) then { 
+		format ["[QRF] [%1] %2", _lev, _msg] remoteExec ["SystemChat"]
+	} else {
+		systemChat format ["[QRF] [%1] %2", _lev, _msg]
+	};
 };
 
 zmm_fnc_qrf_spawnCrew = {
@@ -617,7 +625,10 @@ zmm_fnc_qrf_spawnCrew = {
 		_crewCount = _crewCount + (_cargoCount min _maxCargo);
 	};
 
-	private _enemyMen = missionNamespace getVariable [ format["ZMM_%1_Man", _side], ["O_Soldier_F"]];
+	private _enemyMen = missionNamespace getVariable [
+		format["ZMM_%1_Man", _side],
+		[(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]
+	];
 
 	private _crew = [];
 	_crew resize _crewCount;
@@ -682,7 +693,10 @@ zmm_fnc_qrf_spawnGroup = {
 
 	private _startingPos = selectRandom _spawnArray;
 	_startingPos set [2,0];
-	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man", _side], ["O_Soldier_F"]];
+	private _enemyMen = missionNamespace getVariable [
+		format["ZMM_%1_Man", _side],
+		[(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]
+	];
 
 	// Don't spawn object if too close to any players.
 	if ( isMultiplayer && {allPlayers findIf { alive _x && _x distance2D _startingPos < _spawnDistCheck } > -1} ) exitWith {
@@ -728,7 +742,7 @@ zmm_fnc_qrf_spawnGroup = {
 		_mainGrp = [_grpVeh, _side, _fillVeh] call zmm_fnc_qrf_spawnCrew;
 		_mainGrp setGroupIdGlobal [format["QRF_W%1_G%2", _id, _uid]];
 		
-		["DEBUG", format["W%1_G%2 - spawnGroup %3%4%5", _id, _uid, _unitClass, if (_fillVeh) then { " with inf" } else {""}, _startingPos]] call zmm_fnc_misc_logMsg;
+		["INFO", format["W%1_G%2 - spawnGroup %3%4%5", _id, _uid, _unitClass, if (_fillVeh) then { " with inf" } else {""}, _startingPos]] call zmm_fnc_misc_logMsg;
 		// Leave group as main if its unarmed, otherwise split them into a infantry group
 		if _fillVeh then {
 			{
@@ -743,7 +757,7 @@ zmm_fnc_qrf_spawnGroup = {
 			} forEach ((fullCrew [_grpVeh, "cargo"]) + (if (count (fullCrew [_grpVeh, "turret"]) <= 4) then { [] } else { fullCrew [_grpVeh, "turret"] }));
 		};
 	} else {
-		["DEBUG", format["W%1_G%2 - spawnGroup %3", _id, _uid, _unitClass]] call zmm_fnc_misc_logMsg;
+		["INFO", format["W%1_G%2 - spawnGroup %3", _id, _uid, _unitClass]] call zmm_fnc_misc_logMsg;
 		_mainGrp = [_startingPos, _side, _unitClass] call BIS_fnc_spawnGroup;
 		_mainGrp deleteGroupWhenEmpty true;
 		_mainGrp setGroupIdGlobal [format["QRF_W%1_G%2", _id, _uid]];
@@ -1002,7 +1016,9 @@ zmm_fnc_qrf_spawnGroup = {
 zmm_fnc_qrf_spawnPara = {
 	params [["_targetPos", [0,0,0]], ["_spawnArray", []], ["_side", EAST], ["_veh", ""]];
 
-	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side],["O_Soldier_F"]];
+	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side],
+		[(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]
+	];
 	private _wave = missionNamespace getVariable ["ZQR_wave", 0];
 	private _uid = (missionNamespace getVariable ["ZQR_count", 0]) + 1;	
 	missionNamespace setVariable ["ZQR_count", _uid];
@@ -1356,6 +1372,7 @@ zmm_fnc_qrf_createWave = {
 };
 	
 // Get difficulty settings
+ZQR_Debug = !isMultiplayer;
 ZQR_difficulty = missionNamespace getVariable ["f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1]];
 ZQR_waveMax = _waveMax * ZQR_difficulty;
 private _instance = (missionNamespace getVariable ["ZQR_instance", 0]) + 1;
@@ -1515,7 +1532,7 @@ for [{_wave = 1}, {_wave <= ZQR_waveMax}, {_wave = _wave + 1}] do {
 	
 	// Stop spawns if no-one is nearby.
 	if (({ _destination distance2D _x < (_spawnDist + 1000) } count (switchableUnits + playableUnits)) isEqualTo 0 && isMultiplayer) exitWith {
-		["DEBUG", format["Wave %1 - Aborted - No players within %2 meters!", _wave, _spawnDist + 1000]] call zmm_fnc_misc_logMsg;
+		["WARNING", format["Wave %1 - Aborted - No players within %2 meters!", _wave, _spawnDist + 1000]] call zmm_fnc_misc_logMsg;
 	};
 	
 	private _waveInfo = [];
@@ -1532,7 +1549,7 @@ for [{_wave = 1}, {_wave <= ZQR_waveMax}, {_wave = _wave + 1}] do {
 		
 		if (_object isEqualType []) then { _object = selectRandom _object };
 		
-		["DEBUG", format["Zone %1 Wave %2/%3 - Spawning %4 (%5)", _instance, _wave, ZQR_waveMax, _object, _location]] call zmm_fnc_misc_logMsg;
+		["INFO", format["Zone %1 Wave %2/%3 - Spawning %4 (%5)", _instance, _wave, ZQR_waveMax, _object, _location]] call zmm_fnc_misc_logMsg;
 	
 		switch (toLower _location) do {
 			case "air": { [_destination, _spawnAir, _side, _object, 1000] call zmm_fnc_qrf_spawnGroup };
