@@ -11,7 +11,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
-ZQR_version = 1.6;
+ZQR_version = 1.7;
 if !isServer exitWith {};
 
 params [
@@ -603,41 +603,29 @@ zmm_fnc_misc_logMsg = {
 };
 
 zmm_fnc_qrf_spawnCrew = {
-	// zmm_fnc_qrf_spawnCrew
 	params [
 		"_veh",
 		"_side",
 		["_includeCargo", false],
-		["_maxCargo", 12]
+		["_cargoGroupMax", 8]
 	];
 
-	private _difficulty = missionNamespace getVariable [ "f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1] ];
+	private _difficulty = missionNamespace getVariable [ "f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1]];
+	private _crewPositions = fullCrew [_veh, "", true];
+	private _vehicleCrewSeats = _crewPositions select { (_x # 1) in ["driver", "gunner", "commander", "turret"] };
+	private _cargoSeats = _crewPositions select { (_x # 1) isEqualTo "cargo" };
+	private _crewCount = count _vehicleCrewSeats;
+	private _enemyMen = missionNamespace getVariable [ format ["ZMM_%1_Man", _side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
+	private _spawnPos = _veh getPos [5, random 360];
 
-	private _crewPositions = (fullCrew [_veh, "", true]) apply { _x#1 };
+	// MAIN VEHICLE CREW
+	private _crewUnits = [];
 
-	private _crewCount = count ( _crewPositions select { _x in ["driver","gunner","commander","turret"] });
-
-	// Adjust for difficulty
-	_maxCargo = round (_maxCargo * _difficulty);
-
-	if (_includeCargo) then {
-		private _cargoCount = count ( _crewPositions select { _x isEqualTo "cargo" } );
-		_crewCount = _crewCount + (_cargoCount min _maxCargo);
+	for "_i" from 0 to (_crewCount - 1) do {
+		_crewUnits pushBack ( if (_i < 3) then { _enemyMen # 0 } else { selectRandom _enemyMen } );
 	};
 
-	private _enemyMen = missionNamespace getVariable [
-		format["ZMM_%1_Man", _side],
-		[(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]
-	];
-
-	private _crew = [];
-	_crew resize _crewCount;
-
-	for "_i" from 0 to (_crewCount - 1) do { _crew set [ _i, if (_i < 3) then { _enemyMen#0 } else { selectRandom _enemyMen }] };
-
-	private _crewGrp = [ _veh getPos [5, random 360], _side, _crew ] call BIS_fnc_spawnGroup;
-
-	[_veh, [1,0.8,0.2]] remoteExec ["setVehicleTIPars"];
+	private _crewGrp = [ _spawnPos, _side, _crewUnits ] call BIS_fnc_spawnGroup;
 
 	_crewGrp addVehicle _veh;
 
@@ -649,7 +637,38 @@ zmm_fnc_qrf_spawnCrew = {
 
 	_crewGrp deleteGroupWhenEmpty true;
 
-	_crewGrp
+	// CARGO GROUPS
+	private _cargoGroups = [];
+
+	if (_includeCargo && {count _cargoSeats > 0}) then {
+		private _cargoRemaining = count _cargoSeats;
+		private _groupSizeMax = round (_cargoGroupMax * _difficulty) max 1;
+
+		while { _cargoRemaining > 0 } do {
+			private _groupSize = _cargoRemaining min _groupSizeMax;
+			private _cargoUnits = [];
+
+			for "_i" from 1 to _groupSize do { _cargoUnits pushBack (selectRandom _enemyMen) };
+
+			private _cargoGrp = [_spawnPos, _side, _cargoUnits] call BIS_fnc_spawnGroup;
+
+			_cargoGrp addVehicle _veh;
+			{ _x moveInCargo _veh } forEach units _cargoGrp;
+
+			_cargoGrp deleteGroupWhenEmpty true;
+			_cargoGroups pushBack _cargoGrp;
+			_cargoRemaining = _cargoRemaining - _groupSize;
+
+			{ _x addCuratorEditableObjects [units _cargoGrp] } forEach allCurators;
+		};
+	};
+
+	[_veh, [1,0.8,0.2]] remoteExec ["setVehicleTIPars"];
+	{ _x addCuratorEditableObjects [[_veh] + (units _crewGrp)] } forEach allCurators;
+
+	//["DEBUG", format["spawnCrew - %1 - %2 cargo groups", typeOf _veh, count _cargoGroups]] call zmm_fnc_misc_logMsg;
+
+	[_crewGrp, _cargoGroups]
 };
 
 zmm_fnc_qrf_spawnGroup = {
@@ -667,8 +686,11 @@ zmm_fnc_qrf_spawnGroup = {
 		["_UPSMkr",""]				// ZMM Compatability - If this exists will call UPS to allow patrol instead of travel
 	];
 
+
 	if (_startClass isEqualTo "") exitWith { ["WARNING", format["spawnGroup - Empty Unit Passed: %1 (%2)", _startClass, _side]] call zmm_fnc_misc_logMsg };
-	if (_tries > 5 || count _spawnArray == 0 || count _targetPos == 0) exitWith {};
+	if (_tries > 5 || count _spawnArray == 0 || count _targetPos == 0) exitWith {
+		["WARNING", format["spawnGroup - Exiting: %1 %2 %3", _tries, _spawnArray, _targetPos]] call zmm_fnc_misc_logMsg
+	};
 
 	private _id = if (_zoneID > 0) then { _zoneID } else { missionNamespace getVariable ["ZQR_wave", 0] };
 	private _uid = (missionNamespace getVariable ["ZQR_count", 0]) + 1;	
@@ -678,7 +700,7 @@ zmm_fnc_qrf_spawnGroup = {
 
 	private _unitClass = _startClass;
 	private _mainGrp = grpNull;
-	private _suppGrp = grpNull;
+	private _suppGrps = [];
 	private _grpVeh = objNull;
 	private _vehType = "";
 	private _customInit = "";
@@ -693,10 +715,7 @@ zmm_fnc_qrf_spawnGroup = {
 
 	private _startingPos = selectRandom _spawnArray;
 	_startingPos set [2,0];
-	private _enemyMen = missionNamespace getVariable [
-		format["ZMM_%1_Man", _side],
-		[(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]
-	];
+	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man", _side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
 
 	// Don't spawn object if too close to any players.
 	if ( isMultiplayer && {allPlayers findIf { alive _x && _x distance2D _startingPos < _spawnDistCheck } > -1} ) exitWith {
@@ -739,28 +758,29 @@ zmm_fnc_qrf_spawnGroup = {
 			if (_isArmed && (count (fullCrew [_grpVeh, "cargo", true]) <= 4)) then { _fillVeh = false };
 		};
 		
-		_mainGrp = [_grpVeh, _side, _fillVeh] call zmm_fnc_qrf_spawnCrew;
+		([_grpVeh, _side, _fillVeh] call zmm_fnc_qrf_spawnCrew) params ["_crewGrp","_cargoGrps"];
+		_mainGrp = _crewGrp;
 		_mainGrp setGroupIdGlobal [format["QRF_W%1_G%2", _id, _uid]];
 		
 		["INFO", format["W%1_G%2 - spawnGroup %3%4%5", _id, _uid, _unitClass, if (_fillVeh) then { " with inf" } else {""}, _startingPos]] call zmm_fnc_misc_logMsg;
 		// Leave group as main if its unarmed, otherwise split them into a infantry group
 		if _fillVeh then {
-			{
-				if (isNull _suppGrp) then {
-					_suppGrp = createGroup [_side, true];
-					_suppGrp setGroupIdGlobal [format["QRF_W%1_G%2_INF", _id, _uid]];
-					_suppGrp addVehicle _grpVeh;
-					_wp = _suppGrp addWaypoint [_targetPos, 50];
-					_wp setWaypointType "GUARD";
-				};
-				[_x#0] joinSilent _suppGrp;
-			} forEach ((fullCrew [_grpVeh, "cargo"]) + (if (count (fullCrew [_grpVeh, "turret"]) <= 4) then { [] } else { fullCrew [_grpVeh, "turret"] }));
+			{ 
+				_x setGroupIdGlobal [format["QRF_W%1_G%2_INF%3", _id, _uid, _forEachIndex]];
+				_x addVehicle _grpVeh;
+				_wp = _x addWaypoint [_targetPos, 50];
+				_wp setWaypointType "GUARD";
+			} forEach _cargoGrps;
+		
+			{ [_x#0] joinSilent (_cargoGrps#0) } forEach (if (count (fullCrew [_grpVeh, "turret"]) <= 4) then { [] } else { fullCrew [_grpVeh, "turret"] });
+			_suppGrps = _cargoGrps;
 		};
 	} else {
 		["INFO", format["W%1_G%2 - spawnGroup %3", _id, _uid, _unitClass]] call zmm_fnc_misc_logMsg;
 		_mainGrp = [_startingPos, _side, _unitClass] call BIS_fnc_spawnGroup;
 		_mainGrp deleteGroupWhenEmpty true;
 		_mainGrp setGroupIdGlobal [format["QRF_W%1_G%2", _id, _uid]];
+		{ _x addCuratorEditableObjects [units _mainGrp] } forEach allCurators;
 			
 		_vehArray = (units _mainGrp apply { assignedVehicle _x }) - [objNull];
 		
@@ -770,6 +790,7 @@ zmm_fnc_qrf_spawnGroup = {
 			_isArmed = [_grpVeh] call zmm_fnc_misc_isArmed;
 			uiSleep 0.5;
 			{ _x moveInAny _grpVeh; if (vehicle _x == _x) then { deleteVehicle _x } } forEach (units _mainGrp select { vehicle _x == _x });
+			{ _x addCuratorEditableObjects [[_grpVeh]] } forEach allCurators;
 		};
 	};
 
@@ -779,8 +800,6 @@ zmm_fnc_qrf_spawnGroup = {
 	if !(isNil "_customInit") then { 
 		if !(_customInit isEqualTo "") then { call compile _customInit; };
 	};
-
-	{ _x addCuratorEditableObjects [[_grpVeh] + (units _mainGrp) + (units _suppGrp)] } forEach allCurators;
 
 	// *** UPS Marker was passed, so don't set any further waypoints. ***
 	if (_UPSMkr != "") exitWith { ([leader _mainGrp, _UPSMkr] + (if (_vehType == "man") then { ["RANDOM", "SHOWMARKER"] } else { ["SHOWMARKER"] })) spawn zmm_fnc_aiUPS };
@@ -797,14 +816,8 @@ zmm_fnc_qrf_spawnGroup = {
 		
 		// BOAT VEHICLES
 		case "ship": {
-			private _hasInf = !isNull _suppGrp;
-			
-			_wp = _mainGrp addWaypoint [_startingPos, 0];
-			_wp setWaypointSpeed "FULL";
-			_wp setWaypointType "MOVE";
-			
 			// Armed with no cargo, nothing to dismount
-			if (_isArmed && !_hasInf) exitWith {
+			if (_isArmed && count _suppGrps == 0) exitWith {
 				_wp = _mainGrp addWaypoint [_startingPos, 300];
 				_wp setWaypointType "SAD";
 				_mainGrp setCombatMode "RED";
@@ -812,15 +825,19 @@ zmm_fnc_qrf_spawnGroup = {
 				_wp setWaypointType "GUARD";
 			};
 			
-			// Find a random point nearby for rough landing position
-			private _beachPos = _targetPos getPos [300, random 360];
-			for [{_i = 100}, {_i <= (_startingPos distance2D _beachPos)}, {_i = _i + 50}] do {			
-				private _checkLand = _beachPos getPos [_i, _beachPos getDir _startingPos];
-				if (surfaceIsWater _checkLand) exitWith { _beachPos = _checkLand };
+			// Find shoreline from sea spawn toward target
+			private _beachPos = _targetPos;
+			private _dir = _startingPos getDir _targetPos;
+
+			// Search along the route
+			for "_i" from 0 to (_startingPos distance2D _targetPos) step 50 do {
+				private _checkPos = _startingPos getPos [_i, _dir];
+				if !(surfaceIsWater _checkPos) exitWith { _beachPos = _checkPos getPos [-25, _dir] };
 			};
 			
 			_wp = _mainGrp addWaypoint [_beachPos, 0];
 			_wp setWaypointType "MOVE";
+			_wp setWaypointSpeed "FULL";
 			_wp setWaypointCompletionRadius 50;
 			_wp setWaypointStatements ["true", "
 				if (vehicle this == this|| !local this) exitWith {};
@@ -853,36 +870,32 @@ zmm_fnc_qrf_spawnGroup = {
 				_wp = _mainGrp addWaypoint [selectRandom _spawnArray, 50];
 				_wp setWaypointSpeed "NORMAL";
 				_wp setWaypointType "MOVE";
-				
-				_wp = _mainGrp addWaypoint [selectRandom _spawnArray, 50];
-				_wp setWaypointType "MOVE";
-				
-				_wp = _mainGrp addWaypoint [selectRandom _spawnArray, 300];
-				_wp setWaypointType "GUARD";
-			} else {
-				_wp = _mainGrp addWaypoint [_targetPos, 300];
-				_wp setWaypointType "SAD";
-				
-				_wp = _mainGrp addWaypoint [_targetPos, 50];
-				_wp setWaypointType "GUARD";
 			};
 			
-			if _hasInf then {
-				_wp = _suppGrp addWaypoint [_beachPos, 0];
-				_wp setWaypointType "GETOUT";
-				_wp setWaypointCompletionRadius 50;
+			_wp = _mainGrp addWaypoint [selectRandom _spawnArray, 50];
+			_wp setWaypointType "MOVE";
+			
+			_wp = _mainGrp addWaypoint [selectRandom _spawnArray, 300];
+			_wp setWaypointType "GUARD";
+			
+			if (count _suppGrps > 0) then {
+				 {
+					_wp = _x addWaypoint [_beachPos, 0];
+					_wp setWaypointType "GETOUT";
+					_wp setWaypointCompletionRadius 50;
+						
+					_wp = _x addWaypoint [_targetPos, 300];
+					_wp setWaypointType "SAD";
 					
-				_wp = _suppGrp addWaypoint [_targetPos, 300];
-				_wp setWaypointType "SAD";
-				
-				_wp = _suppGrp addWaypoint [_targetPos, 50];
-				_wp setWaypointType "GUARD";
+					_wp = _x addWaypoint [_targetPos, 50];
+					_wp setWaypointType "GUARD";
+				} forEach _suppGrps;
 			};
 		};
 		
 		// AIR VEHICLES
 		case "air": {
-			private _hasInf = !isNull _suppGrp;
+			private _hasInf = count _suppGrps > 0;
 			
 			// Armed with no cargo, nothing to dismount
 			if (_isArmed && !_hasInf) exitWith {
@@ -946,21 +959,23 @@ zmm_fnc_qrf_spawnGroup = {
 			// Infantry WPs 
 			if _hasInf then {
 				_mainGrp setBehaviour "CARELESS";
-				_wp = _suppGrp addWaypoint [_infPos, 0];
-				_wp setWaypointType "GETOUT";
-				_wp setWaypointCompletionRadius 200;
+				{
+					_wp = _x addWaypoint [_infPos, 0];
+					_wp setWaypointType "GETOUT";
+					_wp setWaypointCompletionRadius 200;
+						
+					_wp = _x addWaypoint [_targetPos, 300];
+					_wp setWaypointType "SAD";
 					
-				_wp = _suppGrp addWaypoint [_targetPos, 300];
-				_wp setWaypointType "SAD";
-				
-				_wp = _suppGrp addWaypoint [_targetPos, 50];
-				_wp setWaypointType "GUARD";
+					_wp = _x addWaypoint [_targetPos, 50];
+					_wp setWaypointType "GUARD";
+				} forEach _suppGrps;
 			};
 		};
 		
 		// ANY OTHER VEHICLE TYPES
 		default {
-			private _hasInf = !isNull _suppGrp;
+			private _hasInf = count _suppGrps > 0;
 			
 			_wp = _mainGrp addWaypoint [_startingPos, 0];
 			_wp setWaypointType "MOVE";
@@ -999,21 +1014,24 @@ zmm_fnc_qrf_spawnGroup = {
 			};
 			
 			if _hasInf then {
-				_wp = _suppGrp addWaypoint [_targetPos, 0];
-				_wp setWaypointType "GETOUT";
-				_wp setWaypointCompletionRadius _radius;
-				
-				_wp = _suppGrp addWaypoint [_targetPos, 300];
-				_wp setWaypointType 'SAD';
-				
-				_wp = _suppGrp addWaypoint [_targetPos, 50];
-				_wp setWaypointType 'GUARD';
+				{
+					_wp = _x addWaypoint [_targetPos, 0];
+					_wp setWaypointType "GETOUT";
+					_wp setWaypointCompletionRadius _radius;
+					
+					_wp = _x addWaypoint [_targetPos, 300];
+					_wp setWaypointType 'SAD';
+					
+					_wp = _x addWaypoint [_targetPos, 50];
+					_wp setWaypointType 'GUARD';
+				} forEach _suppGrps;
 			};
 		};
 	};
 };
 
 zmm_fnc_qrf_spawnPara = {
+	// zmm_fnc_qrf_spawnPara from QRF
 	params [["_targetPos", [0,0,0]], ["_spawnArray", []], ["_side", EAST], ["_veh", ""]];
 
 	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
@@ -1030,7 +1048,7 @@ zmm_fnc_qrf_spawnPara = {
 	private _customInit = "";
 	if (_veh isEqualType []) then { _customInit = _veh#1; _veh = _veh#0 };
 
-	["DEBUG", format["W%1_G%2 - spawnPara %3", _wave, _uid, _veh]] call zmm_fnc_misc_logMsg;
+	["INFO", format["W%1_G%2 - spawnPara %3", _wave, _uid, _veh]] call zmm_fnc_misc_logMsg;
 
 	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "NONE"];
 	private _dirTo =  _grpVeh getDir _targetPos;
@@ -1332,7 +1350,7 @@ zmm_fnc_qrf_createWave = {
 
 	_waveInfo
 };
-	
+
 // Get difficulty settings
 ZQR_Debug = !isMultiplayer;
 ZQR_difficulty = missionNamespace getVariable ["f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1]];
