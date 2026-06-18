@@ -1041,7 +1041,7 @@ zmm_fnc_qrf_spawnPara = {
 	_grpVeh setVehicleLock "LOCKEDPLAYER";
 
 	// Find the number of seats we can hold
-	private _cargoMax = fullCrew [_veh, "cargo", true];
+	private _cargoMax = fullCrew [_grpVeh, "cargo", true];
 
 	if (_cargoMax < 1) exitWith { deleteVehicle _grpVeh };
 
