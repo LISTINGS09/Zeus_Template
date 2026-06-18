@@ -19,7 +19,7 @@
 //
 //	  _nul = [this,"UPSZ","RANDOM"] execVM "scripts\UPS\UPS_Lite.sqf";
 //
-ZUP_version = 2.36;
+ZUP_version = 2.39;
 if !isServer exitWith {};
 
 // Global Script Variables
@@ -38,19 +38,17 @@ if (isNil "ZAI_Debug") then { ZAI_Debug = !isMultiplayer }; // Disable debug mod
 
 // Message Logging Function
 _ZAI_fnc_LogMsg = {
-	params [["_lev", ""], ["_msg", ""]];
+	params [["_lev", "INFO"], ["_msg", ""]];
 
-	diag_log text format ["[ZMM] [%1] %2", _lev, _msg];
-
-	if (
-		(missionNamespace getVariable ["f_param_debugMode",0] == 1 || 
-		missionNamespace getVariable ["ZAI_Debug", false] || 
-		!( toUpper _lev isEqualTo "DEBUG")) || 
-		_lev isEqualTo "ERROR"
-	) then { 
-		format ["[ZMM] [%1] %2", _lev, _msg] remoteExec ["SystemChat"] 
-	} else {
-		systemChat format ["[ZMM] [%1] %2", _lev, _msg]
+		if ( missionNamespace getVariable ["ZAI_Debug", false] || !(toUpper _lev isEqualTo "DEBUG") ) then { 
+			diag_log text format ["[QRF] [%1] %2", _lev, _msg];
+		};
+		
+		if ( missionNamespace getVariable ["ZAI_Debug", false] || toUpper _lev isEqualTo "ERROR" ) then { 
+			format ["[QRF] [%1] %2", _lev, _msg] remoteExec ["SystemChat"]
+		} else {
+			systemChat format ["[QRF] [%1] %2", _lev, _msg]
+		};
 	};
 };
 
@@ -770,7 +768,6 @@ while {
 		
 		(vehicle _grpLeader) setVehicleAmmo 1;
 		missionNamespace setVariable [format["ZAI_%1_ArtyRequest", side _grp], []];
-		
 	};
 
 	// Check for any AI Issues!
@@ -787,11 +784,11 @@ while {
 				if (_lastCount == 10) exitWith { 
 					while {count wayPoints _grp > 0} do { deleteWaypoint ((wayPoints _grp)#0); sleep 0.5; };
 					_wp = _grp addWaypoint [getPos _grpLeader, 0];
-					["WARNING", format["[%1] Vehicle held for %2 cycles - Clearing WPs", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
+					["INFO", format["[%1] Vehicle held for %2 cycles - Clearing WPs", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 				if (_lastCount == 20) exitWith {
 					vehicle _grpLeader setDamage 0;
-					["WARNING", format["[%1] Vehicle held for %2 cycles - Repairing", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
+					["INFO", format["[%1] Vehicle held for %2 cycles - Repairing", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 				if (_lastCount == 30) exitWith {
 					vehicle _grpLeader setFuel 0.05;
@@ -805,13 +802,13 @@ while {
 			if (_isMan) then {
 				if (_lastCount == 10) exitWith {
 					while {count wayPoints _grp > 1} do { deleteWaypoint ((wayPoints _grp)#0); sleep 0.5; };
-					["WARNING", format["[%1] Leader held for %2 cycles - Clearing WPs", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
+					["INFO", format["[%1] Leader held for %2 cycles - Clearing WPs", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 				if (_lastCount == 15) exitWith {
 					{
 						_x setPos ([getPos _x, 1, 25, 2, 0, 0, 0, [], [getPos _x, getPos _x]] call BIS_fnc_findSafePos);
 					} forEach _grpUnits;
-					["WARNING", format["[%1] Leader held for %2 cycles - Moving to SafePos", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
+					["INFO", format["[%1] Leader held for %2 cycles - Moving to SafePos", _grpIDx, _lastCount]] call _ZAI_fnc_LogMsg;
 				};
 				if (_lastCount MOD 5 == 0) then {
 					(_grpLeader) selectWeapon primaryWeapon (_grpLeader);
