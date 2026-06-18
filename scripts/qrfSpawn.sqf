@@ -1016,9 +1016,7 @@ zmm_fnc_qrf_spawnGroup = {
 zmm_fnc_qrf_spawnPara = {
 	params [["_targetPos", [0,0,0]], ["_spawnArray", []], ["_side", EAST], ["_veh", ""]];
 
-	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side],
-		[(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]
-	];
+	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
 	private _wave = missionNamespace getVariable ["ZQR_wave", 0];
 	private _uid = (missionNamespace getVariable ["ZQR_count", 0]) + 1;	
 	missionNamespace setVariable ["ZQR_count", _uid];
@@ -1026,7 +1024,7 @@ zmm_fnc_qrf_spawnPara = {
 	private _groupMax = 99; // Maximum para groups
 	private _groupSize = 8; // Units number per para group
 	private _startPos = selectRandom _spawnArray;
-	_startPos set [2, 500];
+	_startPos set [2, 350];
 
 	// Split out init from class.
 	private _customInit = "";
@@ -1034,66 +1032,30 @@ zmm_fnc_qrf_spawnPara = {
 
 	["DEBUG", format["W%1_G%2 - spawnPara %3", _wave, _uid, _veh]] call zmm_fnc_misc_logMsg;
 
-	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "FLY"];
+	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "NONE"];
 	private _dirTo =  _grpVeh getDir _targetPos;
 	private _dirFrom =  (_grpVeh getDir _targetPos) + 180;
 	_grpVeh setDir _dirTo;
 	_grpVeh setVehicleLock "LOCKEDPLAYER";
 
 	// Find the number of seats we can hold
-	private _cargoMax = fullCrew [_grpVeh, "cargo", true];
+	private _cargoMax = count (fullCrew [_grpVeh, "cargo", true]);
 
 	if (_cargoMax < 1) exitWith { deleteVehicle _grpVeh };
 
 	// Run the custom init 
 	if !(isNil "_customInit") then { if !(_customInit isEqualTo "") then { call compile _customInit; } };
 
-	private _grpPilot = [_grpVeh, _side] call zmm_fnc_ai_spawnCrew;
-
-	// Create Para Group
-	private _paraList = [];
-	private _cargoLeft = _cargoMax;
-
-	// Work out how many groups we can have without overfilling the vehicle.
-	for [{_i = 0}, {_i <= ceil (_cargoMax / _groupSize)}, {_i = _i + 1}] do {
-		if (_cargoLeft - _groupSize >= _groupSize) then {
-			_paraList set [_i,_groupSize];
-		} else {
-			// Only part of a group can be added, if its worth adding include it.
-			if (_cargoLeft > 2) then {
-				_paraList set [_i,_groupSize];
-			};
-		};
-		
-		_cargoLeft = _cargoLeft - _groupSize;
-	};
-
-	// If there are more groups than allowed, remove them.
-	if (count _paraList > _groupMax) then { _paraList resize _groupMax };
-
-	// Create the groups and store them in a variable
-	private _grpVehVar = [];
-	private _grpVehCount = 0;
+	([_grpVeh, _side, true] call zmm_fnc_qrf_spawnCrew) params ["_grpPilot", "_grpCargo"];
+	_grpVeh setVelocityModelSpace [0, 120, 5];
 
 	{
-		private _paraUnits = [];	
-		for [{_i = 1}, {_i <= _x}, {_i = _i + 1}] do { _paraUnits pushBack (selectRandom _enemyMen) };
-
-		_grpPara = [[0,0,0], _side, _paraUnits] call BIS_fnc_spawnGroup;
-		_grpPara deleteGroupWhenEmpty true;
-		_grpPara setGroupIdGlobal [format["QRF_W%1_G%2_PARA%3", _wave, _uid, _forEachIndex]];
-
-		{ _x moveInAny _grpVeh } forEach units _grpPara;
-		
-		_wp = _grpPara addWaypoint [_targetPos, 0];
+		_x setGroupIdGlobal [format["QRF_W%1_G%2_PARA%3", _wave, _uid, _forEachIndex]];
+		private _wp = _x addWaypoint [_targetPos, 0];
 		_wp setWaypointType 'SAD';
-		_wp = _grpPara addWaypoint [_targetPos, 0];
+		_wp = _x addWaypoint [_targetPos, 0];
 		_wp setWaypointType 'GUARD';
-
-		sleep 0.5;
-		
-		_grpVehCount = _grpVehCount + _x;
-	} forEach _paraList;
+	} forEach _grpCargo;
 
 	// Set pilot wayPoints
 	_wp = _grpPilot addWaypoint [_startPos, 0];
@@ -1103,7 +1065,7 @@ zmm_fnc_qrf_spawnPara = {
 	_wp setWaypointStatements ["true","(vehicle this) setCollisionLight true;"];
 
 	// Set Pilots wayPoints
-	private  _dropStart = _targetPos getPos [_grpVehCount * 25, _dirFrom];
+	private  _dropStart = _targetPos getPos [_cargoMax * 25, _dirFrom];
 	/*private _tmp = createMarkerLocal ["dropStart", _dropStart];
 	_tmp setMarkerTypeLocal "mil_dot";
 	_tmp setMarkerTextLocal "Drop Start";*/
