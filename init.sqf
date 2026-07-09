@@ -13,7 +13,7 @@ f_sqf_safe = execVM "f\safeStart\f_safeStart.sqf"; 	// F3 - Safe Start
 if isServer then {
 	execVM "f\setGroupID\f_setGroupIDs.sqf";			// F3 - Group IDs
 	execVM "f\misc\f_stayInVehicle.sqf"; 				// Zeus - Stubborn Crew
-	
+	execVM "f\setAISkill\f_setAISkill.sqf";				// Zeus - Unit Skill
 	// Clear DCd player bodies at start
 	[] spawn {
 		sleep 0.1;
@@ -50,5 +50,4 @@ if hasInterface then {
 	f_sqf_earp = execVM "f\earplug\f_earplugs.sqf";					// Zeus - Earplugs
 	f_sqf_names = execVM "f\nametag\f_nametags.sqf";				// F3 - Nametags
 	f_sqf_ftmrk = execVM "f\FTMemberMarkers\f_initFTMarkers.sqf";	// F3 - FT Markers
-	f_sqf_skill = execVM "f\setAISkill\f_setAISkill.sqf";			// Zeus - Unit Skill
 };
