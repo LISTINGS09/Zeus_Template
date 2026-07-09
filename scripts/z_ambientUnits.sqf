@@ -3,7 +3,7 @@
 // Generates Ambient Garrison and Patrols
 //
 // Usage: _nul = [] execVM "scripts\z_ambientUnits.sqf";
-ZAU_version = 1.6;
+ZAU_version = 1.7;
 if !isServer exitWith {};
 
 
@@ -78,17 +78,18 @@ ZAU_UnitsActive = [];
 private _loopNo = 1;
 
 if (isNil "zmm_fnc_misc_logMsg") then {
-	private zmm_fnc_misc_logMsg = {
+	zmm_fnc_misc_logMsg = {
 		params [["_lev", "INFO"], ["_msg", ""]];
 
-		if ( missionNamespace getVariable ["ZAU_Debug", false] || !(toUpper _lev isEqualTo "DEBUG") ) then { 
-			diag_log text format ["[QRF] [%1] %2", _lev, _msg];
-		};
-		
-		if ( missionNamespace getVariable ["ZAU_Debug", false] || toUpper _lev isEqualTo "ERROR" ) then { 
-			format ["[QRF] [%1] %2", _lev, _msg] remoteExec ["SystemChat"]
+		diag_log text format ["[ZAU] [%1] %2", _lev, _msg];
+
+		if (
+			missionNamespace getVariable ["ZAU_Debug", false] || 
+			_lev isEqualTo "ERROR"
+		) then { 
+			format ["[ZAU] [%1] %2", _lev, _msg] remoteExec ["SystemChat"]
 		} else {
-			systemChat format ["[QRF] [%1] %2", _lev, _msg]
+			systemChat format ["[ZAU] [%1] %2", _lev, _msg]
 		};
 	};
 };
@@ -102,7 +103,12 @@ if (isNil "zmm_fnc_misc_findEnemySide") then {
 		];
 
 		private _foundSide = missionNamespace getVariable ["ZAU_Side", CIVILIAN];
-		if (_foundSide != CIVILIAN) exitWith { _foundSide };
+		private _distance = 0;
+
+		if (_foundSide != CIVILIAN) exitWith { 
+			["DEBUG", format["Found Side by Variable - %1", _foundSide]] call zmm_fnc_misc_logMsg;
+			_foundSide 
+		};
 
 		//["DEBUG", format["Find Side - Checking %1 within %2", _nearPos, _inDist]] call zmm_fnc_misc_logMsg;
 
@@ -113,25 +119,28 @@ if (isNil "zmm_fnc_misc_findEnemySide") then {
 		private _sideColors = ZMM_enemySides apply { toUpper format["Color%1", _x] };
 			
 		// Check marker colours to match on.
-		[([
+		private _sortedMarkers = [
 			_markerList select {
-				toUpper (getMarkerColor _x) in _sideColors && 
+				toUpper (getMarkerColor _x) in _sideColors &&
 				getMarkerPos _x distance2D _nearPos < _inDist
 			},
 			[],
 			{ _nearPos distance2D getMarkerPos _x },
 			"ASCEND"
-		] call BIS_fnc_sortBy) select 0] params [["_nearMarker",""]];
+		] call BIS_fnc_sortBy;
+
+		private _nearMarker = _sortedMarkers param [0, ""];
 
 		// Found markers so find the nearest
-		if (_nearMarker != "") then {
+		if (_nearMarker != "") exitWith {
+			_distance = getMarkerPos _nearMarker distance2D _nearPos;
 			_foundSide = switch (toUpper (getMarkerColor _nearMarker)) do { case "COLORWEST": { WEST }; case "COLOREAST": { EAST }; default { INDEPENDENT }; };
+			["DEBUG", format["Found Side by Marker - %1 distance %2m", _foundSide, _distance]] call zmm_fnc_misc_logMsg;
+			_foundSide
 		};
 
-		if (_foundSide in ZMM_enemySides) exitWith { _foundSide };
-
 		// Find near entities to get side.
-		[side (([
+		private _sortedGroups = [
 			allGroups select {
 				leader _x distance2D _nearPos < _inDist &&
 				side _x in ZMM_enemySides
@@ -139,11 +148,20 @@ if (isNil "zmm_fnc_misc_findEnemySide") then {
 			[],
 			{ leader _x distance2D _nearPos },
 			"ASCEND"
-		] call BIS_fnc_sortBy) select 0)] params [["_groupSide", CIVILIAN]];
+		] call BIS_fnc_sortBy;
 
-		if (_groupSide in ZMM_enemySides) exitWith { _groupSide };
+		private _group = _sortedGroups param [0, grpNull];
 
-		selectRandom ZMM_enemySides
+		if ((side _group) in ZMM_enemySides) exitWith { 
+			_foundSide = side _group;
+			_distance = (getPos (leader _group)) distance2D _nearPos;
+			["DEBUG", format["Found Side by Group - %1 distance %2m", _foundSide, _distance]] call zmm_fnc_misc_logMsg;
+			_foundSide
+		};
+
+		_foundSide = selectRandom ZMM_enemySides;
+		["DEBUG", format["Found Side by Random - %1", _foundSide]] call zmm_fnc_misc_logMsg;
+		_foundSide
 	};
 };
 
