@@ -40,15 +40,14 @@ if (isNil "ZAI_Debug") then { ZAI_Debug = !isMultiplayer }; // Disable debug mod
 _ZAI_fnc_LogMsg = {
 	params [["_lev", "INFO"], ["_msg", ""]];
 
-		if ( missionNamespace getVariable ["ZAI_Debug", false] || !(toUpper _lev isEqualTo "DEBUG") ) then { 
-			diag_log text format ["[QRF] [%1] %2", _lev, _msg];
-		};
-		
-		if ( missionNamespace getVariable ["ZAI_Debug", false] || toUpper _lev isEqualTo "ERROR" ) then { 
-			format ["[QRF] [%1] %2", _lev, _msg] remoteExec ["SystemChat"]
-		} else {
-			systemChat format ["[QRF] [%1] %2", _lev, _msg]
-		};
+	if ( missionNamespace getVariable ["ZAI_Debug", false] || !(toUpper _lev isEqualTo "DEBUG") ) then { 
+		diag_log text format ["[UPS] [%1] %2", _lev, _msg];
+	};
+	
+	if ( missionNamespace getVariable ["ZAI_Debug", false] || toUpper _lev isEqualTo "ERROR" ) then { 
+		format ["[UPS] [%1] %2", _lev, _msg] remoteExec ["SystemChat"]
+	} else {
+		systemChat format ["[UPS] [%1] %2", _lev, _msg]
 	};
 };
 
