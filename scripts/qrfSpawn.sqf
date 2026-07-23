@@ -11,7 +11,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
-ZQR_version = 1.7;
+ZQR_version = 1.8;
 if !isServer exitWith {};
 
 params [
@@ -672,31 +672,26 @@ zmm_fnc_qrf_spawnCrew = {
 };
 
 zmm_fnc_qrf_spawnGroup = {
-	// [getPos selectRandom allPlayers select { alive _x }, [[0,0,0]], EAST, selectRandom ZMM_GUER_CasP] call zmm_fnc_qrf_spawnGroup;
-	// [getPos (selectRandom (allPlayers select { alive _x })), [((selectRandom (allPlayers select { alive _x })) getPos [4000, random 360])], EAST, selectRandom ZMM_GUER_CasP] call zmm_fnc_qrf_spawnGroup;
+	// [0, getPos player, [[0,0,0]], EAST, selectRandom ZMM_GUER_CasP] call zmm_fnc_qrf_spawnGroup;
+	// [0, getPos (selectRandom (allPlayers select { alive _x })), [((selectRandom (allPlayers select { alive _x })) getPos [4000, random 360])], EAST, selectRandom ZMM_GUER_CasP] call zmm_fnc_qrf_spawnGroup;
 	// zmm_fnc_qrf_spawnGroup
 	params [
+		["_zoneID", 0],				// The instance this group belongs to
 		["_targetPos", []],			// Target Destination to stop at
 		["_spawnArray", []],		// Array of String/Object/Marker Starting Positions
 		["_side", WEST],			// Side of spawned vehicle
 		["_startClass", ""],		// Classname, Config, Number or Array [classname,code]
 		["_spawnDistCheck", 500],	// Don't spawn this close to players
 		["_tries", 0],				// If too close to players, then try up to 5 times
-		["_zoneID", 0],				// ZMM Compatability - The Zone this group will belong
 		["_UPSMkr",""]				// ZMM Compatability - If this exists will call UPS to allow patrol instead of travel
 	];
-
 
 	if (_startClass isEqualTo "") exitWith { ["WARNING", format["spawnGroup - Empty Unit Passed: %1 (%2)", _startClass, _side]] call zmm_fnc_misc_logMsg };
 	if (_tries > 5 || count _spawnArray == 0 || count _targetPos == 0) exitWith {
 		["WARNING", format["spawnGroup - Exiting: %1 %2 %3", _tries, _spawnArray, _targetPos]] call zmm_fnc_misc_logMsg
 	};
 
-	private _id = if (_zoneID > 0) then { _zoneID } else { missionNamespace getVariable ["ZQR_wave", 0] };
-	private _uid = (missionNamespace getVariable ["ZQR_count", 0]) + 1;	
-	ZQR_count = _uid;
-
-	//["DEBUG", format["W%1_G%2 - qrf_spawnGroup - Starting - %3 [%4] Attempt:%5", _id, _uid, _startClass, _side, _tries]] call zmm_fnc_misc_logMsg;
+	//["DEBUG", format["%1 - qrf_spawnGroup - Starting - %2 [%3] Attempt:%4", _gid, _startClass, _side, _tries]] call zmm_fnc_misc_logMsg;
 
 	private _unitClass = _startClass;
 	private _mainGrp = grpNull;
@@ -720,8 +715,15 @@ zmm_fnc_qrf_spawnGroup = {
 	// Don't spawn object if too close to any players.
 	if ( isMultiplayer && {allPlayers findIf { alive _x && _x distance2D _startingPos < _spawnDistCheck } > -1} ) exitWith {
 		sleep 30;
-		[_targetPos, _spawnArray, _side, _startClass, _spawnDistCheck, _tries + 1, _zoneID, _UPSMkr] call zmm_fnc_qrf_spawnGroup;
+		[_zoneID, _targetPos, _spawnArray, _side, _startClass, _spawnDistCheck, _tries + 1, _UPSMkr] call zmm_fnc_qrf_spawnGroup;
 	};
+
+	private _id = missionNamespace getVariable [format["ZQR_%1_CurrentWave", _zoneID], 0];
+	private _num = (missionNamespace getVariable [format["ZQR_%1_Count", _zoneID], 0]) + 1;	
+	missionNamespace setVariable [format["ZQR_%1_Count", _zoneID], _num];
+
+	private _gid = format["W%1_G%2", _id, _num];
+	if (_UPSMkr != "") then { _gid = format["Z%1_%2", _zoneID, _gid] };
 
 	// If _unitClass is array, extract the custom init.
 	// if (_unitClass isEqualType []) then { _unitClass params ["_unitClass","_customInit"] }; // Does this overwrite class correctly??
@@ -737,7 +739,7 @@ zmm_fnc_qrf_spawnGroup = {
 
 	private _isArmed = false;
 		
-	//["DEBUG", format["W%1_G%3 - qrf_spawnGroup - Spawning - %4 [%5] at %6", _id, _uid, _unitClass, _side, _startingPos]] call zmm_fnc_misc_logMsg;
+	//["DEBUG", format["%1 - qrf_spawnGroup - Spawning - %2 [%3] at %4", _gid, _unitClass, _side, _startingPos]] call zmm_fnc_misc_logMsg;
 
 	if (_unitClass isEqualType "") then {
 		_vehType = toLower getText (configFile >> "CfgVehicles" >> _unitClass >> "vehicleClass");
@@ -760,13 +762,13 @@ zmm_fnc_qrf_spawnGroup = {
 		
 		([_grpVeh, _side, _fillVeh] call zmm_fnc_qrf_spawnCrew) params ["_crewGrp","_cargoGrps"];
 		_mainGrp = _crewGrp;
-		_mainGrp setGroupIdGlobal [format["QRF_W%1_G%2", _id, _uid]];
+		_mainGrp setGroupIdGlobal [format["QRF_%1", _gid]];
 		
-		["INFO", format["W%1_G%2 - spawnGroup %3%4%5", _id, _uid, _unitClass, if (_fillVeh) then { " with inf" } else {""}, _startingPos]] call zmm_fnc_misc_logMsg;
+		["DEBUG", format["%1 - spawnGroup %2%3%4", _gid, _unitClass, if (_fillVeh) then { " with inf" } else {""}, _startingPos]] call zmm_fnc_misc_logMsg;
 		// Leave group as main if its unarmed, otherwise split them into a infantry group
 		if _fillVeh then {
 			{ 
-				_x setGroupIdGlobal [format["QRF_W%1_G%2_INF%3", _id, _uid, _forEachIndex]];
+				_x setGroupIdGlobal [format["QRF_%1_INF%3", _gid, _forEachIndex]];
 				_x addVehicle _grpVeh;
 				_wp = _x addWaypoint [_targetPos, 50];
 				_wp setWaypointType "GUARD";
@@ -776,10 +778,10 @@ zmm_fnc_qrf_spawnGroup = {
 			_suppGrps = _cargoGrps;
 		};
 	} else {
-		["INFO", format["W%1_G%2 - spawnGroup %3", _id, _uid, _unitClass]] call zmm_fnc_misc_logMsg;
+		["DEBUG", format["%1 - spawnGroup %2", _gid, _unitClass]] call zmm_fnc_misc_logMsg;
 		_mainGrp = [_startingPos, _side, _unitClass] call BIS_fnc_spawnGroup;
 		_mainGrp deleteGroupWhenEmpty true;
-		_mainGrp setGroupIdGlobal [format["QRF_W%1_G%2", _id, _uid]];
+		_mainGrp setGroupIdGlobal [format["QRF_%1", _gid]];
 		{ _x addCuratorEditableObjects [units _mainGrp] } forEach allCurators;
 			
 		_vehArray = (units _mainGrp apply { assignedVehicle _x }) - [objNull];
@@ -1032,12 +1034,19 @@ zmm_fnc_qrf_spawnGroup = {
 
 zmm_fnc_qrf_spawnPara = {
 	// zmm_fnc_qrf_spawnPara from QRF
-	params [["_targetPos", [0,0,0]], ["_spawnArray", []], ["_side", EAST], ["_veh", ""]];
+	params [["_zoneID", 0], ["_targetPos", [0,0,0]], ["_spawnArray", []], ["_side", EAST], ["_veh", ""]];
+
+	if (_veh == "") then { _veh = (["O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_F","I_Heli_light_03_unarmed_F"] select (_side call BIS_fnc_sideID)) };
+	if (_spawnArray == []) then { _spawnArray = [_targetPos getPos [3000, random 360]] };
 
 	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
-	private _wave = missionNamespace getVariable ["ZQR_wave", 0];
-	private _uid = (missionNamespace getVariable ["ZQR_count", 0]) + 1;	
-	missionNamespace setVariable ["ZQR_count", _uid];
+
+	private _id = missionNamespace getVariable [format["ZQR_%1_CurrentWave", _zoneID], 0];
+	private _num = (missionNamespace getVariable [format["ZQR_%1_Count", _zoneID], 0]) + 1;	
+	missionNamespace setVariable [format["ZQR_%1_Count", _zoneID], _num];
+
+	private _gid = format["W%1_G%1", _id, _num];
+	if (_zoneID > 0) then { _gid = format["Z%1_%2", _zoneID, _gid] };
 
 	private _groupMax = 99; // Maximum para groups
 	private _groupSize = 8; // Units number per para group
@@ -1048,7 +1057,7 @@ zmm_fnc_qrf_spawnPara = {
 	private _customInit = "";
 	if (_veh isEqualType []) then { _customInit = _veh#1; _veh = _veh#0 };
 
-	["INFO", format["W%1_G%2 - spawnPara %3", _wave, _uid, _veh]] call zmm_fnc_misc_logMsg;
+	["DEBUG", format["%1 - spawnPara %2", _gid, _veh]] call zmm_fnc_misc_logMsg;
 
 	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "NONE"];
 	private _dirTo =  _grpVeh getDir _targetPos;
@@ -1068,7 +1077,7 @@ zmm_fnc_qrf_spawnPara = {
 	_grpVeh setVelocityModelSpace [0, 120, 5];
 
 	{
-		_x setGroupIdGlobal [format["QRF_W%1_G%2_PARA%3", _wave, _uid, _forEachIndex]];
+		_x setGroupIdGlobal [format["QRF_%1_PARA%2", _gid, _forEachIndex]];
 		private _wp = _x addWaypoint [_targetPos, 0];
 		_wp setWaypointType 'SAD';
 		_wp = _x addWaypoint [_targetPos, 0];
@@ -1108,7 +1117,7 @@ zmm_fnc_qrf_spawnPara = {
 	"];
 
 	if (([_grpVeh] call zmm_fnc_misc_isArmed) && random 1 > 0.7) then {
-		_grpPilot setGroupIdGlobal [format["QRF_W%1_G%2_CREW", _wave, _uid]];
+		_grpPilot setGroupIdGlobal [format["QRF_%1_CREW", _gid]];
 		_wp = _grpPilot addWaypoint [_targetPos, 0];
 		_wp setWaypointType "SAD";
 		_wp setWaypointCompletionRadius 300;
@@ -1195,10 +1204,10 @@ zmm_fnc_qrf_createWave = {
 		,["_hasRoad", true]
 		,["_hasSea", false]
 		,["_hasAir", true]
+		,["_difficulty", missionNamespace getVariable ["ZZM_Diff", missionNamespace getVariable ["f_param_ZMMDiff", 1]]]
 	];
 
 	private _waveInfo = [];
-	private _difficulty = missionNamespace getVariable ["ZQR_difficulty", 1];
 	private _players = (if isMultiplayer then { (count (allPlayers select { alive _x })) } else { 8 }) max 4;
 	private _gunners = (
 		count (allPlayers select {
@@ -1208,6 +1217,8 @@ zmm_fnc_qrf_createWave = {
 		})
 	) min 4;
 	private _effectivePlayers = (_players * (1 + (_gunners * 0.6))) * (0.75 + (_difficulty * 0.25));
+
+	["INFO", format["W%1 - qrf_createWave - PLRS:%2 EFCT:%3 - LAND:%4 ROAD:%5 SEA:%6 AIR:%7", _wave, _players, _effectivePlayers, _hasLand, _hasRoad, _hasSea, _hasAir]] call zmm_fnc_misc_logMsg;
 
 	// Vehicle pools
 	private _vehTruck = missionNamespace getVariable [format["ZMM_%1_Truck",_side],[]];
@@ -1252,113 +1263,127 @@ zmm_fnc_qrf_createWave = {
 	};
 
 	// Work out what the default should be
-	private _defaultType = switch (true) do {
-		case _hasLand: { [selectRandom ["house", "land"], _unitCount] };
-		case _hasSea: { ["sea", selectRandom _vehBoat] };
-		default { ["air", selectRandom _vehAirTransport] };
+	private _fnc_defaultType = {
+		switch (true) do {
+			case (_hasLand): { [selectRandom ["house","land"], _unitCount] };
+			case (_hasSea): { ["sea", selectRandom _vehBoat] };
+			default { ["air", selectRandom _vehAirTransport] };
+		};
 	};
 
 	private _chanceHigh = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.5) min 0.5);
 	private _chanceLow = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.2) min 0.2);
 
 	if (_infantryGroups > 0) then {
-		switch (true) do {
-			case (_chanceHigh && _hasRoad && {count _vehTruck > 0} ): {
-				_waveInfo pushBack ["road", selectRandom _vehTruck];
-			};
-			case (_chanceHigh && _hasSea && {count _vehBoat > 0} ): {
-				_waveInfo pushBack ["sea", selectRandom _vehBoat];
-			};
-			case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
-				_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
-			};
-			default {
-				_waveInfo pushBack _defaultType;
+		for "_i" from 1 to _infantryGroups do {
+			switch (true) do {
+				case (_chanceHigh && _hasRoad && {count _vehTruck > 0} ): {
+					_waveInfo pushBack ["road", selectRandom _vehTruck];
+				};
+				case (_chanceHigh && _hasSea && {count _vehBoat > 0} ): {
+					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+				};
+				case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
+					_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
+				};
+				default {
+					_waveInfo pushBack call _fnc_defaultType;
+				};
 			};
 		};
 	};
 
 	if (_lightVehGroups > 0) then {
-		switch (true) do {
-			case (_chanceHigh && _hasRoad && {count _vehTruck > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehTruck];
-			};
-			case (_hasRoad && {count _vehLight > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehLight];
-			};
-			case (_hasSea && {count _vehBoat > 0}): {
-				_waveInfo pushBack ["sea", selectRandom _vehBoat];
-			};
-			default {
-				_waveInfo pushBack _defaultType;
+		for "_i" from 1 to _lightVehGroups do {
+			switch (true) do {
+				case (_chanceHigh && _hasRoad && {count _vehTruck > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehTruck];
+				};
+				case (_hasRoad && {count _vehLight > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehLight];
+				};
+				case (_hasSea && {count _vehBoat > 0}): {
+					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+				};
+				default {
+					_waveInfo pushBack call _fnc_defaultType;
+				};
 			};
 		};
 	};
 
 	if (_mediumVehGroups > 0) then {
-		switch (true) do {
-			case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
-				_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
-			};
-			case (_hasRoad && {count _vehMedium > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehMedium];
-			};
-			case (_hasRoad && {count _vehLight > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehLight];
-			};
-			case (_hasSea && {count _vehBoat > 0}): {
-				_waveInfo pushBack ["sea", selectRandom _vehBoat];
-			};
-			default {
-				_waveInfo pushBack _defaultType;
+		for "_i" from 1 to _mediumVehGroups do {
+			switch (true) do {
+				case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
+					_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
+				};
+				case (_hasRoad && {count _vehMedium > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehMedium];
+				};
+				case (_hasRoad && {count _vehLight > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehLight];
+				};
+				case (_hasSea && {count _vehBoat > 0}): {
+					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+				};
+				default {
+					_waveInfo pushBack call _fnc_defaultType;
+				};
 			};
 		};
 	};
 
 	if (_heavyVehGroups > 0) then {
-		// 20% chance to replace with airdrop
-		switch (true) do {
-			case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
-				_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
+		for "_i" from 1 to _heavyVehGroups do {
+			// 20% chance to replace with airdrop
+			switch (true) do {
+				case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
+					_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
+				};
+				case (_hasRoad && {count _vehHeavy > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehHeavy];
+				};
+				case (_hasRoad && {count _vehMedium > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehMedium];
+				};
+				case (_hasRoad && {count _vehLight > 0}): {
+					_waveInfo pushBack ["road", selectRandom _vehLight];
+				};
+				case (_hasSea && {count _vehBoat > 0}): {
+					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+				};
+				case (_hasAir && {count _vehAirTransport > 0}): {
+					_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
+				};
+				default {
+					_waveInfo pushBack call _fnc_defaultType;
+				};
 			};
-			case (_hasRoad && {count _vehHeavy > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehHeavy];
-			};
-			case (_hasRoad && {count _vehMedium > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehMedium];
-			};
-			case (_hasRoad && {count _vehLight > 0}): {
-				_waveInfo pushBack ["road", selectRandom _vehLight];
-			};
-			case (_hasSea && {count _vehBoat > 0}): {
-				_waveInfo pushBack ["sea", selectRandom _vehBoat];
-			};
-			case (_hasAir && {count _vehAirTransport > 0}): {
-				_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
-			};
-			default {
-				_waveInfo pushBack _defaultType;
-			};
-		};		
+		};
 	};
 
 	if (_planeVehGroups > 0 && {count _vehAirCas > 0}) then {
-		_waveInfo pushBack ["cas", selectRandom _vehAirCas];
-		
-		// TODO IF THIS HAS FREE SEATS MAKE IT PARADROP
+		for "_i" from 1 to _planeVehGroups do {
+			_waveInfo pushBack ["cas", selectRandom _vehAirCas];
+			// TODO IF THIS HAS FREE SEATS MAKE IT PARADROP
+		};
 	};
+	
+	["INFO", format["W%1 - qrf_createWave - INF:%2 LGT:%3 MED:%4 HVY:%5 AIR:%6", _wave, _infantryGroups, _lightVehGroups, _mediumVehGroups, _heavyVehGroups, _planeVehGroups]] call zmm_fnc_misc_logMsg;
 
 	_waveInfo
+
 };
 
-// Get difficulty settings
-ZQR_Debug = !isMultiplayer;
-ZQR_difficulty = missionNamespace getVariable ["f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1]];
-ZQR_waveMax = _waveMax * ZQR_difficulty;
-private _instance = (missionNamespace getVariable ["ZQR_instance", 0]) + 1;
+// Main Code Start
+private _instance = (missionNamespace getVariable ["ZQR_ZoneID", 0]) + 1;
+private _difficulty = if !(isNil "_diff") then { _diff } else { missionNamespace getVariable ["ZZM_Diff", missionNamespace getVariable ["f_param_ZMMDiff", 1]] };
 
-// ZMM Stealh Ops support for ZoneIDs
-if (isNil "_zoneID") then { ZQR_instance = _instance } else { _instance = _zoneID };
+// ZMM Stealh Ops support
+if !(isNil "_zoneID") then { _instance = _zoneID } else { ZQR_ZoneID = _instance };
+
+missionNamespace setVariable [format["ZQR_%1_WaveMax", _instance], _waveMax * _difficulty];
 
 // Convert passed destination
 switch (typeName _destination) do {
@@ -1370,9 +1395,9 @@ switch (typeName _destination) do {
 if !(_destination isEqualType []) exitWith { ["ERROR", "Invalid Destination Object/Position"] call zmm_fnc_misc_logMsg };
 if isNil "_side" exitWith { ["ERROR", "Variable Undefined: '_side'"] call zmm_fnc_misc_logMsg };
 if (count (allGroups select { side _x == _side }) == 0) then { ["WARNING", format["No groups present for %1 - Wrong faction?", _side]] call zmm_fnc_misc_logMsg };
-if (count (missionNamespace getVariable [format["ZMM_%1_Man",_side],[]]) == 0) then { 
-	if (count (missionNamespace getVariable [format["ZMM_%1_Man",_side],[]]) > 0) exitWith { 
-		missionNamespace setVariable [format["ZMM_%1_Man",_side], missionNamespace getVariable [format["ZMM_%1_Man",_side],[]]]
+if (count (missionNamespace getVariable [format["ZMM_%1_Man",_side],[]]) == 0) then {
+	if (count (missionNamespace getVariable [format["ZMM_%1Man",_side],[]]) > 0) exitWith { 
+		missionNamespace setVariable [format["ZMM_%1_Man",_side], missionNamespace getVariable [format["ZMM_%1Man",_side],[]]]
 	};
 	["ERROR", format["No units in ZMM_%1_Man variable",_side]] call zmm_fnc_misc_logMsg 
 };
@@ -1397,12 +1422,12 @@ private _spawnSea = [];
 } forEach ["respawn_west","respawn_east","respawn_guerrila","respawn_civilian"];
 
 {	
-	if (["safezone_", toLower _x] call BIS_fnc_inString) then { _safePositions pushBack _x; };
+	if (["safezone_", toLower _x] call BIS_fnc_inString) then { _safePositions pushBackUnique _x; };
 } forEach allMapMarkers;
 
 // White list custom spawns - Change this marker if needed!
 {	
-	if (["qrf_", toLower _x] call BIS_fnc_inString) then { _spawnLand pushBack getMarkerPos _x; };
+	if (["qrf_", toLower _x] call BIS_fnc_inString) then { _spawnLand pushBackUnique getMarkerPos _x; };
 } forEach allMapMarkers;
 
 // Collect all roads 2km around the location that are not in a safe location.
@@ -1413,23 +1438,24 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	if (count _roads > 0 && { _posR inArea _x } count _safePositions == 0) then {
 		_road = _roads select 0;
 		if ({_x distance2D _road < 200} count _spawnRoad == 0) then {
-			_connected = roadsConnectedTo _road;
-			_nearestRoad = objNull;
-			{if ((_x distance _destination) < (_nearestRoad distance _destination)) then {_nearestRoad = _x}} forEach _connected;			
-			if !(isnull _nearestRoad) then { _spawnRoad pushBackUnique position _nearestRoad };
+			_spawnRoad pushBackUnique (getPos _road);		
 		};
 	};
 	
 	// House Pos not in safe area and more than 200m away from another point	
 	private _posH = _destination getPos [(_spawnDist * 0.3), _i];
-	private _nearBuild = nearestBuilding _posH;
-	if (_nearBuild distance2D _posH < 100 && { _posH inArea _x } count _safePositions == 0) then {
-		private _bpos = _nearBuild buildingPos -1;		
-		_bpos = _bpos select { !(surfaceIsWater _x) };
-		if (count _bpos > 0) then {
-			private _lowestPos = ([_bpos, [], { _x select 2 }, "ASCEND"] call BIS_fnc_sortBy) select 0;
-			if ({_x distance2D _lowestPos < 100} count _spawnHouse == 0) then {
-				_spawnHouse pushBack _lowestPos;
+	private _nearBuilds = nearestObjects [_posH, ["House"], 100];
+	
+	if (_nearBuilds isNotEqualTo []) then {
+		private _nearBuild = _nearBuilds#0;
+		if (_nearBuild distance2D _posH < 100 && { _posH inArea _x } count _safePositions == 0) then {
+			private _bpos = _nearBuild buildingPos -1;		
+			_bpos = _bpos select { !(surfaceIsWater _x) };
+			if (count _bpos > 0) then {
+				private _lowestPos = ([_bpos, [], { _x select 2 }, "ASCEND"] call BIS_fnc_sortBy) select 0;
+				if ({_x distance2D _lowestPos < 100} count _spawnHouse == 0) then {
+					_spawnHouse pushBackUnique _lowestPos;
+				};
 			};
 		};
 	};
@@ -1439,7 +1465,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	if (!surfaceIsWater _posL && { _posL inArea _x } count _safePositions == 0) then {
 		if ({_x distance2D _posL < 400} count _spawnLand == 0) then {
 			_posL set [2, 0.5];
-			_spawnLand pushBack _posL;
+			_spawnLand pushBackUnique _posL;
 		};
 	};
 	
@@ -1448,7 +1474,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	if (surfaceIsWater _posS && { _posS inArea _x } count _safePositions == 0) then {
 		if ({_x distance2D _posS < 400} count _spawnSea == 0 && (0 - (getTerrainHeightASL _posS)) > 15) then {
 			_posS set [2, (0 - (getTerrainHeightASL _posS))];
-			_spawnSea pushBack _posS;
+			_spawnSea pushBackUnique _posS;
 		};
 	};
 	
@@ -1457,7 +1483,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	if ({ _posA inArea _x } count _safePositions == 0) then {
 		if ({_x distance2D _posA < 1500} count _spawnAir == 0) then {
 			_posA set [2, 500];
-			_spawnAir pushBack _posA;
+			_spawnAir pushBackUnique _posA;
 		};
 	};
 	
@@ -1466,7 +1492,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	if ({ _posAF inArea _x } count _safePositions == 0) then {
 		if ({_x distance2D _posAF < 5000} count _spawnAirFar == 0) then {
 			_posAF set [2, 500];
-			_spawnAirFar pushBack _posAF;
+			_spawnAirFar pushBackUnique _posAF;
 		};
 	};
 };
@@ -1482,12 +1508,9 @@ private _hasAir = count _spawnAir > 0;
 	{
 		private _mrkr = createMarkerLocal [format [_mkrName, _forEachIndex], _x];
 		_mrkr setMarkerPosLocal _x;
-		_mrkr setMarkerTypeLocal "mil_triangle";
+		_mrkr setMarkerTypeLocal "mil_dot";
 		_mrkr setMarkerColorLocal _mkrColor;
-		_mrkr setMarkerAlphaLocal 0.6;
-		_mrkr setMarkerSizeLocal [0.6,0.6];
-		_mrkr setMarkerDirLocal (_x getDir _destination);
-		//_mrkr setMarkerTextLocal format[_mkrText,_forEachIndex];
+		_mrkr setMarkerTextLocal format[_mkrText,_forEachIndex];
 	} forEach _posType;
 } forEach [
 	[_spawnRoad, "mkr_qrf_road_%1", "R%1", "ColorYellow"]
@@ -1507,38 +1530,43 @@ if (count _spawnAirFar == 0) then { _spawnAirFar = _spawnAir };
 
 // MAIN
 // Spawn waves.
-for [{_wave = 1}, {_wave <= ZQR_waveMax}, {_wave = _wave + 1}] do {
-	ZQR_wave = _wave;
+for [{_wave = 1}, {_wave <= (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3])}, {_wave = _wave + 1}] do {
+	missionNamespace setVariable [format["ZQR_%1_Wave", _instance], _wave];
 	
 	// Stop spawns if no-one is nearby.
 	if (({ _destination distance2D _x < (_spawnDist + 1000) } count (switchableUnits + playableUnits)) isEqualTo 0 && isMultiplayer) exitWith {
-		["WARNING", format["Wave %1 - Aborted - No players within %2 meters!", _wave, _spawnDist + 1000]] call zmm_fnc_misc_logMsg;
+		["DEBUG", format["Wave %1 - Aborted - No players within %2 meters!", _wave, _spawnDist + 1000]] call zmm_fnc_misc_logMsg;
 	};
 	
-	private _waveInfo = [];
-	if (count (missionNamespace getVariable ["ZQR_WaveDetail",[]]) == 0) then {
-		_waveInfo = [_wave] call zmm_fnc_qrf_createWave;
+	private _waveInfo = if (isNil "_ZMMwaveInfo") then { [] } else { _ZMMwaveInfo };
+	if (
+		_waveInfo isEqualTo [] || 
+		count (missionNamespace getVariable ["ZQR_WaveDetail",[]]) == 0 ||
+		count (missionNamespace getVariable [format["ZQR_%1_WaveDetail", _instance], []]) == 0
+	) then {
+		_waveInfo = [_wave, _side, _hasLand, _hasRoad, _hasSea, _hasAir] call zmm_fnc_qrf_createWave;
 	} else {
-		 _waveInfo = ZQR_WaveDetail select ((_wave - 1) min (count ZQR_WaveDetail - 1));
+		// TODO Add support for: ZQR_%1_WaveDetail
+		_waveInfo = ZQR_WaveDetail select ((_wave - 1) min (count ZQR_WaveDetail - 1));
 	};
 	
-	//["DEBUG", format["Starting Zone %1 - Wave %2/%3 - %4 %5", _instance, _wave, ZQR_waveMax, _side, _waveInfo]] call zmm_fnc_misc_logMsg;
-	
+	// TODO CHECK FOR VALID POSITIONS AND DEFAULT INF IF NONE FOUND
+	//["DEBUG", format["Starting Zone %1 - Wave %2/%3 - %4 %5", _instance, _wave, (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3]), _side, _waveInfo]] call zmm_fnc_misc_logMsg;
 	{
 		_x params ["_location","_object"];
 		
 		if (_object isEqualType []) then { _object = selectRandom _object };
 		
-		["INFO", format["Zone %1 Wave %2/%3 - Spawning %4 (%5)", _instance, _wave, ZQR_waveMax, _object, _location]] call zmm_fnc_misc_logMsg;
+		["INFO", format["Zone %1 Wave %2/%3 - Spawning %4 (%5)", _instance, _wave, (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3]), _object, _waveInfo]] call zmm_fnc_misc_logMsg;
 	
 		switch (toLower _location) do {
-			case "air": { [_destination, _spawnAir, _side, _object, 1000] call zmm_fnc_qrf_spawnGroup };
-			case "cas": { [_destination, _spawnAirFar, _side, _object, 1000] call zmm_fnc_qrf_spawnGroup };
-			case "drop": { [_destination, _spawnAir, _side, _object] call zmm_fnc_qrf_spawnPara };
-			case "house": { [_destination, _spawnHouse, _side, _object, 200] call zmm_fnc_qrf_spawnGroup };
-			case "land": { [_destination, _spawnLand, _side, _object, 500] call zmm_fnc_qrf_spawnGroup };
-			case "road": { [_destination, _spawnRoad, _side, _object, 500] call zmm_fnc_qrf_spawnGroup };
-			case "sea": { [_destination, _spawnSea, _side, _object, 800] call zmm_fnc_qrf_spawnGroup };
+			case "air": { [_instance, _destination, _spawnAir, _side, _object, 1000] call zmm_fnc_qrf_spawnGroup };
+			case "cas": { [_instance, _destination, _spawnAirFar, _side, _object, 1000] call zmm_fnc_qrf_spawnGroup };
+			case "drop": { [_instance, _destination, _spawnAir, _side, _object] call zmm_fnc_qrf_spawnPara };
+			case "house": { [_instance, _destination, _spawnHouse, _side, _object, 200] call zmm_fnc_qrf_spawnGroup };
+			case "land": { [_instance, _destination, _spawnLand, _side, _object, 500] call zmm_fnc_qrf_spawnGroup };
+			case "road": { [_instance, _destination, _spawnRoad, _side, _object, 500] call zmm_fnc_qrf_spawnGroup };
+			case "sea": { [_instance, _destination, _spawnSea, _side, _object, 800] call zmm_fnc_qrf_spawnGroup };
 			default { ["ERROR", format["Wave %1 - Invalid Spawn Location Type (%2)", _wave, _location]] call zmm_fnc_misc_logMsg };
 		};
 		
