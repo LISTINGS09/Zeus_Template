@@ -1034,10 +1034,16 @@ zmm_fnc_qrf_spawnGroup = {
 
 zmm_fnc_qrf_spawnPara = {
 	// zmm_fnc_qrf_spawnPara from QRF
-	params [["_zoneID", 0], ["_targetPos", [0,0,0]], ["_spawnArray", []], ["_side", EAST], ["_veh", ""]];
+	params [
+		["_zoneID", 0],
+		["_targetPos", [0,0,0]],
+		["_spawnArray", []],
+		["_side", EAST],
+		["_veh", ""]
+	];
 
-	if (_veh == "") then { _veh = (["O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_F","I_Heli_light_03_unarmed_F"] select (_side call BIS_fnc_sideID)) };
-	if (_spawnArray == []) then { _spawnArray = [_targetPos getPos [3000, random 360]] };
+	if (_veh isEqualTo "") then { _veh = (["O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_F","I_Heli_light_03_unarmed_F"] select (_side call BIS_fnc_sideID)) };
+	if (_spawnArray isEqualTo []) then { _spawnArray = [_targetPos getPos [3000, random 360]] };
 
 	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
 
