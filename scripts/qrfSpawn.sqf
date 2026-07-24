@@ -1065,7 +1065,7 @@ zmm_fnc_qrf_spawnPara = {
 
 	["DEBUG", format["%1 - spawnPara %2", _gid, _veh]] call zmm_fnc_misc_logMsg;
 
-	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "NONE"];
+	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "FLY"];
 	private _dirTo =  _grpVeh getDir _targetPos;
 	private _dirFrom =  (_grpVeh getDir _targetPos) + 180;
 	_grpVeh setDir _dirTo;
