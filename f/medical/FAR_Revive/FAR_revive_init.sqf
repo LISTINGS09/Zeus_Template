@@ -1,4 +1,4 @@
-// Farooq's Revive 3.1 (2600K Edit)
+// Farooq's Revive 3.2 (2600K Edit)
 
 // Parameters - If not set in scripts.sqf defaults will be used below.
 if (isNil "FAR_var_InstantDeath") 	then { FAR_var_InstantDeath = 	FALSE } else { FAR_var_InstantDeath = [FALSE,TRUE] select FAR_var_InstantDeath; };	// Heavy hits to head and body will instantly kill.
@@ -25,20 +25,24 @@ FAR_var_FAK = ["FirstAidKit","gm_gc_army_gauzeBandage","gm_ge_army_burnBandage",
 
 // Player Initialization
 [] spawn {
-    waitUntil { !isNull player };
-	
-	[player] spawn FAR_fnc_unitInit;
-	
+	waitUntil {
+		!isNull player &&
+		local player &&
+		time > 0
+	};
+
+	[player] call FAR_fnc_unitInit;
+
 	// If vehicle list isn't populated, fill it
 	if (FAR_var_SpawnInMedical && isNil "FAR_var_MedicalVehs") then { FAR_var_MedicalVehs = [] call FAR_fnc_getMedicalVehicles };
+
+	// [Debugging] Add revive to playable AI units
+	if (isMultiplayer) exitWith {};
+
+	FAR_EHID_TeamSwitch = addMissionEventHandler ["TeamSwitch", { params ["_previousUnit", "_newUnit"]; _previousUnit enableAI "TeamSwitch"; [_previousUnit, _newUnit] spawn FAR_fnc_PlayerActions; }];
+
+	{
+		_x addEventHandler ["HandleDamage", FAR_fnc_HandleDamage];
+		[_x] spawn FAR_fnc_unitInit;
+	} forEach (switchableUnits - [player]);
 };
-
-// [Debugging] Add revive to playable AI units
-if (isMultiplayer) exitWith {};
-
-FAR_EHID_TeamSwitch = addMissionEventHandler ["TeamSwitch", { params ["_previousUnit", "_newUnit"]; _previousUnit enableAI "TeamSwitch"; [_previousUnit, _newUnit] spawn FAR_fnc_PlayerActions; }];
-
-{
-	_x addEventHandler ["HandleDamage", FAR_fnc_HandleDamage];
-	[_x] spawn FAR_fnc_unitInit;
-} forEach (switchableUnits - [player]);

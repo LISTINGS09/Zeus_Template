@@ -56,6 +56,7 @@ switch (_weather) do {
 	case 3:
 	{
 		_delay setOvercast 0.5;
+		forceWeatherChange;
 		_delay setRain 0;
 		[2] call f_fnc_setWind;
 	};
@@ -63,22 +64,28 @@ switch (_weather) do {
 	case 4:
 	{
 		_delay setOvercast 0.7;
+		forceWeatherChange;
 		_delay setRain 0.3;
+		_delay setWaves 0.3;
 		[3] call f_fnc_setWind;
 	};
 // Rain
 	case 5:
 	{
 		_delay setOvercast 0.9;
+		forceWeatherChange;
 		_delay setRain 0.7;
+		_delay setWaves 0.6;
 		[4] call f_fnc_setWind;
 	};
 // Storm
 	case 6:
 	{
 		_delay setOvercast 1;
+		forceWeatherChange;
 		_delay setRain 1;
 		_delay setLightnings 1;
+		_delay setWaves 1;
 		[6] call f_fnc_setWind;
 	};
 };

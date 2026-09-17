@@ -57,7 +57,10 @@ _addTime = {
 // SELECT MISSION TIME OF DAY
 //Picks a random value from the existing f_param_timeOfDay values (if 0 not present)
 private _paramsTime = getArray (missionConfigFile >> "Params" >> "f_param_timeOfDay" >> "values");	
-if (!(0 in _paramsTime) && count _paramsTime > 0) then { _time = selectRandom _paramsTime };
+
+if (_timeOfDay == 14 && !(0 in _paramsTime) && {count _paramsTime > 0}) then {
+    _timeOfDay = selectRandom _paramsTime;
+};
 
 // Using the value of _timeOfDay, we define new values for _hour and _minute.
 _time = switch (_timeOfDay) do {

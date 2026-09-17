@@ -8,7 +8,7 @@ class EditorData
 	toggles=549;
 	class ItemIDProvider
 	{
-		nextID=12064;
+		nextID=12065;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=532;
+		nextID=556;
 	};
 	class Camera
 	{
-		pos[]={5516.5347,18.667709,4330.2969};
-		dir[]={0.667602,-0.32581314,-0.66950035};
-		up[]={0.23007067,0.94542509,-0.23072518};
-		aside[]={-0.70813578,2.4939072e-07,-0.70613116};
+		pos[]={5472.3765,33.98925,4267.7837};
+		dir[]={0.52067178,-0.34008187,0.78309989};
+		up[]={0.18829416,0.94039589,0.28319785};
+		aside[]={0.83273435,0,-0.55367303};
 	};
 };
 binarizationWanted=0;
@@ -43,6 +43,7 @@ addons[]=
 	"A3_Structures_F_Mil_Flags",
 	"A3_Air_F_Beta_Heli_Transport_01",
 	"A3_Air_F_Heli_Light_02",
+	"Air_F_lxWS_Heli_Light_02",
 	"A3_Air_F_EPB_Heli_Light_03",
 	"A3_Soft_F_Beta_Truck_02",
 	"A3_Soft_F_Beta_Truck_01",
@@ -186,7 +187,7 @@ class AddonsMetaData
 {
 	class List
 	{
-		items=61;
+		items=62;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -273,341 +274,348 @@ class AddonsMetaData
 		};
 		class Item12
 		{
+			className="Air_F_lxWS";
+			name="Arma 3 Creator DLC: Western Sahara - Aircraft";
+			author="Rotators Collective";
+			url="https://sahara.rotators.net/";
+		};
+		class Item13
+		{
 			className="A3_Air_F_EPB";
 			name="Arma 3 Adapt Episode - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item13
+		class Item14
 		{
 			className="A3_Soft_F_Beta";
 			name="Arma 3 Beta - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item14
+		class Item15
 		{
 			className="A3_Soft_F_EPC";
 			name="Arma 3 Win Episode - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item15
+		class Item16
 		{
 			className="A3_Characters_F_Exp";
 			name="Arma 3 Apex - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item16
+		class Item17
 		{
 			className="A3_Structures_F_Wrecks";
 			name="Arma 3 - Vehicle Wrecks";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item17
+		class Item18
 		{
 			className="A3_Soft_F";
 			name="Arma 3 Alpha - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item18
+		class Item19
 		{
 			className="A3_Air_F_Exp";
 			name="Arma 3 Apex - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item19
+		class Item20
 		{
 			className="A3_Soft_F_Gamma";
 			name="Arma 3 - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item20
+		class Item21
 		{
 			className="A3_Armor_F_Gamma";
 			name="Arma 3 - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item21
+		class Item22
 		{
 			className="A3_Props_F_Orange";
 			name="Arma 3 Orange - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item22
+		class Item23
 		{
 			className="A3_Props_F_Exp_A";
 			name="Arma 3 Nexus Update - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item23
+		class Item24
 		{
 			className="A3_Supplies_F_Heli";
 			name="Arma 3 Helicopters - Ammoboxes and Supplies";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item24
+		class Item25
 		{
 			className="A3_Static_F_Sams";
 			name="Arma 3 Sams - Turrets";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item25
+		class Item26
 		{
 			className="A3_Structures_F_EPC";
 			name="Arma 3 Win Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item26
+		class Item27
 		{
 			className="A3_Static_F_Jets";
 			name="Arma 3 Jets - Turrets";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item27
+		class Item28
 		{
 			className="A3_Soft_F_Exp";
 			name="Arma 3 Apex - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item28
+		class Item29
 		{
 			className="A3_Weapons_F_Exp";
 			name="Arma 3 Apex - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item29
+		class Item30
 		{
 			className="A3_Weapons_F";
 			name="Arma 3 Alpha - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item30
+		class Item31
 		{
 			className="A3_Structures_F";
 			name="Arma 3 - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item31
+		class Item32
 		{
 			className="A3_Structures_F_Households";
 			name="Arma 3 - Houses";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item32
+		class Item33
 		{
 			className="A3_Structures_F_Tank";
 			name="Arma 3 Tank - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item33
+		class Item34
 		{
 			className="A3_Soft_F_Enoch";
 			name="Arma 3 Contact Platform - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item34
+		class Item35
 		{
 			className="A3_Armor_F_EPC";
 			name="Arma 3 Win Episode - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item35
+		class Item36
 		{
 			className="A3_Armor_F_Tank";
 			name="Arma 3 Tank - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item36
+		class Item37
 		{
 			className="A3_Characters_F_Enoch";
 			name="Arma 3 Contact Platform - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item37
+		class Item38
 		{
 			className="A3_Armor_F_Enoch";
-			name="CFGPATCHES_A3_Armor_F_Enoch";
+			name="Arma 3 Contact Platform - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item38
+		class Item39
 		{
 			className="A3_Characters_F_Tank";
 			name="Arma 3 Tank - Characters and Clothing";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item39
+		class Item40
 		{
 			className="A3_Static_F_Enoch";
-			name="Arma 3 Enoch - Turrets";
+			name="Arma 3 Contact Platform - Turrets";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item40
+		class Item41
 		{
 			className="A3_Armor_F_Exp";
 			name="Arma 3 Apex - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item41
+		class Item42
 		{
 			className="A3_Boat_F_Beta";
 			name="Arma 3 Beta - Boats and Submersibles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item42
+		class Item43
 		{
 			className="A3_Structures_F_EPA";
 			name="Arma 3 Survive Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item43
+		class Item44
 		{
 			className="A3_Weapons_F_Bootcamp";
 			name="Arma 3 Bootcamp Update - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item44
+		class Item45
 		{
 			className="A3_Props_F_Tank";
 			name="Arma 3 Tank - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item45
+		class Item46
 		{
 			className="A3_Structures_F_EPB";
 			name="Arma 3 Adapt Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item46
+		class Item47
 		{
 			className="A3_Structures_F_Argo";
 			name="Arma 3 Malden - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item47
+		class Item48
 		{
 			className="A3_Air_F_Heli";
 			name="Arma 3 Helicopters - Aircraft";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item48
+		class Item49
 		{
 			className="A3_Structures_F_Ind";
 			name="Arma 3 - Industrial Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item49
+		class Item50
 		{
 			className="A3_Structures_F_Exp_Infrastructure";
 			name="Arma 3 Apex - Infrastructure Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item50
+		class Item51
 		{
 			className="A3_Props_F_Exp";
 			name="Arma 3 Apex - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item51
+		class Item52
 		{
 			className="A3_Structures_F_Heli";
 			name="Arma 3 Helicopters - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item52
+		class Item53
 		{
 			className="A3_Structures_F_Enoch_Industrial";
 			name="Arma 3 Contact Platform - Industrial Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item53
+		class Item54
 		{
 			className="A3_Props_F_Enoch";
 			name="Arma 3 Contact Platform - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item54
+		class Item55
 		{
 			className="A3_Soft_F_Orange";
 			name="Arma 3 Orange - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item55
+		class Item56
 		{
 			className="A3_Structures_F_Enoch_Civilian";
 			name="Arma 3 Contact Platform - Civilian Buildings";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item56
+		class Item57
 		{
 			className="A3_Supplies_F_Exp";
 			name="Arma 3 Apex - Ammoboxes and Supplies";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item57
+		class Item58
 		{
 			className="A3_Props_F_Oldman";
 			name="Arma 3 Old Man - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item58
+		class Item59
 		{
 			className="A3_Structures_F_Orange";
 			name="Arma 3 Orange - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item59
+		class Item60
 		{
 			className="A3_Structures_F_Bootcamp";
 			name="Arma 3 Bootcamp Update - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item60
+		class Item61
 		{
 			className="A3_Signs_F";
 			name="Arma 3 - Signs";
@@ -50823,7 +50831,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3596.2559,5.7405143,970.76563};
+				position[]={3596.2559,5.7405143,970.76562};
 				angles[]={0,2.855355,0};
 			};
 			side="Empty";
@@ -50857,7 +50865,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3593.5313,5.7021055,969.8584};
+				position[]={3593.5312,5.7021055,969.8584};
 				angles[]={0,5.4734516,0};
 			};
 			side="Empty";
@@ -54116,7 +54124,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={2095.2693,5.0394359,503.01563};
+				position[]={2095.2693,5.0394359,503.01562};
 				angles[]={0,2.6677525,0};
 			};
 			side="Empty";
@@ -54184,7 +54192,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={2096.7439,5.4336381,503.82813};
+				position[]={2096.7439,5.4336381,503.82812};
 				angles[]={0,2.4058435,0};
 			};
 			side="Empty";
@@ -54270,7 +54278,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={2090.2361,5.4047527,512.82813};
+				position[]={2090.2361,5.4047527,512.82812};
 				angles[]={0,3.4514911,0};
 			};
 			side="Empty";
@@ -54551,7 +54559,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={3572.4063,6.2857251,2969.127};
+				position[]={3572.4062,6.2857251,2969.127};
 				angles[]={0,0.59221399,6.2823396};
 			};
 			side="Empty";

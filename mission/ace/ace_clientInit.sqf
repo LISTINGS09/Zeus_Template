@@ -68,24 +68,24 @@ if (_typeofUnit in ["vc","vd","vg","pp","pc"]) then {
 
 if (_typeofUnit == "eng" || (player getUnitTrait "engineer")) then {
 	player setVariable ["ACE_IsEngineer",1];
-	(vestContainer player) addItemCargoGlobal ["ACE_clacker",1];
-	(vestContainer player) addItemCargoGlobal ["ACE_M26_Clacker",1];
-	(unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1];
-	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
+	if !("ACE_clacker" in (items player)) then { (vestContainer player) addItemCargoGlobal ["ACE_clacker", 1] };
+	if !("ACE_M26_Clacker" in (items player)) then { (vestContainer player) addItemCargoGlobal ["ACE_M26_Clacker", 1] };
+	if !("ACE_wirecutter" in (items player)) then { (unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1] };
+	if !("ACE_EntrenchingTool" in (items player)) then { (unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1] };
 };
 
 if (_typeofUnit == "engm" || (player getUnitTrait "explosiveSpecialist")) then {	
 	player setVariable ["ACE_isEOD",1];
-	(vestContainer player) addItemCargoGlobal ["ACE_DefusalKit",1];
+	if !("ACE_DefusalKit" in (items player)) then { (vestContainer player) addItemCargoGlobal ["ACE_DefusalKit", 1] };
+	if !("ACE_wirecutter" in (items player)) then { (unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1] };
+	if !("ACE_EntrenchingTool" in (items player)) then { (unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1] };
 	player addWeapon "ACE_VMH3";
-	(unitBackpack player) addItemCargoGlobal ["ACE_wirecutter", 1];
-	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
 };
 
 if (_typeofUnit in ["sn","sp","dm"]) then {
-	(vestContainer player) addItemCargoGlobal ["ACE_ATragMX",1];
-	(vestContainer player) addItemCargoGlobal ["ACE_Kestrel4500",1];
-	(vestContainer player) addItemCargoGlobal ["ACE_RangeCard",1];
+	if !("ACE_ATragMX" in (items player)) then { (vestContainer player) addItemCargoGlobal ["ACE_ATragMX", 1] };
+	if !("ACE_Kestrel4500" in (items player)) then { (vestContainer player) addItemCargoGlobal ["ACE_Kestrel4500", 1] };
+	if !("ACE_RangeCard" in (items player)) then { (vestContainer player) addItemCargoGlobal ["ACE_RangeCard", 1] };
 };
 
 if (_typeofUnit in ["ar","mmgg"]) then {
@@ -94,14 +94,14 @@ if (_typeofUnit in ["ar","mmgg"]) then {
 };
 
 if (_typeofUnit in ["aar","mmgag","matag","msamag"]) then {
-	(unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1];
+	if !("ACE_EntrenchingTool" in (items player)) then { (unitBackpack player) addItemCargoGlobal ["ACE_EntrenchingTool", 1] };
 };
 
 if (_typeofUnit in ["mtrg","mtrag"]) then {
-	(uniformContainer player) addItemCargoGlobal ["ACE_RangeTable_82mm",1];
-	(uniformContainer player) addItemCargoGlobal ["ACE_MapTools",1];
-	(uniformContainer player) addItemCargoGlobal ["ACE_RangeCard",1];
-	private _box = createVehicle ["ACE_Box_82mm_Mo_Combo", position player, [], 0, "NONE"];
+	if !("ACE_RangeTable_82mm" in (items player)) then { (uniformContainer player) addItemCargoGlobal ["ACE_RangeTable_82mm", 1] };
+	if !("ACE_MapTools" in (items player)) then { (uniformContainer player) addItemCargoGlobal ["ACE_MapTools", 1] };
+	if !("ACE_RangeCard" in (items player)) then { (uniformContainer player) addItemCargoGlobal ["ACE_RangeCard", 1] };
+	private _box = createVehicle ["ACE_Box_82mm_Mo_Combo", player getPos [0.5,0], [], 0, "NONE"];
 };
 
 player setVariable ["f_var_ACEclientInitDone",true];

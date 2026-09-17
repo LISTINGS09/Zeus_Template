@@ -51,13 +51,13 @@ _defMags_tr = 3;
 
 // Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT Assistant Gunner, MTR Assistant Gunner, Rifleman)
 _rifle = ["arifle_Velko_lxWS"];
-_riflemag = "35Rnd_556x45_Velko_lxWS";
-_riflemag_tr = "35Rnd_556x45_Velko_lxWS";
+_riflemag = "35rnd_556x45_velko_reload_tracer_yellow_lxws";
+_riflemag_tr = "35rnd_556x45_velko_tracer_yellow_lxws";
 
 // Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner, Carabineer)
 _carbine = ["arifle_Velko_lxWS"];
-_carbinemag = "35Rnd_556x45_Velko_lxWS";
-_carbinemag_tr = "35Rnd_556x45_Velko_lxWS";
+_carbinemag = "35rnd_556x45_velko_reload_tracer_yellow_lxws";
+_carbinemag_tr = "35rnd_556x45_velko_tracer_yellow_lxws";
 
 // Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot, Submachinegunner)
 _smg = "SMG_01_F";
@@ -133,8 +133,8 @@ _baghsamag = "B_HMG_01_support_F";			// used by Heavy SAM assistant gunner
 
 // Automatic Rifleman
 _AR = ["arifle_Velko_lxWS"];
-_ARmag = "50Rnd_556x45_Velko_lxWS";
-_ARmag_tr = "50Rnd_556x45_Velko_lxWS";
+_ARmag = "50rnd_556x45_velko_reload_tracer_yellow_lxws";
+_ARmag_tr = "50rnd_556x45_velko_tracer_yellow_lxws";
 
 // Medium MG
 _MMG = ["MMG_02_black_F","MMG_02_sand_F"];
