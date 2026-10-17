@@ -1,6 +1,6 @@
 // Zeus Civilian Spawning - By 2600K Based on Enigma(?) Civilian Script
 // [] execVM "scripts\civPopulation.sqf";
-ZCS_version = 3.2;
+ZCS_version = 3.21;
 if !isServer exitWith {};
 // missionNamespace getVariable ["ZCS_var_deadCivCount", 0] - Keeps a track of total civs killed.
 
@@ -30,10 +30,17 @@ ZCS_var_UnitGear = [
 
 // Guess the Addon if it was not defined;
 if (isNil "ZCS_var_UnitClass") then {
-	if ("gm_core" in activatedAddons) exitWith { ZCS_var_UnitClass = [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
-	if ("vn_data_f" in activatedAddons) exitWith { ZCS_var_UnitClass = [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"] };
-	if ("ww2_spe_core_c_data_c" in activatedAddons) exitWith { ZCS_var_UnitClass = [ "SPE_CIV_Citizen_1_tie","SPE_CIV_Citizen_2","SPE_CIV_Citizen_3_trop","SPE_CIV_Citizen_4","SPE_CIV_Citizen_5_tropSPE_CIV_Citizen_6","SPE_CIV_Citizen_7","SPE_CIV_Swetr_1","SPE_CIV_Swetr_2","SPE_CIV_Swetr_2_vest","SPE_CIV_Swetr_4","SPE_CIV_Swetr_5","SPE_CIV_Worker_Coverall_1","SPE_CIV_Worker_Coverall_2","SPE_CIV_Worker_3"] };
-
+	if (isClass(configfile >> "CfgPatches" >> "gm_core")) exitWith { ZCS_var_UnitClass = [ "gm_gc_civ_man_01_80_blk","gm_gc_civ_man_01_80_blu","gm_gc_civ_man_03_80_blu","gm_gc_civ_man_03_80_grn","gm_gc_civ_man_02_80_brn","gm_gc_civ_man_03_80_gry","gm_gc_civ_man_04_80_blu","gm_gc_civ_man_04_80_gry" ] };
+	if (isClass(configfile >> "CfgPatches" >> "vn_data_f")) exitWith { ZCS_var_UnitClass = [ "vn_c_men_13","vn_c_men_14","vn_c_men_15","vn_c_men_16","vn_c_men_17","vn_c_men_18","vn_c_men_19","vn_c_men_20","vn_c_men_21","vn_c_men_22","vn_c_men_01","vn_c_men_02","vn_c_men_03","vn_c_men_04"] };
+	if (isClass(configfile >> "CfgPatches" >> "ww2_spe_core_c_data_c")) exitWith { ZCS_var_UnitClass = [ "SPE_CIV_Citizen_1_tie","SPE_CIV_Citizen_2","SPE_CIV_Citizen_3_trop","SPE_CIV_Citizen_4","SPE_CIV_Citizen_5_tropSPE_CIV_Citizen_6","SPE_CIV_Citizen_7","SPE_CIV_Swetr_1","SPE_CIV_Swetr_2","SPE_CIV_Swetr_2_vest","SPE_CIV_Swetr_4","SPE_CIV_Swetr_5","SPE_CIV_Worker_Coverall_1","SPE_CIV_Worker_Coverall_2","SPE_CIV_Worker_3"] };
+	if (isClass(configfile >> "CfgPatches" >> "cup_core")) then {
+		ZCS_var_UnitClass = switch (toLower worldName) do {
+			case "cup_chernarus_a3": { [ "CUP_C_C_Assistant_01","CUP_C_C_Bully_02","CUP_C_C_Bully_04","CUP_C_C_Bully_03","CUP_C_C_Citizen_01","CUP_C_C_Citizen_04","CUP_C_C_Citizen_02","CUP_C_C_Citizen_03","CUP_C_C_Worker_05","CUP_C_C_Mechanic_02","CUP_C_C_Mechanic_01","CUP_C_C_Priest_01","CUP_C_C_Profiteer_02","CUP_C_C_Profiteer_03","CUP_C_C_Profiteer_01","CUP_C_C_Profiteer_04","CUP_C_C_Racketeer_01","CUP_C_C_Racketeer_04","CUP_C_C_Racketeer_02","CUP_C_C_Racketeer_03","CUP_C_C_Rocker_01","CUP_C_C_Rocker_03","CUP_C_C_Rocker_02","CUP_C_C_Rocker_04","CUP_C_C_Schoolteacher_01","CUP_C_C_Citizen_Random","CUP_C_C_Villager_01","CUP_C_C_Villager_04","CUP_C_C_Villager_02","CUP_C_C_Woodlander_01","CUP_C_C_Villager_03","CUP_C_C_Woodlander_02","CUP_C_C_Woodlander_03","CUP_C_C_Woodlander_04","CUP_C_C_Worker_03","CUP_C_C_Worker_02","CUP_C_C_Worker_01","CUP_C_C_Worker_04" ] };
+			case "sefrouramal";
+			case "cup_Zargabad_a3": { [ "CUP_C_TK_Man_07","CUP_C_TK_Man_04_Jack","CUP_C_TK_Man_04_Waist","CUP_C_TK_Man_08_Jack","CUP_C_TK_Man_08_Waist","CUP_C_TK_Man_05_Coat","CUP_C_TK_Man_05_Jack","CUP_C_TK_Man_05_Waist","CUP_C_TK_Man_06_Coat","CUP_C_TK_Man_06_Jack","CUP_C_TK_Man_06_Waist","CUP_C_TK_Man_02","CUP_C_TK_Man_02_Jack","CUP_C_TK_Man_01_Waist","CUP_C_TK_Man_02_Waist","CUP_C_TK_Man_01_Waist","CUP_C_TK_Man_01_Waist","CUP_C_TK_Man_01_Waist","CUP_C_TK_Man_03_Waist","CUP_C_TK_Man_03_Jack","CUP_C_TK_Man_03_Coat" ] };
+			default { nil };
+		};
+	};
 	if (isNil "ZCS_var_UnitClass") then {
 		ZCS_var_UnitClass = switch (toLower worldName) do {
 			case "tanoa": { [ "C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_v2_F_tanoan","C_Man_casual_5_v2_F_tanoan","C_Man_casual_6_v2_F_tanoan","C_Man_casual_7_F_tanoan","C_Man_casual_8_F_tanoan","C_Man_casual_9_F_tanoan","C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan","C_Man_casual_6_F_tanoan","C_Man_smart_casual_1_F_tanoan","C_Man_smart_casual_2_F_tanoan" ] };
@@ -72,7 +79,7 @@ ZCS_fnc_FindSpawnPos = {
 		private _buildingPosList = _building buildingPos -1;
 		
 		if (count _buildingPosList > 0) then {		
-			private _tooClose = (allPlayers findIf { _x distance _building < ZCS_var_MinDist }) >= 0;
+			private _tooClose = (allPlayers findIf { alive _x && _x distance2D _building < ZCS_var_MinDist }) >= 0;
 			
 			if (!_tooClose && (ZCS_var_BlackList findIf {getPos _building inArea _x} < 0)) exitWith {
 				_foundPosition = selectRandom _buildingPosList;
@@ -101,7 +108,7 @@ ZCS_fnc_FindDestPos = {
 			ZCS_var_NextBuildingScan = time + 60;
 		};
 
-private _playerBuildings = ZCS_var_CachedBuildings;
+		private _playerBuildings = ZCS_var_CachedBuildings;
 		
 		while { count _buildings > 0 && count _foundPosition == 0 && _tries < 10 } do {
 			_tries = _tries + 1;
