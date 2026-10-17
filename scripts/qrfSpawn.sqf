@@ -11,7 +11,7 @@
 	Any marker containing text 'safezone' will not spawn units.
 	Any marker containing text 'spawn' will act as an additional spawn point.
 */
-ZQR_version = 1.8;
+ZQR_version = 1.81;
 if !isServer exitWith {};
 
 params [
@@ -32,8 +32,8 @@ params [
 // WEST - NATO TANOA (VANILLA)
 _side = WEST;
 ZMM_WEST_Man = ["B_T_Soldier_F","B_T_soldier_LAT_F","B_T_Soldier_F","B_T_soldier_AR_F","B_T_Soldier_F","B_T_Soldier_TL_F","B_T_Soldier_F",selectRandom["B_T_Soldier_AA_F","B_T_Soldier_AT_F"]];
-ZMM_WEST_Truck = [configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Motorized" >> "B_T_MotInf_Reinforcements"];
-ZMM_WEST_Light = ["B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
+ZMM_WEST_Truck = ["B_T_Pickup_rf","B_T_Truck_01_covered_F","B_T_Truck_01_transport_F"];
+ZMM_WEST_Light = [["B_ION_Pickup_rcws_rf","[_grpVeh,['NATO_P',1]] call BIS_fnc_initVehicle;"],"B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
 ZMM_WEST_Medium = [["B_T_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_T_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Heavy = [["B_T_APC_Tracked_01_AA_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_MBT_01_TUSK_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Air = ["B_Heli_Light_01_F",["B_Heli_Transport_01_F","[_grpVeh,['Green',1]] call BIS_fnc_initVehicle;"],"B_Heli_Transport_03_F"];
@@ -43,8 +43,8 @@ ZMM_WEST_Boat = ["B_Boat_Armed_01_minigun_F","I_C_Boat_Transport_02_F","EF_B_Com
 // WEST - NATO (VANILLA)
 _side = WEST;
 ZMM_WEST_Man = ["B_Soldier_F","B_soldier_LAT_F","B_Soldier_F","B_soldier_AR_F","B_Soldier_F","B_Soldier_TL_F","B_Soldier_F",selectRandom["B_Soldier_AA_F","B_Soldier_AT_F"]];
-ZMM_WEST_Truck = [configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Motorized" >> "BUS_MotInf_Reinforce"];
-ZMM_WEST_Light = ["B_MRAP_01_gmg_F","B_MRAP_01_hmg_F","B_LSV_01_AT_F","B_LSV_01_armed_F"];
+ZMM_WEST_Truck = ["B_Truck_01_transport_F","B_Truck_01_covered_F","B_Pickup_rf"];
+ZMM_WEST_Light = [["B_ION_Pickup_rcws_rf","[_grpVeh,['NATO',1]] call BIS_fnc_initVehicle;"],"B_MRAP_01_gmg_F","B_MRAP_01_hmg_F","B_LSV_01_AT_F","B_LSV_01_armed_F"];
 ZMM_WEST_Medium = [["B_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Heavy = [["B_APC_Tracked_01_AA_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_MBT_01_TUSK_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Air = ["B_Heli_Light_01_F","B_Heli_Transport_01_F",["B_Heli_Transport_03_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
@@ -52,9 +52,10 @@ ZMM_WEST_Cas = ["B_Heli_Light_01_dynamicLoadout_F",["B_Heli_Attack_01_dynamicLoa
 ZMM_WEST_Boat = ["B_Boat_Armed_01_minigun_F","I_C_Boat_Transport_02_F",["EF_B_CombatBoat_HMG_NATO","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;"]];
 
 // WEST - NATO (WOODLAND)
+_side = WEST;
 ZMM_WEST_Man = ["B_W_Soldier_F","B_W_soldier_AR_F","B_W_Soldier_F","B_W_Soldier_TL_F","B_W_Soldier_F","B_W_Soldier_LAT2_F","B_W_Soldier_F",selectRandom["B_W_Soldier_AA_F","B_W_Soldier_AT_F"]];
-ZMM_WEST_Truck = ["B_T_Truck_01_covered_F"];
-ZMM_WEST_Light = ["B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
+ZMM_WEST_Truck = ["B_T_Pickup_rf","B_T_Truck_01_covered_F","B_T_Truck_01_transport_F"];
+ZMM_WEST_Light = [["B_ION_Pickup_rcws_rf","[_grpVeh,['NATO_P',1]] call BIS_fnc_initVehicle;"],"B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_AT_F","B_T_LSV_01_armed_F"];
 ZMM_WEST_Medium = [["B_T_AFV_Wheeled_01_up_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_APC_Wheeled_01_cannon_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5,'showSLATHull',0.6,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"],["B_T_APC_Tracked_01_rcws_F","[_grpVeh,false,['showCamonetHull',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Heavy = [["B_T_APC_Tracked_01_AA_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"],["B_T_MBT_01_TUSK_F","[_grpVeh,false,['showCamonetTurret',0.3,'showCamonetHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Air = ["B_Heli_Light_01_F",["B_Heli_Transport_01_F","[_grpVeh,['Green',1]] call BIS_fnc_initVehicle;"],"B_Heli_Transport_03_F"];
@@ -64,7 +65,7 @@ ZMM_WEST_Boat = ["B_Boat_Armed_01_minigun_F","I_C_Boat_Transport_02_F","EF_B_Com
 // WEST - FIA (VANILLA)
 _side = WEST;
 ZMM_WEST_Man = ["B_G_Soldier_F","B_G_Soldier_LAT_F","B_G_Soldier_F","B_G_Soldier_SL_F","B_G_Soldier_F","B_G_Soldier_AR_F"];
-Truck = ["B_G_Van_01_transport_F"];
+ZMM_WEST_Truck = ["B_G_Offroad_01_F","B_G_Van_01_transport_F","B_G_Van_02_transport_F","B_G_Pickup_rf"];
 ZMM_WEST_Light = ["B_G_Offroad_01_AT_F","B_G_Offroad_01_armed_F"];
 ZMM_WEST_Medium = [["I_APC_Wheeled_03_cannon_F","[_grpVeh,['Guerilla_02',1],['showSLATHull',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_WEST_Heavy = [["I_APC_Wheeled_03_cannon_F","[_grpVeh,['Guerilla_02',1],['showSLATHull',0.7]] call BIS_fnc_initVehicle;"]];
@@ -75,9 +76,9 @@ ZMM_WEST_Boat = ["I_C_Boat_Transport_02_F"];
 // WEST - GENDARME (VANILLA)
 _side = WEST;
 ZMM_WEST_Man = ["B_GEN_Soldier_F","B_GEN_Commander_F","B_GEN_Soldier_F","B_GEN_Soldier_F"];
-Truck = ["B_GEN_Van_02_transport_F"];
+ZMM_WEST_Truck = ["B_GEN_Offroad_01_gen_F","B_GEN_Pickup_covered_rf","B_GEN_Van_02_transport_F"];
 ZMM_WEST_Light = [["B_G_Offroad_01_armed_F","[_grpVeh,false,['HideDoor1',0,'HideDoor2',0,'HideDoor3',0,'HideBackpacks',1,'HideBumper1',0,'HideBumper2',1,'HideConstruction',0]] call BIS_fnc_initVehicle;_grpVeh setObjectTextureGlobal [0,'\A3\Soft_F_Exp\Offroad_01\Data\Offroad_01_ext_gen_CO.paa']"]];
-ZMM_WEST_Medium = [["O_MRAP_02_hmg_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];"]];
+ZMM_WEST_Medium = ["EF_B_Gyra_HMG_GEN",["O_MRAP_02_hmg_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];"]];
 ZMM_WEST_Heavy = [["O_T_APC_Wheeled_02_rcws_v2_ghex_F","_grpVeh setObjectTextureGlobal [0,'#(rgb,8,8,3)color(0.7,0.8,1,0.03)'];_grpVeh setObjectTextureGlobal [1,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [2,'#(rgb,8,8,3)color(1,1,1,0.01)'];_grpVeh setObjectTextureGlobal [4,'#(rgb,8,8,3)color(0,0,0,1)'];"]];
 ZMM_WEST_Air = [["I_Heli_Transport_02_F","_grpVeh setObjectTextureGlobal [0,'a3\air_f_beta\Heli_Transport_02\Data\Skins\heli_transport_02_1_ion_co.paa'];_grpVeh setObjectTextureGlobal [1,'a3\air_f_beta\Heli_Transport_02\Data\Skins\heli_transport_02_2_ion_co.paa'];_grpVeh setObjectTextureGlobal [2,'a3\air_f_beta\Heli_Transport_02\Data\Skins\heli_transport_02_3_ion_co.paa'];"]];
 ZMM_WEST_Cas = [];
@@ -86,9 +87,9 @@ ZMM_WEST_Boat = ["I_C_Boat_Transport_02_F"];
 // EAST - CSAT TANOA (VANILLA)
 _side = EAST;
 ZMM_EAST_Man = ["O_T_Soldier_F","O_T_Soldier_LAT_F","O_T_Soldier_F","O_T_Soldier_GL_F","O_T_Soldier_F","O_T_Soldier_AR_F","O_T_Soldier_F",selectRandom["O_T_Soldier_AA_F","O_T_Soldier_AT_F"]];
-ZMM_EAST_Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_Reinforcements"];
-ZMM_EAST_Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
-ZMM_EAST_Medium = [["O_T_APC_Wheeled_02_rcws_v2_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
+ZMM_EAST_Truck = ["O_T_Pickup_rf","O_T_Truck_03_transport_ghex_F","O_T_Truck_03_covered_ghex_F","O_T_Truck_02_transport_F","O_T_Truck_02_F"];
+ZMM_EAST_Light = ["O_T_Pickup_rcws_rf","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
+ZMM_EAST_Medium = ["EF_O_Gyra_HMG_OPF_T","EF_O_Gyra_Armed_OPF_T",["O_T_APC_Wheeled_02_rcws_v2_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_command_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_covered_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Cas = [["O_T_VTOL_02_infantry_dynamicLoadout_F","_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
@@ -97,9 +98,9 @@ ZMM_EAST_Boat = ["I_C_Boat_Transport_02_F","O_Boat_Armed_01_hmg_F","EF_O_CombatB
 // EAST - CSAT (VANILLA)
 _side = EAST;
 ZMM_EAST_Man = ["O_Soldier_F","O_Soldier_LAT_F","O_Soldier_F","O_Soldier_GL_F","O_Soldier_F","O_Soldier_AR_F","O_Soldier_F",selectRandom["O_Soldier_AA_F","O_Soldier_AT_F"]];
-ZMM_EAST_Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized" >> "OIA_MotInf_Reinforce"];
-ZMM_EAST_Light = ["O_MRAP_02_gmg_F","O_MRAP_02_hmg_F","O_LSV_02_AT_F","O_LSV_02_armed_F"];
-ZMM_EAST_Medium = [["O_APC_Wheeled_02_rcws_v2_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_APC_Tracked_02_cannon_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
+ZMM_EAST_Truck = ["O_Truck_03_covered_F","O_Truck_03_transport_F","O_Truck_02_transport_F","O_Truck_02_covered_F","O_Pickup_rf"];
+ZMM_EAST_Light = ["O_Pickup_rcws_rf","O_MRAP_02_gmg_F","O_MRAP_02_hmg_F","O_LSV_02_AT_F","O_LSV_02_armed_F"];
+ZMM_EAST_Medium = ["EF_O_Gyra_HMG_OPF","EF_O_Gyra_Armed_OPF",["O_APC_Wheeled_02_rcws_v2_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_APC_Tracked_02_cannon_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Heavy = [["O_APC_Tracked_02_AA_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_02_railgun_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_02_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_MBT_04_command_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Air = ["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_covered_F"];
 ZMM_EAST_Cas = [["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Hex',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F", "_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
@@ -108,9 +109,9 @@ ZMM_EAST_Boat = ["I_C_Boat_Transport_02_F","O_Boat_Armed_01_hmg_F","EF_O_CombatB
 // EAST - SPETSNAZ (VANILLA)
 _side = EAST;
 ZMM_EAST_Man = ["O_R_Soldier_TL_F","O_R_soldier_M_F","O_R_Soldier_AR_F","O_R_JTAC_F","O_R_medic_F","O_R_Soldier_LAT_F","O_R_Soldier_GL_F"];
-ZMM_EAST_Truck = [configFile >> "CfgGroups" >> "East" >> "OPF_R_F" >> "SpecOps" >> "O_T_MotInf_Reinforcements"];
-ZMM_EAST_Light = ["O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
-ZMM_EAST_Medium = [["O_T_APC_Wheeled_02_rcws_v2_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
+ZMM_EAST_Truck = ["O_T_Pickup_rf"];
+ZMM_EAST_Light = ["O_T_Pickup_rcws_rf","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
+ZMM_EAST_Medium = ["EF_O_Gyra_HMG_OPF_T","EF_O_Gyra_Armed_OPF_T",["O_T_APC_Wheeled_02_rcws_v2_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["O_T_APC_Tracked_02_cannon_ghex_F","[_grpVeh,false,['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Heavy = [["O_T_APC_Tracked_02_AA_ghex_F","[_grpVeh,false,['showSLATHull',0.5,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_02_cannon_ghex_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"],["O_T_MBT_04_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Air = [["O_Heli_Light_02_unarmed_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"],["O_Heli_Transport_04_bench_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;"]];
 ZMM_EAST_Cas = [["O_T_VTOL_02_infantry_dynamicLoadout_F","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],["O_Heli_Light_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle;_grpVeh setPylonLoadout [2,'PylonRack_12Rnd_missiles'];"],["O_Heli_Attack_02_dynamicLoadout_F","[_grpVeh,['Black',1]] call BIS_fnc_initVehicle; _grpVeh setPylonLoadout [1,'PylonRack_19Rnd_Rocket_Skyfire']; _grpVeh setPylonLoadout [4,'PylonRack_19Rnd_Rocket_Skyfire'];"],"O_Plane_CAS_02_dynamicLoadout_F"];
@@ -130,7 +131,7 @@ ZMM_EAST_Boat = ["I_C_Boat_Transport_02_F"];
 // GUER - SYNDIKAT (VANILLA)
 _side = INDEPENDENT;
 ZMM_GUER_Man = ["I_C_Soldier_Para_7_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F"];
-ZMM_GUER_Truck = ["I_C_Van_01_transport_F"];
+ZMM_GUER_Truck = ["I_C_Van_01_transport_F","I_C_Van_02_transport_F","I_C_Pickup_rf"];
 ZMM_GUER_Light = ["I_C_Offroad_02_LMG_F","I_C_Offroad_02_AT_F"];
 ZMM_GUER_Medium = [["I_LT_01_cannon_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_GUER_Heavy = [["I_APC_Wheeled_03_cannon_F","[_grpVeh,['Guerilla_01',1,'Guerilla_03',0.5],['showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
@@ -141,8 +142,8 @@ ZMM_GUER_Boat = ["I_C_Boat_Transport_02_F"];
 // GUER - AAF (VANILLA)
 _side = INDEPENDENT;
 ZMM_GUER_Man = ["I_Soldier_F","I_Soldier_LAT2_F","I_Soldier_F","I_Soldier_GL_F","I_Soldier_F","I_Soldier_AR_F","I_Soldier_F",selectRandom["I_Soldier_AA_F","I_Soldier_AT_F"]];
-ZMM_GUER_Truck = [configFile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Motorized" >> "HAF_MotInf_Reinforce"];
-ZMM_GUER_Light = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];
+ZMM_GUER_Truck = ["I_Pickup_rf","I_Truck_02_transport_F","I_Truck_02_covered_F"];
+ZMM_GUER_Light = ["I_Pickup_rcws_rf","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];
 ZMM_GUER_Medium = [["I_LT_01_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_APC_Wheeled_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_APC_tracked_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3,'showSLATHull',0.5,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_GUER_Heavy = [["I_MBT_03_cannon_F","[_grpVeh,false,['HideTurret',0.3,'HideHull',0.3,'showCamonetHull',0.5,'showCamonetTurret',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_GUER_Air = [["I_Heli_light_03_unarmed_F","[_grpVeh,['Indep',1]] call BIS_fnc_initVehicle;"],"I_Heli_Transport_02_F", ["O_Heli_Light_02_unarmed_F","_grpVeh setObjectTextureGlobal [0,'\a3\air_f\Heli_Light_02\Data\heli_light_02_ext_indp_co.paa'];"], ["B_Heli_Light_01_F","_grpVeh setObjectTextureGlobal [0,'A3\Air_F\Heli_Light_01\Data\heli_light_01_ext_indp_co.paa'];"]];
@@ -152,14 +153,13 @@ ZMM_GUER_Boat = ["I_C_Boat_Transport_02_F",["EF_B_CombatBoat_HMG_NATO","[_grpVeh
 // GUER - LDF (VANILLA)
 _side = INDEPENDENT;
 ZMM_GUER_Man = ["I_E_Soldier_F","I_E_Soldier_LAT2_F","I_E_Soldier_F","I_E_Soldier_AR_F","I_E_Soldier_F","I_E_Soldier_TL_F","I_E_Soldier_F",selectRandom["I_E_Soldier_AA_F","I_E_Soldier_AT_F"]];
-ZMM_GUER_Truck = [configFile >> "CfgGroups" >> "Indep" >> "IND_E_F" >> "Motorized" >> "I_E_MotInf_Reinforcements"];
-ZMM_GUER_Light = [["I_G_Offroad_01_armed_F","[_grpVeh,['EAF',1]] call BIS_fnc_initVehicle;"],["I_MRAP_03_HMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"],["I_MRAP_03_GMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"]];
+ZMM_GUER_Truck = ["I_E_Offroad_01_F","I_E_Pickup_rf","I_E_Truck_02_transport_F","I_E_Truck_02_F","I_E_Van_02_transport_F"];
+ZMM_GUER_Light = [["I_Pickup_rcws_rf","[_grpVeh,['EAF',1]] call BIS_fnc_initVehicle;"],["I_G_Offroad_01_armed_F","[_grpVeh,['EAF',1]] call BIS_fnc_initVehicle;"],["I_MRAP_03_HMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"],["I_MRAP_03_GMG_F","{ _grpVeh setObjectTextureGlobal [_forEachIndex,_x] } forEach ['\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa','\A3\data_f\vehicles\turret_co.paa'];"]];
 ZMM_GUER_Medium = [["I_LT_01_cannon_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"],["I_LT_01_AT_F","[_grpVeh,['Indep_Olive',1],['showCamonetHull',0.5,'showSLATHull',0.5]] call BIS_fnc_initVehicle;"]];
 ZMM_GUER_Heavy = [["I_E_APC_tracked_03_cannon_F","[_grpVeh,false,['showCamonetHull',0.5,'showCamonetTurret',0.3,'showSLATHull',0.5,'showSLATTurret',0.3]] call BIS_fnc_initVehicle;"]];
 ZMM_GUER_Air = ["I_E_Heli_light_03_unarmed_F"];
 ZMM_GUER_Cas = ["I_E_Heli_light_03_dynamicLoadout_F"];
 ZMM_GUER_Boat = ["I_C_Boat_Transport_02_F",["EF_B_CombatBoat_HMG_NATO","[_grpVeh,['Grey',1]] call BIS_fnc_initVehicle;"]];
-
 
 //********************
 //*** ADDON GROUPS ***
@@ -466,7 +466,7 @@ ZMM_GUER_Boat = ["I_C_Boat_Transport_02_F"];
 // WEST - ION
 _side = WEST;
 ZMM_WEST_Man = ["B_ION_TL_lxWS","B_ION_Soldier_lxWS","B_ION_soldier_AR_lxWS","B_ION_Soldier_lxWS","B_ION_Soldier_GL_lxWS","B_ION_Soldier_lxWS","B_ION_shot_lxWS",selectRandom["B_ION_medic_lxWS","B_ION_marksman_lxWS"]];
-ZMM_WEST_Truck = ["B_ION_Truck_02_covered_lxWS"];
+ZMM_WEST_Truck = ["B_ION_Offroad_lxWS","B_ION_Pickup_rf","B_ION_Truck_02_covered_lxWS"];
 ZMM_WEST_Light = ["B_ION_Pickup_mmg_rf","B_ION_Offroad_armed_lxWS"];
 ZMM_WEST_Medium = ["B_ION_APC_Wheeled_02_hmg_lxWS"];
 ZMM_WEST_Heavy = ["B_ION_APC_Wheeled_01_command_lxWS"];
@@ -477,9 +477,9 @@ ZMM_WEST_Boat = ["I_C_Boat_Transport_02_F"];
 // WS - SFIA
 _side = EAST; 
 ZMM_EAST_Man = ["O_SFIA_Soldier_TL_lxWS","O_SFIA_soldier_lxWS","O_SFIA_soldier_at_lxWS","O_SFIA_soldier_lxWS","O_SFIA_Soldier_AR_lxWS","O_SFIA_medic_lxWS",selectRandom["O_SFIA_sharpshooter_lxWS","O_SFIA_medic_lxWS"]]; 
-ZMM_EAST_Truck = ["O_SFIA_Truck_02_transport_lxWS"];
+ZMM_EAST_Truck = ["O_SFIA_Truck_02_covered_lxWS","O_SFIA_Truck_02_transport_lxWS","O_SFIA_Offroad_lxWS"];
 ZMM_EAST_Light = ["O_SFIA_Offroad_AT_lxWS","O_SFIA_Offroad_armed_lxWS"];
-ZMM_EAST_Medium = ["O_SFIA_Truck_02_aa_lxWS","O_SFIA_APC_Wheeled_02_hmg_lxWS"];
+ZMM_EAST_Medium = ["EF_O_Gyra_HMG_SFIA","EF_O_Gyra_Armed_SFIA","O_SFIA_Truck_02_aa_lxWS","O_SFIA_APC_Wheeled_02_hmg_lxWS"];
 ZMM_EAST_Heavy = ["O_SFIA_MBT_02_cannon_lxWS","O_SFIA_APC_Tracked_02_30mm_lxWS","O_SFIA_APC_Tracked_02_AA_lxWS"];
 ZMM_EAST_Air = ["O_SFIA_Heli_EC_02_RF"];
 ZMM_EAST_Cas = ["O_SFIA_Heli_Attack_02_dynamicLoadout_lxWS"];
@@ -488,7 +488,7 @@ ZMM_EAST_Boat = ["I_C_Boat_Transport_02_F"];
 // WS - TURA
 _side = EAST; 
 ZMM_EAST_Man = ["O_Tura_enforcer_lxWS","O_Tura_hireling_lxWS","O_Tura_watcher_lxWS","O_Tura_defector_lxWS","O_Tura_deserter_lxWS",selectRandom["O_Tura_scout_lxWS","O_Tura_medic2_lxWS","O_Tura_thug_lxWS"]];
-ZMM_EAST_Truck = ["O_SFIA_Truck_02_transport_lxWS"];
+ZMM_EAST_Truck = ["O_Tura_Pickup_01_RF","O_Tura_Offroad_armor_lxWS"];
 ZMM_EAST_Light = ["O_Tura_Offroad_armor_AT_lxWS","O_Tura_Offroad_armor_armed_lxWS"];
 ZMM_EAST_Medium = ["O_Tura_Truck_02_aa_lxWS","O_SFIA_APC_Wheeled_02_hmg_lxWS"];
 ZMM_EAST_Heavy = ["O_SFIA_APC_Wheeled_02_hmg_lxWS"];
@@ -603,11 +603,13 @@ zmm_fnc_misc_logMsg = {
 };
 
 zmm_fnc_qrf_spawnCrew = {
+	// zmm_fnc_qrf_spawnCrew
 	params [
 		"_veh",
 		"_side",
 		["_includeCargo", false],
-		["_cargoGroupMax", 8]
+		["_cargoGroupMaxSize", 6],
+		["_cargoGroupMaxCount", 2]
 	];
 
 	private _difficulty = missionNamespace getVariable [ "f_param_ZMMDiff", missionNamespace getVariable ["ZZM_Diff", 1]];
@@ -636,37 +638,55 @@ zmm_fnc_qrf_spawnCrew = {
 	if !(isNull gunner _veh) then { (gunner _veh) assignAsGunner _veh };
 
 	_crewGrp deleteGroupWhenEmpty true;
-
+	
 	// CARGO GROUPS
 	private _cargoGroups = [];
 
 	if (_includeCargo && {count _cargoSeats > 0}) then {
 		private _cargoRemaining = count _cargoSeats;
-		private _groupSizeMax = round (_cargoGroupMax * _difficulty) max 1;
+		private _groupsRemaining = round (_cargoGroupMaxCount * _difficulty) max 1;
+		private _groupSizeMax = round (_cargoGroupMaxSize * _difficulty) max 4;
 
-		while { _cargoRemaining > 0 } do {
+		while {
+			_cargoRemaining > 0 &&
+			_groupsRemaining > 0
+		} do {
+			// Determine how many units this group will contain
 			private _groupSize = _cargoRemaining min _groupSizeMax;
 			private _cargoUnits = [];
 
-			for "_i" from 1 to _groupSize do { _cargoUnits pushBack (selectRandom _enemyMen) };
+			for "_i" from 1 to _groupSize do {
+				_cargoUnits pushBack (selectRandom _enemyMen);
+			};
 
+			// Create cargo group
 			private _cargoGrp = [_spawnPos, _side, _cargoUnits] call BIS_fnc_spawnGroup;
 
+			// Put the group into the vehicle
 			_cargoGrp addVehicle _veh;
 			{ _x moveInCargo _veh } forEach units _cargoGrp;
 
+			// Delete group when all its units are gone
 			_cargoGrp deleteGroupWhenEmpty true;
-			_cargoGroups pushBack _cargoGrp;
-			_cargoRemaining = _cargoRemaining - _groupSize;
 
-			{ _x addCuratorEditableObjects [units _cargoGrp] } forEach allCurators;
+			// Store the group
+			_cargoGroups pushBack _cargoGrp;
+
+			// Update remaining capacity
+			_cargoRemaining = _cargoRemaining - _groupSize;
+			_groupsRemaining = _groupsRemaining - 1;
+
+			// Add cargo units to Zeus
+			{
+				_x addCuratorEditableObjects [units _cargoGrp];
+			} forEach allCurators;
 		};
 	};
 
 	[_veh, [1,0.8,0.2]] remoteExec ["setVehicleTIPars"];
 	{ _x addCuratorEditableObjects [[_veh] + (units _crewGrp)] } forEach allCurators;
 
-	//["DEBUG", format["spawnCrew - %1 - %2 cargo groups", typeOf _veh, count _cargoGroups]] call zmm_fnc_misc_logMsg;
+	["DEBUG", format["spawnCrew - %1 - %2 cargo groups (%3)", typeOf _veh, count _cargoGroups, _side]] call zmm_fnc_misc_logMsg;
 
 	[_crewGrp, _cargoGroups]
 };
@@ -691,7 +711,7 @@ zmm_fnc_qrf_spawnGroup = {
 		["WARNING", format["spawnGroup - Exiting: %1 %2 %3", _tries, _spawnArray, _targetPos]] call zmm_fnc_misc_logMsg
 	};
 
-	//["DEBUG", format["%1 - qrf_spawnGroup - Starting - %2 [%3] Attempt:%4", _gid, _startClass, _side, _tries]] call zmm_fnc_misc_logMsg;
+	["DEBUG", format["%1 - qrf_spawnGroup - Creating - %2 [%3] Attempt:%4", _zoneID, _startClass, _side, _tries]] call zmm_fnc_misc_logMsg;
 
 	private _unitClass = _startClass;
 	private _mainGrp = grpNull;
@@ -718,7 +738,7 @@ zmm_fnc_qrf_spawnGroup = {
 		[_zoneID, _targetPos, _spawnArray, _side, _startClass, _spawnDistCheck, _tries + 1, _UPSMkr] call zmm_fnc_qrf_spawnGroup;
 	};
 
-	private _id = missionNamespace getVariable [format["ZQR_%1_CurrentWave", _zoneID], 0];
+	private _id = missionNamespace getVariable [format["ZQR_%1_Wave", _zoneID], 0];
 	private _num = (missionNamespace getVariable [format["ZQR_%1_Count", _zoneID], 0]) + 1;	
 	missionNamespace setVariable [format["ZQR_%1_Count", _zoneID], _num];
 
@@ -898,16 +918,24 @@ zmm_fnc_qrf_spawnGroup = {
 		// AIR VEHICLES
 		case "air": {
 			private _hasInf = count _suppGrps > 0;
-			
 			// Armed with no cargo, nothing to dismount
 			if (_isArmed && !_hasInf) exitWith {
-				_wp = _mainGrp addWaypoint [_targetPos, 200];
-				_wp setWaypointType "SAD";
-				_wp setWaypointCompletionRadius 500;
-				_wp setWaypointBehaviour "AWARE";
-				_wp = _mainGrp addWaypoint [_targetPos getPos [400, random 360], 200];
-				_wp setWaypointType "LOITER";
-				_wp setWaypointCompletionRadius 1000;
+				// Blackfish specific logic (CCW Loiter Path)
+				if (typeOf _grpVeh isEqualTo "B_T_VTOL_01_armed_F") then {
+					_grpVeh flyInHeight 250;
+					_wp = _mainGrp addWaypoint [_targetPos, 200];
+					_wp setWaypointType "LOITER";
+					_wp setWaypointLoiterType "CIRCLE_L";
+					_wp setWaypointLoiterRadius 600;
+				} else {
+					_wp = _mainGrp addWaypoint [_targetPos, 200];
+					_wp setWaypointType "SAD";
+					_wp setWaypointCompletionRadius 500;
+					_wp setWaypointBehaviour "AWARE";
+					_wp = _mainGrp addWaypoint [_targetPos getPos [400, random 360], 200];
+					_wp setWaypointType "LOITER";
+					_wp setWaypointCompletionRadius 1000;
+				};
 			};
 			
 			private _infPos = _targetPos;
@@ -1033,31 +1061,46 @@ zmm_fnc_qrf_spawnGroup = {
 };
 
 zmm_fnc_qrf_spawnPara = {
+	// [] call zmm_fnc_qrf_spawnPara;
 	// zmm_fnc_qrf_spawnPara from QRF
 	params [
 		["_zoneID", 0],
-		["_targetPos", [0,0,0]],
+		["_targetPos", (getPos selectRandom (allPlayers select { alive _x }))],
 		["_spawnArray", []],
-		["_side", EAST],
+		["_side", CIVILIAN],
 		["_veh", ""]
 	];
+	
+	["DEBUG", format["%1 - qrf_spawnPara - Creating - %2 [%3]", _zoneID, _veh, _side]] call zmm_fnc_misc_logMsg;
 
-	if (_veh isEqualTo "") then { _veh = (["O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_F","I_Heli_light_03_unarmed_F"] select (_side call BIS_fnc_sideID)) };
+	if (_side isEqualTo CIVILIAN) then {
+		if !(isNil "zmm_fnc_misc_findEnemySide") then { _side = [_targetPos] call zmm_fnc_misc_findEnemySide } else { _side = EAST };
+	};
+	if (_veh isEqualTo "") then { 
+		private _vehArray = missionNamespace getVariable [format["ZMM_%1_Air",_side],[]];
+		
+		_veh = if (count _vehArray > 0) then {
+			selectRandom _vehArray;
+		} else {
+			["O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_F","I_Heli_light_03_unarmed_F"] select (_side call BIS_fnc_sideID);
+		};
+	};
+
 	if (_spawnArray isEqualTo []) then { _spawnArray = [_targetPos getPos [3000, random 360]] };
 
 	private _enemyMen = missionNamespace getVariable [format["ZMM_%1_Man",_side], [(["O_Soldier_F","B_Soldier_F","I_Soldier_F"] select (_side call BIS_fnc_sideID))]];
 
-	private _id = missionNamespace getVariable [format["ZQR_%1_CurrentWave", _zoneID], 0];
+	private _id = missionNamespace getVariable [format["ZQR_%1_Wave", _zoneID], 0];
 	private _num = (missionNamespace getVariable [format["ZQR_%1_Count", _zoneID], 0]) + 1;	
 	missionNamespace setVariable [format["ZQR_%1_Count", _zoneID], _num];
 
-	private _gid = format["W%1_G%1", _id, _num];
+	private _gid = format["W%1_G%2", _id, _num];
 	if (_zoneID > 0) then { _gid = format["Z%1_%2", _zoneID, _gid] };
 
 	private _groupMax = 99; // Maximum para groups
 	private _groupSize = 8; // Units number per para group
 	private _startPos = selectRandom _spawnArray;
-	_startPos set [2, 350];
+	private _flyHeight = 100 + (selectRandom [0,100]);
 
 	// Split out init from class.
 	private _customInit = "";
@@ -1065,22 +1108,61 @@ zmm_fnc_qrf_spawnPara = {
 
 	["DEBUG", format["%1 - spawnPara %2", _gid, _veh]] call zmm_fnc_misc_logMsg;
 
+	_startPos set [2, _flyHeight];
 	private _grpVeh = createVehicle [_veh, _startPos, [], 0, "FLY"];
-	private _dirTo =  _grpVeh getDir _targetPos;
-	private _dirFrom =  (_grpVeh getDir _targetPos) + 180;
+	private _dirTo = _startPos getDir _targetPos;
+	private _dirFrom = _dirTo + 180;
+	private _isArmed = [_grpVeh] call zmm_fnc_misc_isArmed;
 	_grpVeh setDir _dirTo;
 	_grpVeh setVehicleLock "LOCKEDPLAYER";
 
 	// Find the number of seats we can hold
 	private _cargoMax = count (fullCrew [_grpVeh, "cargo", true]);
 
-	if (_cargoMax < 1) exitWith { deleteVehicle _grpVeh };
-
 	// Run the custom init 
 	if !(isNil "_customInit") then { if !(_customInit isEqualTo "") then { call compile _customInit; } };
 
-	([_grpVeh, _side, true] call zmm_fnc_qrf_spawnCrew) params ["_grpPilot", "_grpCargo"];
-	_grpVeh setVelocityModelSpace [0, 120, 5];
+	([_grpVeh, _side, true] call zmm_fnc_qrf_spawnCrew) params ["_grpPilot", ["_grpCargo",[]]];
+
+	//["DEBUG", format["%1 - spawnPara %2 - GP:%3 GC:%4", _gid, _veh, count units _grpPilot, count _grpCargo]] call zmm_fnc_misc_logMsg;
+
+	private _doDelete = false;
+	if (count _grpCargo == 0 && !_isArmed) then {
+		// No cargo groups: split pilot group into vehicle crew and infantry cargo
+		private _cargoUnits = (units _grpPilot) select { _x != commander _grpVeh && _x != driver _grpVeh && _x != gunner _grpVeh };
+
+		// Need enough infantry to make a cargo group
+		if (count _cargoUnits >= 4) then {
+			private _cargoGrp = createGroup [_side, true];
+			{ [_x] joinSilent _cargoGrp } forEach _cargoUnits;
+			_grpCargo pushBack _cargoGrp;
+		} else {
+			_doDelete = true
+		};
+	} else {
+		if (count _grpCargo > 1) then {
+			private _validCargo = [];
+			// Remove undersized cargo groups
+			{
+				if (count units _x < 4) then {
+					{ deleteVehicle _x } forEach units _x;
+					deleteGroup _x;
+				} else {
+					_validCargo pushBack _x;
+				};
+
+			} forEach _grpCargo;
+			_grpCargo = _validCargo;
+		};
+	};
+
+	if (_doDelete) exitWith {
+		["WARNING", format["%1 - spawnPara %2 DELETED - Does not have enough cargo", _gid, _veh]] call zmm_fnc_misc_logMsg;
+		{ deleteVehicle _x } forEach (crew _grpVeh);
+		deleteVehicle _grpVeh;
+		deleteGroup _grpPilot;
+		false
+	};
 
 	{
 		_x setGroupIdGlobal [format["QRF_%1_PARA%2", _gid, _forEachIndex]];
@@ -1098,31 +1180,37 @@ zmm_fnc_qrf_spawnPara = {
 	_wp setWaypointStatements ["true","(vehicle this) setCollisionLight true;"];
 
 	// Set Pilots wayPoints
-	private  _dropStart = _targetPos getPos [_cargoMax * 25, _dirFrom];
-	/*private _tmp = createMarkerLocal ["dropStart", _dropStart];
-	_tmp setMarkerTypeLocal "mil_dot";
-	_tmp setMarkerTextLocal "Drop Start";*/
+	//_grpVeh flyInHeight _flyHeight;
+	private  _dropStart = _targetPos getPos [_cargoMax * 30, _dirFrom];
+	//private _tmp = createMarkerLocal ["dropStart", _dropStart];
+	//_tmp setMarkerTypeLocal "mil_dot";
+	//_tmp setMarkerTextLocal "Drop Start";
 
 	_wp = _grpPilot addWaypoint [_dropStart, 0];
 	_wp setWaypointType "MOVE";
+	_wp setWaypointCompletionRadius 25;
+	_wp setWaypointSpeed "FULL";
+	_wp setWaypointBehaviour "CARELESS";
 	_wp setWaypointStatements ["true","
+		if (!local this) exitWith {};
 		(vehicle this) spawn {
 			{
 				unassignVehicle _x;
 				[_x] orderGetIn false;
-				moveOut _x; 
+				[_x] allowGetIn false;
+				moveOut _x;
 				sleep 0.5;
-				_pc = createVehicle ['Steerable_Parachute_F', (getPosATL _x), [], 0, 'NONE'];
+				private _pc = createVehicle ['Steerable_Parachute_F', (getPosATL _x), [], 0, 'NONE'];
 				_pc setPosATL (getPosatl _x);
-				_vel = velocity _pc;
-				_dir = random 360;
+				private _vel = velocity _pc;
+				private _dir = random 360;
 				_pc setVelocity [(_vel#0) + (sin _dir * 10),  (_vel#1) + (cos _dir * 10), (_vel#2)];
 				_x moveinDriver _pc;
-			} forEach ((crew _this) select { group driver _this != group _x });
+			} forEach ((crew _this) - (units group driver _this));
 		};
 	"];
 
-	if (([_grpVeh] call zmm_fnc_misc_isArmed) && random 1 > 0.7) then {
+	if (_isArmed && random 1 > 0.65) then {
 		_grpPilot setGroupIdGlobal [format["QRF_%1_CREW", _gid]];
 		_wp = _grpPilot addWaypoint [_targetPos, 0];
 		_wp setWaypointType "SAD";
@@ -1135,9 +1223,13 @@ zmm_fnc_qrf_spawnPara = {
 		private _dropDelete = _targetPos getPos [3000, _dirTo];
 		_wp = _grpPilot addWaypoint [_dropDelete, 0];
 		_wp setWaypointType "MOVE";
-		_wp setWaypointCompletionRadius 500;
+		_wp setWaypointCompletionRadius 200;
+		_wp setWaypointSpeed "FULL";
+		_wp setWaypointBehaviour "CARELESS";
 		_wp setWaypointStatements ["true","private _mainGrp = group this; private _veh = vehicle this; { deleteVehicle _x } forEach (crew _veh); deleteVehicle _veh; deleteGroup _mainGrp;"];
 	};
+
+	true
 };
 
 zmm_fnc_misc_isArmed = { 
@@ -1214,15 +1306,29 @@ zmm_fnc_qrf_createWave = {
 	];
 
 	private _waveInfo = [];
-	private _players = (if isMultiplayer then { (count (allPlayers select { alive _x })) } else { 8 }) max 4;
-	private _gunners = (
-		count (allPlayers select {
+	private _players = (if (isMultiplayer) then {
+		count (allPlayers select { alive _x })
+	} else {
+		8
+	}) max 4;
+
+	private _gunners = 0;
+
+	{
+		if (
 			alive _x &&
 			vehicle _x != _x &&
-			_x == gunner vehicle _x
-		})
-	) min 4;
-	private _effectivePlayers = (_players * (1 + (_gunners * 0.6))) * (0.75 + (_difficulty * 0.25));
+			_x == gunner (vehicle _x)
+		) then {
+			_gunners = _gunners + (
+				if ((vehicle _x) isKindOf "Air") then { 1 } else { 0.5 }
+			);
+		};
+	} forEach allPlayers;
+
+	_gunners = _gunners min 4;
+
+	private _effectivePlayers = (_players * (1 + _gunners * 0.25)) * (0.75 + _difficulty * 0.25);
 
 	["INFO", format["W%1 - qrf_createWave - PLRS:%2 EFCT:%3 - LAND:%4 ROAD:%5 SEA:%6 AIR:%7", _wave, _players, _effectivePlayers, _hasLand, _hasRoad, _hasSea, _hasAir]] call zmm_fnc_misc_logMsg;
 
@@ -1236,25 +1342,62 @@ zmm_fnc_qrf_createWave = {
 	private _vehAirTransport =  missionNamespace getVariable [format["ZMM_%1_Air",_side],[]];
 	private _vehAirPlane = missionNamespace getVariable [format["ZMM_%1_CasP",_side], missionNamespace getVariable [format["ZMM_%1_Cas",_side],[]]];
 	private _vehAirHeli = missionNamespace getVariable [format["ZMM_%1_CasH",_side], missionNamespace getVariable [format["ZMM_%1_Cas",_side],[]]];
-	private _vehBoat = missionNamespace getVariable [format["ZMM_%1_Boat",_side],[]];
+	private _vehBoat = missionNamespace getVariable [format["ZMM_%1_Boat",_side],["I_C_Boat_Transport_02_F"]];
 	private _vehAirCas = _vehAirHeli + _vehAirPlane;
 
 	// Unit Counts
-	private _unitFactor = switch (true) do { case (_wave < 4): { 1 }; case (_wave < 6): { 1 + ((_wave - 3) * 0.5) }; default { 3 }; };
+	private _unitFactor = switch (true) do {
+		case (_wave <= 3): { 1 };
+		case (_wave <= 4): { 1.1 };
+		case (_wave <= 5): { 1.25 };
+		default { 1.5 };
+	};
+
 	private _unitCount = (
 			round (
-				4 * _unitFactor *
-				(0.75 + (_difficulty * 0.25)) *
-				(1 + ((_players - 4) * 0.03 max 0))
+				4 *
+				_unitFactor *
+				(0.75 + _difficulty * 0.25) *
+				(1 + ((_players - 4) max 0) * 0.03)
 			)
-		) min 12 max 3;
+		) max 3 min 6;
 
 	// Group Counts
-	private _infantryFactor = switch (true) do { case (_wave < 3): { 0.75 }; case (_wave < 5): { 1.25 }; default { 2 }; };
-	private _infantryGroups = (round((_effectivePlayers / 3) * _infantryFactor * _difficulty)) max 1 min 6;
+
+	 // Group Counts
+	private _infantryFactor = switch (true) do {
+		case (_wave < 3): { 0.75 };
+		case (_wave < 5): { 1.15 };
+		default { 1.5 };
+	};
+
+	// Reduce the number of separate infantry groups for larger player counts.
+	private _infantryDivisor = switch (true) do {
+		case (_players >= 16): { 7 };
+		case (_players >= 12): { 6 };
+		default { 4 };
+	};
+
+	// Scale infantry groups using effective player count.
+	private _infantryGroups = (
+		round ((_effectivePlayers / _infantryDivisor) * _infantryFactor)
+	) max 1 min (
+		if (_players >= 16) then { 3 } else {
+			if (_players >= 12) then { 4 } else { 5 }
+		}
+	);
+
 	private _lightVehGroups = (floor((_effectivePlayers / 10) * (_wave / 3) * _difficulty)) min 4;
-	private _mediumVehGroups = if (_wave >= 3) then { floor((_effectivePlayers / 12) * ((_wave - 2) / 3) * _difficulty) min 3 } else { 0 };
+	private _mediumVehGroups = if (_wave >= 3) then { (floor((_effectivePlayers / 12) * ((_wave - 2) / 3) * _difficulty)) max (if (_wave >= 6 && _players >= 8) then { 1 } else { 0 }) min 3 } else { 0 };
 	private _heavyVehGroups = if (_wave >= 5) then { floor((_effectivePlayers / 14) * ((_wave - 4) / 4) * _difficulty) min 2 } else { 0 };
+
+	 // Reduce infantry groups based on ground vehicles only.
+	 // Aircraft do not reduce infantry numbers.
+	private _vehicleGroupCount = _lightVehGroups + _mediumVehGroups + _heavyVehGroups;
+	private _infantryReduction = floor (_vehicleGroupCount / 3);
+	_infantryGroups = ( _infantryGroups - _infantryReduction ) max 2;
+
+
 	private _planeVehGroups = 0;
 
 	if (_wave >= 3) then {
@@ -1271,23 +1414,24 @@ zmm_fnc_qrf_createWave = {
 	// Work out what the default should be
 	private _fnc_defaultType = {
 		switch (true) do {
-			case (_hasLand): { [selectRandom ["house","land"], _unitCount] };
-			case (_hasSea): { ["sea", selectRandom _vehBoat] };
-			default { ["air", selectRandom _vehAirTransport] };
+			case (_hasLand): { [ selectRandom ["house","land"], _unitCount] };
+			case (_hasSea && {count _vehBoat > 0}): { [ "sea", selectRandom _vehBoat] };
+			case (_hasAir && {count _vehAirTransport > 0}): { [ "air", selectRandom _vehAirTransport] };
+			default { [ "land", _unitCount] };
 		};
 	};
 
-	private _chanceHigh = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.5) min 0.5);
-	private _chanceLow = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.2) min 0.2);
-
 	if (_infantryGroups > 0) then {
 		for "_i" from 1 to _infantryGroups do {
+			private _chanceHigh = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.5) min 0.5);
+			private _chanceLow = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.2) min 0.2);
+		
 			switch (true) do {
 				case (_chanceHigh && _hasRoad && {count _vehTruck > 0} ): {
-					_waveInfo pushBack ["road", selectRandom _vehTruck];
+					_waveInfo pushBack [ "road", selectRandom _vehTruck];
 				};
 				case (_chanceHigh && _hasSea && {count _vehBoat > 0} ): {
-					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+					_waveInfo pushBack [ "sea", selectRandom _vehBoat];
 				};
 				case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
 					_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
@@ -1301,15 +1445,17 @@ zmm_fnc_qrf_createWave = {
 
 	if (_lightVehGroups > 0) then {
 		for "_i" from 1 to _lightVehGroups do {
+			private _chanceHigh = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.5) min 0.5);
+			
 			switch (true) do {
 				case (_chanceHigh && _hasRoad && {count _vehTruck > 0}): {
-					_waveInfo pushBack ["road", selectRandom _vehTruck];
+					_waveInfo pushBack [ "road", selectRandom _vehTruck];
 				};
 				case (_hasRoad && {count _vehLight > 0}): {
-					_waveInfo pushBack ["road", selectRandom _vehLight];
+					_waveInfo pushBack [ "road", selectRandom _vehLight];
 				};
 				case (_hasSea && {count _vehBoat > 0}): {
-					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+					_waveInfo pushBack [ "sea", selectRandom _vehBoat];
 				};
 				default {
 					_waveInfo pushBack call _fnc_defaultType;
@@ -1320,18 +1466,20 @@ zmm_fnc_qrf_createWave = {
 
 	if (_mediumVehGroups > 0) then {
 		for "_i" from 1 to _mediumVehGroups do {
+			private _chanceLow = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.2) min 0.2);
+			
 			switch (true) do {
 				case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
 					_waveInfo pushBack [ selectRandom ["air", "drop"], selectRandom _vehAirTransport];
 				};
 				case (_hasRoad && {count _vehMedium > 0}): {
-					_waveInfo pushBack ["road", selectRandom _vehMedium];
+					_waveInfo pushBack [ "road", selectRandom _vehMedium];
 				};
 				case (_hasRoad && {count _vehLight > 0}): {
-					_waveInfo pushBack ["road", selectRandom _vehLight];
+					_waveInfo pushBack [ "road", selectRandom _vehLight];
 				};
 				case (_hasSea && {count _vehBoat > 0}): {
-					_waveInfo pushBack ["sea", selectRandom _vehBoat];
+					_waveInfo pushBack [ "sea", selectRandom _vehBoat];
 				};
 				default {
 					_waveInfo pushBack call _fnc_defaultType;
@@ -1342,6 +1490,8 @@ zmm_fnc_qrf_createWave = {
 
 	if (_heavyVehGroups > 0) then {
 		for "_i" from 1 to _heavyVehGroups do {
+			private _chanceLow = random 1 < (((((_wave min 6) - 1) / (6 - 1)) * 0.2) min 0.2);
+			
 			// 20% chance to replace with airdrop
 			switch (true) do {
 				case (_chanceLow && _hasAir && {count _vehAirTransport > 0}): {
@@ -1369,16 +1519,17 @@ zmm_fnc_qrf_createWave = {
 		};
 	};
 
-	if (_planeVehGroups > 0 && {count _vehAirCas > 0}) then {
+	if (_planeVehGroups > 0 && {count _vehAirCas > 0} && _hasAir) then {
 		for "_i" from 1 to _planeVehGroups do {
 			_waveInfo pushBack ["cas", selectRandom _vehAirCas];
 			// TODO IF THIS HAS FREE SEATS MAKE IT PARADROP
 		};
 	};
-	
-	["INFO", format["W%1 - qrf_createWave - INF:%2 LGT:%3 MED:%4 HVY:%5 AIR:%6", _wave, _infantryGroups, _lightVehGroups, _mediumVehGroups, _heavyVehGroups, _planeVehGroups]] call zmm_fnc_misc_logMsg;
+
+	["INFO", format["W%1 - qrf_createWave - INF:%2(%3) LGT:%4 MED:%5 HVY:%6 AIR:%7", _wave, _infantryGroups, _unitCount, _lightVehGroups, _mediumVehGroups, _heavyVehGroups, _planeVehGroups]] call zmm_fnc_misc_logMsg;
 
 	_waveInfo
+
 
 };
 
@@ -1409,7 +1560,7 @@ if (count (missionNamespace getVariable [format["ZMM_%1_Man",_side],[]]) == 0) t
 };
 
 // Position arrays
-private _safePositions = [];
+private _safeMarkers = [];
 private _spawnAir = [];
 private _spawnAirFar = [];
 private _spawnHouse = [];
@@ -1419,17 +1570,13 @@ private _spawnSea = [];
 
 // Create safe-zones around spawn.
 {
-	if (_x in allMapMarkers) then {		
-		_mkr = createMarkerLocal [format ["safezone_%1", _forEachIndex + 1000], getMarkerPos _x];
+	if (_x in allMapMarkers && count (allMapMarkers select { _x isEqualTo format["safezone_%1",_x] }) == 0) then {
+		_mkr = createMarkerLocal [format ["safezone_%1", _x], getMarkerPos _x];
 		_mkr setMarkerShapeLocal "ELLIPSE";
 		_mkr setMarkerSizeLocal [1000,1000];
 		_mkr setMarkerAlphaLocal 0.25;
 	};
 } forEach ["respawn_west","respawn_east","respawn_guerrila","respawn_civilian"];
-
-{	
-	if (["safezone_", toLower _x] call BIS_fnc_inString) then { _safePositions pushBackUnique _x; };
-} forEach allMapMarkers;
 
 // White list custom spawns - Change this marker if needed!
 {	
@@ -1441,7 +1588,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	private _posR = _destination getPos [_spawnDist, _i];
 	_roads = (_posR nearRoads 50) select {((boundingBoxReal _x) select 0) distance2D ((boundingBoxReal _x) select 1) >= 25};
 	
-	if (count _roads > 0 && { _posR inArea _x } count _safePositions == 0) then {
+	if (count _roads > 0 && { _posR inArea _x } count _safeMarkers == 0) then {
 		_road = _roads select 0;
 		if ({_x distance2D _road < 200} count _spawnRoad == 0) then {
 			_spawnRoad pushBackUnique (getPos _road);		
@@ -1454,7 +1601,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	
 	if (_nearBuilds isNotEqualTo []) then {
 		private _nearBuild = _nearBuilds#0;
-		if (_nearBuild distance2D _posH < 100 && { _posH inArea _x } count _safePositions == 0) then {
+		if (_nearBuild distance2D _posH < 100 && { _posH inArea _x } count _safeMarkers == 0) then {
 			private _bpos = _nearBuild buildingPos -1;		
 			_bpos = _bpos select { !(surfaceIsWater _x) };
 			if (count _bpos > 0) then {
@@ -1468,7 +1615,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	
 	// Land Pos not in safe area and more than 400m away from another point	
 	private _posL = _destination getPos [(_spawnDist * 0.5), _i];
-	if (!surfaceIsWater _posL && { _posL inArea _x } count _safePositions == 0) then {
+	if (!surfaceIsWater _posL && { _posL inArea _x } count _safeMarkers == 0) then {
 		if ({_x distance2D _posL < 400} count _spawnLand == 0) then {
 			_posL set [2, 0.5];
 			_spawnLand pushBackUnique _posL;
@@ -1477,7 +1624,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	
 	// Water Pos not in safe area and more than 400m away from another point
 	private _posS = _destination getPos [_spawnDist, _i];
-	if (surfaceIsWater _posS && { _posS inArea _x } count _safePositions == 0) then {
+	if (surfaceIsWater _posS && { _posS inArea _x } count _safeMarkers == 0) then {
 		if ({_x distance2D _posS < 400} count _spawnSea == 0 && (0 - (getTerrainHeightASL _posS)) > 15) then {
 			_posS set [2, (0 - (getTerrainHeightASL _posS))];
 			_spawnSea pushBackUnique _posS;
@@ -1486,7 +1633,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	
 	// Air Pos not in safe area and more than 800m away from another point
 	private _posA = _destination getPos [(_spawnDist * 3), _i];
-	if ({ _posA inArea _x } count _safePositions == 0) then {
+	if ({ _posA inArea _x } count _safeMarkers == 0) then {
 		if ({_x distance2D _posA < 1500} count _spawnAir == 0) then {
 			_posA set [2, 500];
 			_spawnAir pushBackUnique _posA;
@@ -1495,7 +1642,7 @@ for [{_i = 0}, {_i <= 360}, {_i = _i + 5}] do {
 	
 	// AirFar Pos not in safe area and more than 5000m away from another point
 	private _posAF = _destination getPos [(_spawnDist * 5), _i];
-	if ({ _posAF inArea _x } count _safePositions == 0) then {
+	if ({ _posAF inArea _x } count _safeMarkers == 0) then {
 		if ({_x distance2D _posAF < 5000} count _spawnAirFar == 0) then {
 			_posAF set [2, 500];
 			_spawnAirFar pushBackUnique _posAF;
@@ -1538,32 +1685,35 @@ if (count _spawnAirFar == 0) then { _spawnAirFar = _spawnAir };
 // Spawn waves.
 for [{_wave = 1}, {_wave <= (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3])}, {_wave = _wave + 1}] do {
 	missionNamespace setVariable [format["ZQR_%1_Wave", _instance], _wave];
+	missionNamespace setVariable [format["ZQR_%1_Count", _instance], 0];	
 	
 	// Stop spawns if no-one is nearby.
 	if (({ _destination distance2D _x < (_spawnDist + 1000) } count (switchableUnits + playableUnits)) isEqualTo 0 && isMultiplayer) exitWith {
 		["DEBUG", format["Wave %1 - Aborted - No players within %2 meters!", _wave, _spawnDist + 1000]] call zmm_fnc_misc_logMsg;
 	};
 	
-	private _waveInfo = if (isNil "_ZMMwaveInfo") then { [] } else { _ZMMwaveInfo };
-	if (
-		_waveInfo isEqualTo [] || 
-		count (missionNamespace getVariable ["ZQR_WaveDetail",[]]) == 0 ||
-		count (missionNamespace getVariable [format["ZQR_%1_WaveDetail", _instance], []]) == 0
-	) then {
-		_waveInfo = [_wave, _side, _hasLand, _hasRoad, _hasSea, _hasAir] call zmm_fnc_qrf_createWave;
-	} else {
-		// TODO Add support for: ZQR_%1_WaveDetail
-		_waveInfo = ZQR_WaveDetail select ((_wave - 1) min (count ZQR_WaveDetail - 1));
+	private  _waveInfo = [];
+	if (isNil "_ZMMwaveInfo") then {
+		// Hardcoded Varaible for all waves
+		if (count (missionNamespace getVariable ["ZQR_WaveDetail",missionNamespace getVariable [format["ZQR_%1_WaveDetail", _instance], []]]) > 0) then {
+			private _waveDetail = missionNamespace getVariable ["ZQR_WaveDetail",missionNamespace getVariable [format["ZQR_%1_WaveDetail", _instance], []]];
+			_waveInfo = _waveDetail select ((_wave - 1) min (count _waveDetail - 1));
+		} else {
+			// Dynamically Generated per Wave
+			_waveInfo = [_wave, _side, _hasLand, _hasRoad, _hasSea, _hasAir] call zmm_fnc_qrf_createWave;
+		};
+	} else { 
+		// Hardcoded Varaible for all waves (via ZMM)
+		_waveInfo = _ZMMwaveInfo select ((_wave - 1) min (count _ZMMwaveInfo - 1))
 	};
 	
-	// TODO CHECK FOR VALID POSITIONS AND DEFAULT INF IF NONE FOUND
+	["INFO", format["Zone %1 Wave %2/%3 - Starting %4 Attack Groups: %5", _instance, _wave, (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3]), count _waveInfo, _waveInfo]] call zmm_fnc_misc_logMsg;
+	
 	//["DEBUG", format["Starting Zone %1 - Wave %2/%3 - %4 %5", _instance, _wave, (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3]), _side, _waveInfo]] call zmm_fnc_misc_logMsg;
 	{
 		_x params ["_location","_object"];
 		
-		if (_object isEqualType []) then { _object = selectRandom _object };
-		
-		["INFO", format["Zone %1 Wave %2/%3 - Spawning %4 (%5)", _instance, _wave, (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3]), _object, _waveInfo]] call zmm_fnc_misc_logMsg;
+		["INFO", format["Zone %1 Wave %2/%3 - Spawning %4 (%5)", _instance, _wave, (missionNamespace getVariable [format["ZQR_%1_WaveMax", _instance], 3]), _location, _object]] call zmm_fnc_misc_logMsg;
 	
 		switch (toLower _location) do {
 			case "air": { [_instance, _destination, _spawnAir, _side, _object, 1000] call zmm_fnc_qrf_spawnGroup };
